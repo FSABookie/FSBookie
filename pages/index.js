@@ -10,6 +10,12 @@ const BetsContainer = styled.div`
     justify-content: center;
     align-items: center;
 `;
+const BetContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+
+`;
 export default function Home() {
   const { data, isSuccess } = useGetMLBQuery();
 
@@ -19,9 +25,12 @@ export default function Home() {
 
   return <BetsContainer>
        {isSuccess && data.map(game => 
-       <div>
-        {game.HomeTeam} vs {game.AwayTeam}
-       </div>
+       <BetContainer>
+        <h3>{game.HomeTeam} vs {game.AwayTeam}</h3>
+        <p>Home - Away</p>
+        <p>{game.Odds[1].MoneyLineHome} | {game.Odds[1].MoneyLineAway}</p>
+
+       </BetContainer>
         )}
   </BetsContainer>;
 }
