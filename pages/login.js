@@ -62,18 +62,18 @@ const Login = () => {
             }).catch(err => {
                 console.log(err);
             });
-			if (typeof window !== 'undefined') {
-				let user = JSON.parse(window.localStorage.getItem('user'));
-				let payload = {
-					id: user.id,
-					email: user.email,
-					name: user.firstName + ' ' + user.lastName,
-					admin: user.isAdmin,
-				};
-				dispatch(fetchUserThunk(payload));
-				//work on posting to users cart on sign in later
-				Router.push('/');
-			}
+			// if (typeof window !== 'undefined') {
+			// 	// let user = JSON.parse(window.localStorage.getItem('user'));
+			// 	let payload = {
+			// 		id: user.id,
+			// 		email: user.email,
+			// 		name: user.firstName + ' ' + user.lastName,
+			// 		admin: user.isAdmin,
+			// 	};
+			// 	dispatch(fetchUserThunk(payload));
+			// 	//work on posting to users cart on sign in later
+			// 	Router.push('/');
+			// }
 		} catch (err) {
 			console.log('Failed to sign in');
 			console.error(err);

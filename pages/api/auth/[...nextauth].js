@@ -27,7 +27,7 @@ export default NextAuth({
                             },
                         });
                         user.token = token;
-                        localStorage.setItem('user', JSON.stringify(user));
+                        // localStorage.setItem('user', JSON.stringify(user));
                         console.log('successfully logged in');
                         return user;
                     }
