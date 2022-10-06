@@ -12,6 +12,7 @@ export default NextAuth({
 			async authorize(credentials, req) {
 				// Add logic here to look up the user from the credentials supplied
 				try {
+                    console.log('HERE', credentials)
                     // creates token if user is valid
                     const { data: token } = await axios.post(
                         'api/auth/login',
@@ -27,6 +28,7 @@ export default NextAuth({
                         user.token = token;
                         localStorage.setItem('user', JSON.stringify(user));
                         console.log('successfully logged in');
+                        return user;
                     }
                 } catch (err) {
                     console.error(err);
