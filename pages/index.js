@@ -25,7 +25,7 @@ export default function Home() {
 
   return <BetsContainer>
        {isSuccess && data.map(game => 
-       <BetContainer>
+       <BetContainer key={game.ID}>
         <h3>{game.HomeTeam} vs {game.AwayTeam}</h3>
         <p>Home - Away</p>
         <p>{game.Odds[1].MoneyLineHome} | {game.Odds[1].MoneyLineAway}</p>
