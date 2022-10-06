@@ -191,9 +191,9 @@ function Header() {
 		}
 	}
 
-	const handleLogout = () => {
-		signOut({redirect: false});
-		// Router.push('https://capstone-bookie.herokuapp.com/test');
+	const handleLogout = async () => {
+		const data = await signOut({redirect: false, callbackUrl: "/login"})
+		Router.push(data.url);
 	};
 	const searchRef = useRef();
 	const inputRef = useRef();
