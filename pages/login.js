@@ -4,8 +4,8 @@ import Link from 'next/link';
 import styled from 'styled-components';
 // import authService from "../services/auth.service";
 import { useDispatch } from 'react-redux';
-import { fetchUserThunk } from '../../src/redux/slices/user-slice';
-import { useGetSingleOrderQuery } from '../../src/redux/slices/apiSlice';
+import { fetchUserThunk } from '../src/redux/slices/user-slice';
+import { useGetSingleOrderQuery } from '../src/redux/slices/apiSlice';
 
 const LoginFormContainer = styled.div`
 	margin: 1em;
