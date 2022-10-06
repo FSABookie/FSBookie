@@ -4,8 +4,8 @@ import Link from 'next/link';
 import styled from 'styled-components';
 // import authService from "../services/auth.service";
 import { useDispatch } from 'react-redux';
-import { fetchUserThunk } from '../redux/reducers/user-slice';
-import { useGetSingleOrderQuery } from '../redux/reducers/apiSlice';
+import { fetchUserThunk } from '../../src/redux/slices/user-slice';
+import { useGetSingleOrderQuery } from '../../src/redux/slices/apiSlice';
 
 const LoginFormContainer = styled.div`
 	margin: 1em;
@@ -54,7 +54,12 @@ const Login = () => {
 		try {
 			// setError("");
 			// setLoading(true);
-			await login(credentials);
+			// await login(credentials);
+            signIn('credentials', {...credentials, redirect: false}).then(response => {
+                console.log(response);
+            }).catch(err => {
+                console.log(err);
+            });
 			if (typeof window !== 'undefined') {
 				let user = JSON.parse(window.localStorage.getItem('user'));
 				let payload = {
