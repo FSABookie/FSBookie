@@ -12,6 +12,7 @@ export default async function handler(req, res) {
 	}
 	if (req.method === 'POST') {
 		try {
+			console.log('BODY', req.body);
 			const user = await User.authenticate(req.body);
 			if (!user) res.sendStatus(404);
 			const token = await user.generateToken();
