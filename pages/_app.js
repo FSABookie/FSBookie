@@ -18,7 +18,7 @@ const MainContainer = styled.div`
 
 function MyApp({ Component, pageProps: {session, ...pageProps} }) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} basePath="/testing">
       <Provider api={apiSlice} store={store}>
         <MainContainer>
           <Header />
