@@ -4,6 +4,7 @@ export default async function handler(req, res) {
 	if (req.method === 'GET') {
 		const user = await User.byToken(req.headers.authorization);
 		if (user) {
+			console.log(user);
 			res.send(user);
 		} else {
 			res.sendStatus(404);
