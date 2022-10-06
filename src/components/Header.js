@@ -192,6 +192,7 @@ function Header() {
 	}
 
 	const handleLogout = () => {
+		signOut();
 		Router.push('/');
 	};
 	const searchRef = useRef();
