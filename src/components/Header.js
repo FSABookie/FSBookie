@@ -225,7 +225,7 @@ function Header() {
 						<Link href={userStatusLink}>
 							<LinkContainer>
 								<FaUser />
-								<p>{user.email}</p>
+								<p>{session.user.email}</p>
 							</LinkContainer>
 						</Link>
 						{/* logout link */}
