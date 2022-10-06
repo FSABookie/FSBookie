@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { fetchUserThunk } from '../src/redux/slices/user-slice';
 import { useGetSingleOrderQuery } from '../src/redux/slices/apiSlice';
+import { signIn } from "next-auth";
 
 const LoginFormContainer = styled.div`
 	margin: 1em;
