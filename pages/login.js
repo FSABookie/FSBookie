@@ -56,6 +56,7 @@ const Login = () => {
 			// setError("");
 			// setLoading(true);
 			// await login(credentials);
+			console.log(credentials);
             signIn('credentials', {...credentials, redirect: false}).then(response => {
                 console.log(response);
             }).catch(err => {
