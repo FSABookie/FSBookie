@@ -18,7 +18,7 @@ const MainContainer = styled.div`
 
 function MyApp({ Component, pageProps: {session, ...pageProps} }) {
   return (
-    <SessionProvider session={session} basePath="/">
+    <SessionProvider session={session} basePath="capstone-bookie.herokuapp.com">
       <Provider api={apiSlice} store={store}>
         <MainContainer>
           <Header />
