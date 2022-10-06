@@ -192,7 +192,7 @@ function Header() {
 	}
 
 	const handleLogout = () => {
-		signOut({callbackUrl: '/'});
+		signOut({callbackUrl: 'http://localhost:3000/'});
 		// Router.push('https://capstone-bookie.herokuapp.com/');
 	};
 	const searchRef = useRef();
