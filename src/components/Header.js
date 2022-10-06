@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Router from 'next/router';
 import styled from 'styled-components';
 import axios from 'axios';
-import { RemoveSSRFromComponent } from '../utils';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut, useSession } from 'next-auth/react';
@@ -11,6 +10,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { FaShoppingCart, FaUser, FaSearch } from 'react-icons/fa';
 import { GiMeatCleaver } from 'react-icons/gi';
 import { BiLogIn, BiLogOut } from 'react-icons/bi';
+
 
 const headerMainHeight = '7em';
 const headerTopHeight = '2em';
@@ -42,7 +42,7 @@ const HeaderTop = styled.div`
 	}
 `;
 
-// const mobileLogoTextWidth = "3.62em";
+const mobileLogoTextWidth = "3.62em";
 
 const HeaderMain = styled.div`
 	margin-top: -1px;
@@ -181,6 +181,8 @@ function Header() {
 
 	const { data: session } = useSession();
 
+	console.log(session);
+
 
 	let userStatusLink = '/login';
 	if (typeof window !== 'undefined') {
@@ -244,7 +246,7 @@ function Header() {
 						</Link>
 					</>
 				)}
-				{isLoggedIn && usersCart ? (
+				{/* {isLoggedIn && usersCart ? (
 					<Link href='/cart'>
 						<LinkContainer>
 							<FaShoppingCart />
@@ -258,7 +260,7 @@ function Header() {
 							<p>{`Cart (${cart.length})`}</p>
 						</LinkContainer>
 					</Link>
-				)}
+				)} */}
 			</HeaderTop>
 
 			<HeaderMain>
@@ -302,7 +304,7 @@ function Header() {
 					value={searchTerm}
 				></input>
 				<div className='searchProductList'>
-					{!isLoading &&
+					{/* {!isLoading &&
 						!isError &&
 						products
 							.filter((product) => {
@@ -321,7 +323,7 @@ function Header() {
 								>
 									<p onClick={toggle}>{product.name}</p>
 								</Link>
-							))}
+							))} */}
 				</div>
 			</SearchContainer>
 		</HeaderContainer>
@@ -329,4 +331,4 @@ function Header() {
 }
 
 // disabling SSR for the header, because its contents depend on the localStorage
-export default RemoveSSRFromComponent(Header);
+export default Header;
