@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import axios from 'axios';
 
 export default NextAuth({
     pages: {
@@ -16,7 +17,7 @@ export default NextAuth({
                     // creates token if user is valid
                     const { data: token } = await axios.post(
                         'api/auth/login',
-                        credentials
+                        {email: credentials.email, password: credentials.password}
                     );
                     // verifies if token is valid
                     if (token) {
