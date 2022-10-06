@@ -193,7 +193,7 @@ function Header() {
 
 	const handleLogout = () => {
 		signOut();
-		Router.push('https://capstone-bookie.herokuapp.com/');
+		// Router.push('https://capstone-bookie.herokuapp.com/');
 	};
 	const searchRef = useRef();
 	const inputRef = useRef();
