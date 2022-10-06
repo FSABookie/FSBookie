@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 // import authService from "../services/auth.service";
@@ -44,6 +44,7 @@ const Login = () => {
 	// const [loading, setLoading] = useState(false);
 
 	const dispatch = useDispatch();
+	const router = useRouter();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -59,6 +60,9 @@ const Login = () => {
 			console.log(credentials);
             signIn('credentials', {...credentials, redirect: false}).then(response => {
                 console.log(response);
+				if (response.ok) {
+					router.push('/');
+				}
             }).catch(err => {
                 console.log(err);
             });
