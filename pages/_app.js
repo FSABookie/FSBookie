@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { apiSlice } from '../src/redux/slices/apiSlice';
 import { store } from '../src/redux/store/store';
 import { SessionProvider } from 'next-auth/react';
-import Header from '../src/components/Header';
 import Layout from '../src/components/Layout';
 
 const MainContainer = styled.div`
