@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 			const user = await User.authenticate(req.body);
 			if (!user) res.sendStatus(404);
 			const token = await user.generateToken();
-			console.log(user);
+			console.log(user, 'TOKEN',token);
 			res.send(token);
 		} catch (err) {
 			res.status(500).json({ error: err.message });

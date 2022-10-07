@@ -170,81 +170,82 @@ const SearchContainer = styled.div`
 
 //COMPONENT STARTS HERE
 function Header() {
-  const [isSearchOpen, toggleSearch] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  // const { data: blah } = useGetSingleUserQuery(user?.id)
+	const [isSearchOpen, toggleSearch] = useState(false);
+	const [searchTerm, setSearchTerm] = useState('');
+	// const { data: blah } = useGetSingleUserQuery(user?.id)
 
-  // const [getUser] = useGetSingleUserQuery();
+	// const [getUser] = useGetSingleUserQuery();
 
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const { data: session } = useSession();
+	const { data: session } = useSession();
 
-  console.log(session);
+	console.log(session);
 
-  let userStatusLink = "/login";
-  if (typeof window !== "undefined") {
-    if (session) {
-      userStatusLink = "/account";
-    }
-  }
 
-  const handleLogout = () => {
-    Router.push("/");
-  };
-  const searchRef = useRef();
-  const inputRef = useRef();
+	let userStatusLink = '/login';
+	if (typeof window !== 'undefined') {
+		if (session) {
+			userStatusLink = '/account';
+		}
+	}
 
-  const toggle = (e) => {
-    const target = e.target.tagName;
-    if (target === "DIV" || target === "svg" || target === "path") {
-      toggleSearch(!isSearchOpen);
-      searchRef.current.classList.toggle("hide");
-      setSearchTerm("");
-      inputRef.current.focus();
-    } else if (e.target.tagName === "P") {
-      searchRef.current.classList.add("hide");
+	const handleLogout = async () => {
+		await signOut({callbackUrl: "/sportsbook"})
+	};
+	const searchRef = useRef();
+	const inputRef = useRef();
 
-      setTimeout(() => {
-        toggleSearch(false);
-        setSearchTerm("");
-      }, 300);
-    }
-  };
+	const toggle = (e) => {
+		const target = e.target.tagName;
+		if (target === 'DIV' || target === 'svg' || target === 'path') {
+			toggleSearch(!isSearchOpen);
+			searchRef.current.classList.toggle('hide');
+			setSearchTerm('');
+			inputRef.current.focus();
+		} else if (e.target.tagName === 'P') {
+			searchRef.current.classList.add('hide');
 
-  // if we want to hide search when user switch pages, maybe should add 'isSearching' to redux store
-  // also need to allow user to exit out by clicking elsewhere
-  return (
-    <HeaderContainer>
-      <HeaderTop className="hfLinks">
-        {session ? (
-          <>
-            {/* account link - displayed as email */}
-            <Link href={userStatusLink}>
-              <LinkContainer>
-                <FaUser />
-                <p>{user.email}</p>
-              </LinkContainer>
-            </Link>
-            {/* logout link */}
-            <Link href="/">
-              <LinkContainer onClick={handleLogout}>
-                <BiLogOut />
-                <p>Logout</p>
-              </LinkContainer>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link href="/login">
-              <LinkContainer>
-                <BiLogIn />
-                <p>Login</p>
-              </LinkContainer>
-            </Link>
-          </>
-        )}
-        {/* {isLoggedIn && usersCart ? (
+			setTimeout(() => {
+				toggleSearch(false);
+				setSearchTerm('');
+			}, 300);
+		}
+	};
+
+	// if we want to hide search when user switch pages, maybe should add 'isSearching' to redux store
+	// also need to allow user to exit out by clicking elsewhere
+	return (
+		<HeaderContainer>
+			<HeaderTop className='hfLinks'>
+				{session ? (
+					<>
+						{/* account link - displayed as email */}
+						<Link href={userStatusLink}>
+							<LinkContainer>
+								<FaUser />
+								<p>{session.user.email}</p>
+							</LinkContainer>
+						</Link>
+						{/* logout link */}
+						<Link href='/'>
+							<LinkContainer onClick={handleLogout}>
+								<BiLogOut />
+								<p>Logout</p>
+							</LinkContainer>
+						</Link>
+					</>
+				) : (
+					<>
+						<Link href='/login'>
+							<LinkContainer>
+								<BiLogIn />
+								<p>Login</p>
+							</LinkContainer>
+						</Link>
+					</>
+				)}
+				{/* {isLoggedIn && usersCart ? (
 					<Link href='/cart'>
 						<LinkContainer>
 							<FaShoppingCart />
@@ -259,50 +260,21 @@ function Header() {
 						</LinkContainer>
 					</Link>
 				)} */}
-      </HeaderTop>
+			</HeaderTop>
 
-      <HeaderMain>
-        <div>
-          <Link href="/">
-            <div /*id="headerLogo"*/ className="headerIconButton">
-              <GiMeatCleaver size="2.4em" />
-              {/* <h1>Umami Meats</h1> */}
-            </div>
-          </Link>
-
-          <div id="headerMainCenter">
-            <Link href="/">
-              <h1 id="siteTitle">Umami Meats</h1>
-            </Link>
-
-            <Link href="/steaks">
-              <h1 className="productType">Steaks</h1>
-            </Link>
-
-            <Link href="/sushi">
-              <h1 className="productType">Sushi</h1>
-            </Link>
-          </div>
-
-          <div className="headerIconButton" onClick={toggle}>
-            <FaSearch size="1.9em" />
-          </div>
-        </div>
-      </HeaderMain>
-
-      <SearchContainer className="hide" ref={searchRef} onClick={toggle}>
-        <input
-          type="text"
-          className="search"
-          ref={inputRef}
-          placeholder="Search..."
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-          }}
-          value={searchTerm}
-        ></input>
-        <div className="searchProductList">
-          {/* {!isLoading &&
+			<SearchContainer className='hide' ref={searchRef} onClick={toggle}>
+				<input
+					type='text'
+					className='search'
+					ref={inputRef}
+					placeholder='Search...'
+					onChange={(e) => {
+						setSearchTerm(e.target.value);
+					}}
+					value={searchTerm}
+				></input>
+				<div className='searchProductList'>
+					{/* {!isLoading &&
 						!isError &&
 						products
 							.filter((product) => {
