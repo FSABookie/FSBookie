@@ -3,17 +3,18 @@ import styled from 'styled-components'
 
   const LandingpageContainer = styled.div `
     background: #1493ff;
-    height: 300vh;
+    height: 400vh;
     display: flex;
     flex-direction: column;
+    width: 100%;
   `
   const Header = styled.div `
      height: 3.5em;
-     width: 110%;
+     width: 100%;
      img {height:100%;}
      display: flex;
      flex-direction: row;
-     column-gap: 19em;
+     column-gap: 70%;
      background: #1493ff;
   `
   const Loginbtn = styled.div `
@@ -22,8 +23,8 @@ import styled from 'styled-components'
   const Headerfoot = styled.div `
     display: flex;
     flex-direction: row;
-    column-gap: 4.8em;
-    width: 110%;
+    column-gap: 18%;
+    width: 100vw;
     color: white;
     height: 2.25em;
     padding: 0.5em;
@@ -48,17 +49,17 @@ import styled from 'styled-components'
             font-weight: bold;
             text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
       }
-      margin-top: 6em;
+      margin-top: 35%;
       
       img {
         display: flex;
         width: 80%;
-        margin-left:5em;
+        margin-left:18%;
       }
       a {
         color: lightgreen;
         background: navy;
-        padding: 1.4em;
+        padding: 5%;
         font-weight: bold;
         border-radius: 0.55em;
         box-shadow: 0 12px 16px 4px rgb(0 0 0 / 20%);
@@ -69,7 +70,7 @@ import styled from 'styled-components'
       width: 100%;
       display: flex;
       justify-content: center;
-      margin-top: 3.25em;
+      margin-top: 5%;
   `
 
   const Projectionsinfo = styled.div `
@@ -81,7 +82,7 @@ import styled from 'styled-components'
       h1 {
         color: white;
         text-align: center;
-        margin-top: 3em;
+        margin-top: 30%;
         text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
       }
       .infodiv {
