@@ -2,111 +2,110 @@ import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 
-const LandingpageContainer = styled.div`
-  background: #1493ff;
-  height: 300vh;
-  display: flex;
-  flex-direction: column;
-`;
-const Header = styled.div`
-  height: 3.5em;
-  width: 110%;
-  img {
-    height: 100%;
-  }
-  display: flex;
-  flex-direction: row;
-  column-gap: 19em;
-  background: #1493ff;
-`;
-const Loginbtn = styled.div`
-  margin-top: 1em;
-`;
-const Headerfoot = styled.div`
-  display: flex;
-  flex-direction: row;
-  column-gap: 4.8em;
-  width: 110%;
-  color: white;
-  height: 2.25em;
-  padding: 0.5em;
-  font-weight: 200;
-  background: #1f375b;
-  .sportbook {
-    margin-left: 0.6em;
-  }
-`;
-const Welcomemsg = styled.div`
-  height: 60vh;
-  color: black;
-  text-align: center;
-  h1 {
-    width: 100%;
-    font-size: 2em;
-    margin-bottom: 0;
-    color: white;
-    text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
-  }
-  span {
-    color: darkblue;
-    font-size: 5em;
-    font-weight: bold;
-    text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
-  }
-  margin-top: 6em;
 
-  img {
+  const LandingpageContainer = styled.div `
+    background: #1493ff;
+    height: 400vh;
     display: flex;
-    width: 80%;
-    margin-left: 5em;
-  }
-  a {
-    color: lightgreen;
-    background: navy;
-    padding: 1.4em;
-    font-weight: bold;
-    border-radius: 0.55em;
-    box-shadow: 0 12px 16px 4px rgb(0 0 0 / 20%);
-  }
-`;
-
-const Welcomemsgbtn = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 3.25em;
-`;
-
-const Projectionsinfo = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 1rem;
-  h1 {
+    flex-direction: column;
+    width: 100%;
+  `
+  const Header = styled.div `
+     height: 3.5em;
+     width: 100%;
+     img {height:100%;}
+     display: flex;
+     flex-direction: row;
+     column-gap: 70%;
+     background: #1493ff;
+  `
+  const Loginbtn = styled.div `
+      margin-top: 1em;
+  `
+  const Headerfoot = styled.div `
+    display: flex;
+    flex-direction: row;
+    column-gap: 18%;
+    width: 100vw;
     color: white;
-    text-align: center;
-    margin-top: 3em;
-    text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
-  }
-  .infodiv {
+    height: 2.25em;
+    padding: 0.5em;
+    font-weight: 200;
+    background: #1f375b;
+    .sportbook{
+      margin-left: 0.6em;
+    }
+  `
+  const Welcomemsg = styled.div `
+    height: 60vh;
     color: black;
-  }
-  .info {
-    padding: 2rem;
-    position: relative;
-    background: rgba(31, 55, 91, 0.5);
-  }
-  .infotitle {
-    margin: 0 0 1rem;
-    color: white;
-  }
-  .infop {
-    margin-bottom: 1.5rem;
-    color: white;
-    font-weight: 250;
-  }
-`;
+    text-align: center;
+    h1 {width:100%; 
+      font-size: 2em;
+      margin-bottom: 0;
+      color: white;
+      text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
+    }
+      span {color: darkblue;
+            font-size: 5em;
+            font-weight: bold;
+            text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
+      }
+      margin-top: 35%;
+      
+      img {
+        display: flex;
+        width: 80%;
+        margin-left:18%;
+      }
+      a {
+        color: lightgreen;
+        background: navy;
+        padding: 5%;
+        font-weight: bold;
+        border-radius: 0.55em;
+        box-shadow: 0 12px 16px 4px rgb(0 0 0 / 20%);
+      }
+  `
+
+  const Welcomemsgbtn = styled.div `
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 5%;
+  `
+
+  const Projectionsinfo = styled.div `
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 1rem;
+      h1 {
+        color: white;
+        text-align: center;
+        margin-top: 30%;
+        text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
+      }
+      .infodiv {
+        color: black;
+      }
+      .info {
+        padding: 2rem;
+        position: relative;
+        background: rgba(31,55,91,.5)
+      }
+      .infotitle {
+        margin: 0 0 1rem;
+        color:white;
+      }
+      .infop { 
+        margin-bottom: 1.5rem;
+        color: white;
+        font-weight: 250;
+      }
+  `
+
 
 const Headercontainer = styled.div`
   position: fixed;
