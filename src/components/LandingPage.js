@@ -118,9 +118,11 @@ function LandingPage() {
       <Headercontainer>
         <Header>
           <img src="header-logo.png" />
-          <Loginbtn>
-            <button>Login</button>
-          </Loginbtn>
+          <Link href='/login'>
+            <Loginbtn>
+              <button>Login</button>
+            </Loginbtn>
+          </Link>
         </Header>
         <Headerfoot>
           <Link href="/sports">
