@@ -16,12 +16,12 @@ export default NextAuth({
                     console.log('HERE', credentials)
                     // creates token if user is valid
                     const { data: token } = await axios.post(
-                        process.env.BASE_URL || 'https://capstone-bookie.herokuapp.com/' + 'api/auth/login',
+                        'https://capstone-bookie.herokuapp.com/api/auth/login',
                         {email: credentials.email, password: credentials.password}
                     );
                     // verifies if token is valid
                     if (token) {
-                        const { data: user } = await axios.get(process.env.BASE_URL || 'https://capstone-bookie.herokuapp.com/' + 'api/auth/login', {
+                        const { data: user } = await axios.get('https://capstone-bookie.herokuapp.com/api/auth/login', {
                             headers: {
                                 authorization: `${token}`,
                             },
