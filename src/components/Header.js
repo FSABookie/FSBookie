@@ -191,8 +191,9 @@ function Header() {
 		}
 	}
 
-	const handleLogout = () => {
-		Router.push('/');
+	const handleLogout = async () => {
+		const data = await signOut({redirect: false, callbackUrl: "/login"})
+		Router.push(data.url);
 	};
 	const searchRef = useRef();
 	const inputRef = useRef();
@@ -225,7 +226,7 @@ function Header() {
 						<Link href={userStatusLink}>
 							<LinkContainer>
 								<FaUser />
-								<p>{user.email}</p>
+								<p>{session.user.email}</p>
 							</LinkContainer>
 						</Link>
 						{/* logout link */}
@@ -262,35 +263,6 @@ function Header() {
 					</Link>
 				)} */}
 			</HeaderTop>
-
-			<HeaderMain>
-				<div>
-					<Link href='/'>
-						<div /*id="headerLogo"*/ className='headerIconButton'>
-							<GiMeatCleaver size='2.4em' />
-							{/* <h1>Umami Meats</h1> */}
-						</div>
-					</Link>
-
-					<div id='headerMainCenter'>
-						<Link href='/'>
-							<h1 id='siteTitle'>Umami Meats</h1>
-						</Link>
-
-						<Link href='/steaks'>
-							<h1 className='productType'>Steaks</h1>
-						</Link>
-
-						<Link href='/sushi'>
-							<h1 className='productType'>Sushi</h1>
-						</Link>
-					</div>
-
-					<div className='headerIconButton' onClick={toggle}>
-						<FaSearch size='1.9em' />
-					</div>
-				</div>
-			</HeaderMain>
 
 			<SearchContainer className='hide' ref={searchRef} onClick={toggle}>
 				<input
