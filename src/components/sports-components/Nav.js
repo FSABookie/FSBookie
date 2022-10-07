@@ -87,7 +87,7 @@ function Nav() {
           <Link href="/Register">
             <AuthButton>Register</AuthButton>
           </Link>
-          <Link href="/LogIn">
+          <Link href="/login">
             <AuthButton>Log In</AuthButton>
           </Link>
         </ButtonSet2>
