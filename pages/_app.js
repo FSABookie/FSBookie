@@ -1,12 +1,13 @@
-import styled from "styled-components";
-import { Provider } from "react-redux";
-import { apiSlice } from "../src/redux/slices/apiSlice";
-import { store } from "../src/redux/store/store";
-import { SessionProvider } from "next-auth/react"
-import '../styles/globals.css'
+import styled from 'styled-components';
+import { Provider } from 'react-redux';
+import { apiSlice } from '../src/redux/slices/apiSlice';
+import { store } from '../src/redux/store/store';
+import { SessionProvider } from 'next-auth/react';
+import Layout from '../src/components/Layout';
+
 const Container = styled.div `
     margin: 0;
-`
+`;
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 	return (

@@ -191,8 +191,7 @@ function Header() {
 	}
 
 	const handleLogout = async () => {
-		const data = await signOut({redirect: false, callbackUrl: "/test"})
-		Router.push(data.url);
+		await signOut({callbackUrl: "/sportsbook"})
 	};
 	const searchRef = useRef();
 	const inputRef = useRef();
