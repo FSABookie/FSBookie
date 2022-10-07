@@ -5,6 +5,7 @@ import { apiSlice } from '../src/redux/slices/apiSlice';
 import { store } from '../src/redux/store/store';
 import { SessionProvider } from 'next-auth/react';
 import Header from '../src/components/Header';
+import Layout from '../src/components/Layout';
 
 const MainContainer = styled.div`
 	position: relative;
@@ -21,8 +22,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 		<Provider api={apiSlice} store={store}>
 			<SessionProvider session={session}>
 				<MainContainer>
-					<Header />
-					<Component {...pageProps} />
+					<Layout Component={Component} pageProps={pageProps} />
 				</MainContainer>
 			</SessionProvider>
 		</Provider>
