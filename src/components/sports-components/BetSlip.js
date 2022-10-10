@@ -6,6 +6,7 @@ import Parlay from "./Parlay";
 import BetSlipGame from "./BetSlipGame";
 import Link from "next/link";
 import { submitBetsThunk } from "../../redux/thunks/betSlip";
+import { useSession } from "next-auth/react";
 
 const Container = styled.div`
   height: 175vh;
