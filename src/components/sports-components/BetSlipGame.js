@@ -71,11 +71,7 @@ function BetSlipGame({ bet }) {
         <Odds>{String(bet.odds)[0] === "-" ? bet.odds : "+" + bet.odds}</Odds>
       </TopRow>
 
-      <MatchUp>
-        {bet.total && bet.total}
-        {bet.spread && bet.team + " " + bet.spread}
-        {!bet.spread && !bet.total && bet.team + " ML"}
-      </MatchUp>
+      <MatchUp>{bet.gameLine && bet.gameLine}</MatchUp>
       <Time>{bet.time}</Time>
       {/* INPUT WAGER COMPONENT */}
       <WagerField

@@ -62,7 +62,7 @@ const Login = () => {
         .then((response) => {
           console.log(response);
           if (response.ok) {
-            router.push("/");
+            router.push("/sportsbook");
           }
         })
         .catch((err) => {
