@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { signOut, useSession } from "next-auth/react";
 // react-icons
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
-import { GiMeatCleaver } from "react-icons/gi";
+import { GiMeatCleaver, GiHamburgerMenu } from "react-icons/gi";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 
 const headerMainHeight = "7em";
@@ -29,7 +29,7 @@ const HeaderTop = styled.div`
   background-color: black;
 
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 
   * {
@@ -220,6 +220,7 @@ function Header() {
 			<HeaderTop className='hfLinks'>
 				{session ? (
 					<>
+            <GiHamburgerMenu />
 						{/* account link - displayed as email */}
 						<Link href={userStatusLink}>
 							<LinkContainer>
@@ -237,6 +238,8 @@ function Header() {
 					</>
 				) : (
 					<>
+                      <GiHamburgerMenu />
+
 						<Link href='/login'>
 							<LinkContainer>
 								<BiLogIn />
