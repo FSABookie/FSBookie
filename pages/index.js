@@ -36,8 +36,8 @@ export default function Home() {
 						</h3>
 						<p>Home - Away</p>
 						<p>
-							{game.Odds[1].MoneyLineHome} |{' '}
-							{game.Odds[1].MoneyLineAway}
+							{game.Odds[1]?.MoneyLineHome} |{' '}
+							{game.Odds[1]?.MoneyLineAway}
 						</p>
 					</BetContainer>
 				))}

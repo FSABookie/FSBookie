@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const URL = process.env.BASE_URL || "http://localhost:3000/";
+
 export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: fetchBaseQuery({
-    baseUrl: (process.env.BASE_URL || "http://localhost:3000/") + 'api',
+    baseUrl: URL + 'api',
   }),
   tagTypes: ["MLB", "NBA", "NFL", "NHL"],
   endpoints: (builder) => ({
