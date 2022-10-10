@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-// import {
-//   RemoveAllSelections,
-//   submitBetsThunk,
-// } from "../../../redux/Reducers/BetSlip-slice";
-// import {
-//   fundsSliceActions,
-//   handleFundsThunk,
-// } from "../../../redux/Reducers/Funds-slice";
 import { CgTrash } from "react-icons/cg";
 import Parlay from "./Parlay";
 import BetSlipGame from "./BetSlipGame";
@@ -58,12 +50,6 @@ function BetSlip() {
       setTotalWager((oldState) => Number(oldState) + Number(ele.wager));
     });
   }, [betSlip]);
-
-  // const submitBets = () => {
-  //   // dispatch(submitBetsThunk({ betSlip, id: user.id }));
-  //   dispatch(handleFundsThunk({ id: user.id, funds: totalWager, type: "s" }));
-  //   // if (betSlip.length > 1) dispatch(postParlayThunk({ wager, toWin }));
-  // };
 
   return (
     <Container>
