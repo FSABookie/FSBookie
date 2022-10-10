@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import Router from "next/router";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import authService from "../src/services/auth.service";
 
 const SignInFormContainer = styled.div`
   margin: 1em;
@@ -33,7 +32,6 @@ const SignInFormContainer = styled.div`
 `;
 
 export default function Signup() {
-  const { register } = authService;
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -59,7 +57,7 @@ export default function Signup() {
     try {
       //   setError("");
       //   setLoading(true);
-      await register(credentials);
+      // await register(credentials);
       Router.push("/login");
       // if (typeof window !== 'undefined') {
       // 	let user = JSON.parse(window.localStorage.getItem('user'));
