@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useGetMLBQuery } from "../src/redux/slices/apiSlice";
 import LandingPage from "../src/components/LandingPage";
+import { useSession } from "next-auth/react";
+
+
 const Container = styled.div``;
 const BetsContainer = styled.div`
 	display: flex;
@@ -17,7 +20,14 @@ const BetContainer = styled.div`
 `;
 export default function Home() {
 
-  return <Container>
-       <LandingPage/>
-  </Container>;
+	const { data, isSuccess } = useGetMLBQuery();
+	const { data: session } = useSession();
+
+	useEffect(() => {
+		isSuccess && console.log(data);
+	}, [isSuccess, data]);
+
+	return (
+		<LandingPage />
+	);
 }
