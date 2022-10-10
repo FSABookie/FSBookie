@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
+import { useSession } from "next-auth/react";
 
 const Container = styled.div`
   width: 100%;
@@ -61,7 +62,8 @@ const HelperDiv = styled.div`
 //COMPONENT STARTS HERE
 
 function Nav() {
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  // const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const { data: session, status } = useSession(); 
 
   const dispatch = useDispatch();
 
@@ -82,7 +84,7 @@ function Nav() {
         </Link>
       </ButtonSet1>
       <HelperDiv />
-      {!isLoggedIn ? (
+      {status === "authenticated" ? (
         <ButtonSet2>
           <Link href="/Register">
             <AuthButton>Register</AuthButton>
@@ -94,13 +96,7 @@ function Nav() {
       ) : (
         <ButtonSet2>
           <AuthButton>Profile Page</AuthButton>
-          <AuthButton
-            onClick={() => {
-              persistor.purge();
-              dispatch(fundsSliceActions.clearFunds());
-              dispatch(authActions.logout());
-            }}
-          >
+          <AuthButton>
             Sign Out
           </AuthButton>
         </ButtonSet2>
