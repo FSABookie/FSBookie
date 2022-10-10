@@ -44,14 +44,16 @@ export default NextAuth({
 			if (user) {
 				token.id = user.id;
 				token.isAdmin = user.isAdmin;
+                token.name = user.firstName, user.lastName;
 			}
 			return token;
 		},
 		async session({ session, token, user }) {
 			// Send properties to the client, like an access_token and user id from a provider.
             console.log(session, token, user);
-			session.isAdmin = token.isAdmin;
+			session.user.isAdmin = token.isAdmin;
 			session.user.id = token.id;
+            session.user.name = token.name;
 
 			return session;
 		},
