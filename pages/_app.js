@@ -1,29 +1,22 @@
-import '../styles/globals.css';
 import styled from 'styled-components';
 import { Provider } from 'react-redux';
 import { apiSlice } from '../src/redux/slices/apiSlice';
 import { store } from '../src/redux/store/store';
 import { SessionProvider } from 'next-auth/react';
-import Header from '../src/components/Header';
 import Layout from '../src/components/Layout';
+import "../styles/globals.css";
 
-const MainContainer = styled.div`
-	position: relative;
-	min-height: 100vh;
-	padding-bottom: 2em;
-	* {
-		margin: 0;
-		user-select: none;
-	}
+const Container = styled.div `
+    margin: 0;
 `;
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 	return (
 		<Provider api={apiSlice} store={store}>
 			<SessionProvider session={session}>
-				<MainContainer>
+				<Container>
 					<Layout Component={Component} pageProps={pageProps} />
-				</MainContainer>
+				</Container>
 			</SessionProvider>
 		</Provider>
 	);

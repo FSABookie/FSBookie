@@ -2,7 +2,8 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
 
-const URL = (process.env.BASE_URL || 'http://localhost:3000') + 'api/auth/login';
+const URL = (process.env.BASE_URL || 'http://localhost:3000/') + 'api/auth/login';
+
 
 export default NextAuth({
     pages: {
@@ -15,7 +16,6 @@ export default NextAuth({
 			async authorize(credentials, req) {
 				// Add logic here to look up the user from the credentials supplied
 				try {
-                    console.log('HERE', credentials)
                     // creates token if user is valid
                     const { data: token } = await axios.post(
                         URL,
