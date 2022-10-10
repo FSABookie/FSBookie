@@ -6,6 +6,7 @@ import Parlay from "./Parlay";
 import BetSlipGame from "./BetSlipGame";
 import Link from "next/link";
 import { submitBetsThunk } from "../../redux/thunks/betSlip";
+import { useSession } from "next-auth/react";
 
 const Container = styled.div`
   height: 175vh;
@@ -36,9 +37,11 @@ function BetSlip() {
   const [toWin, setToWin] = useState("");
   const [totalWager, setTotalWager] = useState("");
 
+	const { data: session, status} = useSession();
+
   // fetching data from store
   const betSlip = useSelector((state) => state.betSlip.betSlip);
-  const { isLoggedIn, user } = useSelector((state) => state.user);
+  // const { isLoggedIn, user } = useSelector((state) => state.user);
   // const { funds } = useSelector((state) => state.funds);
 
   const dispatch = useDispatch();
@@ -54,7 +57,7 @@ function BetSlip() {
 
   const submitBets = () => {
     let payload = {
-      userId: user.id,
+      userId: session.user.id,
       betSlip,
     };
 
@@ -82,7 +85,7 @@ function BetSlip() {
         <CgTrash color="red" />
         Remove all Selections
       </ClearBets>
-      {isLoggedIn ? (
+      {status === "authenticated" ? (
         <Submit onClick={() => submitBets()}>Lock In Bet(s)</Submit>
       ) : (
         <Link href="/LogIn">

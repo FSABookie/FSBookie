@@ -14,7 +14,9 @@ export const submitBetsThunk = createAsyncThunk(
 
       // map through bet slip and post each one and associate the order ID to each created new bet
       payload.betSlip.forEach(async (bet) => {
-        await axios.post("/api/bets", { ...bet, orderId: order.id });
+        let myBet = {...bet, orderId: order.id}
+        delete myBet.id;
+        await axios.post("/api/bets", myBet);
       });
     } catch (err) {
       throw new Error(err);

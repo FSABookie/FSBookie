@@ -178,7 +178,7 @@ function Header() {
 
 	const dispatch = useDispatch();
 
-	const { data: session } = useSession();
+	const { data: session, status} = useSession();
 
 	console.log(session);
 
