@@ -13,7 +13,8 @@ export default NextAuth({
 			async authorize(credentials, req) {
 				// Add logic here to look up the user from the credentials supplied
 				try {
-                    console.log('env test',process.env.BASE_URL)
+                    console.log('env',process.env.BASE_URL)
+                    console.log('HERE', credentials)
                     // creates token if user is valid
                     const { data: token } = await axios.post(
                         'https://capstone-bookie.herokuapp.com/api/auth/login',
