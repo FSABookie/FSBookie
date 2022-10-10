@@ -20,7 +20,7 @@ export default function Home() {
 	const { data, isSuccess } = useGetMLBQuery();
 	const { data: session } = useSession();
 
-  console.log(session);
+  console.log('front', process.env.BASE_URL);
 
 	useEffect(() => {
 		isSuccess && console.log(data);
