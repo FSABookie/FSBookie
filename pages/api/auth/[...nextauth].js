@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const URL = (process.env.BASE_URL || 'http://localhost:3000/') + 'api/auth/login';
 
+
 export default NextAuth({
     pages: {
         signIn: "/login"

@@ -4,7 +4,6 @@ export default async function handler(req, res) {
 	if (req.method === 'GET') {
 		const user = await User.byToken(req.headers.authorization);
 		if (user) {
-			console.log(user);
 			res.send(user);
 		} else {
 			res.sendStatus(404);
@@ -12,11 +11,9 @@ export default async function handler(req, res) {
 	}
 	if (req.method === 'POST') {
 		try {
-			console.log('BODY', req.body);
 			const user = await User.authenticate(req.body);
 			if (!user) res.sendStatus(404);
 			const token = await user.generateToken();
-			console.log(user, 'TOKEN',token);
 			res.send(token);
 		} catch (err) {
 			res.status(500).json({ error: err.message });
