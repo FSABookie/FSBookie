@@ -61,7 +61,7 @@ const Login = () => {
             signIn('credentials', {...credentials, redirect: false}).then(response => {
                 console.log(response);
 				if (response.ok) {
-					router.push('/');
+					router.push('/sportsbook');
 				}
             }).catch(err => {
                 console.log(err);
