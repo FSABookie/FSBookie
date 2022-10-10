@@ -4,6 +4,7 @@ import { apiSlice } from '../src/redux/slices/apiSlice';
 import { store } from '../src/redux/store/store';
 import { SessionProvider } from 'next-auth/react';
 import Layout from '../src/components/Layout';
+import "../styles/globals.css";
 
 const Container = styled.div `
     margin: 0;
