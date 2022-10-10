@@ -29,7 +29,7 @@ export default NextAuth({
                             },
                         });
                         user.token = token;
-                        console.log('successfully logged in', user);
+                        // console.log('successfully logged in', user);
                         return user;
                     }
                 } catch (err) {
