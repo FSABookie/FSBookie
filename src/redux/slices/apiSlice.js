@@ -1,11 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const URL = process.env.BASE_URL || "http://localhost:3000/";
-
 export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: fetchBaseQuery({
-    baseUrl: URL + 'api',
+    baseUrl: "https://capstone-bookie.herokuapp.com/api",
   }),
   tagTypes: ["MLB", "NBA", "NFL", "NHL"],
   endpoints: (builder) => ({
