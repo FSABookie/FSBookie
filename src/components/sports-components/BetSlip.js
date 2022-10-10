@@ -5,6 +5,7 @@ import { CgTrash } from "react-icons/cg";
 import Parlay from "./Parlay";
 import BetSlipGame from "./BetSlipGame";
 import Link from "next/link";
+import { submitBetsThunk } from "../../redux/thunks/betSlip";
 
 const Container = styled.div`
   height: 175vh;
@@ -50,6 +51,15 @@ function BetSlip() {
       setTotalWager((oldState) => Number(oldState) + Number(ele.wager));
     });
   }, [betSlip]);
+
+  const submitBets = () => {
+    let payload = {
+      userId: user.id,
+      betSlip,
+    };
+
+    dispatch(submitBetsThunk(payload));
+  };
 
   return (
     <Container>
