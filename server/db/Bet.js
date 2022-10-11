@@ -5,10 +5,13 @@ const Bet = db.define("bet", {
   orderId: {
     type: Sequelize.INTEGER,
   },
-  eventId: {
+  betId: {
     type: Sequelize.STRING,
   },
-  event: {
+  teams: {
+    type: Sequelize.STRING,
+  },
+  odds: {
     type: Sequelize.STRING,
   },
   gameLine: {
@@ -16,12 +19,16 @@ const Bet = db.define("bet", {
   },
   isActive: {
     type: Sequelize.BOOLEAN,
+    defaultValue: true,
   },
   wager: {
     type: Sequelize.DOUBLE,
   },
   toWin: {
     type: Sequelize.DOUBLE,
+  },
+  time: {
+    type: Sequelize.STRING,
   },
 });
 

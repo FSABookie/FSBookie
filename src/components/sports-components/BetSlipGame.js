@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import WagerField from "./WagerField";
-//import { MdOutlineRemoveCircleOutline } from "react-icons";
+import { MdOutlineRemoveCircleOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import * as oddslib from "oddslib";
 import {
@@ -62,20 +62,16 @@ function BetSlipGame({ bet }) {
       <TopRow>
         <Eh>
           {/* delete bet from betslip */}
-          {/* <MdOutlineRemoveCircleOutline
+          <MdOutlineRemoveCircleOutline
             color="red"
             onClick={() => dispatch(RemoveFromBetSlip(bet.id))}
-          /> */}
+          />
           <Team>{bet.teams}</Team>
         </Eh>
         <Odds>{String(bet.odds)[0] === "-" ? bet.odds : "+" + bet.odds}</Odds>
       </TopRow>
 
-      <MatchUp>
-        {bet.total && bet.total}
-        {bet.spread && bet.team + " " + bet.spread}
-        {!bet.spread && !bet.total && bet.team + " ML"}
-      </MatchUp>
+      <MatchUp>{bet.gameLine && bet.gameLine}</MatchUp>
       <Time>{bet.time}</Time>
       {/* INPUT WAGER COMPONENT */}
       <WagerField

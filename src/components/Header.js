@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { signOut, useSession } from "next-auth/react";
 // react-icons
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
-import { GiMeatCleaver } from "react-icons/gi";
+import { GiMeatCleaver, GiHamburgerMenu } from "react-icons/gi";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 
 const headerMainHeight = "7em";
@@ -168,6 +168,23 @@ const SearchContainer = styled.div`
   }
 `;
 
+const Page = styled.div `
+height: 100vh;
+@media only screen and (min-width: 768px){
+    background:blue;
+}
+
+button {
+
+}
+`
+const Menu = styled.div `
+    overflow: hidden;
+
+    a {display:block;}
+   
+`
+
 //COMPONENT STARTS HERE
 function Header() {
 	const [isSearchOpen, toggleSearch] = useState(false);
@@ -178,7 +195,7 @@ function Header() {
 
 	const dispatch = useDispatch();
 
-	const { data: session } = useSession();
+	const { data: session, status} = useSession();
 
 	console.log(session);
 
@@ -213,6 +230,19 @@ function Header() {
 		}
 	};
 
+  const mySidenavRef = useRef()
+  const [isOpen, setOpen] = useState(false)
+
+  function toggleNav() {
+      if (isOpen) {
+          setOpen(false)
+          mySidenavRef.current.style.width = '0px'
+  }else {
+      mySidenavRef.current.style.width = '250px'
+      setOpen(true)
+  }    
+}
+
 	// if we want to hide search when user switch pages, maybe should add 'isSearching' to redux store
 	// also need to allow user to exit out by clicking elsewhere
 	return (
@@ -220,6 +250,22 @@ function Header() {
 			<HeaderTop className='hfLinks'>
 				{session ? (
 					<>
+
+            <GiHamburgerMenu />
+
+             <Page>
+              <Menu ref={mySidenavRef} className="sidenav">
+                <a href="javascript:void(0)" onClick={toggleNav}>&times;</a>
+                <a href="#">Home</a>
+                <a href="#">My Bets</a>
+                <a href="#">How To Bet</a>
+                <a href="#">Forum</a>
+                <a href="#">Projections</a>
+              </Menu>
+
+              <button  onClick={toggleNav}>&#9776;</button>
+           </Page>
+
 						{/* account link - displayed as email */}
 						<Link href={userStatusLink}>
 							<LinkContainer>
@@ -237,6 +283,8 @@ function Header() {
 					</>
 				) : (
 					<>
+                      <GiHamburgerMenu />
+
 						<Link href='/login'>
 							<LinkContainer>
 								<BiLogIn />
@@ -261,41 +309,6 @@ function Header() {
 					</Link>
 				)} */}
 			</HeaderTop>
-
-			<SearchContainer className='hide' ref={searchRef} onClick={toggle}>
-				<input
-					type='text'
-					className='search'
-					ref={inputRef}
-					placeholder='Search...'
-					onChange={(e) => {
-						setSearchTerm(e.target.value);
-					}}
-					value={searchTerm}
-				></input>
-				<div className='searchProductList'>
-					{/* {!isLoading &&
-						!isError &&
-						products
-							.filter((product) => {
-								if (searchTerm === '') {
-									return false;
-								} else {
-									return product.name
-										.toLowerCase()
-										.includes(searchTerm.toLowerCase());
-								}
-							})
-							.map((product) => (
-								<Link
-									href={`/${product.type}/${product.id}`}
-									key={product.id}
-								>
-									<p onClick={toggle}>{product.name}</p>
-								</Link>
-							))} */}
-        </div>
-      </SearchContainer>
     </HeaderContainer>
   );
 }

@@ -134,7 +134,7 @@ export default function MainContainer({ data }) {
                           dispatch(
                             addToBetSlip({
                               id: betSlip.length,
-                              spread: ele.Odds[0].PointSpreadAway,
+                              gameLine: ele.Odds[0].PointSpreadAway,
                               odds: ele.Odds[0].PointSpreadAwayLine,
                               team: ele.AwayTeam,
                               teams: ele.AwayTeam + " @ " + ele.HomeTeam,
@@ -157,6 +157,7 @@ export default function MainContainer({ data }) {
                             dispatch(
                               addToBetSlip({
                                 id: betSlip.length,
+                                gameLine: ele.awayTeam + " ML",
                                 odds: ele.Odds[0].MoneyLineAway,
                                 team: ele.AwayTeam,
                                 teams: ele.AwayTeam + " @ " + ele.HomeTeam,
@@ -179,7 +180,7 @@ export default function MainContainer({ data }) {
                           dispatch(
                             addToBetSlip({
                               id: betSlip.length,
-                              total: "Over " + ele.Odds[0].TotalNumber,
+                              gameLine: "Over " + ele.Odds[0].TotalNumber,
                               odds: ele.Odds[0].OverLine,
                               teams: ele.AwayTeam + " @ " + ele.HomeTeam,
                               time,
@@ -201,7 +202,7 @@ export default function MainContainer({ data }) {
                           dispatch(
                             addToBetSlip({
                               id: betSlip.length,
-                              spread: ele.Odds[0].PointSpreadHome,
+                              gameLine: ele.Odds[0].PointSpreadHome,
                               odds: ele.Odds[0].PointSpreadHomeLine,
                               team: ele.HomeTeam,
                               teams: ele.AwayTeam + " @ " + ele.HomeTeam,
@@ -224,6 +225,7 @@ export default function MainContainer({ data }) {
                             dispatch(
                               addToBetSlip({
                                 id: betSlip.length,
+                                gameLine: ele.homeTeam + " ML",
                                 odds: ele.Odds[0].MoneyLineHome,
                                 team: ele.HomeTeam,
                                 teams: ele.AwayTeam + " @ " + ele.HomeTeam,
@@ -246,7 +248,7 @@ export default function MainContainer({ data }) {
                           dispatch(
                             addToBetSlip({
                               id: betSlip.length,
-                              total: "Under " + ele.Odds[0].TotalNumber,
+                              gameLine: "Under " + ele.Odds[0].TotalNumber,
                               odds: ele.Odds[0].UnderLine,
                               teams: ele.AwayTeam + " @ " + ele.HomeTeam,
                               time,
