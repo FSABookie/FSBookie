@@ -33,7 +33,6 @@ const SportsHeader = styled.div `
         text-transform: uppercase;
         cursor: pointer;
         transition: all .16s ease;
-        space
     }
 `
 const GamesContainer = styled.div ` 
@@ -149,7 +148,7 @@ const GameCard = styled.div `
     flex-direction: column;
     gap: 0.5em;
     background-color: #242424;
-    height: 48px;x
+    height: 48px;
   }
 `
   
