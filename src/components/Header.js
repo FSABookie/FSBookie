@@ -12,11 +12,11 @@ import { GiMeatCleaver, GiHamburgerMenu } from 'react-icons/gi';
 import { BiLogIn, BiLogOut } from 'react-icons/bi';
 
 const headerMainHeight = '7em';
-const headerTopHeight = '2em';
+const headerTopHeight = '4%';
 
 const HeaderContainer = styled.div`
 	color: white;
-	height: ${headerMainHeight + headerTopHeight};
+	height: 4vh;
 	h1,
 	p {
 		:hover {
@@ -25,7 +25,7 @@ const HeaderContainer = styled.div`
 	}
 `;
 const HeaderTop = styled.div`
-	height: ${headerTopHeight};
+	height: 100%;
 	background-color: black;
 
 	display: flex;
@@ -173,6 +173,7 @@ const Page = styled.div`
 	left: 0;
 	top: 4%;
 	height: 100vh;
+  background: blue;
 	@media only screen and (min-width: 768px) {
 		background: blue;
 	}

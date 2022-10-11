@@ -39,7 +39,9 @@ const SportsHeader = styled.div`
 	}
 `;
 const GamesContainer = styled.div``;
-const Games = styled.table`
+const Games = styled.div`
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 	table-layout: fixed;
 	border-collapse: separate;
@@ -47,20 +49,16 @@ const Games = styled.table`
 	padding: 8px;
 	background-color: #121212;
 
-	thead {
-		cursor: default;
-	}
-	th {
-		color: #c5c5c5;
-		font-size: 0.7em;
-	}
 	.alwaysleft {
 		width: 40%;
 		font-weight: 600;
 		text-align: left;
 	}
 `;
-const GameCard = styled.tbody`
+const GameCard = styled.div`
+color: white;
+border-top: 0.25em solid #242424;
+
 	.eventCellLink {
 		width: 100%;
 		position: relative;
@@ -86,15 +84,17 @@ const GameCard = styled.tbody`
 		padding-left: 10px;
 		text-decoration: none;
 	}
-	.gameInfo {
-		border-top: 0.25em solid #242424;
-		padding-top: 4%;
-	}
+	
 
 	.team1 {
 		font-size: 1.2em;
 		color: white;
 		margin-left: 10px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		max-width: 100px;
+		
 	}
 	.gameTime {
 		font-size: 0.25em;
@@ -103,6 +103,7 @@ const GameCard = styled.tbody`
 	.teamInfo {
 		margin-top: 0.5em;
 		display: flex;
+		overflow: hidden;
 	}
 	.imgContainer {
 		img {
@@ -110,23 +111,7 @@ const GameCard = styled.tbody`
 		}
 	}
 
-	.lineCol {
-		border-top: 0.25em solid #242424;
-		padding-top: 6%;
-		font-size: 0.7em;
-		box-sizing: border-box;
-		height: 100%;
-		width: 100%;
-		position: relative;
-	}
-
-	.line2Col {
-		font-size: 0.7em;
-		box-sizing: border-box;
-		height: 100%;
-		width: 100%;
-		position: relative;
-	}
+	
 
 	.line {
 		color: white;
@@ -139,6 +124,7 @@ const GameCard = styled.tbody`
 	.lineContainer {
 		display: flex;
 		padding: 2%;
+		margin: 1px;
 		display: flex;
 		justify-content: center;
 		text-align: center;
@@ -150,7 +136,52 @@ const GameCard = styled.tbody`
 	}
 `;
 
-const TableRow = styled.tr``;
+const TableRow = styled.div`
+display: flex;
+flex-direction: row;
+/* justify-content: space-between; */
+.gameInfo {
+		/* border-top: 0.25em solid #242424; */
+		/* padding-top: 4%; */
+		/* flex-grow: 2; */
+		width: 150%
+
+	}
+	.game2Info {
+		/* padding-top: 4%; */
+		/* flex-grow: 2; */
+		width: 150%
+
+	}
+	.lineCol {
+		/* border-top: 0.25em solid #242424; */
+		/* padding-top: 6%; */
+		font-size: 0.7em;
+		box-sizing: border-box;
+		height: 100%;
+		width: 100%;
+		position: relative;
+		/* flex-grow: 1; */
+	}
+
+	.line2Col {
+		font-size: 0.7em;
+		box-sizing: border-box;
+		height: 100%;
+		width: 100%;
+		position: relative;
+	}
+`;
+
+const GamesHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	cursor: default;
+	color: #c5c5c5;
+	font-size: 0.7em;
+			border-bottom: 0.25em solid #242424;
+
+`;
 
 function Sportsbook({ data }) {
 	const dispatch = useDispatch();
@@ -174,12 +205,12 @@ function Sportsbook({ data }) {
 			</SportsHeader>
 			<GamesContainer>
 				<Games>
-					<thead>
-						<th className='alwaysleft gamelines'>TODAY</th>
-						<th className='gamelines'>SPREAD</th>
-						<th className='gamelines'>TOTAL</th>
-						<th className='gamelines'>MONEYLINE</th>
-					</thead>
+					<GamesHeader>
+						<p className='alwaysleft gamelines'>TODAY</p>
+						<p className='gamelines'>SPREAD</p>
+						<p className='gamelines'>TOTAL</p>
+						<p className='gamelines'>MONEYLINE</p>
+					</GamesHeader>
 					{data.data &&
 						data.data.map((ele) => {
 							let d = new Date(ele.MatchTime).toDateString();
@@ -192,25 +223,23 @@ function Sportsbook({ data }) {
 							return (
 								<GameCard key={apiId}>
 									<TableRow>
-										<th className='gameInfo'>
-											<div className='eventCell'>
-												<div className='gameStatus'>
+										<div className='gameInfo'>
+											{/* <div className='eventCell'> */}
 													<span className='gameTime'>
 														{time}
 													</span>
-												</div>
 												<div className='teamInfo'>
 													<div className='imgContainer'>
 														<img src='https://sportsbook.draftkings.com/static/logos/teams/nfl/LV.png' />
 													</div>
-													<a className='team1'>
+													<div className='team1'>
 														{ele.AwayTeam}
-													</a>
+													</div>
 												</div>
-											</div>
-										</th>
+											{/* </div> */}
+										</div>
 										{/* AWAY TEAM SPREAD!!!!!!!!!!! */}
-										<td className='lineCol'>
+										<div className='lineCol'>
 											{ele.Odds[0].PointSpreadAway == 0 ||
 											ele.Odds[0].PointSpreadAway ==
 												0.0 ? (
@@ -254,10 +283,14 @@ function Sportsbook({ data }) {
 																	.PointSpreadAway}
 													</div>
 													<div className='lineodds'>
-														{
-															ele.Odds[0]
-																.PointSpreadAwayLine[0] === '-' ? ele.Odds[0].PointSpreadAwayLine : '+' + ele.Odds[0].PointSpreadAwayLine
-														}
+														{ele.Odds[0]
+															.PointSpreadAwayLine[0] ===
+														'-'
+															? ele.Odds[0]
+																	.PointSpreadAwayLine
+															: '+' +
+															  ele.Odds[0]
+																	.PointSpreadAwayLine}
 														{/* ele.Odds[0]
 															.PointSpreadAway[0] ===
 														'-'
@@ -269,9 +302,9 @@ function Sportsbook({ data }) {
 													</div>
 												</div>
 											)}
-										</td>
+										</div>
 										{/* OVER!!!!!!!!!!! */}
-										<td className='lineCol'>
+										<div className='lineCol'>
 											{ele.Odds[0].PointSpreadAway == 0 ||
 											ele.Odds[0].PointSpreadAway ==
 												0.0 ? (
@@ -312,13 +345,19 @@ function Sportsbook({ data }) {
 														}
 													</div>
 													<div className='lineodds'>
-														{ele.Odds[0].OverLine[0] === '-' ? ele.Odds[0].OverLine : '+' + ele.Odds[0].OverLine}
+														{ele.Odds[0]
+															.OverLine[0] === '-'
+															? ele.Odds[0]
+																	.OverLine
+															: '+' +
+															  ele.Odds[0]
+																	.OverLine}
 													</div>
 												</div>
 											)}
-										</td>
+										</div>
 										{/* AWAY TEAM!!!!!!!!!!! */}
-										<td className='lineCol'>
+										<div className='lineCol'>
 											{ele.Odds[0].PointSpreadAway == 0 ||
 											ele.Odds[0].PointSpreadAway ==
 												0.0 ? (
@@ -364,11 +403,11 @@ function Sportsbook({ data }) {
 													</div>
 												</div>
 											)}
-										</td>
+										</div>
 									</TableRow>
-									<tr>
-										<th className='game2Info'>
-											<div className='eventCell'>
+									<TableRow>
+										<div className='game2Info'>
+											{/* <div className='eventCell'> */}
 												<div className='gameStatus'></div>
 												<div className='teamInfo'>
 													<div className='imgContainer'>
@@ -378,10 +417,10 @@ function Sportsbook({ data }) {
 														{ele.HomeTeam}
 													</a>
 												</div>
-											</div>
-										</th>
+											{/* </div> */}
+										</div>
 										{/* HOME TEAM SPREAD!!!!!!!!!!! */}
-										<td className='line2Col'>
+										<div className='line2Col'>
 											{ele.Odds[0].PointSpreadAway == 0 ||
 											ele.Odds[0].PointSpreadAway ==
 												0.0 ? (
@@ -425,10 +464,14 @@ function Sportsbook({ data }) {
 																	.PointSpreadHome}
 													</div>
 													<div className='lineodds'>
-														{
-															ele.Odds[0]
-															.PointSpreadHomeLine[0] === '-' ? ele.Odds[0].PointSpreadHomeLine : '+' + ele.Odds[0].PointSpreadHomeLine
-														}
+														{ele.Odds[0]
+															.PointSpreadHomeLine[0] ===
+														'-'
+															? ele.Odds[0]
+																	.PointSpreadHomeLine
+															: '+' +
+															  ele.Odds[0]
+																	.PointSpreadHomeLine}
 													</div>
 													{/* <div className='line'>
 														{
@@ -444,9 +487,9 @@ function Sportsbook({ data }) {
 													</div> */}
 												</div>
 											)}
-										</td>
+										</div>
 										{/* UNDER!!!!!!!!!!! */}
-										<td className='line2Col'>
+										<div className='line2Col'>
 											{ele.Odds[0].PointSpreadAway == 0 ||
 											ele.Odds[0].PointSpreadAway ==
 												0.0 ? (
@@ -487,13 +530,20 @@ function Sportsbook({ data }) {
 														}
 													</div>
 													<div className='lineodds'>
-														{ele.Odds[0].UnderLine[0] === '-' ? ele.Odds[0].UnderLine : '+' + ele.Odds[0].UnderLine}
+														{ele.Odds[0]
+															.UnderLine[0] ===
+														'-'
+															? ele.Odds[0]
+																	.UnderLine
+															: '+' +
+															  ele.Odds[0]
+																	.UnderLine}
 													</div>
 												</div>
 											)}
-										</td>
+										</div>
 										{/* HOME TEAM ML!!!!!!!!!!! */}
-										<td className='line2Col'>
+										<div className='line2Col'>
 											{ele.Odds[0].PointSpreadAway == 0 ||
 											ele.Odds[0].PointSpreadAway ==
 												0.0 ? (
@@ -538,8 +588,8 @@ function Sportsbook({ data }) {
 													</div>
 												</div>
 											)}
-										</td>
-									</tr>
+										</div>
+									</TableRow>
 								</GameCard>
 							);
 						})}
