@@ -1,5 +1,5 @@
 import React from "react";
-import MainContainer from "../../src/components/sports-components/MainContainer";
+import Sportsbook from "../../src/components/Sportsbook";
 import { useGetMLBQuery } from "../../src/redux/slices/apiSlice";
 
 function Baseball() {
@@ -7,7 +7,7 @@ function Baseball() {
 
   const sport = "MLB";
 
-  return <MainContainer data={{ data, sport }} />;
+  return <Sportsbook data={{ data, sport }} />;
 }
 
 export default Baseball;
