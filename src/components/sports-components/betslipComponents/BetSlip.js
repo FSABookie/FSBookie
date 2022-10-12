@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { RemoveAllSelections } from "../../../redux/slices/BetSlip-slice";
 import BetSlipGame from "./BetSlipGame";
 import Parlay from "./Parlay";
+import { handleFundsThunk } from "../../../redux/slices/Funds-slice";
 
 const BetSlipConntainer = styled.div`
   bottom: 0;
@@ -51,13 +52,15 @@ function BetSlip() {
   const [toWin, setToWin] = useState("");
   const [parlayOdds, setOdds] = useState("");
   const [toggled, setToggled] = useState(false);
-  const { betSlip } = useSelector((state) => state.betSlip);
   const [totalWager, setTotalWager] = useState("");
+  const { betSlip } = useSelector((state) => state.betSlip);
+  const funds = useSelector((state) => state.funds.funds);
   const { data: session, status } = useSession();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("betslip", funds);
     setTotalWager(0);
     betSlip.forEach((ele) => {
       // calculating total wager to send to store to subtract from funds on submit bet
@@ -71,7 +74,14 @@ function BetSlip() {
       betSlip,
     };
 
-    dispatch(submitBetsThunk(payload));
+    if (session.user.balance < totalWager) {
+      alert("NOT ENOUGH FUNDS BROKE ASS NIGGA");
+    } else {
+      dispatch(
+        handleFundsThunk({ id: session.user.id, funds: totalWager, type: "s" })
+      );
+      dispatch(submitBetsThunk(payload));
+    }
   };
 
   return (
@@ -79,12 +89,12 @@ function BetSlip() {
       <BetSlipHeaderContainer onClick={() => setToggled(!toggled)}>
         {" "}
         <div>{betSlip.length} Bet Slip</div>
-        <div>Parlay Odds +{parlayOdds}</div>
+        {betSlip.length > 1 && <div>Parlay Odds +{parlayOdds}</div>}
       </BetSlipHeaderContainer>
 
       {toggled && (
         <>
-          <Funds>Your Available Funds : ${session.user.balance}</Funds>{" "}
+          <Funds>Your Available Funds : ${funds}</Funds>{" "}
           {/* mapping through bets and rendiner each individual slip */}
           {betSlip.map((bet, idx) => {
             return <BetSlipGame bet={bet} key={idx} />;
