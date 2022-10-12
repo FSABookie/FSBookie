@@ -253,7 +253,7 @@ function Header() {
           <>
             <GiHamburgerMenu onClick={toggleNav} />
 
-            <Page ref={mySidenavRef}>
+            <Page ref={mySidenavRef} className={'hide'}>
               <Menu className="sidenav">
                 {/* <a
 								href='javascript:void(0)'
