@@ -45,6 +45,7 @@ export default NextAuth({
 				token.id = user.id;
 				token.isAdmin = user.isAdmin;
                 token.name = user.firstName + ' ' + user.lastName;
+				token.balance = user.balance;
 			}
 			return token;
 		},
@@ -54,6 +55,7 @@ export default NextAuth({
 			session.user.isAdmin = token.isAdmin;
 			session.user.id = token.id;
             session.user.name = token.name;
+			session.user.balance = token.balance;
 
 			return session;
 		},
