@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import * as oddslib from "oddslib";
+
 const WagerContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -30,8 +31,7 @@ const InputWager = styled.input`
   border: none;
 `;
 
-function Parlay({ wager, setWager, toWin, setToWin }) {
-  const [parlayOdds, setOdds] = useState("");
+function Parlay({ wager, setWager, toWin, setToWin, parlayOdds, setOdds }) {
   const { betSlip } = useSelector((state) => state.betSlip);
   //   const { wager, toWin } = useSelector((state) => state.parlay);
   const dispatch = useDispatch();
