@@ -1,6 +1,6 @@
 import React from "react";
 import { useGetNBAQuery } from "../../src/redux/slices/apiSlice";
-import MainContainer from "../../src/components/sports-components/MainContainer";
+import Sportsbook from "../../src/components/Sportsbook";
 
 function Basketball() {
   const { data, error, isLoading, isSuccess, isFetching } = useGetNBAQuery();
@@ -9,7 +9,7 @@ function Basketball() {
 
   console.log(data);
 
-  return <MainContainer data={{ data, sport }} />;
+  return <Sportsbook data={{ data, sport }} />;
 }
 
 export default Basketball;

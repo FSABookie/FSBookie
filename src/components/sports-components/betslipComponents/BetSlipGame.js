@@ -7,7 +7,7 @@ import * as oddslib from "oddslib";
 import {
   RemoveFromBetSlip,
   addWinAndWager,
-} from "../../redux/slices/BetSlip-slice";
+} from "../../../redux/slices/BetSlip-slice";
 
 const TopRow = styled.div`
   display: flex;
@@ -55,6 +55,7 @@ function BetSlipGame({ bet }) {
         bet: bet,
       })
     );
+    console.log(bet);
   }, [wager, toWin]);
 
   return (
