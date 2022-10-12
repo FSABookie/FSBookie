@@ -179,8 +179,8 @@ const GamesHeader = styled.div`
 
 function Sportsbook({ data }) {
   const dispatch = useDispatch();
-  const betSlip = useSelector((state) => state.betSlip);
-  console.log(data);
+  const { betSlip } = useSelector((state) => state.betSlip);
+
   return (
     <>
       <SportsContainer>
@@ -260,14 +260,6 @@ function Sportsbook({ data }) {
                               {ele.Odds[0].PointSpreadAwayLine[0] === "-"
                                 ? ele.Odds[0].PointSpreadAwayLine
                                 : "+" + ele.Odds[0].PointSpreadAwayLine}
-                              {/* ele.Odds[0]
-															.PointSpreadAway[0] ===
-														'-'
-															? ele.Odds[0]
-																	.PointSpreadAway
-															: '+' +
-															  ele.Odds[0]
-																	.PointSpreadAway */}
                             </div>
                           </div>
                         )}
@@ -386,18 +378,6 @@ function Sportsbook({ data }) {
                                 ? ele.Odds[0].PointSpreadHomeLine
                                 : "+" + ele.Odds[0].PointSpreadHomeLine}
                             </div>
-                            {/* <div className='line'>
-														{
-															ele.Odds[0]
-																.PointSpreadHome
-														}
-													</div>
-													<div className='lineodds'>
-														{
-															ele.Odds[0]
-																.PointSpreadHomeLine
-														}
-													</div> */}
                           </div>
                         )}
                       </div>
