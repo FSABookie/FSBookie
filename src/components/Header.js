@@ -298,11 +298,11 @@ function Header() {
 			>
 				&times;
 			</a> */}
-                <a href="#">Home</a>
-                <a href="#">My Bets</a>
-                <a href="#">How To Bet</a>
-                <a href="#">Forum</a>
-                <a href="#">Projections</a>
+                <a href="/">Home</a>
+                <a href="/sportsbook">My Bets</a>
+                <a href="/">How To Bet</a>
+                <a href="/forums">Forum</a>
+                <a href="/">Projections</a>
               </Menu>
 
               {/* <button onClick={toggleNav}>&#9776;</button> */}
