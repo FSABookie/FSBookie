@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getSession } from "next-auth/react";
+
+const session = getSession();
+
 
 const handleFunds = async (id, funds, type) => {
   //getting the original funds first
@@ -23,21 +27,20 @@ const handleFunds = async (id, funds, type) => {
     console.log(id, type, funds);
     // fundsAmount = fundsAmount - funds;
     let { data } = await axios
-      .put(`http://localhost:3000/api/users/${id}`, {
-        balance: funds,
-      })
-      .then((res) => res.json());
+      .put(`http://localhost:3000/api/users/${id}`, {balance: funds})
+    //   .then((res) => res.json());
     console.log(data);
     return data.user.balance;
   }
 
-  return fundsAmount;
+  return funds;
 };
 
 export const handleFundsThunk = createAsyncThunk(
   "funds/handleFunds",
   async ({ id, funds, type }) => {
     try {
+        console.log('in thunk', id, funds, type);
       let data = await handleFunds(id, Number(funds), type);
       return data;
     } catch (err) {
@@ -48,7 +51,7 @@ export const handleFundsThunk = createAsyncThunk(
 
 const fundsSlice = createSlice({
   name: "funds",
-  initialState: { funds: null },
+  initialState: { funds: session.user?.balance },
   reducers: {
     subtractFunds: (state, action) => {
       state.funds -= action.payload;
