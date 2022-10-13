@@ -1,4 +1,4 @@
-import { Bet } from ".../../../server/db";
+import { Bet } from "../../../server/db";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
