@@ -48,6 +48,18 @@ export const apiSlice = createApi({
     //   }),
     //   invalidatesTags: ["bets"],
     // }),
+    getPosts: builder.query({
+      query: () => "/posts",
+      providesTags: ["posts"],
+    }),
+    createPost: builder.mutation({
+      query: (payload) => ({
+        url: "/posts",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["posts"],
+    }),
   }),
 });
 
