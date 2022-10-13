@@ -64,6 +64,12 @@ const BetsContainer = styled.div`
     row-gap: 30px;
 
   }
+
+  .wagertowin {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+  }
 `;
 
 // COMPONENT STARTS HERE
@@ -107,15 +113,23 @@ function MyBets() {
             return (
               <div key={order.id}>
                 {order.bets.map((bet) => {
-                  console.log(bet)
+                   console.log(bet)
                   return (
                     <div className="betcard" key={bet.id}>
                        <div className="pick">
-                        {bet.gameLine}
-                        <div className="odds">
-                          {'+'+ bet.odds}
+                            {bet.gameLine}
+                          <div className="odds">
+                            {bet.odds}
+                          </div>
                         </div>
-                        </div>
+                        <div className="wagertowin">
+                        <div className="wager">
+                            Wager: {' $' + bet.wager}
+                          </div>
+                          <div className="toWin">
+                            To Pay: {' $'+ bet.toWin}
+                          </div>
+                          </div>
                         <div>
                         {bet.teams}
                         </div>

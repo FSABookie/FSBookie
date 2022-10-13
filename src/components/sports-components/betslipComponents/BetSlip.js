@@ -17,7 +17,7 @@ import {
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const BetSlipConntainer = styled.div`
-  bottom: -7%;
+  bottom: -5.8%;
   position: sticky;
   margin-top: 15%;
   background-color: white;

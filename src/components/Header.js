@@ -45,7 +45,7 @@ const HeaderTop = styled.div`
     overflow: hidden;
     text-overflow: clip;
     white-space: nowrap;
-    width: 85%;
+    width: 0%;
     z-index: 4;
   }
 `;
@@ -163,7 +163,7 @@ const LinkContainer = styled.div`
 // `;
 
 const Page = styled.div`
-  width: 0%;
+  width: 85%;
   transition: 0.5s;
   position: absolute;
   left: 0;
