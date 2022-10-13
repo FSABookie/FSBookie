@@ -3,11 +3,14 @@ const { users, orders, bets, posts, comments } = require('./server/seedData');
 
 const seed = async () => {
 	try {
-        await db.sync({ force: true });
-		await Promise.all(
-			users.map((user) => {
-				User.create(user);
-			}));
+		await Promise.all(posts.map((post) => {
+				Post.create(post);
+			})
+		);
+		await Promise.all(comments.map((comment) => {
+			Comment.create(comment);
+		})
+		);
     } catch (e) {
         console.log(e);
     }

@@ -9,7 +9,7 @@ export const apiSlice = createApi({
     // baseUrl: "https://capstone-bookie.herokuapp.com/api",
     baseUrl: "http://localhost:3000/api",
   }),
-  tagTypes: ["MLB", "NBA", "NFL", "NHL", "bets", "orders"],
+  tagTypes: ["MLB", "NBA", "NFL", "NHL", "bets", "orders", "user"],
   endpoints: (builder) => ({
     //Fetching all sports
     getMLB: builder.query({
@@ -32,22 +32,50 @@ export const apiSlice = createApi({
       query: () => "/orders",
       providesTags: ["orders"],
     }),
-    // createOrder: builder.mutation({
-    //   query: (payload) => ({
-    //     url: "/orders",
-    //     method: "POST",
-    //     body: payload,
-    //   }),
-    //   invalidatesTags: ["orders"],
-    // }),
-    // createBets: builder.mutation({
-    //   query: (payload) => ({
-    //     url: "/bets",
-    //     method: "POST",
-    //     body: payload,
-    //   }),
-    //   invalidatesTags: ["bets"],
-    // }),
+    getActiveBets: builder.query({
+      query: () => "/bets/active",
+      providesTags: ["bets"],
+    }),
+    getUser: builder.query({
+      query: (id) => `/users/${id}`,
+      providesTags: ["user"],
+    }),
+    updateUserFunds: builder.mutation({
+      query: (payload) => ({
+        url: `/users/${payload.id}`,
+        method: "PUT",
+        body: { balance: payload.funds },
+      }),
+      invalidatesTags: ["user"],
+    }),
+    createOrder: builder.mutation({
+      query: (payload) => ({
+        url: "/orders",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["orders", "user"],
+    }),
+    createBets: builder.mutation({
+      query: (payload) => ({
+        url: "/bets",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["bets", "user"],
+    }),
+    getPosts: builder.query({
+      query: () => "/posts",
+      providesTags: ["posts"],
+    }),
+    createPost: builder.mutation({
+      query: (payload) => ({
+        url: "/posts",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["posts"],
+    }),
   }),
 });
 
@@ -57,6 +85,9 @@ export const {
   useGetNHLQuery,
   useGetNBAQuery,
   useGetNFLQuery,
+  useGetActiveBetsQuery,
+  useGetUserQuery,
+  useUpdateUserFundsMutation,
   useCreateBetsMutation,
   useCreateOrderMutation,
 } = apiSlice;

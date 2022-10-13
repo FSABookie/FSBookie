@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Router from "next/router";
 import styled from "styled-components";
-import axios from "axios";
 // redux
 import { useSelector, useDispatch } from "react-redux";
 import { signOut, useSession } from "next-auth/react";
@@ -38,13 +36,17 @@ const HeaderTop = styled.div`
     padding: 0 0.4em 0.15em;
   }
   .hide {
-    /* display: none !important; */
-    //width: 0%;
+    min-height: 10px;
+    position: absolute;
+    left: 0;
+    top: 4%;
+    height: 530vh;
     transition: 0.5s;
-    width: 0%;
     overflow: hidden;
     text-overflow: clip;
     white-space: nowrap;
+    width: 85%;
+    z-index: 4;
   }
 `;
 
@@ -161,16 +163,16 @@ const LinkContainer = styled.div`
 // `;
 
 const Page = styled.div`
-  min-height: 10px;
+  width: 0%;
+  transition: 0.5s;
   position: absolute;
   left: 0;
+  height: 530vh;
+  z-index: 4;
   top: 4%;
-  height: 100vh;
-  transition: 0.5s;
   overflow: hidden;
   text-overflow: clip;
   white-space: nowrap;
-  width: 35%;
   @media only screen and (min-width: 375px) {
     background: blue;
   }
@@ -251,7 +253,7 @@ function Header() {
           <>
             <GiHamburgerMenu onClick={toggleNav} />
 
-            <Page ref={mySidenavRef} className={'hide'}>
+            <Page ref={mySidenavRef} className={"hide"}>
               <Menu className="sidenav">
                 {/* <a
 								href='javascript:void(0)'
@@ -259,11 +261,11 @@ function Header() {
 							>
 								&times;
 							</a> */}
-                <a href="#">Home</a>
-                <a href="#">My Bets</a>
-                <a href="#">How To Bet</a>
-                <a href="#">Forum</a>
-                <a href="#">Projections</a>
+                <Link href="/sportsbook">Home</Link>
+                <Link href="/myBets">My Bets</Link>
+                <Link href="#">How To Bet</Link>
+                <Link href="#">Forum</Link>
+                <Link href="#">Projections</Link>
               </Menu>
 
               {/* <button onClick={toggleNav}>&#9776;</button> */}
@@ -296,11 +298,11 @@ function Header() {
 			>
 				&times;
 			</a> */}
-                <a href="/">Home</a>
-                <a href="/sportsbook">My Bets</a>
-                <a href="/">How To Bet</a>
-                <a href="/forums">Forum</a>
-                <a href="/">Projections</a>
+                <Link href="/sportsbook">Home</Link>
+                <Link href="/myBets">My Bets</Link>
+                <Link href="/">How To Bet</Link>
+                <Link href="/forums">Forum</Link>
+                <Link href="/">Projections</Link>
               </Menu>
 
               {/* <button onClick={toggleNav}>&#9776;</button> */}
