@@ -204,8 +204,6 @@ function Header() {
 
   const { data: session, status } = useSession();
 
-  console.log(session);
-
   let userStatusLink = "/login";
   if (typeof window !== "undefined") {
     if (session) {
@@ -298,11 +296,11 @@ function Header() {
 			>
 				&times;
 			</a> */}
-                <a href="#">Home</a>
-                <a href="#">My Bets</a>
-                <a href="#">How To Bet</a>
-                <a href="#">Forum</a>
-                <a href="#">Projections</a>
+                <a href="/">Home</a>
+                <a href="/sportsbook">My Bets</a>
+                <a href="/">How To Bet</a>
+                <a href="/forums">Forum</a>
+                <a href="/">Projections</a>
               </Menu>
 
               {/* <button onClick={toggleNav}>&#9776;</button> */}
