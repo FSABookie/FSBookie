@@ -8,13 +8,13 @@ import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
-padding: 5%;
+  padding: 5%;
   color: white;
   .title {
     font-weight: 650;
     font-size: 1.4em;
-  margin-bottom: 15%;
-  margin-top: 3%;
+    margin-bottom: 15%;
+    margin-top: 3%;
   }
 `;
 
@@ -53,22 +53,45 @@ const BetsContainer = styled.div`
   padding: 3%;
   min-height: 15%;
   border-radius: 12px;
-  .pick {
-    display: flex;
-    gap: 4%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+`;
+
+const BetsContainerHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 0.75em;
+`;
+
+const WagerHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  font-size: 0.75rem;
+  margin-bottom: 0.9em;
+`;
+
+const TeamContainer = styled.div`
+  border-style: solid;
+  border-color: white;
+  border-width: 1px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75em;
+  padding: 1em 0.75em 1em 0.5em;
+  font-size: 0.8rem;
+
+  div {
+    margin-bottom: 0.5em;
   }
 
-  .betcard {
-    display: flex;
-    flex-direction: column;
-    row-gap: 30px;
-
-  }
-
-  .wagertowin {
-    display: flex;
-    flex-direction: row;
-    gap: 10%;
+  ${
+    "" /* &:nth-child(2) {
+    margin-bottom: 1em;
+  } */
   }
 `;
 
@@ -87,60 +110,47 @@ function MyBets() {
 
   return (
     <Container>
-        <div className="title">
-          MY BETS
-        </div>
-        <SportsHeader>
-          <Link href="/sportsbook/NFL">
-            <a>All</a>
-          </Link>
-          <Link href="/sportsbook/NBA">
-            <a>Open</a>
-          </Link>
-          <Link href="/sportsbook/NHL">
-            <a>Settled</a>
-          </Link>
-          <Link href="/sportsbook/MLB">
-            <a>Won</a>
-          </Link>
-          <Link href="/sportsbook/MLB">
-            <a>Lost</a>
-          </Link>
-        </SportsHeader>
-      <BetsContainer>
-        {isSuccess &&
-          data.orders.map((order) => {
+      <div className="title">MY BETS</div>
+      <SportsHeader>
+        <Link href="/sportsbook/NFL">
+          <a>All</a>
+        </Link>
+        <Link href="/sportsbook/NBA">
+          <a>Open</a>
+        </Link>
+        <Link href="/sportsbook/NHL">
+          <a>Settled</a>
+        </Link>
+        <Link href="/sportsbook/MLB">
+          <a>Won</a>
+        </Link>
+        <Link href="/sportsbook/MLB">
+          <a>Lost</a>
+        </Link>
+      </SportsHeader>
+      {isSuccess &&
+        data.orders.map((order) => {
+          return order.bets.map((bet) => {
+            console.log(bet);
             return (
-              <div key={order.id}>
-                {order.bets.map((bet) => {
-                   console.log(bet)
-                  return (
-                    <div className="betcard" key={bet.id}>
-                       <div className="pick">
-                            {bet.gameLine}
-                          <div className="odds">
-                            {bet.odds}
-                          </div>
-                        </div>
-                        <div className="wagertowin">
-                        <div className="wager">
-                            Wager: {' $' + bet.wager}
-                          </div>
-                          <div className="toWin">
-                            To Pay: {' $'+ bet.toWin}
-                          </div>
-                          </div>
-                        <div>
-                        {bet.teams}
-                        </div>
-                      {order.createdAt}
-                    </div>
-                  );
-                })}
-              </div>
+              <BetsContainer key={bet.id}>
+                <BetsContainerHeader>
+                  <div>{bet.gameLine + " " + bet.odds}</div>
+                  <div>{bet.status}</div>
+                </BetsContainerHeader>
+                <WagerHeader>
+                  Wager: ${bet.wager} To Pay: ${bet.toWin}
+                </WagerHeader>
+                <TeamContainer>
+                  <div>{bet.teams.split("@")[0]}</div>
+                  <div>{bet.teams.split("@")[1]}</div>
+                  {bet.time}
+                </TeamContainer>
+                {bet.createdAt}
+              </BetsContainer>
             );
-          })}
-      </BetsContainer>
+          });
+        })}
       {betSlip.length > 0 && <BetSlip />}
     </Container>
   );
