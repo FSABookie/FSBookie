@@ -215,7 +215,7 @@ function Sportsbook({ data }) {
 						data.data.map((ele) => {
 							let d = new Date(ele.MatchTime).toDateString();
 							let t = new Date(ele.MatchTime).toLocaleTimeString(
-								'en-US'
+								[], {hour: '2-digit', minute:'2-digit'}
 							);
 							// MUST FIX THE TIME
 							let time = d + ' ' + t;
