@@ -47,17 +47,17 @@ const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const hanleFundsToThunk = async () => {
-    const session = await getSession();
-    console.log(session);
-    dispatch(
-      handleFundsThunk({
-        id: session.user.id,
-        funds: session.user.balance,
-        type: null,
-      })
-    );
-  };
+  // const hanleFundsToThunk = async () => {
+  //   const session = await getSession();
+  //   console.log(session);
+  //   dispatch(
+  //     handleFundsThunk({
+  //       id: session.user.id,
+  //       funds: session.user.balance,
+  //       type: null,
+  //     })
+  //   );
+  // };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -78,7 +78,6 @@ const Login = () => {
             router.push("/sportsbook");
           }
         })
-        .then(hanleFundsToThunk)
         // .then(dispatch(handleFundsThunk({ id: user.id, funds: null, type: null })))
         .catch((err) => {
           console.log(err);
