@@ -11,7 +11,9 @@ const SportsContainer = styled.div`
 	max-width: 100%;
 	height: 100%;
 	background-color: black;
-	padding: 3%;
+	padding-top: 3%;
+	padding-left: 3%;
+	padding-right: 3%;
 `;
 const SportsHeader = styled.div`
 	margin-bottom: 15%;
@@ -40,7 +42,8 @@ const SportsHeader = styled.div`
 		transition: all 0.16s ease;
 	}
 `;
-const GamesContainer = styled.div``;
+const GamesContainer = styled.div`
+`;
 const Games = styled.div`
 	display: flex;
 	flex-direction: column;
