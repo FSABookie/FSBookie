@@ -7,8 +7,6 @@ function Basketball() {
 
   const sport = "NBA";
 
-  console.log(data);
-
   return <Sportsbook data={{ data, sport }} />;
 }
 

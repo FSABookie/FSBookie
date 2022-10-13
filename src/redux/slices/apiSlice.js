@@ -32,6 +32,10 @@ export const apiSlice = createApi({
       query: () => "/orders",
       providesTags: ["orders"],
     }),
+    getActiveBets: builder.query({
+      query: () => "/bets/active",
+      providesTags: ["bets"],
+    }),
     // createOrder: builder.mutation({
     //   query: (payload) => ({
     //     url: "/orders",
@@ -69,6 +73,7 @@ export const {
   useGetNHLQuery,
   useGetNBAQuery,
   useGetNFLQuery,
+  useGetActiveBetsQuery,
   useCreateBetsMutation,
   useCreateOrderMutation,
 } = apiSlice;

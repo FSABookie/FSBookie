@@ -8,7 +8,9 @@ import "../styles/globals.css";
 
 const Container = styled.div `
     margin: 0;
+	
 `;
+
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 	return (

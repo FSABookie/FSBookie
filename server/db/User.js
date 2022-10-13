@@ -68,9 +68,10 @@ User.byToken = async (token) => {
 
 User.authenticate = async ({ email, password }) => {
 	const user = await User.findOne({ where: { email } });
+	console.log('HERE', password, user.password)
 	const isPasswordValid = await bcrypt.compare(
 		password,
-		user.dataValues.password
+		user.password
 	);
 	if (isPasswordValid) {
 		return user;
@@ -89,8 +90,9 @@ User.beforeCreate(async (user) => {
 });
 
 User.beforeUpdate(async (user) => {
-	const hashedPassword = await bcrypt.hash(user.password, 5);
-	user.password = hashedPassword;
+	if (user.changed('password')) {
+	user.password = await bcrypt.hash(user.password, 5);
+	}
 });
 
 

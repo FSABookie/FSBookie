@@ -6,7 +6,8 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { fetchUserThunk } from "../src/redux/slices/user-slice";
 import { useGetSingleOrderQuery } from "../src/redux/slices/apiSlice";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
+import { handleFundsThunk } from "../src/redux/slices/Funds-slice";
 
 const LoginFormContainer = styled.div`
   margin: 1em;
@@ -46,6 +47,18 @@ const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const hanleFundsToThunk = async () => {
+    const session = await getSession();
+    console.log(session);
+    dispatch(
+      handleFundsThunk({
+        id: session.user.id,
+        funds: session.user.balance,
+        type: null,
+      })
+    );
+  };
+
   async function handleSubmit(e) {
     e.preventDefault();
     const credentials = {
@@ -65,27 +78,15 @@ const Login = () => {
             router.push("/sportsbook");
           }
         })
+        .then(hanleFundsToThunk)
+        // .then(dispatch(handleFundsThunk({ id: user.id, funds: null, type: null })))
         .catch((err) => {
           console.log(err);
         });
-      // if (typeof window !== 'undefined') {
-      // 	// let user = JSON.parse(window.localStorage.getItem('user'));
-      // 	let payload = {
-      // 		id: user.id,
-      // 		email: user.email,
-      // 		name: user.firstName + ' ' + user.lastName,
-      // 		admin: user.isAdmin,
-      // 	};
-      // 	dispatch(fetchUserThunk(payload));
-      // 	//work on posting to users cart on sign in later
-      // 	Router.push('/');
-      // }
     } catch (err) {
       console.log("Failed to sign in");
       console.error(err);
-      // setError("Failed to sign in");
     }
-    // setLoading(false);
   }
 
   return (
