@@ -132,7 +132,11 @@ function BetSlip() {
 
       {toggled && (
         <>
-          <Funds>Your Available Funds : ${user.balance}</Funds>{" "}
+          {status === "authenticated" ? (
+            <Funds>Your Available Funds : ${user.balance}</Funds>
+          ) : (
+            <Funds>Log In To See Funds</Funds>
+          )}
           {/* mapping through bets and rendiner each individual slip */}
           {betSlip.map((bet, idx) => {
             return <BetSlipGame bet={bet} key={idx} />;
