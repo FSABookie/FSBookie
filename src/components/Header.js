@@ -38,13 +38,17 @@ const HeaderTop = styled.div`
     padding: 0 0.4em 0.15em;
   }
   .hide {
-    /* display: none !important; */
-    //width: 0%;
+    min-height: 10px;
+    position: absolute;
+    left: 0;
+    top: 4%;
+    height: 530vh;
     transition: 0.5s;
-    width: 0%;
     overflow: hidden;
     text-overflow: clip;
     white-space: nowrap;
+    width: 85%;
+    z-index:4;
   }
 `;
 
@@ -161,16 +165,16 @@ const LinkContainer = styled.div`
 // `;
 
 const Page = styled.div`
-  min-height: 10px;
+  width: 0%;
+  transition: 0.5s;
   position: absolute;
   left: 0;
+  height: 530vh;
+  z-index:4;
   top: 4%;
-  height: 100vh;
-  transition: 0.5s;
   overflow: hidden;
   text-overflow: clip;
   white-space: nowrap;
-  width: 35%;
   @media only screen and (min-width: 375px) {
     background: blue;
   }
