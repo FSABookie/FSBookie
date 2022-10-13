@@ -7,7 +7,8 @@ const gameSlice = createSlice({
   },
   reducers: {
     selectGame: (state, action) => {
-      state.game = action.payload;
+      localStorage.removeItem("selectedGame");
+      localStorage.setItem("selectedGame", JSON.stringify(action.payload));
     },
   },
 });

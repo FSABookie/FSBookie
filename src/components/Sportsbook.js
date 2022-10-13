@@ -229,6 +229,7 @@ function Sportsbook({ data }) {
                         pathname: `/sportsbook/games/[id]`,
                         query: {
                           sport: data.sport,
+                          id: apiId,
                         },
                       }}
                       as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
@@ -481,7 +482,7 @@ function Sportsbook({ data }) {
             })}
         </Games>
       </GamesContainer>
-      <BetSlip />
+      {betSlip.length > 0 && <BetSlip />}
     </SportsContainer>
   );
 }
