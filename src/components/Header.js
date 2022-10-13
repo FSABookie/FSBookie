@@ -204,8 +204,6 @@ function Header() {
 
   const { data: session, status } = useSession();
 
-  console.log(session);
-
   let userStatusLink = "/login";
   if (typeof window !== "undefined") {
     if (session) {
