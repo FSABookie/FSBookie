@@ -8,7 +8,14 @@ import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
-  background-color: white;
+padding: 5%;
+  color: white;
+  .title {
+    font-weight: 650;
+    font-size: 1.4em;
+  margin-bottom: 15%;
+  margin-top: 3%;
+  }
 `;
 
 const SportsHeader = styled.div`
@@ -41,7 +48,23 @@ const SportsHeader = styled.div`
   }
 `;
 
-const BetsContainer = styled.div``;
+const BetsContainer = styled.div`
+  background-color: #242424;
+  padding: 3%;
+  min-height: 15%;
+  border-radius: 12px;
+  .pick {
+    display: flex;
+    gap: 4%;
+  }
+
+  .betcard {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+
+  }
+`;
 
 // COMPONENT STARTS HERE
 
@@ -58,7 +81,9 @@ function MyBets() {
 
   return (
     <Container>
-      <SportsHeader>
+        <div className="title">
+          MY BETS
+        </div>
         <SportsHeader>
           <Link href="/sportsbook/NFL">
             <a>All</a>
@@ -76,18 +101,25 @@ function MyBets() {
             <a>Lost</a>
           </Link>
         </SportsHeader>
-      </SportsHeader>
-      myBets
       <BetsContainer>
         {isSuccess &&
           data.orders.map((order) => {
             return (
               <div key={order.id}>
-                {order.createdAt}
                 {order.bets.map((bet) => {
+                  console.log(bet)
                   return (
-                    <div key={bet.id}>
-                      <div>{bet.teams}</div> <div>{bet.gameLine}</div>
+                    <div className="betcard" key={bet.id}>
+                       <div className="pick">
+                        {bet.gameLine}
+                        <div className="odds">
+                          {'+'+ bet.odds}
+                        </div>
+                        </div>
+                        <div>
+                        {bet.teams}
+                        </div>
+                      {order.createdAt}
                     </div>
                   );
                 })}
