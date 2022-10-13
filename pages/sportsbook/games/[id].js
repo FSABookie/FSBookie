@@ -88,7 +88,7 @@ const GameCard = styled.div`
 	.team1 {
 		font-size: 0.9em;
 		color: white;
-		margin-left: 10px;
+		margin-left: 8px;
 		text-overflow: ellipsis;
 		overflow: hidden;
 		white-space: nowrap;
@@ -201,9 +201,9 @@ function GamePage() {
   useEffect(() => {
     console.log(game);
   }, [game]);
-  let d = new Date(game.MatchTime).toDateString();
+              let d = new Date(game.MatchTime).toDateString();
 							let t = new Date(game.MatchTime).toLocaleTimeString(
-								'en-US'
+								[], {hour: '2-digit', minute:'2-digit'}
 							);
 							// MUST FIX THE TIME
 							let time = d + ' ' + t;
