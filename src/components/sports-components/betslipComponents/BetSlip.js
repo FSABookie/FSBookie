@@ -111,7 +111,9 @@ function BetSlip() {
             console.log(newBet);
           });
 
+          // update user funds after everything is successfull
           await updateFunds({ funds: user.balance - totalWager, id: user.id });
+          // remove bets from slip
           dispatch(RemoveAllSelections());
         } catch (error) {
           alert(error);
