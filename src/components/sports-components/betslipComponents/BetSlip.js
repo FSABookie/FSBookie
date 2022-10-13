@@ -10,6 +10,7 @@ import { RemoveAllSelections } from "../../../redux/slices/BetSlip-slice";
 import BetSlipGame from "./BetSlipGame";
 import Parlay from "./Parlay";
 import { handleFundsThunk } from "../../../redux/slices/Funds-slice";
+import { fundsSliceActions } from "../../../redux/slices/Funds-slice";
 
 const BetSlipConntainer = styled.div`
   bottom: 0;
@@ -77,11 +78,12 @@ function BetSlip() {
     if (session.user.balance < totalWager) {
       alert("NOT ENOUGH FUNDS BROKE ASS NIGGA");
     } else {
-      dispatch(
-        handleFundsThunk({ id: session.user.id, funds: funds - totalWager, type: "s" })
-      );
+      dispatch(handleFundsThunk({ id: session.user.id, funds: funds - totalWager, type: "s" }));
+      dispatch(fundsSliceActions.subtractFunds(totalWager))
       dispatch(submitBetsThunk(payload));
+      dispatch(RemoveAllSelections())
     }
+
   };
 
   return (
