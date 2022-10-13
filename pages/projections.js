@@ -211,10 +211,10 @@ const Projections = () => {
                 <GamesContainer>
           <Games>
             <GamesHeader>
-              <p className="alwaysleft gamelines">TODAY</p>
-              <p className="gamelines">SPREAD</p>
-              <p className="gamelines">TOTAL</p>
-              <p className="gamelines">MONEYLINE</p>
+                <p className="alwaysleft gamelines">TODAY</p>
+                <p className="gamelines">SPREAD</p>
+                <p className="gamelines">TOTAL</p>
+                <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
 				{data &&
 					data.map((game) => {

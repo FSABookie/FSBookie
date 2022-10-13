@@ -10,6 +10,7 @@ import { RemoveAllSelections } from "../../../redux/slices/BetSlip-slice";
 import BetSlipGame from "./BetSlipGame";
 import Parlay from "./Parlay";
 import { handleFundsThunk } from "../../../redux/slices/Funds-slice";
+import { fundsSliceActions } from "../../../redux/slices/Funds-slice";
 
 const BetSlipConntainer = styled.div`
   bottom: 0;
@@ -84,7 +85,9 @@ function BetSlip() {
           type: "s",
         })
       );
+      dispatch(fundsSliceActions.subtractFunds(totalWager));
       dispatch(submitBetsThunk(payload));
+      dispatch(RemoveAllSelections());
     }
   };
 
