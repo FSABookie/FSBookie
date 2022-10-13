@@ -228,7 +228,7 @@ function Sportsbook({ data }) {
                       href={{
                         pathname: `/sportsbook/games/[id]`,
                         query: {
-                          event: "hello",
+                          sport: data.sport,
                         },
                       }}
                       as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
