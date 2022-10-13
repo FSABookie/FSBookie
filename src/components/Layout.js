@@ -7,7 +7,7 @@ const Layout = ({ Component, pageProps }) => {
   
     return (
       <div>
-        {asPath !== "/" ? <Header /> : null}
+        {asPath === "/" || asPath === "/login/session" ? null : <Header />}
         <Component {...pageProps} />
       </div>
     );
