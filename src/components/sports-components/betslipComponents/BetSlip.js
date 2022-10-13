@@ -78,12 +78,17 @@ function BetSlip() {
     if (session.user.balance < totalWager) {
       alert("NOT ENOUGH FUNDS BROKE ASS NIGGA");
     } else {
-      dispatch(handleFundsThunk({ id: session.user.id, funds: funds - totalWager, type: "s" }));
-      dispatch(fundsSliceActions.subtractFunds(totalWager))
+      dispatch(
+        handleFundsThunk({
+          id: session.user.id,
+          funds: funds - totalWager,
+          type: "s",
+        })
+      );
+      dispatch(fundsSliceActions.subtractFunds(totalWager));
       dispatch(submitBetsThunk(payload));
-      dispatch(RemoveAllSelections())
+      dispatch(RemoveAllSelections());
     }
-
   };
 
   return (

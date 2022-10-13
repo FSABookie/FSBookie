@@ -59,7 +59,9 @@ const Games = styled.div`
 `;
 const GameCard = styled.div`
 	color: white;
-	border-top: 0.25em solid #242424;
+	border-top: 0.1em solid #242424;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
 
 	.eventCellLink {
 		width: 100%;
@@ -88,16 +90,17 @@ const GameCard = styled.div`
 	}
 
 	.team1 {
-		font-size: 1.2em;
+		font-size: 0.9em;
 		color: white;
 		margin-left: 10px;
 		text-overflow: ellipsis;
 		overflow: hidden;
 		white-space: nowrap;
 		max-width: 100px;
+		min-width: 100px;
 	}
 	.gameTime {
-		font-size: 0.25em;
+		font-size: 0.1em;
 	}
 
 	.teamInfo {
@@ -175,7 +178,6 @@ const GamesHeader = styled.div`
 	cursor: default;
 	color: #c5c5c5;
 	font-size: 0.7em;
-	border-bottom: 0.25em solid #242424;
 `;
 
 function Sportsbook({ data }) {
@@ -231,9 +233,9 @@ function Sportsbook({ data }) {
 										>
 											<div className='gameInfo'>
 												{/* <div className='eventCell'> */}
-												<span className='gameTime'>
+												<div className='gameTime'>
 													{time}
-												</span>
+												</div>
 												<div
 													className='teamInfo'
 													onClick={() =>
