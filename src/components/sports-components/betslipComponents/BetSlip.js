@@ -13,14 +13,15 @@ import { handleFundsThunk } from "../../../redux/slices/Funds-slice";
 import { fundsSliceActions } from "../../../redux/slices/Funds-slice";
 
 const BetSlipConntainer = styled.div`
-  bottom: 0;
+  bottom: -7%;
   position: sticky;
+  margin-top: 15%;
   background-color: white;
   margin-left: 0.5em;
   margin-right: 0.5em;
   border-radius: 10px;
   transition: 0.3s ease-in-out;
-  transform: ${({ open }) => (open ? "translateY(-1em)" : "translateY(-100%)")};
+  transform: ${({ open }) => (open ? "translateY(-2.85em)" : "translateY(-100%)")};
   height: ${({ open }) => (open ? "100%" : "3em")};
 `;
 
@@ -46,6 +47,7 @@ const BetSlipHeaderContainer = styled.div`
   padding-top: 0.9em;
   padding-left: 0.25em;
   padding-right: 0.25em;
+  margin-top: 10%;
 `;
 
 function BetSlip() {
