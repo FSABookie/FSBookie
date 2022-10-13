@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { submitBetsThunk } from "../../../redux/thunks/betSlip";
 import { useDispatch } from "react-redux";
 import { CgTrash } from "react-icons/cg";
 import Link from "next/link";
@@ -9,8 +8,13 @@ import { useSession } from "next-auth/react";
 import { RemoveAllSelections } from "../../../redux/slices/BetSlip-slice";
 import BetSlipGame from "./BetSlipGame";
 import Parlay from "./Parlay";
-import { handleFundsThunk } from "../../../redux/slices/Funds-slice";
-import { fundsSliceActions } from "../../../redux/slices/Funds-slice";
+import {
+  useCreateBetsMutation,
+  useCreateOrderMutation,
+  useGetUserQuery,
+  useUpdateUserFundsMutation,
+} from "../../../redux/slices/apiSlice";
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const BetSlipConntainer = styled.div`
   bottom: -7%;
@@ -21,7 +25,8 @@ const BetSlipConntainer = styled.div`
   margin-right: 0.5em;
   border-radius: 10px;
   transition: 0.3s ease-in-out;
-  transform: ${({ open }) => (open ? "translateY(-2.85em)" : "translateY(-100%)")};
+  transform: ${({ open }) =>
+    open ? "translateY(-2.85em)" : "translateY(-100%)"};
   height: ${({ open }) => (open ? "100%" : "3em")};
 `;
 
@@ -57,13 +62,21 @@ function BetSlip() {
   const [toggled, setToggled] = useState(false);
   const [totalWager, setTotalWager] = useState("");
   const { betSlip } = useSelector((state) => state.betSlip);
-  const funds = useSelector((state) => state.funds.funds);
   const { data: session, status } = useSession();
+  const { data: user, isSuccess } = useGetUserQuery(
+    status === "authenticated" ? session.user.id : skipToken
+  );
+  const [createOrder] = useCreateOrderMutation();
+  const [createBet] = useCreateBetsMutation();
+  const [updateFunds] = useUpdateUserFundsMutation();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("betslip", funds);
+    isSuccess && console.log(user);
+  }, [isSuccess, user]);
+
+  useEffect(() => {
     setTotalWager(0);
     betSlip.forEach((ele) => {
       // calculating total wager to send to store to subtract from funds on submit bet
@@ -71,25 +84,41 @@ function BetSlip() {
     });
   }, [betSlip]);
 
-  const submitBets = () => {
+  const submitBets = async () => {
     let payload = {
-      userId: session.user.id,
-      betSlip,
+      userId: user.id,
+      isParlay: false,
+      isActive: true,
     };
 
-    if (session.user.balance < totalWager) {
-      alert("NOT ENOUGH FUNDS BROKE ASS NIGGA");
-    } else {
-      dispatch(
-        handleFundsThunk({
-          id: session.user.id,
-          funds: funds - totalWager,
-          type: "s",
-        })
-      );
-      dispatch(fundsSliceActions.subtractFunds(totalWager));
-      dispatch(submitBetsThunk(payload));
-      dispatch(RemoveAllSelections());
+    if (isSuccess) {
+      if (user.balance < totalWager) {
+        alert("NOT ENOUGH FUNDS BROKE ASS");
+      } else {
+        try {
+          // first create the order for bets with createOrder mutation from apiSlice
+          let { data: order } = await createOrder(payload);
+          console.log(order);
+          // Then map through bets and create bets using createBet mutation
+          betSlip.forEach(async (bet) => {
+            // append orderId to each bet for association
+            let myBet = { ...bet, orderId: order.id };
+            // this not the real id so delete, new id will be appended through sequelize
+            delete myBet.id;
+            // create the bet
+            let { data: newBet } = await createBet(myBet);
+            // GG
+            console.log(newBet);
+          });
+
+          // update user funds after everything is successfull
+          await updateFunds({ funds: user.balance - totalWager, id: user.id });
+          // remove bets from slip
+          dispatch(RemoveAllSelections());
+        } catch (error) {
+          alert(error);
+        }
+      }
     }
   };
 
@@ -103,7 +132,11 @@ function BetSlip() {
 
       {toggled && (
         <>
-          <Funds>Your Available Funds : ${funds}</Funds>{" "}
+          {status === "authenticated" ? (
+            <Funds>Your Available Funds : ${user.balance}</Funds>
+          ) : (
+            <Funds>Log In To See Funds</Funds>
+          )}
           {/* mapping through bets and rendiner each individual slip */}
           {betSlip.map((bet, idx) => {
             return <BetSlipGame bet={bet} key={idx} />;

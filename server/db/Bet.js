@@ -30,6 +30,10 @@ const Bet = db.define("bet", {
   time: {
     type: Sequelize.STRING,
   },
+  status: {
+    type: Sequelize.ENUM("inactive", "active", "completed"),
+    defaultValue: "inactive",
+  },
 });
 
 module.exports = Bet;
