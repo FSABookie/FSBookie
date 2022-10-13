@@ -2,29 +2,50 @@ import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import React, { useRef } from "react";
 
-const OuterContainer = styled.div`
-margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-body {
-    background: linear-gradient(45deg, #8500ff, #5acaff);
-    height: 100vh;
-}
-`
-
-// const GlobalStyle = createGlobalStyle`
-//  margin: 0;
+// const OuterContainer = styled.div`
+// margin: 0;
 //     padding: 0;
 //     box-sizing: border-box;
 //     font-family: 'Poppins', sans-serif;
-//     body {
+// body {
 //     background: linear-gradient(45deg, #8500ff, #5acaff);
 //     height: 100vh;
-//  }
+// }
 // `
 
-const Container = styled.div`
+// // const GlobalStyle = createGlobalStyle`
+// //  margin: 0;
+// //     padding: 0;
+// //     box-sizing: border-box;
+// //     font-family: 'Poppins', sans-serif;
+// //     body {
+// //     background: linear-gradient(45deg, #8500ff, #5acaff);
+// //     height: 100vh;
+// //  }
+// // `
+
+// const Container = styled.div`
+//     position: absolute;
+//     /* top: 10%;
+//     left: 10%;
+//     right: 10%;
+//     bottom: 10%;
+//     border-radius: 10px; */
+//     width: 100%;
+//     height: 100%;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     background: url('/p404.png'), #151729;
+//     box-shadow: 0 15px 30px rgba(0, 0, 0, .5);
+// `
+
+const Content = styled.div`
+    margin: 0;
+    padding: 0;
+    padding-top: 20%;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
     position: absolute;
     /* top: 10%;
     left: 10%;
@@ -33,17 +54,13 @@ const Container = styled.div`
     border-radius: 10px; */
     width: 100%;
     height: 100%;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
-    background: url('p404.png'), #151729;
+    background: url('/p404.png'), #151729;
     box-shadow: 0 15px 30px rgba(0, 0, 0, .5);
-`
-
-const Content = styled.div`
-    max-width: 600px;
     text-align: center;
-    display: inline-block;
+    /* display: inline-block; */
     h2 {
         font-size: 12vw;
         color: #fff;
@@ -87,12 +104,6 @@ const Content = styled.div`
 
 export default function Error() {
     return(
-            <OuterContainer>
-            <head>
-            <title>404 Page Error</title>
-            </head>
-            <body>
-                <Container>
                 <Content>
                     <h2>404</h2>
                     <h4>Oops! Page NOT Found</h4>
@@ -101,8 +112,5 @@ export default function Error() {
                     </p>
                     <a href='/'>Back To Home</a>
                 </Content>
-                </Container>
-            </body>
-            </OuterContainer>
     )
 }
