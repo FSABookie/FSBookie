@@ -122,8 +122,14 @@ function MyBets() {
   const [updateFunds] = useUpdateUserFundsMutation();
   // initialize with skipToken to skip at first
   const [query, setQuery] = useState(skipToken);
+  const [gamesData, setGamesData] = useState([]);
   // query single game once a query Id is set
-  const { data: gameCheck } = useGetSingleGameQuery(query);
+  const { data: gameCheck, isSuccess: gameSuccess } = useGetSingleGameQuery(query);
+  if (!gamesData.includes(gameCheck)) {
+    setGamesData(currentGamesData => [...currentGamesData, gameCheck]);
+    
+  }
+  console.log(gamesData)
 
   useEffect(() => {
     gotActiveBets && console.log(usersActiveBets);
@@ -133,10 +139,10 @@ function MyBets() {
         order.bets.forEach((bet) => {
           console.log(bet);
           setQuery(bet.betId);
-          //   console.log(gameCheck);
+            
         });
       });
-  }, [gameCheck, gotActiveBets, usersActiveBets]);
+  }, [query]);
 
   return (
     <Container>
