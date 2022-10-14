@@ -1,9 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import BetSlip from "../src/components/sports-components/betslipComponents/BetSlip";
 import styled from "styled-components";
 import Link from "next/link";
-import { useGetUserQuery } from "../src/redux/slices/apiSlice";
+import {
+  useGetUserQuery,
+  useUpdateBetsMutation,
+  useUpdateOrderMutation,
+  useUpdateUserFundsMutation,
+  useGetSingleGameQuery,
+  useGetUsersActiveBetsQuery,
+} from "../src/redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { useSelector } from "react-redux";
 
@@ -77,7 +84,8 @@ const WagerHeader = styled.div`
 const TeamContainer = styled.div`
   border-style: solid;
   border-color: white;
-  border-width: 1px;
+  border-width: 0.05em;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   margin-bottom: 0.75em;
@@ -99,14 +107,36 @@ const TeamContainer = styled.div`
 
 function MyBets() {
   const { data: session, status } = useSession();
+  // Get all bets from user
   const { data, isSuccess, isLoading } = useGetUserQuery(
     status === "authenticated" ? session.user.id : skipToken
   );
+  // Get active bets only
+  const { data: usersActiveBets, isSuccess: gotActiveBets } =
+    useGetUsersActiveBetsQuery(
+      status === "authenticated" ? session.user.id : skipToken
+    );
   const { betSlip } = useSelector((state) => state.betSlip);
+  const [updateOrder] = useUpdateOrderMutation();
+  const [updateBet] = useUpdateBetsMutation();
+  const [updateFunds] = useUpdateUserFundsMutation();
+  // initialize with skipToken to skip at first
+  const [query, setQuery] = useState(skipToken);
+  // query single game once a query Id is set
+  const { data: gameCheck } = useGetSingleGameQuery(query);
 
   useEffect(() => {
-    console.log(session, data);
-  }, []);
+    gotActiveBets && console.log(usersActiveBets);
+    gotActiveBets &&
+      usersActiveBets.orders.forEach((order) => {
+        // console.log(order.bets);
+        order.bets.forEach((bet) => {
+          console.log(bet);
+          setQuery(bet.betId);
+          //   console.log(gameCheck);
+        });
+      });
+  }, [gameCheck, gotActiveBets, usersActiveBets]);
 
   return (
     <Container>
@@ -131,7 +161,6 @@ function MyBets() {
       {isSuccess &&
         data.orders.map((order) => {
           return order.bets.map((bet) => {
-            console.log(bet);
             return (
               <BetsContainer key={bet.id}>
                 <BetsContainerHeader>

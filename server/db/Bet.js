@@ -31,8 +31,8 @@ const Bet = db.define("bet", {
     type: Sequelize.STRING,
   },
   status: {
-    type: Sequelize.ENUM("inactive", "active", "completed"),
-    defaultValue: "inactive",
+    type: Sequelize.ENUM("pending", "active", "completed"),
+    defaultValue: "pending",
   },
 });
 
