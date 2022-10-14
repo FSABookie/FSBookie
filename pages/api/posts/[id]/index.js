@@ -1,12 +1,26 @@
-import { Post, Comment } from "../../../server/db";
+import { Post, Comment } from "../../../../server/db";
 
 export default async function handler(req, res) {
+    const { id } = req.query;
   if (req.method === "GET") {
     try {
-      const posts = await Post.findAll({
+      const posts = await Post.findOne({
+        where: {
+            id: id
+        },
         include: [
           {
             model: Comment,
+            include: [
+              {
+                model: Comment,
+                include: [
+                    {
+                      model: Comment,
+                    },
+                  ],
+              },
+            ],
           },
         ],
       });
