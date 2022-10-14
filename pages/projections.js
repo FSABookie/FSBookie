@@ -1,5 +1,6 @@
 import React from 'react';
 import { useGetMLBQuery } from '../src/redux/slices/apiSlice';
+import { useGetActiveBetsQuery } from '../src/redux/slices/apiSlice';
 import styled from 'styled-components';
 import Link from 'next/link';
 
@@ -181,8 +182,9 @@ const Space = styled.div`
 `;
 
 const Projections = () => {
-	const { data, error, isLoading, isSuccess, isFetching } = useGetMLBQuery();
-	console.log(data);
+	const { data: games, error, isLoading, isSuccess, isFetching } = useGetMLBQuery();
+	const { data: activeGames } = useGetActiveBetsQuery();
+	console.log(activeGames);
 
 	return (
 		<div>
@@ -216,8 +218,8 @@ const Projections = () => {
                 <p className="gamelines">TOTAL</p>
                 <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
-				{data &&
-					data.map((game) => {
+				{games &&
+					games.map((game) => {
 						let d = new Date(game.MatchTime).toDateString();
 						let t = new Date(game.MatchTime).toLocaleTimeString(
 							'en-US'
