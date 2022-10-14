@@ -90,7 +90,7 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["posts"],
     }),
-    getComments: builder.mutation({
+    getComments: builder.query({
       query: () => "/posts/comments",
       providesTags: ["comments"],
     }),
@@ -122,4 +122,11 @@ export const {
   useUpdateUserFundsMutation,
   useCreateBetsMutation,
   useCreateOrderMutation,
+  useGetPostsQuery,
+  useGetPostQuery,
+  useCreatePostMutation,
+  useDeletePostMutation,
+  useGetCommentsQuery,
+  useGetCommentMutation,
+  useDeleteCommentMutation,
 } = apiSlice;
