@@ -20,9 +20,9 @@ Post.belongsTo(User);
 Post.hasMany(Comment), {onDelete: "CASCADE"};
 //comment has many comments as replies
 //one to many
-Comment.hasMany(Comment, {foreignKey: "id"});
+Comment.hasMany(Comment);
 //comment belongs to comment
-Comment.belongsTo(Comment, {as: "reply", foreignKey: "id"});
+Comment.belongsTo(Comment, {foreignKey: "id"});
 //replies => main commentid?
 //each comment will have an array of replies**
 Comment.belongsTo(Post);
