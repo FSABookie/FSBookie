@@ -8,6 +8,7 @@ export default async function handler(req, res) {
         where: {
             id: id,
         },
+        include: Comment
       });
       console.log(comment)
       res.json(comment);
