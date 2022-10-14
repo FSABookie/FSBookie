@@ -9,7 +9,18 @@ export const apiSlice = createApi({
     // baseUrl: "https://capstone-bookie.herokuapp.com/api",
     baseUrl: "http://localhost:3000/api",
   }),
-  tagTypes: ["MLB", "NBA", "NFL", "NHL", "bets", "orders", "user"],
+  tagTypes: [
+    "MLB",
+    "NBA",
+    "NFL",
+    "NHL",
+    "bets",
+    "orders",
+    "user",
+    "game",
+    "allActiveBets",
+    "usersActiveBets",
+  ],
   endpoints: (builder) => ({
     //Fetching all sports
     getMLB: builder.query({
@@ -28,13 +39,21 @@ export const apiSlice = createApi({
       query: () => "/nfl",
       providesTags: ["NFL"],
     }),
+    getSingleGame: builder.query({
+      query: (id) => `/game/${id}`,
+      providesTags: ["game"],
+    }),
     getOrders: builder.query({
       query: () => "/orders",
       providesTags: ["orders"],
     }),
     getActiveBets: builder.query({
       query: () => "/bets/active",
-      providesTags: ["bets"],
+      providesTags: ["allActiveBets"],
+    }),
+    getUsersActiveBets: builder.query({
+      query: (id) => `/users/${id}/activeBets`,
+      providesTags: ["usersActiveBets"],
     }),
     getUser: builder.query({
       query: (id) => `/users/${id}`,
@@ -54,7 +73,15 @@ export const apiSlice = createApi({
         method: "POST",
         body: payload,
       }),
-      invalidatesTags: ["orders", "user"],
+      invalidatesTags: ["orders", "user", "usersActiveBets"],
+    }),
+    updateOrder: builder.mutation({
+      query: (payload) => ({
+        url: `/orders/${payload.id}`,
+        method: "PUT",
+        body: payload.data,
+      }),
+      invalidatesTags: ["orders", "user", "usersActiveBets"],
     }),
     createBets: builder.mutation({
       query: (payload) => ({
@@ -62,7 +89,15 @@ export const apiSlice = createApi({
         method: "POST",
         body: payload,
       }),
-      invalidatesTags: ["bets", "user"],
+      invalidatesTags: ["bets", "user", "usersActiveBets", "allActiveBets"],
+    }),
+    updateBets: builder.mutation({
+      query: (payload) => ({
+        url: `/bets/${id}`,
+        method: "PUT",
+        body: payload.data,
+      }),
+      invalidatesTags: ["bets", "user", "usersActiveBets", "allActiveBets"],
     }),
     getPosts: builder.query({
       query: () => "/posts",
@@ -89,5 +124,9 @@ export const {
   useGetUserQuery,
   useUpdateUserFundsMutation,
   useCreateBetsMutation,
+  useUpdateBetsMutation,
   useCreateOrderMutation,
+  useUpdateOrderMutation,
+  useGetSingleGameQuery,
+  useGetUsersActiveBetsQuery,
 } = apiSlice;

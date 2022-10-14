@@ -17,7 +17,7 @@ import {
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const BetSlipConntainer = styled.div`
-  bottom: -7%;
+  bottom: -5.8%;
   position: sticky;
   margin-top: 15%;
   background-color: white;
@@ -26,7 +26,7 @@ const BetSlipConntainer = styled.div`
   border-radius: 10px;
   transition: 0.3s ease-in-out;
   transform: ${({ open }) =>
-    open ? "translateY(-2.85em)" : "translateY(-100%)"};
+    open ? "translateY(-3.85em)" : "translateY(-100%)"};
   height: ${({ open }) => (open ? "100%" : "3em")};
 `;
 
@@ -132,7 +132,11 @@ function BetSlip() {
 
       {toggled && (
         <>
-          <Funds>Your Available Funds : ${user.balance}</Funds>{" "}
+          {status === "authenticated" ? (
+            <Funds>Your Available Funds : ${user.balance}</Funds>
+          ) : (
+            <Funds>Log In To See Funds</Funds>
+          )}
           {/* mapping through bets and rendiner each individual slip */}
           {betSlip.map((bet, idx) => {
             return <BetSlipGame bet={bet} key={idx} />;
