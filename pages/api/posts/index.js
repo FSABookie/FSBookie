@@ -4,7 +4,16 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
       const posts = await Post.findAll({
-        include: Comment
+        include: [
+          { 
+          model: Comment, 
+          include: [
+            {
+            model: Comment,
+          }
+        ] 
+        }
+      ]
       });
       res.json(posts);
     } catch (err) {

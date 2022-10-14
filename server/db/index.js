@@ -18,6 +18,13 @@ Bet.belongsTo(Order);
 User.hasMany(Post);
 Post.belongsTo(User);
 Post.hasMany(Comment), {onDelete: "CASCADE"};
+//comment has many comments as replies
+//one to many
+Comment.hasMany(Comment, {foreignKey: "id"});
+//comment belongs to comment
+Comment.belongsTo(Comment, {as: "reply", foreignKey: "id"});
+//replies => main commentid?
+//each comment will have an array of replies**
 Comment.belongsTo(Post);
 
 module.exports = {
