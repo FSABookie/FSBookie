@@ -269,12 +269,21 @@ function Sportsbook({ data }) {
                                   " " +
                                   ele.Odds[0].PointSpreadAway,
                                 odds: ele.Odds[0].PointSpreadAwayLine,
-                                team: ele.AwayTeam,
-                                teams: ele.AwayTeam + " @ " + ele.HomeTeam,
+                                teamToWin: "AwayTeam",
+                                oddType: "Game",
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+
                                 time: time,
                                 toWin: 0,
                                 wager: 0,
                                 betId: apiId,
+                                betType: "spread",
+                                spread: Number(ele.Odds[0].PointSpreadAway),
+                                calc:
+                                  ele.Odds[0].PointSpreadAway[0] === "-"
+                                    ? "minus"
+                                    : "plus",
                               })
                             );
                           }}
@@ -306,11 +315,14 @@ function Sportsbook({ data }) {
                                 id: betSlip.length,
                                 gameLine: "Over " + ele.Odds[0].TotalNumber,
                                 odds: ele.Odds[0].OverLine,
-                                teams: ele.AwayTeam + " @ " + ele.HomeTeam,
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                oddType: "Game",
                                 time,
                                 toWin: 0,
                                 wager: 0,
                                 betId: apiId,
+                                betType: "total",
                               })
                             );
                           }}
@@ -340,12 +352,15 @@ function Sportsbook({ data }) {
                                 id: betSlip.length,
                                 gameLine: ele.AwayTeam + " ML",
                                 odds: ele.Odds[0].MoneyLineAway,
-                                team: ele.AwayTeam,
-                                teams: ele.AwayTeam + " @ " + ele.HomeTeam,
+                                teamToWin: "AwayTeam",
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                oddType: "Game",
                                 time,
                                 toWin: 0,
                                 wager: 0,
                                 betId: apiId,
+                                betType: "ML",
                               })
                             );
                           }}
@@ -389,12 +404,20 @@ function Sportsbook({ data }) {
                                   " " +
                                   ele.Odds[0].PointSpreadHome,
                                 odds: ele.Odds[0].PointSpreadHomeLine,
-                                team: ele.HomeTeam,
-                                teams: ele.AwayTeam + " @ " + ele.HomeTeam,
+                                teamToWin: "HomeTeam",
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
                                 time,
+                                oddType: "Game",
                                 toWin: 0,
                                 wager: 0,
                                 betId: apiId,
+                                betType: "spread",
+                                spread: Number(ele.Odds[0].PointSpreadHome),
+                                calc:
+                                  ele.Odds[0].PointSpreadHome[0] === "-"
+                                    ? "minus"
+                                    : "plus",
                               })
                             );
                           }}
@@ -426,11 +449,14 @@ function Sportsbook({ data }) {
                                 id: betSlip.length,
                                 gameLine: "Under " + ele.Odds[0].TotalNumber,
                                 odds: ele.Odds[0].UnderLine,
-                                teams: ele.AwayTeam + " @ " + ele.HomeTeam,
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                oddType: "Game",
                                 time,
                                 toWin: 0,
                                 wager: 0,
                                 betId: apiId,
+                                betType: "total",
                               })
                             );
                           }}
@@ -461,11 +487,15 @@ function Sportsbook({ data }) {
                                 gameLine: ele.HomeTeam + " ML",
                                 odds: ele.Odds[0].MoneyLineHome,
                                 team: ele.HomeTeam,
-                                teams: ele.AwayTeam + " @ " + ele.HomeTeam,
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                teamToWin: "HomeTeam",
+                                oddType: "Game",
                                 time,
                                 toWin: 0,
                                 wager: 0,
                                 betId: apiId,
+                                betType: "ML",
                               })
                             );
                           }}
