@@ -171,15 +171,18 @@ function MyBets() {
     });
   }, [gotActiveBets, dispatch]);
 
+  console.log(filter);
+
+
   return (
     <Container>
       <div className="title">MY BETS</div>
       <SportsHeader>
-        <div className="filtered">All</div>
+        <div className="filtered" onClick={() => setF("all")}>All</div>
 
-        <div className="filtered">Open</div>
+        <div className="filtered" onClick={() => setF("active")}>Open</div>
 
-        <div className="filtered" onClick={() => setF("w")}>
+        <div className="filtered" onClick={() => setF("completed")}>
           Settled
         </div>
 
@@ -193,8 +196,10 @@ function MyBets() {
       </SportsHeader>
       {isSuccess &&
         user.orders.map((order) => {
-          return order.bets
-            .filter((bet) => bet.result === filter)
+          // console.log(order.bets.forEach((bet) => {console.log(bet.status == 'completed')}))  
+          return (filter === "won" || "lost" ?
+           (order.bets.filter((bet) => bet.result === filter)) :
+           (order.bets.filter((bet) => bet.status == 'completed')))
             .map((bet) => {
               return (
                 <BetsContainer key={bet.id}>
