@@ -8,11 +8,12 @@ import {
   useUpdateBetsMutation,
   useUpdateOrderMutation,
   useUpdateUserFundsMutation,
-  useGetSingleGameQuery,
   useGetUsersActiveBetsQuery,
 } from "../src/redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { checkBetsThunk } from "../src/redux/thunks/checkBets";
+import { determineWinnerThunk } from "../src/redux/thunks/determineWinner";
 
 const Container = styled.div`
   padding: 5%;
@@ -108,9 +109,11 @@ const TeamContainer = styled.div`
 function MyBets() {
   const { data: session, status } = useSession();
   // Get all bets from user
-  const { data, isSuccess, isLoading } = useGetUserQuery(
-    status === "authenticated" ? session.user.id : skipToken
-  );
+  const {
+    data: user,
+    isSuccess,
+    isLoading,
+  } = useGetUserQuery(status === "authenticated" ? session.user.id : skipToken);
   // Get active bets only
   const { data: usersActiveBets, isSuccess: gotActiveBets } =
     useGetUsersActiveBetsQuery(
@@ -120,23 +123,53 @@ function MyBets() {
   const [updateOrder] = useUpdateOrderMutation();
   const [updateBet] = useUpdateBetsMutation();
   const [updateFunds] = useUpdateUserFundsMutation();
-  // initialize with skipToken to skip at first
-  const [query, setQuery] = useState(skipToken);
-  // query single game once a query Id is set
-  const { data: gameCheck } = useGetSingleGameQuery(query);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    // if we are able to successfully get users active bets
     gotActiveBets && console.log(usersActiveBets);
-    gotActiveBets &&
-      usersActiveBets.orders.forEach((order) => {
-        // console.log(order.bets);
-        order.bets.forEach((bet) => {
-          console.log(bet);
-          setQuery(bet.betId);
-          //   console.log(gameCheck);
-        });
+    // map through orders
+    usersActiveBets?.orders.forEach((order) => {
+      // map through bets
+      order.bets.forEach(async (bet) => {
+        // fetch the api result for each active bet
+        const { payload } = await dispatch(checkBetsThunk(bet.betId));
+        // get the correct odd type we need (i.e, fullGame, halfTime, firstQ)
+        let game = payload.filter((odds) => odds.OddType === "Game")[0];
+        //dispatch data
+        const data = await dispatch(
+          determineWinnerThunk({ bet: bet, api: game })
+        );
+        // if the bet won, settle users funds
+
+        if (data.payload === "won") {
+          let payload = {
+            isActive: false,
+            status: "completed",
+            result: "won",
+          };
+          let { data } = await updateBet({ id: bet.id, payload });
+          console.log(data);
+          await updateFunds({
+            funds: user.balance + bet.toWin,
+            id: user.id,
+          });
+        }
+
+        // IF THE BET LOSES
+        if (data.payload === "lost") {
+          let payload = {
+            isActive: false,
+            status: "completed",
+            result: "lost",
+          };
+          let { data } = await updateBet({ id: bet.id, payload });
+          console.log(data);
+        }
       });
-  }, [gameCheck, gotActiveBets, usersActiveBets]);
+    });
+  }, [gotActiveBets, dispatch]);
 
   return (
     <Container>
@@ -159,20 +192,23 @@ function MyBets() {
         </Link>
       </SportsHeader>
       {isSuccess &&
-        data.orders.map((order) => {
+        user.orders.map((order) => {
           return order.bets.map((bet) => {
             return (
               <BetsContainer key={bet.id}>
                 <BetsContainerHeader>
-                  <div>{bet.gameLine + " " + bet.odds}</div>
+                  <div>
+                    {bet.gameLine + " "}
+                    {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
+                  </div>
                   <div>{bet.status}</div>
                 </BetsContainerHeader>
                 <WagerHeader>
                   Wager: ${bet.wager} To Pay: ${bet.toWin}
                 </WagerHeader>
                 <TeamContainer>
-                  <div>{bet.teams.split("@")[0]}</div>
-                  <div>{bet.teams.split("@")[1]}</div>
+                  <div>{bet.homeTeam}</div>
+                  <div>{bet.awayTeam}</div>
                   {bet.time}
                 </TeamContainer>
                 {bet.createdAt}
