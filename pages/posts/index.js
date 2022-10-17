@@ -10,7 +10,7 @@ import {
 } from "../../src/redux/slices/apiSlice";
 
 const Content = styled.div`
-height: 100vh;
+height: 160vh;
 background-color: white;
 /* I was thinking we can Have a cool background image for our Forums Page! */
 background: url('/p404.png'), grey;
@@ -32,7 +32,6 @@ function Posts() {
         return (
           <ul>
           <li className='row'>
-            {/* I will put '/posts/${post.id}' here once the Single Post View is Up */}
               <Link href={{pathname: `/posts/${post.id}`, query: {id: post.id}}}>
                 <h4>
                   {post.title}

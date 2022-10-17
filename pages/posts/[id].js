@@ -26,13 +26,26 @@ export async function getServerSideProps(context) {
 
 function SinglePost(props) {
 
-useEffect(() => {
-    console.log(props)
-},[])
-
     return (
         <Content>
-       <div>Hello</div>
+        <Link href='/posts'>Click Here to go BACK to Posts!</Link>
+       <h2>{props.post.title}</h2>
+       <p>{props.post.body}</p>
+       <p>Likes: {props.post.likes} <br></br>
+        Created At: {props.post.createdAt}</p>
+        By: {props.post.username}<br></br>
+        <ul>
+            {props.post.comments.map((comment) => {
+                return (
+                <li>
+                <div>
+                <h4>{comment.userId}</h4>
+                <p>{comment.body}</p>
+                </div>
+                </li>
+                );
+            })}
+        </ul>
        </Content>
     );
 }
