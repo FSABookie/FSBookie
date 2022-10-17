@@ -108,7 +108,7 @@ export const apiSlice = createApi({
         url: `/posts/${id}`,
         method: "GET",
       }),
-      providesTags: ["posts"]
+      providesTags: ["posts"],
     }),
     createPost: builder.mutation({
       query: (payload) => ({
@@ -154,7 +154,9 @@ export const {
   useGetNFLQuery,
   useGetActiveBetsQuery,
   useGetUserQuery,
+  useGetUsersActiveBetsQuery,
   useUpdateUserFundsMutation,
+  useUpdateOrderMutation,
   useCreateBetsMutation,
   useUpdateBetsMutation,
   useCreateOrderMutation,

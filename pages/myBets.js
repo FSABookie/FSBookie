@@ -36,7 +36,7 @@ const SportsHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   gap: 1%;
-  a {
+  div {
     position: relative;
     text-decoration: none;
     box-sizing: border-box;
@@ -107,6 +107,7 @@ const TeamContainer = styled.div`
 // COMPONENT STARTS HERE
 
 function MyBets() {
+  const [filter, setF] = useState("all");
   const { data: session, status } = useSession();
   // Get all bets from user
   const {
@@ -127,8 +128,9 @@ function MyBets() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(user);
     // if we are able to successfully get users active bets
-    gotActiveBets && console.log(usersActiveBets);
+    gotActiveBets && console.log("active bets", usersActiveBets);
     // map through orders
     usersActiveBets?.orders.forEach((order) => {
       // map through bets
@@ -150,7 +152,6 @@ function MyBets() {
             result: "won",
           };
           let { data } = await updateBet({ id: bet.id, payload });
-          console.log(data);
           await updateFunds({
             funds: user.balance + bet.toWin,
             id: user.id,
@@ -165,7 +166,6 @@ function MyBets() {
             result: "lost",
           };
           let { data } = await updateBet({ id: bet.id, payload });
-          console.log(data);
         }
       });
     });
@@ -175,46 +175,48 @@ function MyBets() {
     <Container>
       <div className="title">MY BETS</div>
       <SportsHeader>
-        <Link href="/sportsbook/NFL">
-          <a>All</a>
-        </Link>
-        <Link href="/sportsbook/NBA">
-          <a>Open</a>
-        </Link>
-        <Link href="/sportsbook/NHL">
-          <a>Settled</a>
-        </Link>
-        <Link href="/sportsbook/MLB">
-          <a>Won</a>
-        </Link>
-        <Link href="/sportsbook/MLB">
-          <a>Lost</a>
-        </Link>
+        <div className="filtered">All</div>
+
+        <div className="filtered">Open</div>
+
+        <div className="filtered" onClick={() => setF("w")}>
+          Settled
+        </div>
+
+        <div className="filtered" onClick={() => setF("won")}>
+          Won
+        </div>
+
+        <div className="filtered" onClick={() => setF("lost")}>
+          Lost
+        </div>
       </SportsHeader>
       {isSuccess &&
         user.orders.map((order) => {
-          return order.bets.map((bet) => {
-            return (
-              <BetsContainer key={bet.id}>
-                <BetsContainerHeader>
-                  <div>
-                    {bet.gameLine + " "}
-                    {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
-                  </div>
-                  <div>{bet.status}</div>
-                </BetsContainerHeader>
-                <WagerHeader>
-                  Wager: ${bet.wager} To Pay: ${bet.toWin}
-                </WagerHeader>
-                <TeamContainer>
-                  <div>{bet.homeTeam}</div>
-                  <div>{bet.awayTeam}</div>
-                  {bet.time}
-                </TeamContainer>
-                {bet.createdAt}
-              </BetsContainer>
-            );
-          });
+          return order.bets
+            .filter((bet) => bet.result === filter)
+            .map((bet) => {
+              return (
+                <BetsContainer key={bet.id}>
+                  <BetsContainerHeader>
+                    <div>
+                      {bet.gameLine + " "}
+                      {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
+                    </div>
+                    <div>{bet.status}</div>
+                  </BetsContainerHeader>
+                  <WagerHeader>
+                    Wager: ${bet.wager} To Pay: ${bet.toWin}
+                  </WagerHeader>
+                  <TeamContainer>
+                    <div>{bet.homeTeam}</div>
+                    <div>{bet.awayTeam}</div>
+                    {bet.time}
+                  </TeamContainer>
+                  {bet.createdAt}
+                </BetsContainer>
+              );
+            });
         })}
       {betSlip.length > 0 && <BetSlip />}
     </Container>
