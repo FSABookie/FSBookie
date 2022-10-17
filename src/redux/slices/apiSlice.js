@@ -103,6 +103,13 @@ export const apiSlice = createApi({
       query: () => "/posts",
       providesTags: ["posts"],
     }),
+    getPost: builder.query({
+      query: (id) => ({
+        url: `/posts/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["posts"]
+    }),
     createPost: builder.mutation({
       query: (payload) => ({
         url: "/posts",
@@ -110,6 +117,31 @@ export const apiSlice = createApi({
         body: payload,
       }),
       invalidatesTags: ["posts"],
+    }),
+    deletePost: builder.mutation({
+      query: (id) => ({
+        url: `/posts/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["posts"],
+    }),
+    getComments: builder.query({
+      query: () => "/posts/comments",
+      providesTags: ["comments"],
+    }),
+    getComment: builder.mutation({
+      query: (id) => ({
+        url: `"/posts/comments/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["comments"],
+    }),
+    deleteComment: builder.mutation({
+      query: (id) => ({
+        url: `/posts/comments/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["comments"],
     }),
   }),
 });
@@ -126,7 +158,11 @@ export const {
   useCreateBetsMutation,
   useUpdateBetsMutation,
   useCreateOrderMutation,
-  useUpdateOrderMutation,
-  useGetSingleGameQuery,
-  useGetUsersActiveBetsQuery,
+  useGetPostsQuery,
+  useGetPostQuery,
+  useCreatePostMutation,
+  useDeletePostMutation,
+  useGetCommentsQuery,
+  useGetCommentMutation,
+  useDeleteCommentMutation,
 } = apiSlice;

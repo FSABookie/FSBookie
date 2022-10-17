@@ -1,16 +1,10 @@
-import { Post, Comment } from "../../../server/db";
+import { Comment } from "../../../../server/db";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
-      const posts = await Post.findAll({
-        include: [
-          {
-            model: Comment,
-          },
-        ],
-      });
-      res.json(posts);
+      const comments = await Comment.findAll();
+      res.json(comments);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -18,13 +12,11 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const post = await Post.create(req.body);
-      res.status(201).json(post);
+      const comment = await Comment.create(req.body);
+      res.status(201).json(comment);
     }
     catch (err) {
       res.status(500).json({ error: err.message });
     }
   }
 }
-
-  

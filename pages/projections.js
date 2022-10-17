@@ -1,7 +1,9 @@
 import React from 'react';
-import { useGetMLBQuery } from '../src/redux/slices/apiSlice';
+import { useGetMLBQuery, useGetNFLQuery } from '../src/redux/slices/apiSlice';
+import { useGetActiveBetsQuery } from '../src/redux/slices/apiSlice';
 import styled from 'styled-components';
 import Link from 'next/link';
+import ProgressBar from '../src/components/ProgressBar';
 
 const SportsContainer = styled.div`
 	width: 100%;
@@ -181,8 +183,22 @@ const Space = styled.div`
 `;
 
 const Projections = () => {
-	const { data, error, isLoading, isSuccess, isFetching } = useGetMLBQuery();
-	console.log(data);
+	const { data: games, error, isLoading, isSuccess, isFetching } = useGetNFLQuery();
+	const { data: activeGames, isLoading: betsLoading } = useGetActiveBetsQuery();
+	console.log(activeGames);
+	let bets = {};
+	!betsLoading && activeGames.forEach(bet => {
+		if (Object.keys(bets).includes(bet.betId)) {
+			if (!Object.keys(bets[bet.betId]).includes(bet.gameLine)) {
+				bets[bet.betId][bet.gameLine] = 1;
+			} else {
+				bets[bet.betId][bet.gameLine] += 1;
+			}
+		} else {
+			bets[bet.betId] = {[bet.gameLine]: 1};
+		}
+	});
+	console.log(bets);
 
 	return (
 		<div>
@@ -216,8 +232,8 @@ const Projections = () => {
                 <p className="gamelines">TOTAL</p>
                 <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
-				{data &&
-					data.map((game) => {
+				{games &&
+					games.map((game) => {
 						let d = new Date(game.MatchTime).toDateString();
 						let t = new Date(game.MatchTime).toLocaleTimeString(
 							'en-US'
@@ -225,6 +241,7 @@ const Projections = () => {
 						// MUST FIX THE TIME
 						let time = d + ' ' + t;
 						let apiId = game.ID;
+						// console.log(apiId);
 						return (
 							<GameCard key={apiId}>
 								<TableRow>
@@ -269,6 +286,9 @@ const Projections = () => {
 														: '+' +
 														  game.Odds[0]
 																.PointSpreadAwayLine}
+												</div>
+												<div className='lineTrend'>
+													{typeof (bets[apiId]) !== 'undefined' && bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway]}
 												</div>
 											</div>
 										)}
@@ -315,6 +335,16 @@ const Projections = () => {
 														  game.Odds[0]
 																.MoneyLineAway}
 												</div>
+												{/* <div className='lineTrend'>
+													{typeof (bets[apiId]) !== 'undefined' && bets[apiId][game.AwayTeam + " ML"]}
+												</div> */}
+												<div className='lineTrend'>
+													{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.AwayTeam + " ML"] / (bets[apiId][game.AwayTeam + " ML"] + bets[apiId][game.HomeTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)}
+												</div>
+												{/* <div className='lineTrend'>
+													{typeof bets[apiId] !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.HomeTeam + " ML"] / (bets[apiId][game.HomeTeam + " ML"] + bets[apiId][game.AwayTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)}
+												</div> */}
+												{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.AwayTeam + " ML"] / (bets[apiId][game.AwayTeam + " ML"] + bets[apiId][game.HomeTeam + " ML"]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)}
 											</div>
 										)}
 									</div>
@@ -407,6 +437,13 @@ const Projections = () => {
 														  game.Odds[0]
 																.MoneyLineHome}
 												</div>
+												{/* <div className='lineTrend'>
+													{typeof (bets[apiId]) !== 'undefined' && bets[apiId][game.HomeTeam + " ML"]}
+												</div> */}
+												<div className='lineTrend'>
+													{typeof bets[apiId] !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.HomeTeam + " ML"] / (bets[apiId][game.HomeTeam + " ML"] + bets[apiId][game.AwayTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)}
+												</div>
+												{typeof bets[apiId] !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.HomeTeam + " ML"] / (bets[apiId][game.HomeTeam + " ML"] + bets[apiId][game.AwayTeam + " ML"]) * 100)}`} /> : <ProgressBar completed={100} /> : <ProgressBar completed={0} />)}
 											</div>
 										)}
 									</div>

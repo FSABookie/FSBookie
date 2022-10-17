@@ -42,7 +42,9 @@ const SportsHeader = styled.div`
     transition: all 0.16s ease;
   }
 `;
-const GamesContainer = styled.div``;
+const GamesContainer = styled.div`
+height: 100%;
+`;
 const Games = styled.div`
   display: flex;
   flex-direction: column;

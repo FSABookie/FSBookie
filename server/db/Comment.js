@@ -5,6 +5,12 @@ const Comment = db.define('comment', {
     postId: {
         type: Sequelize.INTEGER
     },
+    commentId: {
+        type: Sequelize.INTEGER,
+    },
+    isParent: {
+        type: Sequelize.BOOLEAN,
+    },
     userId: {
         type: Sequelize.INTEGER
     },
@@ -13,7 +19,8 @@ const Comment = db.define('comment', {
     },
     likes: {
         type: Sequelize.INTEGER
-    }
+    },
+
 });
 
 module.exports = Comment;
