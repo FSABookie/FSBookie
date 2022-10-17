@@ -14,6 +14,14 @@ import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { useDispatch, useSelector } from "react-redux";
 import { checkBetsThunk } from "../src/redux/thunks/checkBets";
 import { determineWinnerThunk } from "../src/redux/thunks/determineWinner";
+import {
+  getAllBets,
+  getBets,
+  getCompletedBets,
+  getLostBets,
+  getOpenBets,
+  getWonBets,
+} from "../src/redux/slices/usersBets-slice";
 
 const Container = styled.div`
   padding: 5%;
@@ -121,6 +129,7 @@ function MyBets() {
       status === "authenticated" ? session.user.id : skipToken
     );
   const { betSlip } = useSelector((state) => state.betSlip);
+  const { usersBets, filteredBets } = useSelector((state) => state.usersBets);
   const [updateOrder] = useUpdateOrderMutation();
   const [updateBet] = useUpdateBetsMutation();
   const [updateFunds] = useUpdateUserFundsMutation();
@@ -128,7 +137,13 @@ function MyBets() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(user);
+    user &&
+      user.orders.forEach((order) =>
+        order.bets.forEach((bet) => dispatch(getBets(bet)))
+      );
+  }, [dispatch, user]);
+
+  useEffect(() => {
     // if we are able to successfully get users active bets
     gotActiveBets && console.log("active bets", usersActiveBets);
     // map through orders
@@ -137,6 +152,7 @@ function MyBets() {
       order.bets.forEach(async (bet) => {
         // fetch the api result for each active bet
         const { payload } = await dispatch(checkBetsThunk(bet.betId));
+        console.log(payload);
         // get the correct odd type we need (i.e, fullGame, halfTime, firstQ)
         let game = payload.filter((odds) => odds.OddType === "Game")[0];
         //dispatch data
@@ -151,7 +167,7 @@ function MyBets() {
             status: "completed",
             result: "won",
           };
-          let { data } = await updateBet({ id: bet.id, payload });
+          await updateBet({ id: bet.id, payload });
           await updateFunds({
             funds: user.balance + bet.toWin,
             id: user.id,
@@ -165,7 +181,7 @@ function MyBets() {
             status: "completed",
             result: "lost",
           };
-          let { data } = await updateBet({ id: bet.id, payload });
+          await updateBet({ id: bet.id, payload });
         }
       });
     });
@@ -175,48 +191,49 @@ function MyBets() {
     <Container>
       <div className="title">MY BETS</div>
       <SportsHeader>
-        <div className="filtered">All</div>
+        <div className="filtered" onClick={() => dispatch(getAllBets())}>
+          All
+        </div>
 
-        <div className="filtered">Open</div>
+        <div className="filtered" onClick={() => dispatch(getOpenBets())}>
+          Open
+        </div>
 
-        <div className="filtered" onClick={() => setF("w")}>
+        <div className="filtered" onClick={() => dispatch(getCompletedBets())}>
           Settled
         </div>
 
-        <div className="filtered" onClick={() => setF("won")}>
+        <div className="filtered" onClick={() => dispatch(getWonBets())}>
           Won
         </div>
 
-        <div className="filtered" onClick={() => setF("lost")}>
+        <div className="filtered" onClick={() => dispatch(getLostBets())}>
           Lost
         </div>
       </SportsHeader>
-      {isSuccess &&
-        user.orders.map((order) => {
-          return order.bets
-            .filter((bet) => bet.result === filter)
-            .map((bet) => {
-              return (
-                <BetsContainer key={bet.id}>
-                  <BetsContainerHeader>
-                    <div>
-                      {bet.gameLine + " "}
-                      {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
-                    </div>
-                    <div>{bet.status}</div>
-                  </BetsContainerHeader>
-                  <WagerHeader>
-                    Wager: ${bet.wager} To Pay: ${bet.toWin}
-                  </WagerHeader>
-                  <TeamContainer>
-                    <div>{bet.homeTeam}</div>
-                    <div>{bet.awayTeam}</div>
-                    {bet.time}
-                  </TeamContainer>
-                  {bet.createdAt}
-                </BetsContainer>
-              );
-            });
+      {filteredBets &&
+        filteredBets.map((bet) => {
+          console.log(bet);
+          return (
+            <BetsContainer key={bet.id}>
+              <BetsContainerHeader>
+                <div>
+                  {bet.gameLine + " "}
+                  {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
+                </div>
+                <div>{bet.status}</div>
+              </BetsContainerHeader>
+              <WagerHeader>
+                Wager: ${bet.wager} To Pay: ${bet.toWin}
+              </WagerHeader>
+              <TeamContainer>
+                <div>{bet.homeTeam}</div>
+                <div>{bet.awayTeam}</div>
+                {bet.time}
+              </TeamContainer>
+              {bet.createdAt}
+            </BetsContainer>
+          );
         })}
       {betSlip.length > 0 && <BetSlip />}
     </Container>
