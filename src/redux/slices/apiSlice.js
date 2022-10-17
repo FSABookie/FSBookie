@@ -20,6 +20,8 @@ export const apiSlice = createApi({
     "game",
     "allActiveBets",
     "usersActiveBets",
+    "posts",
+    "comments",
   ],
   endpoints: (builder) => ({
     //Fetching all sports

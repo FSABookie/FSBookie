@@ -14,6 +14,9 @@ const Post = db.define('post', {
     },
     likes: {
         type: Sequelize.INTEGER
+    },
+    username: {
+        type: Sequelize.STRING
     }
 });
 
