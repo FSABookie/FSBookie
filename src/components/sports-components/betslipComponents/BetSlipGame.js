@@ -67,12 +67,21 @@ function BetSlipGame({ bet }) {
             color="red"
             onClick={() => dispatch(RemoveFromBetSlip(bet.id))}
           />
-          <Team>{bet.teams}</Team>
+          <Team>
+            {bet.awayTeam} @ {bet.homeTeam}
+          </Team>
         </Eh>
-        <Odds>{String(bet.odds)[0] === "-" ? bet.odds : "+" + bet.odds}</Odds>
+        <Odds>{String(bet.odds)[0] === "-" ? bet.odds : "+" + bet.odds} </Odds>
       </TopRow>
 
-      <MatchUp>{bet.gameLine && bet.gameLine}</MatchUp>
+      <MatchUp>
+        {bet.oddType === "FirstHalf" && "1H"}
+        {bet.oddType === "SecondHalf" && "2H"}
+        {bet.oddType === "FirstQuarter" && "1Q"}
+        {bet.oddType === "SecondQuarter" && "2Q"}
+        {bet.oddType === "ThirdQuarter" && "3Q"}
+        {bet.oddType === "FourthQuarter" && "4Q"} {bet.gameLine && bet.gameLine}
+      </MatchUp>
       <Time>{bet.time}</Time>
       {/* INPUT WAGER COMPONENT */}
       <WagerField
