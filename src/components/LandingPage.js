@@ -131,7 +131,9 @@ function LandingPage() {
             <div className="sportbook">Sportsbook</div>
           </Link>
           <div className="projections">Projections</div>
+          <Link href="/posts">
           <div className="forum">Forum</div>
+          </Link>
         </Headerfoot>
       </Headercontainer>
       <Welcomemsg>

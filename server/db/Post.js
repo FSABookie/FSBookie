@@ -13,7 +13,11 @@ const Post = db.define('post', {
         type: Sequelize.TEXT
     },
     likes: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+    },
+    username: {
+        type: Sequelize.STRING
     }
 });
 

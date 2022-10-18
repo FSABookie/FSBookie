@@ -6,6 +6,8 @@ const users = [
     lastName: "Doe",
     isAdmin: false,
     balance: 100,
+    username: 'jonnyboi'
+    
   },
   {
     email: "byoon@gmail.com",
@@ -14,6 +16,7 @@ const users = [
     lastName: "Yoon",
     isAdmin: true,
     balance: 1000000,
+    username: 'byoonster'
   },
   {
     email: "dannyjmargolin@gmail.com",
