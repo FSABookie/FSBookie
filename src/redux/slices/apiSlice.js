@@ -20,6 +20,8 @@ export const apiSlice = createApi({
     "game",
     "allActiveBets",
     "usersActiveBets",
+    "posts",
+    "comments",
   ],
   endpoints: (builder) => ({
     //Fetching all sports
@@ -125,16 +127,23 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["posts"],
     }),
-    getComments: builder.query({
-      query: () => "/posts/comments",
-      providesTags: ["comments"],
-    }),
-    getComment: builder.mutation({
-      query: (id) => ({
-        url: `"/posts/comments/${id}`,
-        method: "GET",
+    // getComments: builder.query({
+    //   query: () => "/posts/comments",
+    //   providesTags: ["comments"],
+    // }),
+    // getComment: builder.mutation({
+    //   query: (id) => ({
+    //     url: `/posts/comments/${id}`,
+    //     method: "GET",
+    //   }),
+    //   providesTags: ["comments"],
+    // }),
+    createComment: builder.mutation({
+      query: () => ({
+        url: `/posts/comments`,
+        method: "POST",
       }),
-      providesTags: ["comments"],
+      providesTags: ["comments"]
     }),
     deleteComment: builder.mutation({
       query: (id) => ({
@@ -164,6 +173,7 @@ export const {
   useGetPostQuery,
   useCreatePostMutation,
   useDeletePostMutation,
+  useCreateCommentMutation,
   useGetCommentsQuery,
   useGetCommentMutation,
   useDeleteCommentMutation,
