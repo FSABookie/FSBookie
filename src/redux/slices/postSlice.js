@@ -8,7 +8,8 @@ const postSlice = createSlice({
   reducers: {
     selectId: (state, action) => {
         console.log(action.payload)
-      state.postId = action.payload
+        state.postId = null;
+        state.postId = action.payload;
     },
   },
 });

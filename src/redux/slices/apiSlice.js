@@ -145,7 +145,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: payload,
       }),
-      invalidatesTags: ["posts", "comments"]
+      invalidatesTags: ["posts", "post", "comments"]
     }),
     deleteComment: builder.mutation({
       query: (id) => ({

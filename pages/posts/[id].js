@@ -29,7 +29,7 @@ function SinglePost(props) {
   const [CreateComment] = useCreateCommentMutation();
   const bodyRef = useRef();
   const router = useRouter();
-  const { postId } = useSelector((state) => state.postId);
+  const { postId } = useSelector((state) => state.persistedId);
   const { data: post, isSuccess } = useGetPostQuery(
     postId ? postId : skipToken
   );
@@ -50,10 +50,7 @@ function SinglePost(props) {
       body: bodyRef.current.value,
     };
     try {
-      const comment = CreateComment(payload);
-      if (comment) {
-        router.push(`/posts/${post.id}`);
-      }
+      await CreateComment(payload);
     } catch (err) {
       console.log("Failed to Post!");
       console.error(err);
