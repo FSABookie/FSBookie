@@ -152,9 +152,9 @@ function MyBets() {
       order.bets.forEach(async (bet) => {
         // fetch the api result for each active bet
         const { payload } = await dispatch(checkBetsThunk(bet.betId));
-        console.log(payload);
         // get the correct odd type we need (i.e, fullGame, halfTime, firstQ)
         let game = payload.filter((odds) => odds.OddType === "Game")[0];
+        if (game?.FinalType === "NotFinished") return;
         //dispatch data
         const data = await dispatch(
           determineWinnerThunk({ bet: bet, api: game })

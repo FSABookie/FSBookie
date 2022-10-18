@@ -10,23 +10,28 @@ const usersBetSlice = createSlice({
     getBets: (state, action) => {
       state.usersBets.push(action.payload);
     },
-    getAllBets: (state, action) => {
+    getAllBets: (state) => {
+      state.filteredBets = null;
       state.filteredBets = state.usersBets;
     },
     getLostBets: (state) => {
+      state.filteredBets = null;
       state.filteredBets = [
         ...state.usersBets.filter((bet) => bet.result === "lost"),
       ];
     },
     getWonBets: (state) => {
+      state.filteredBets = null;
       state.filteredBets = [
         ...state.usersBets.filter((bet) => bet.result === "won"),
       ];
     },
     getOpenBets: (state) => {
+      state.filteredBets = null;
       state.filteredBets = [...state.usersBets.filter((bet) => bet.isActive)];
     },
     getCompletedBets: (state) => {
+      state.filteredBets = null;
       state.filteredBets = [
         ...state.usersBets.filter((bet) => bet.status === "completed"),
       ];
