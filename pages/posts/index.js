@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 import {
   useGetPostsQuery,
   useGetPostQuery,
@@ -8,7 +9,8 @@ import {
   useCreatePostMutation,
   useDeletePostMutation,
 } from "../../src/redux/slices/apiSlice";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import { selectId } from "../../src/redux/slices/postSlice";
+//import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 const Content = styled.div`
 height: 100%;
@@ -68,6 +70,7 @@ background: url('/p404.png'), #D5D3D3;
 
 function Posts() {
   const { data: posts } = useGetPostsQuery();
+  const dispatch = useDispatch();
   // IDK if we should do getSingleUserQuery like here or create another APIslice to get all Users
   // and then just plug in the ID given from post.userId
 
@@ -83,7 +86,7 @@ function Posts() {
           <ul className="postList">
           <li className='row'>
               <Link href={{pathname: `/posts/${post.id}`, query: {id: post.id}}}>
-                <h4 className="postTitle">
+              <h4 onClick={() => dispatch(selectId(post.id))}>
                   {post.title}
                 </h4>
               </Link>
@@ -91,7 +94,8 @@ function Posts() {
                 <div className="postDetail">
                Posted by: {post.username} {post.createdAt}<br></br> </div>
                <div className="postDetail">
-               <ThumbUpIcon fontSize="small"/> {post.likes} <br></br></div>
+               {/* <ThumbUpIcon fontSize="small"/> {post.likes} <br></br> */}
+               </div>
                {/* <div className="postDetail">
               Created At: {post.createdAt}<br></br></div> */}
               {post.comments.length} comments
