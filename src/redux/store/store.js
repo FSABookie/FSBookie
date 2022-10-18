@@ -7,6 +7,7 @@ import userSlice from "../slices/user-slice";
 import gameSlice from "../slices/game-slice";
 import usersBetSlice from "../slices/usersBets-slice";
 import storage from "redux-persist/lib/storage";
+import postSlice from "../slices/postSlice";
 import {
   persistStore,
   persistReducer,
@@ -30,6 +31,7 @@ const persistConfig = {
 };
 
 const persistedGame = persistReducer(persistConfig, gameSlice.reducer);
+const persistedId = persistReducer(persistConfig, postSlice.reducer);
 
 export const store = configureStore({
   reducer: {
@@ -39,6 +41,7 @@ export const store = configureStore({
     // funds: fundsSlice.reducer,
     persistedGame,
     usersBets: usersBetSlice.reducer,
+    persistedId, 
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
