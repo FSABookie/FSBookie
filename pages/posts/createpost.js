@@ -30,12 +30,7 @@ async function handleSubmit(e) {
       title: titleRef.current.value,
       body: bodyRef.current.value
     };
-
     try {
-      // setError("");
-      // setLoading(true);
-      // await login(credentials);
-      console.log(payload);
       const post = CreatePost(payload);
       if (post) {
         router.push('/posts');

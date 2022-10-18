@@ -264,7 +264,7 @@ function Header() {
                 <Link href="/sportsbook">Home</Link>
                 <Link href="/myBets">My Bets</Link>
                 <Link href="#">How To Bet</Link>
-                <Link href="#">Forum</Link>
+                <Link href="/posts">Forum</Link>
                 <Link href="#">Projections</Link>
               </Menu>
 
@@ -301,7 +301,7 @@ function Header() {
                 <Link href="/sportsbook">Home</Link>
                 <Link href="/myBets">My Bets</Link>
                 <Link href="/">How To Bet</Link>
-                <Link href="/forums">Forum</Link>
+                <Link href="/posts">Forum</Link>
                 <Link href="/">Projections</Link>
               </Menu>
 
