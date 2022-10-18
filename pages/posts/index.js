@@ -83,7 +83,7 @@ function Posts() {
     </Link> */}
     {posts?.length && posts.map((post) => {
         return (
-          <ul className="postList">
+          <ul key={post.id} className="postList">
           <li className='row'>
               <Link href={{pathname: `/posts/${post.id}`, query: {id: post.id}}}>
               <h4 onClick={() => dispatch(selectId(post.id))}>
