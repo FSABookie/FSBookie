@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import React, { useRef } from "react";
+import Link from "next/link";
 
 // const OuterContainer = styled.div`
 // margin: 0;
@@ -110,7 +111,7 @@ export default function Error() {
                     <p>The page you were looking for doesn&apos;t exist. You may have mistyped
                     the address or the page may have moved.
                     </p>
-                    <a href='/'>Back To Home</a>
+                    <Link href='/'>Back To Home</Link>
                 </Content>
     )
 }
