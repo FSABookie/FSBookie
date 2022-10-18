@@ -148,8 +148,9 @@ function MyBets() {
     // map through orders
     usersActiveBets?.orders.forEach((order) => {
       // map through bets
-      order.bets.forEach(async (bet) => {
+      order.bets.filter(bet => bet.status !== 'complete').forEach(async (bet) => {
         // fetch the api result for each active bet
+        //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
         const { payload } = await dispatch(checkBetsThunk(bet.betId));
         if (payload[0]?.FinalType === "NotFinished") return;
         //dispatch data
