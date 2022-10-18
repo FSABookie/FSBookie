@@ -25,8 +25,7 @@ const BetSlipConntainer = styled.div`
   margin-right: 0.5em;
   border-radius: 10px;
   transition: 0.3s ease-in-out;
-  transform: ${({ open }) =>
-    open ? "translateY(-0em)" : "translateY(-100%)"};
+  transform: ${({ open }) => (open ? "translateY(-0em)" : "translateY(-100%)")};
   height: ${({ open }) => (open ? "100%" : "3em")};
 `;
 

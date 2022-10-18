@@ -8,10 +8,19 @@ const Bet = db.define("bet", {
   betId: {
     type: Sequelize.STRING,
   },
-  teams: {
+  homeTeam: {
+    type: Sequelize.STRING,
+  },
+  awayTeam: {
+    type: Sequelize.STRING,
+  },
+  teamToWin: {
     type: Sequelize.STRING,
   },
   odds: {
+    type: Sequelize.STRING,
+  },
+  oddType: {
     type: Sequelize.STRING,
   },
   gameLine: {
@@ -30,9 +39,24 @@ const Bet = db.define("bet", {
   time: {
     type: Sequelize.STRING,
   },
+  betType: {
+    type: Sequelize.ENUM("ML", "spread", "total"),
+    notNull: true,
+  },
   status: {
     type: Sequelize.ENUM("pending", "active", "completed"),
     defaultValue: "pending",
+  },
+  result: {
+    type: Sequelize.ENUM("won", "lost", "pending"),
+    defaultValue: "pending",
+  },
+  calc: {
+    type: Sequelize.ENUM("plus", "minus"),
+    notNull: true,
+  },
+  spread: {
+    type: Sequelize.DOUBLE,
   },
 });
 

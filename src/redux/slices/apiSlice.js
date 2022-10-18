@@ -96,9 +96,9 @@ export const apiSlice = createApi({
     }),
     updateBets: builder.mutation({
       query: (payload) => ({
-        url: `/bets/${id}`,
+        url: `/bets/${payload.id}`,
         method: "PUT",
-        body: payload.data,
+        body: payload.payload,
       }),
       invalidatesTags: ["bets", "user", "usersActiveBets", "allActiveBets"],
     }),
@@ -165,7 +165,9 @@ export const {
   useGetNFLQuery,
   useGetActiveBetsQuery,
   useGetUserQuery,
+  useGetUsersActiveBetsQuery,
   useUpdateUserFundsMutation,
+  useUpdateOrderMutation,
   useCreateBetsMutation,
   useUpdateBetsMutation,
   useCreateOrderMutation,
