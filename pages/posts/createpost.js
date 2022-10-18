@@ -8,10 +8,39 @@ import {
 } from "../../src/redux/slices/apiSlice";
 
 const Content = styled.div`
-height: 100%;
+height: 100vh;
 background-color: white;
 /* I was thinking we can Have a cool background image for our Forums Page! */
 background: url('/p404.png'), grey;
+
+.postForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  text-align: center;
+}
+
+.topbar {
+  padding-top: 10%
+}
+
+.addTitle {
+  height: 3em;
+  width: 100%;
+}
+
+.bodyText {
+  width: 100%;
+  height: 60vh;
+}
+
+.postButton {
+  text-align: center;
+  width: 50%;
+  height: 2em;
+  border-radius: 12px;
+  border: none;
+}
 `;
 
 function CreatePost() {
@@ -30,7 +59,12 @@ async function handleSubmit(e) {
       title: titleRef.current.value,
       body: bodyRef.current.value
     };
+
     try {
+      // setError("");
+      // setLoading(true);
+      // await login(credentials);
+      console.log(payload);
       const post = CreatePost(payload);
       if (post) {
         router.push('/posts');
@@ -45,16 +79,16 @@ return (
     <Content>
         {session ? (
         <div className="topbar">
-            <h1>Create a Post!</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Title: 
-                    <input type="text" ref={titleRef} />
+            <form className="postForm" onSubmit={handleSubmit}>
+                <label >
+                    <input className="addTitle" placeholder="Add a title" type="text" ref={titleRef} />
                 </label>
                 <label>
-                    <textarea ref={bodyRef}/>
+                    <textarea className="bodyText" placeholder="Add optional body text" ref={bodyRef}/>
                 </label>
+                <div className="creatBtn">
                 <button type="submit" className="postButton">Create Post!</button>
+                </div>
             </form>
         </div>
         ) : (
