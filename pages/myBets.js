@@ -134,38 +134,43 @@ function MyBets() {
     // map through orders
     usersActiveBets?.orders.forEach((order) => {
       // map through bets
-      order.bets.forEach(async (bet) => {
+      order.bets.filter(bet => bet.status !== 'complete').forEach(async (bet) => {
         // fetch the api result for each active bet
+        //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
         const { payload } = await dispatch(checkBetsThunk(bet.betId));
         // get the correct odd type we need (i.e, fullGame, halfTime, firstQ)
         let game = payload.filter((odds) => odds.OddType === "Game")[0];
+        console.log(game);
         //dispatch data
-        const data = await dispatch(
-          determineWinnerThunk({ bet: bet, api: game })
-        );
-        // if the bet won, settle users funds
+        if (game.FinalType === "Finished") {
+          const data = await dispatch(
+            determineWinnerThunk({ bet: bet, api: game })
+          );
+          // if the bet won, settle users funds
+  
+          if (data.payload === "won") {
+            let payload = {
+              isActive: false,
+              status: "completed",
+              result: "won",
+            };
+            let { data } = await updateBet({ id: bet.id, payload });
+            await updateFunds({
+              funds: user.balance + bet.toWin,
+              id: user.id,
+            });
+          }
+  
+          // IF THE BET LOSES
+          if (data.payload === "lost") {
+            let payload = {
+              isActive: false,
+              status: "completed",
+              result: "lost",
+            };
+            let { data } = await updateBet({ id: bet.id, payload });
+          }
 
-        if (data.payload === "won") {
-          let payload = {
-            isActive: false,
-            status: "completed",
-            result: "won",
-          };
-          let { data } = await updateBet({ id: bet.id, payload });
-          await updateFunds({
-            funds: user.balance + bet.toWin,
-            id: user.id,
-          });
-        }
-
-        // IF THE BET LOSES
-        if (data.payload === "lost") {
-          let payload = {
-            isActive: false,
-            status: "completed",
-            result: "lost",
-          };
-          let { data } = await updateBet({ id: bet.id, payload });
         }
       });
     });
