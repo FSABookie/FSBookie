@@ -115,7 +115,6 @@ const TeamContainer = styled.div`
 // COMPONENT STARTS HERE
 
 function MyBets() {
-  const [filter, setF] = useState("all");
   const { data: session, status } = useSession();
   // Get all bets from user
   const {
