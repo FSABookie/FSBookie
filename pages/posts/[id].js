@@ -73,9 +73,9 @@ function SinglePost(props) {
               By: {post.username}
               <br></br>
               <ul>
-                {post.comments.map((comment) => {
+                {post.comments.map((comment, idx) => {
                   return (
-                    <li>
+                    <li key={idx}>
                       <div>
                         <h4>{comment.username}</h4>
                         <p>{comment.body}</p>
