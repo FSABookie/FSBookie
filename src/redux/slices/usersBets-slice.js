@@ -9,6 +9,7 @@ const usersBetSlice = createSlice({
   reducers: {
     getBets: (state, action) => {
       state.usersBets.push(action.payload);
+      state.filteredBets = state.usersBets;
     },
     getAllBets: (state) => {
       state.filteredBets = null;
