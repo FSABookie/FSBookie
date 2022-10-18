@@ -18,9 +18,12 @@ const Comment = db.define('comment', {
         type: Sequelize.TEXT
     },
     likes: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     },
-
+    username: {
+		type: Sequelize.STRING,
+	},
 });
 
 module.exports = Comment;

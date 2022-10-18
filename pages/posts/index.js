@@ -8,6 +8,8 @@ import {
   useCreatePostMutation,
   useDeletePostMutation,
 } from "../../src/redux/slices/apiSlice";
+import { selectId } from "../../src/redux/slices/postSlice";
+import { useDispatch } from "react-redux";
 
 const Content = styled.div`
 height: 160vh;
@@ -20,6 +22,7 @@ background: url('/p404.png'), grey;
 
 function Posts() {
   const { data: posts } = useGetPostsQuery();
+  const dispatch = useDispatch();
   // IDK if we should do getSingleUserQuery like here or create another APIslice to get all Users
   // and then just plug in the ID given from post.userId
 
@@ -33,7 +36,7 @@ function Posts() {
           <ul>
           <li className='row'>
               <Link href={{pathname: `/posts/${post.id}`, query: {id: post.id}}}>
-                <h4>
+                <h4 onClick={() => dispatch(selectId(post.id))}>
                   {post.title}
                 </h4>
               </Link>
