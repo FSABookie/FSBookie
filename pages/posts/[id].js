@@ -146,9 +146,9 @@ function SinglePost(props) {
           </form>
           </div>
               <ul className="userList">
-                {post.comments.map((comment) => {
+                {post.comments.map((comment, idx) => {
                   return (
-                    <li>
+                    <li key={idx}>
                       <div className="singleReply">
                         <h4>{comment.username}</h4>
                         <p className="commentBody">{comment.body}</p>
