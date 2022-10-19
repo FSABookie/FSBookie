@@ -281,9 +281,9 @@ function Header() {
 							>
 								&times;
 							</a> */}
-              <div className="sideLinks">
+              <div className="sideLinks" onClick={toggleNav}>
                 <div className="singleLink">
-                <Link href="/sportsbook">Home</Link>
+                <Link href="/sportsbook/NFL">Home</Link>
                 </div>
                 <div className="singleLink">
                 <Link href="/myBets">My Bets</Link>
@@ -295,7 +295,7 @@ function Header() {
                 <Link href="/posts">Forum</Link>
                 </div>
                 <div className="singleLink">
-                <Link href="#">Projections</Link>
+                <Link href="/projections/NFL">Projections</Link>
                 </div>
                 </div>
               </Menu>
@@ -330,9 +330,9 @@ function Header() {
 			>
 				&times;
 			</a> */}
-            <div className="sideLinks">
+            <div className="sideLinks" onClick={toggleNav}>
             <div className="singleLink">
-                <Link href="/sportsbook">Home</Link>
+                <Link href="/sportsbook/NFL">Home</Link>
                 </div>
                 <div className="singleLink">
                 <Link href="/myBets">My Bets</Link>
@@ -344,7 +344,7 @@ function Header() {
                 <Link href="/posts">Forum</Link>
                 </div>
                 <div className="singleLink">
-                <Link href="#">Projections</Link>
+                <Link href="/projections/NFL">Projections</Link>
                 </div>
                 </div>
               </Menu>
