@@ -88,7 +88,7 @@ const Login = () => {
         .then((response) => {
           console.log(response);
           if (response.ok) {
-            router.push("/sportsbook");
+            router.push("/sportsbook/NFL");
           }
         })
         // .then(dispatch(handleFundsThunk({ id: user.id, funds: null, type: null })))
