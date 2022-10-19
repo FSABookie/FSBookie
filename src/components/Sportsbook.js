@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { NBAlogos } from "../../public/NBA";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
@@ -249,7 +251,13 @@ function Sportsbook({ data }) {
                           }
                         >
                           <div className="imgContainer">
-                            <img src="https://sportsbook.draftkings.com/static/logos/teams/nfl/LV.png" />
+                            <img
+                              src={
+                                NBAlogos.filter(
+                                  (name) => name.team === ele.AwayTeam
+                                )[0]?.logo
+                              }
+                            />
                           </div>
                           <div className="team1">{ele.AwayTeam}</div>
                         </div>
@@ -381,7 +389,13 @@ function Sportsbook({ data }) {
                       <div className="gameStatus"></div>
                       <div className="teamInfo">
                         <div className="imgContainer">
-                          <img src="https://sportsbook.draftkings.com/static/logos/teams/nfl/KC.png" />
+                          <img
+                            src={
+                              NBAlogos.filter(
+                                (name) => name.team === ele.HomeTeam
+                              )[0]?.logo
+                            }
+                          />
                         </div>
                         <a className="team1">{ele.HomeTeam}</a>
                       </div>
