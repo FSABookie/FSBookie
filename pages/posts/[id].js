@@ -85,7 +85,7 @@ const Content = styled.div`
 //     }
 // }
 
-function SinglePost(props) {
+function SinglePost() {
   const { data: session } = useSession();
   const [CreateComment] = useCreateCommentMutation();
   const bodyRef = useRef();
@@ -94,12 +94,6 @@ function SinglePost(props) {
   const { data: post, isSuccess } = useGetPostQuery(
     postId ? postId : skipToken
   );
-
-  useEffect(() => {
-    console.log(postId);
-    isSuccess && console.log(post);
-    console.log(post, postId);
-  }, [isSuccess]);
 
   async function handleSubmit(e) {
     e.preventDefault();
