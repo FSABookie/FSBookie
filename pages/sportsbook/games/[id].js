@@ -8,6 +8,12 @@ import {
   selectFullGame,
   selectQuarter,
 } from "../../../src/redux/slices/game-slice";
+import {
+  NBAlogos,
+  NFLlogos,
+  MLBlogos,
+  NHLlogos,
+} from "../../../public/teamLogos";
 
 const SingleGameContainer = styled.div`
   color: white;
@@ -201,6 +207,14 @@ const SportsHeader = styled.div`
   }
 `;
 
+// async function getServerSideProps(context) {
+//   return {
+//     props: {
+//       sport: context.sport,
+//     },
+//   };
+// }
+
 function GamePage() {
   const [d, setDate] = useState();
   const [t, setT] = useState();
@@ -209,6 +223,8 @@ function GamePage() {
     game,
     odds: odd,
     sport,
+    awayTeamLogo,
+    homeTeamLogo,
   } = useSelector((state) => state.persistedGame);
   const { betSlip } = useSelector((state) => state.betSlip);
 
@@ -236,18 +252,12 @@ function GamePage() {
           <div className="MatchupContainer">
             <div className="team1">
               {game.AwayTeam}
-              <img
-                className="heading"
-                src="https://assets.sportsbook.fanduel.com/images/team/nba/los_angeles_clippers.png"
-              />
+              <img src={awayTeamLogo} />
             </div>
             <div className="AT">AT</div>
             <div className="team2">
               {game.HomeTeam}
-              <img
-                className="heading"
-                src="https://sportsbook.draftkings.com/static/logos/teams/nfl/CHI.png"
-              />
+              <img src={homeTeamLogo} />
             </div>
           </div>
         </div>

@@ -6,6 +6,8 @@ const gameSlice = createSlice({
     game: null,
     odds: null,
     sport: null,
+    awayTeamLogo: null,
+    homeTeamLogo: null,
   },
   reducers: {
     selectGame: (state, action) => {
@@ -22,6 +24,8 @@ const gameSlice = createSlice({
 
       // set the sport
       state.sport = action.payload.sport;
+      state.homeTeamLogo = action.payload.htl;
+      state.awayTeamLogo = action.payload.atl;
     },
     selectFullGame: (state) => {
       state.odds = null;

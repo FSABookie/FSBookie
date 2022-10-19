@@ -139,7 +139,6 @@ function MyBets() {
       user.orders.forEach((order) =>
         order.bets.forEach((bet) => dispatch(getBets(bet)))
       );
-    console.log(usersBets);
   }, [dispatch, user]);
 
   useEffect(() => {
@@ -148,40 +147,42 @@ function MyBets() {
     // map through orders
     usersActiveBets?.orders.forEach((order) => {
       // map through bets
-      order.bets.filter(bet => bet.status !== 'complete').forEach(async (bet) => {
-        // fetch the api result for each active bet
-        //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
-        const { payload } = await dispatch(checkBetsThunk(bet.betId));
-        if (payload[0]?.FinalType === "NotFinished") return;
-        //dispatch data
-        const data = await dispatch(
-          determineWinnerThunk({ bet: bet, api: payload[0] })
-        );
-        // if the bet won, settle users funds
+      order.bets
+        .filter((bet) => bet.status !== "complete")
+        .forEach(async (bet) => {
+          // fetch the api result for each active bet
+          //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
+          const { payload } = await dispatch(checkBetsThunk(bet.betId));
+          if (payload[0]?.FinalType === "NotFinished") return;
+          //dispatch data
+          const data = await dispatch(
+            determineWinnerThunk({ bet: bet, api: payload[0] })
+          );
+          // if the bet won, settle users funds
 
-        if (data.payload === "won") {
-          let payload = {
-            isActive: false,
-            status: "completed",
-            result: "won",
-          };
-          await updateBet({ id: bet.id, payload });
-          await updateFunds({
-            funds: user.balance + bet.toWin,
-            id: user.id,
-          });
-        }
+          if (data.payload === "won") {
+            let payload = {
+              isActive: false,
+              status: "completed",
+              result: "won",
+            };
+            await updateBet({ id: bet.id, payload });
+            await updateFunds({
+              funds: user.balance + bet.toWin,
+              id: user.id,
+            });
+          }
 
-        // IF THE BET LOSES
-        if (data.payload === "lost") {
-          let payload = {
-            isActive: false,
-            status: "completed",
-            result: "lost",
-          };
-          await updateBet({ id: bet.id, payload });
-        }
-      });
+          // IF THE BET LOSES
+          if (data.payload === "lost") {
+            let payload = {
+              isActive: false,
+              status: "completed",
+              result: "lost",
+            };
+            await updateBet({ id: bet.id, payload });
+          }
+        });
     });
   }, [dispatch]);
 
@@ -223,8 +224,14 @@ function MyBets() {
               Wager: ${bet.wager} To Pay: ${bet.toWin}
             </WagerHeader>
             <TeamContainer>
-              <div>{bet.homeTeam}</div>
-              <div>{bet.awayTeam}</div>
+              <div>
+                <img src={bet.homeTeamLogo} />
+                {bet.homeTeam}
+              </div>
+              <div>
+                <img src={bet.awayTeamLogo} />
+                {bet.awayTeam}
+              </div>
               {bet.time}
             </TeamContainer>
             {bet.createdAt}
