@@ -8,8 +8,6 @@ const usersBetSlice = createSlice({
   },
   reducers: {
     getBets: (state, action) => {
-      state.filteredBets = [];
-      state.usersBets = [];
       state.usersBets.push(action.payload);
       state.filteredBets = state.usersBets;
     },
@@ -39,6 +37,10 @@ const usersBetSlice = createSlice({
         ...state.usersBets.filter((bet) => bet.status === "completed"),
       ];
     },
+    clearBets: (state) => {
+      state.usersBets = [];
+      state.filteredBets = [];
+    },
   },
 });
 
@@ -49,5 +51,6 @@ export const {
   getOpenBets,
   getWonBets,
   getAllBets,
+  clearBets,
 } = usersBetSlice.actions;
 export default usersBetSlice;
