@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkBetsThunk } from "../src/redux/thunks/checkBets";
 import { determineWinnerThunk } from "../src/redux/thunks/determineWinner";
 import {
+  clearBets,
   getAllBets,
   getBets,
   getCompletedBets,
@@ -135,6 +136,7 @@ function MyBets() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(clearBets());
     user &&
       user.orders.forEach((order) =>
         order.bets.forEach((bet) => dispatch(getBets(bet)))
