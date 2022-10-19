@@ -10,7 +10,7 @@ import {
   useDeletePostMutation,
 } from "../../src/redux/slices/apiSlice";
 import { selectId } from "../../src/redux/slices/postSlice";
-//import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 const Content = styled.div`
 height: 100%;
@@ -94,7 +94,7 @@ function Posts() {
                 <div className="postDetail">
                Posted by: {post.username} {post.createdAt}<br></br> </div>
                <div className="postDetail">
-               {/* <ThumbUpIcon fontSize="small"/> {post.likes} <br></br> */}
+               <ThumbUpIcon fontSize="small"/> {post.likes} <br></br>
                </div>
                {/* <div className="postDetail">
               Created At: {post.createdAt}<br></br></div> */}

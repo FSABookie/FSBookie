@@ -163,7 +163,13 @@ const LinkContainer = styled.div`
 // `;
 
 const Page = styled.div`
-  width: 85%;
+@media only screen and (min-width: 500px) {
+  width: 50%
+}
+@media only screen and (min-width: 850px) {
+  width: 30%
+}
+  width: 70%;
   transition: 0.5s;
   position: absolute;
   left: 0;
@@ -174,12 +180,26 @@ const Page = styled.div`
   text-overflow: clip;
   white-space: nowrap;
   @media only screen and (min-width: 375px) {
-    background: blue;
+    background: #393636;
   }
   button {
   }
   .active {
     opacity: 1;
+  }
+
+  .sideLinks {
+    padding-left: 4%;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    display:flex;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  .singleLink {
+    border-bottom: 1px solid grey;
+    padding-bottom:5%;
   }
 `;
 const Menu = styled.div`
@@ -187,7 +207,7 @@ const Menu = styled.div`
   flex-direction: column;
   overflow: hidden;
   /* position: absolute; */
-  color: orange;
+  color: white;
   width: 100%;
   a {
     display: block;
@@ -261,11 +281,23 @@ function Header() {
 							>
 								&times;
 							</a> */}
+              <div className="sideLinks">
+                <div className="singleLink">
                 <Link href="/sportsbook">Home</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="/myBets">My Bets</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="#">How To Bet</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="/posts">Forum</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="#">Projections</Link>
+                </div>
+                </div>
               </Menu>
 
               {/* <button onClick={toggleNav}>&#9776;</button> */}
@@ -298,11 +330,23 @@ function Header() {
 			>
 				&times;
 			</a> */}
+            <div className="sideLinks">
+            <div className="singleLink">
                 <Link href="/sportsbook">Home</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="/myBets">My Bets</Link>
-                <Link href="/">How To Bet</Link>
+                </div>
+                <div className="singleLink">
+                <Link href="#">How To Bet</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="/posts">Forum</Link>
-                <Link href="/">Projections</Link>
+                </div>
+                <div className="singleLink">
+                <Link href="#">Projections</Link>
+                </div>
+                </div>
               </Menu>
 
               {/* <button onClick={toggleNav}>&#9776;</button> */}

@@ -11,7 +11,12 @@ import { handleFundsThunk } from "../src/redux/slices/Funds-slice";
 
 const LoginFormContainer = styled.div`
   margin: 1em;
+
+  .signup {
+    color:white;
+  }
   form {
+    gap: 1.2em;
     display: flex;
     flex-direction: column;
     label {
@@ -19,11 +24,19 @@ const LoginFormContainer = styled.div`
       display: flex;
       justify-content: space-between;
       input {
-        width: 17em;
+        width: 100%;
+        height: 3em;
+        border: none;
+        border-radius: 8px;
       }
     }
     button {
       margin: 0.65em auto;
+      border: none;
+      width: 50%;
+      height: 1.8em;
+      border-radius: 8px;
+      font-weight: bold;
     }
   }
   p {
@@ -93,20 +106,19 @@ const Login = () => {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Username:
-          <input type="text" ref={emailRef} />
+          
+          <input placeholder="Username or Email" type="text" ref={emailRef} />
         </label>
 
         <label>
-          Password:
-          <input type="password" ref={passwordRef} />
+          <input placeholder="Password" type="password" ref={passwordRef} />
         </label>
 
         <button type="submit" className="mainButton">
           Log In
         </button>
       </form>
-      <p>
+      <p className="signup">
         Need an account? <Link href="/signup">Register here</Link>
       </p>
     </LoginFormContainer>
