@@ -237,15 +237,15 @@ function GamePage() {
             <div className="team1">
               {game.AwayTeam}
               <img
-                className="headimg"
-                src="https://sportsbook.draftkings.com/static/logos/teams/nfl/WAS-Commanders.png"
+                className="heading"
+                src="https://assets.sportsbook.fanduel.com/images/team/nba/los_angeles_clippers.png"
               />
             </div>
             <div className="AT">AT</div>
             <div className="team2">
               {game.HomeTeam}
               <img
-                className="headimg"
+                className="heading"
                 src="https://sportsbook.draftkings.com/static/logos/teams/nfl/CHI.png"
               />
             </div>

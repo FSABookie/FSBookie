@@ -127,7 +127,6 @@ function MyBets() {
     useGetUsersActiveBetsQuery(
       status === "authenticated" ? session.user.id : skipToken
     );
-  const { betSlip } = useSelector((state) => state.betSlip);
   const { usersBets, filteredBets } = useSelector((state) => state.usersBets);
   const [updateOrder] = useUpdateOrderMutation();
   const [updateBet] = useUpdateBetsMutation();
@@ -140,6 +139,7 @@ function MyBets() {
       user.orders.forEach((order) =>
         order.bets.forEach((bet) => dispatch(getBets(bet)))
       );
+    console.log(usersBets);
   }, [dispatch, user]);
 
   useEffect(() => {
@@ -208,31 +208,28 @@ function MyBets() {
           Lost
         </div>
       </SportsHeader>
-      {filteredBets &&
-        filteredBets.map((bet) => {
-          console.log(bet);
-          return (
-            <BetsContainer key={bet.id}>
-              <BetsContainerHeader>
-                <div>
-                  {bet.gameLine + " "}
-                  {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
-                </div>
-                <div>{bet.status}</div>
-              </BetsContainerHeader>
-              <WagerHeader>
-                Wager: ${bet.wager} To Pay: ${bet.toWin}
-              </WagerHeader>
-              <TeamContainer>
-                <div>{bet.homeTeam}</div>
-                <div>{bet.awayTeam}</div>
-                {bet.time}
-              </TeamContainer>
-              {bet.createdAt}
-            </BetsContainer>
-          );
-        })}
-      {betSlip.length > 0 && <BetSlip />}
+      {filteredBets.map((bet) => {
+        return (
+          <BetsContainer key={bet.id}>
+            <BetsContainerHeader>
+              <div>
+                {bet.gameLine + " "}
+                {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
+              </div>
+              <div>{bet.status}</div>
+            </BetsContainerHeader>
+            <WagerHeader>
+              Wager: ${bet.wager} To Pay: ${bet.toWin}
+            </WagerHeader>
+            <TeamContainer>
+              <div>{bet.homeTeam}</div>
+              <div>{bet.awayTeam}</div>
+              {bet.time}
+            </TeamContainer>
+            {bet.createdAt}
+          </BetsContainer>
+        );
+      })}
     </Container>
   );
 }
