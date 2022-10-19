@@ -107,7 +107,7 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <label>
           
-          <input placeholder="Username or Email" type="text" ref={emailRef} />
+          <input placeholder="Email" type="text" ref={emailRef} />
         </label>
 
         <label>
