@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { NBAlogos } from "../../public/NBA";
+import { NBAlogos, NHLlogos, MLBlogos, NFLlogos } from "../../public/teamLogos";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
@@ -190,6 +190,11 @@ function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
 
+  // useEffect(() => {
+  //   console.log(data.sport);
+  //   console.log(NFLlogos);
+  // }, []);
+
   return (
     <SportsContainer>
       <SportsHeader>
@@ -225,6 +230,41 @@ function Sportsbook({ data }) {
               let time = d + " " + t;
               let apiId = ele.ID;
               const event = ele.Odds.filter((odd) => odd.OddType === "Game")[0];
+              let homeTeamLogo;
+              let awayTeamLogo;
+              if (data.sport === "NBA") {
+                awayTeamLogo = NBAlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NBAlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "NFL") {
+                awayTeamLogo = NFLlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NFLlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "MLB") {
+                awayTeamLogo = MLBlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = MLBlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "NHL") {
+                awayTeamLogo = NHLlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NHLlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+
               return (
                 <GameCard key={apiId}>
                   <TableRow>
@@ -246,18 +286,17 @@ function Sportsbook({ data }) {
                           className="teamInfo"
                           onClick={() =>
                             dispatch(
-                              selectGame({ game: ele, sport: data.sport })
+                              selectGame({
+                                game: ele,
+                                sport: data.sport,
+                                atl: awayTeamLogo,
+                                htl: homeTeamLogo,
+                              })
                             )
                           }
                         >
                           <div className="imgContainer">
-                            <img
-                              src={
-                                NBAlogos.filter(
-                                  (name) => name.team === ele.AwayTeam
-                                )[0]?.logo
-                              }
-                            />
+                            <img src={awayTeamLogo} />
                           </div>
                           <div className="team1">{ele.AwayTeam}</div>
                         </div>
@@ -283,7 +322,8 @@ function Sportsbook({ data }) {
                                 oddType: "Game",
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
-
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 time: time,
                                 toWin: 0,
                                 wager: 0,
@@ -327,6 +367,8 @@ function Sportsbook({ data }) {
                                 odds: event.OverLine,
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
@@ -363,6 +405,8 @@ function Sportsbook({ data }) {
                                 teamToWin: "AwayTeam",
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
@@ -389,13 +433,7 @@ function Sportsbook({ data }) {
                       <div className="gameStatus"></div>
                       <div className="teamInfo">
                         <div className="imgContainer">
-                          <img
-                            src={
-                              NBAlogos.filter(
-                                (name) => name.team === ele.HomeTeam
-                              )[0]?.logo
-                            }
-                          />
+                          <img src={homeTeamLogo} />
                         </div>
                         <a className="team1">{ele.HomeTeam}</a>
                       </div>
@@ -419,6 +457,8 @@ function Sportsbook({ data }) {
                                 teamToWin: "HomeTeam",
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 time,
                                 oddType: "Game",
                                 toWin: 0,
@@ -463,6 +503,8 @@ function Sportsbook({ data }) {
                                 odds: event.UnderLine,
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
@@ -499,6 +541,8 @@ function Sportsbook({ data }) {
                                 team: ele.HomeTeam,
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 teamToWin: "HomeTeam",
                                 oddType: "Game",
                                 time,

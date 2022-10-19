@@ -8,6 +8,8 @@ const usersBetSlice = createSlice({
   },
   reducers: {
     getBets: (state, action) => {
+      state.filteredBets = [];
+      state.usersBets = [];
       state.usersBets.push(action.payload);
       state.filteredBets = state.usersBets;
     },
