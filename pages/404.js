@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import React, { useRef } from "react";
+import Link from "next/link";
 
 // const OuterContainer = styled.div`
 // margin: 0;
@@ -107,10 +108,10 @@ export default function Error() {
                 <Content>
                     <h2>404</h2>
                     <h4>Oops! Page NOT Found</h4>
-                    <p>The page you were looking for doesn't exist. You may have mistyped
+                    <p>The page you were looking for doesn&apos;t exist. You may have mistyped
                     the address or the page may have moved.
                     </p>
-                    <a href='/'>Back To Home</a>
+                    <Link href='/'>Back To Home</Link>
                 </Content>
     )
 }

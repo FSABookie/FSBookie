@@ -11,7 +11,7 @@ const Content = styled.div`
 height: 100vh;
 background-color: white;
 /* I was thinking we can Have a cool background image for our Forums Page! */
-background: url('/p404.png'), grey;
+background: url('/p404.png'),#D5D3D3;
 
 .postForm {
   display: flex;

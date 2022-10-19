@@ -233,7 +233,7 @@ const Projections = () => {
                 <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
 				{games &&
-					games.map((game) => {
+					games.map((game, idx) => {
 						let d = new Date(game.MatchTime).toDateString();
 						let t = new Date(game.MatchTime).toLocaleTimeString(
 							'en-US'
@@ -243,7 +243,7 @@ const Projections = () => {
 						let apiId = game.ID;
 						// console.log(apiId);
 						return (
-							<GameCard key={apiId}>
+							<GameCard key={idx}>
 								<TableRow>
 									<div className='gameInfo'>
 										{/* <div className='eventCell'> */}
