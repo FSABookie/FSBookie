@@ -36,6 +36,7 @@ export default function Signup() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
+  const usernameRef = useRef();
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   // const addressRef = useRef();
@@ -44,11 +45,28 @@ export default function Signup() {
 
   const dispatch = useDispatch();
 
+  async function register({email, password, username, firstName, lastName}) {
+		try {
+			const {data: user} = await axios.post('api/users', {
+				email,
+				password,
+        username,
+        firstName,
+        lastName
+			});
+      console.log(user);
+      return user
+		} catch (err) {
+			console.error(err);
+		}
+	}
+
   async function handleSubmit(e) {
     e.preventDefault();
     const credentials = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
+      username: usernameRef.current.value,
       firstName: firstNameRef.current.value,
       lastName: lastNameRef.current.value,
       // address: addressRef.current.value,
@@ -57,7 +75,7 @@ export default function Signup() {
     try {
       //   setError("");
       //   setLoading(true);
-      // await register(credentials);
+      await register(credentials);
       Router.push("/login");
       // if (typeof window !== 'undefined') {
       // 	let user = JSON.parse(window.localStorage.getItem('user'));
@@ -79,6 +97,10 @@ export default function Signup() {
           <label>
             Last Name:
             <input type="text" ref={lastNameRef} />
+          </label>
+          <label>
+            Username:
+            <input type="text" ref={usernameRef} />
           </label>
           {/* <label>
             Address:
