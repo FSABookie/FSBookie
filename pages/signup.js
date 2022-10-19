@@ -6,15 +6,35 @@ import axios from "axios";
 
 const SignInFormContainer = styled.div`
   margin: 1em;
+  color:white;
+
+  .mainButton {
+    border: none;
+    width: 50%;
+    height: 1.8em;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+
+  
   form {
+    text-align: center;
     display: flex;
     flex-direction: column;
+    gap: 0.8em;
     label {
+      border: none;
       margin-top: 0.5em;
       display: flex;
       justify-content: space-between;
       input {
         min-width: 55%;
+      }
+      input {
+        width: 100%;
+        height: 3em;
+        border: none;
+        border-radius: 8px;
       }
     }
     button {
@@ -90,34 +110,34 @@ export default function Signup() {
 
   return (
       <SignInFormContainer>
-        <form onSubmit={handleSubmit} autoComplete="off">
+        <form className="signupForm" onSubmit={handleSubmit} autoComplete="off">
           <label>
-            First Name:
-            <input type="text" ref={firstNameRef} />
+            
+            <input placeholder="First Name" type="text" ref={firstNameRef} />
           </label>
           <label>
-            Last Name:
-            <input type="text" ref={lastNameRef} />
+           
+            <input placeholder="Last Name" type="text" ref={lastNameRef} />
           </label>
           <label>
-            Username:
-            <input type="text" ref={usernameRef} />
+            
+            <input placeholder="Username" type="text" ref={usernameRef} />
           </label>
           {/* <label>
             Address:
             <input type="text" ref={addressRef} />
           </label> */}
           <label>
-            Email:
-            <input type="text" ref={emailRef} />
+         
+            <input placeholder="Email Address" type="text" ref={emailRef} />
           </label>
           <label>
-            Password:
-            <input type="password" ref={passwordRef} />
+            
+            <input placeholder="Password" type="password" ref={passwordRef} />
           </label>
           <label>
-            Confirm password:
-            <input type="password" ref={confirmPasswordRef} />
+            
+            <input placeholder="Confirm Password" type="password" ref={confirmPasswordRef} />
           </label>
           <button type="submit" className="mainButton">Sign Up</button>
         </form>
