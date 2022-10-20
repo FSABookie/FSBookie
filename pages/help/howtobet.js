@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 
 const Container = styled.div `
+background-color:rgb(16,16,16);
 color: white;
 text-align: center;
 font-family: 'Open Sans' sans-serif;
@@ -12,7 +13,6 @@ font-family: 'Open Sans' sans-serif;
         font-family: 'Open Sans' sans-serif;
         padding-left: 15%;
         padding-right: 15%;
-        font-size: 1.2em;
     }
 }
 `
@@ -20,6 +20,16 @@ font-family: 'Open Sans' sans-serif;
 const Overview = styled.div `
     padding: 3%;
     font-size: 1.2em;
+    padding-top: 6%;
+
+    h2 {
+        font-size: 1.75em;
+    }
+
+    p {
+        font-size: 1.2em;
+        font-weight: 300;
+    }
 `
 
 const BetTypes = styled.div `
@@ -29,11 +39,76 @@ const BetTypes = styled.div `
     width: 100%;
     padding: 3%;
     font-size: 1.2em;
+
+    p {
+        font-size: 1.2em;
+        font-weight: 300;
+    }
+
+    a {
+        background-color: green;
+        padding: 3%;
+        border-radius: 8px;
+        font-weight: 650;
+    }
+
+    .getStarted {
+        padding-top: 5%;
+        padding-bottom: 5%;
+    }
+`
+const Odds = styled.div `
+    width: 100%;
+    height: 75vh;
+    margin-bottom: 20%;
+    img {
+        width: 100%;
+        margin-top: 10%;
+    }
+
+    h1 {
+        font-family: 'Saira Condensed', 'Open Sans', sans-serif;
+        font-size: 2.25em;
+        color: green;
+    }
+
+    h3 {
+        font-weight: 400;
+        font-size: 1.75em;
+    }
+    
+    a {
+        background-color: green;
+        padding: 3%;
+        border-radius: 8px;
+        font-weight: 650;
+    }
+
+    .signUp {
+        padding-top: 6%;
+    }
 `
 
 function howtobet() {
   return (
     <Container>
+        <Odds>
+            <img src='https://media.istockphoto.com/photos/male-hand-holding-smartphone-in-black-background-picture-id1302676710?k=20&m=1302676710&s=612x612&w=0&h=UZYqF5VmYFN6KgqhT8LqMZQfJ6hQI69vcXx3QlD3t-I='/>
+            <h1>
+                HOW TO BET 101:
+                SPORTS BETTING EXPLAINED
+            </h1>
+            <h3>
+            Ready to get started betting on sports with DraftKings Sportsbook? Good!
+            </h3>
+
+            <div className="signUp">
+                 <a href='/signup'>
+                     SIGN ME UP
+                </a>
+            </div>
+        </Odds>
+
         <Overview>
         <h2>
         Sports Betting Overview
@@ -56,6 +131,11 @@ function howtobet() {
             <p>
             New to sports betting? One of the biggest hurdles for new bettors can be the seemingly endless list of phrases and terms. We’ve got you covered, with a beginner-level breakdown of the basics for each sport, that will help you get in on the action – and hopefully take home some cash!
             </p>
+            <div className="getStarted">
+                 <a href='/help/readingodds'>
+                     GET STARTED
+                </a>
+            </div>
         </BetTypes>
     </Container>
   )
