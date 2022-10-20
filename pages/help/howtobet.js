@@ -103,9 +103,9 @@ function howtobet() {
             </h3>
 
             <div className="signUp">
-                 <a href='/signup'>
+                 <Link href='/signup'>
                      SIGN ME UP
-                </a>
+                </Link>
             </div>
         </Odds>
 
@@ -132,9 +132,9 @@ function howtobet() {
             New to sports betting? One of the biggest hurdles for new bettors can be the seemingly endless list of phrases and terms. We’ve got you covered, with a beginner-level breakdown of the basics for each sport, that will help you get in on the action – and hopefully take home some cash!
             </p>
             <div className="getStarted">
-                 <a href='/help/readingodds'>
+                 <Link href='/help/readingodds'>
                      GET STARTED
-                </a>
+                </Link>
             </div>
         </BetTypes>
     </Container>

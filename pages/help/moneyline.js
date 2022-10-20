@@ -29,10 +29,11 @@ const Overview = styled.div `
     p {
         font-size: 1.2em;
         font-weight: 300;
+    }
+    
+    .moneylineInfo {
         text-align: left;
     }
-
-
 
     .longOdds {
         background-color: #242424;
@@ -64,8 +65,30 @@ const Overview = styled.div `
         }
     }
 
-    .exampleOdds {
-        text-align: center;
+    .exampleContainer {
+        display: flex;
+        flex-direction: column;
+        row-gap: 15%;
+        padding: 12%;
+    }
+
+    .example1 {
+       background-color: #242424;
+    }
+
+    .example2 {
+        background-color: #242424;
+    }
+
+    .winnings {
+        display: flex;
+        flex-direction: row;
+        column-gap: 2%;
+        justify-content: center;
+    }
+
+    .winAmnt {
+        color: green;
     }
 `
 
@@ -112,6 +135,7 @@ const Odds = styled.div `
     h3 {
         font-weight: 400;
         font-size: 1.75em;
+        padding: 2%;
     }
     
     a {
@@ -130,67 +154,84 @@ const Odds = styled.div `
     }
 `
 
-function readingodds() {
+function moneyline() {
   return (
     <Container>
     <Odds>
         <img src='https://media.istockphoto.com/photos/male-hand-holding-smartphone-in-black-background-picture-id1302676710?k=20&m=1302676710&s=612x612&w=0&h=UZYqF5VmYFN6KgqhT8LqMZQfJ6hQI69vcXx3QlD3t-I='/>
         <h1>
-            HOW TO READ ODDS
+           MONEYLINE
         </h1>
         <h3>
-        The first step to learning how to bet is learning how to read odds.
+        Learn all about what the moneyline is and how to bet on it.
         </h3>
         <p>
          Already a pro? Sign up to get started betting!
         </p>
 
         <div className="signUp">
-             <Link href='/signup'>
+             <a href='/signup'>
                  SIGN UP
-            </Link>
+            </a>
         </div>
     </Odds>
 
     <Overview>
     <h2>
-    How to Read Odds
+    Moneyline
     </h2>
-    <p>
-    Odds are the measure of how much you can win vs. how much you bet, per $100. Odds are included in all forms of betting, whether it’s moneylines, spreads, or totals.
+    <p className='moneylineInfo'>
+    A moneyline is simply a bet type that only includes Odds, as in “Odds to win”.
     </p>
-    <p>
-    -110, for example, means $110 wager for $100 potential profit (or $11 wager for $10 potential profit)
-    </p>
-    <p>
-    +110, for example, means $100 wager for $110 potential profit (or $10 wager for $11 potential profit)
+    <p className='moneylineInfo'>
+    Example: a moneyline of +150, is just +150 odds ($100 to win $150) for the listed team to win. A moneyline of -150 is just -150 odds ($150 to win $100) for the listed team to win.
     </p>
 
-    <div className="longOdds">
-        Longer Odds
-        <p className='exampleOdds'>+120 &nbsp; &nbsp; &nbsp;  +110</p>
+    <div className="exampleContainer">
+        <div className="example1">
+            <div className="top">
+                <p>
+                    Miami &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; +150
+                </p>
+            </div>
+            <div className="bottom">
+                <p>
+                    MONEY LINE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 100.00
+                </p>
+            </div>
+        </div>
+            <div className='winnings'>
+                 <p> Potential winnings:</p>
+                 <p className='winAmnt'>$150</p>
+            </div>
+        <div className="example2">
+            <div className="top">
+                <p>
+                    New York &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -150
+                </p>
+            </div>
+            <div className="bottom">
+                <p>
+                    MONEY LINE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 150.00
+                </p>
+            </div>
+        </div>
+            <div className='winnings'>
+                 <p> Potential winnings:</p>
+                 <p className='winAmnt'>$100</p>
+            </div>
     </div>
-    <div className="evenOdds">
-       Even
-       <p className='exampleOdds'>100</p>
-    </div>
-    <div className="shortOdds">
-        Shorter odds
-        <p className='exampleOdds'>-110 &nbsp; &nbsp; &nbsp; -120</p>
-    </div>
+
     </Overview>
 
     <BetTypes>
         <h2>
           Different Bet Types
         </h2>
-        <p>
-        When it comes to sports betting theres a wide variety of different bets you can make
-        </p>
-        <p> Lets learn about moneyline</p>
+        <p> Lets learn about Spread Betting</p>
         <div className="getStarted">
-             <Link href='/help/moneyline'>
-                 Moneyline
+             <Link href='/help/spreadbetting'>
+                 Spread
             </Link>
         </div>
     </BetTypes>
@@ -198,4 +239,4 @@ function readingodds() {
   )
 }
 
-export default readingodds
+export default moneyline;
