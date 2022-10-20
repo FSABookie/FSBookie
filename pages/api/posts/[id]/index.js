@@ -39,6 +39,24 @@ export default async function handler(req, res) {
       res.status(500).json({ error: err.message });
     }
   }
+  
+  if (req.method === "PUT") {
+    const { id } = req.query;
+    try {
+      const post = await Post.findOne({
+        where: {
+        id: id
+      },
+    });
+      post.update(req.body);
+      res.status(201).json(post);
+    }
+    catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
 }
+
+
 
   

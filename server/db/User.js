@@ -30,7 +30,7 @@ const User = db.define('user', {
 	},
 	balance: {
 		type: Sequelize.DOUBLE,
-		defaultValue: 0,
+		defaultValue: 10000,
 	}
 });
 

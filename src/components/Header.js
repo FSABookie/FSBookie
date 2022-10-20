@@ -13,6 +13,8 @@ const headerMainHeight = "7em";
 const headerTopHeight = "2em";
 
 const HeaderContainer = styled.div`
+  display: hidden;
+@media only screen and (max-width: 850px) {
   color: white;
   height: 4vh;
   h1,
@@ -21,9 +23,16 @@ const HeaderContainer = styled.div`
       color: lightgray;
     }
   }
+
+ 
+    
+    
+    
+  }
 `;
 const HeaderTop = styled.div`
-  height: 100%;
+@media only screen and (max-width: 850px) {
+  height: 1000%;
   background-color: black;
   display: flex;
   justify-content: space-between;
@@ -35,6 +44,7 @@ const HeaderTop = styled.div`
     margin-top: 0.27em;
     padding: 0 0.4em 0.15em;
   }
+  
   .hide {
     min-height: 10px;
     position: absolute;
@@ -48,6 +58,7 @@ const HeaderTop = styled.div`
     width: 0%;
     z-index: 4;
   }
+}
 `;
 
 const mobileLogoTextWidth = "3.62em";
@@ -163,7 +174,13 @@ const LinkContainer = styled.div`
 // `;
 
 const Page = styled.div`
-  width: 85%;
+@media only screen and (min-width: 500px) {
+  width: 50%
+}
+@media only screen and (min-width: 850px) {
+  width: 20%;
+}
+  width: 70%;
   transition: 0.5s;
   position: absolute;
   left: 0;
@@ -174,12 +191,28 @@ const Page = styled.div`
   text-overflow: clip;
   white-space: nowrap;
   @media only screen and (min-width: 375px) {
-    background: blue;
+    background: #242424;
   }
   button {
   }
   .active {
     opacity: 1;
+  }
+
+  .sideLinks {
+    padding-left: 4%;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    display:flex;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  .singleLink {
+    @media only screen and (max-width: 850px) {
+    border-bottom: 1px solid grey;
+    }
+    padding-bottom:5%;
   }
 `;
 const Menu = styled.div`
@@ -187,7 +220,7 @@ const Menu = styled.div`
   flex-direction: column;
   overflow: hidden;
   /* position: absolute; */
-  color: orange;
+  color: white;
   width: 100%;
   a {
     display: block;
@@ -251,7 +284,7 @@ function Header() {
       <HeaderTop className="hfLinks">
         {session ? (
           <>
-            <GiHamburgerMenu onClick={toggleNav} />
+            <GiHamburgerMenu className="burgermenu" onClick={toggleNav} />
 
             <Page ref={mySidenavRef} className={"hide"}>
               <Menu className="sidenav">
@@ -261,11 +294,23 @@ function Header() {
 							>
 								&times;
 							</a> */}
-                <Link href="/sportsbook">Home</Link>
+              <div className="sideLinks" onClick={toggleNav}>
+                <div className="singleLink">
+                <Link href="/sportsbook/NFL">Home</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="/myBets">My Bets</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="#">How To Bet</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="/posts">Forum</Link>
-                <Link href="#">Projections</Link>
+                </div>
+                <div className="singleLink">
+                <Link href="/projections/NFL">Projections</Link>
+                </div>
+                </div>
               </Menu>
 
               {/* <button onClick={toggleNav}>&#9776;</button> */}
@@ -298,11 +343,23 @@ function Header() {
 			>
 				&times;
 			</a> */}
-                <Link href="/sportsbook">Home</Link>
+            <div className="sideLinks" onClick={toggleNav}>
+            <div className="singleLink">
+                <Link href="/sportsbook/NFL">Home</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="/myBets">My Bets</Link>
-                <Link href="/">How To Bet</Link>
+                </div>
+                <div className="singleLink">
+                <Link href="#">How To Bet</Link>
+                </div>
+                <div className="singleLink">
                 <Link href="/posts">Forum</Link>
-                <Link href="/">Projections</Link>
+                </div>
+                <div className="singleLink">
+                <Link href="/projections/NFL">Projections</Link>
+                </div>
+                </div>
               </Menu>
 
               {/* <button onClick={toggleNav}>&#9776;</button> */}

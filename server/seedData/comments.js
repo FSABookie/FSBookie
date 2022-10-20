@@ -2,7 +2,7 @@ const comments = [
   {
     postId: 1,
     isParent: true,
-    userId: 2,
+    username: 'byoonster',
     body: "I would have to agree with you that this project is indeed lit!",
     likes: 1,
   },
@@ -14,19 +14,19 @@ const comments = [
   // },
   {
     postId: 1,
-    userId: 2,
+    username: 'byoonster',
     body: "I am adding on to my previous comment",
     likes: 1,
   },
   {
     postId: 2,
-    userId: 1,
+    username: 'jonnyboi',
     body: "I would have to agree with you that this project is indeed lit!",
     likes: 10,
   },
   {
     postId: 3,
-    userId: 1,
+    username: 'jonnyboi',
     body: "TESTING TESTING COMMENTS",
     likes: 5,
   },

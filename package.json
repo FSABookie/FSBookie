@@ -11,6 +11,10 @@
     "seedposts": "node seedPosts.js"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.10",
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^1.0.0",
     "bcrypt": "^5.0.1",
@@ -24,6 +28,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-redux": "^8.0.4",
+    "redux-persist": "^6.0.0",
     "sequelize": "^6.24.0",
     "styled-components": "^5.3.6"
   },

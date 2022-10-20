@@ -1,9 +1,9 @@
-import React from 'react';
-import { useGetMLBQuery, useGetNFLQuery } from '../src/redux/slices/apiSlice';
-import { useGetActiveBetsQuery } from '../src/redux/slices/apiSlice';
+import React, { useEffect, useState } from 'react';
+// import { useGetMLBQuery, useGetNFLQuery } from '../src/redux/slices/apiSlice';
+import { useGetActiveBetsQuery } from '../../src/redux/slices/apiSlice';
 import styled from 'styled-components';
 import Link from 'next/link';
-import ProgressBar from '../src/components/ProgressBar';
+import ProgressBar from '../../src/components/ProgressBar';
 
 const SportsContainer = styled.div`
 	width: 100%;
@@ -182,12 +182,12 @@ const Space = styled.div`
 	color: white;
 `;
 
-const Projections = () => {
-	const { data: games, error, isLoading, isSuccess, isFetching } = useGetNFLQuery();
+const Projections = ({games}) => {
+	// const { data: NFLGames, error, isLoading, isSuccess, isFetching } = useGetNFLQuery();
 	const { data: activeGames, isLoading: betsLoading } = useGetActiveBetsQuery();
 	console.log(activeGames);
 	let bets = {};
-	!betsLoading && activeGames.forEach(bet => {
+	activeGames?.length && activeGames.forEach(bet => {
 		if (Object.keys(bets).includes(bet.betId)) {
 			if (!Object.keys(bets[bet.betId]).includes(bet.gameLine)) {
 				bets[bet.betId][bet.gameLine] = 1;
@@ -198,29 +198,29 @@ const Projections = () => {
 			bets[bet.betId] = {[bet.gameLine]: 1};
 		}
 	});
-	console.log(bets);
+	console.log(games);
 
 	return (
 		<div>
-			<Space>
+			{/* <Space>
 				<p>fgsdagasdgds</p>
 				<p>fgsdagasdgds</p>
 				<p>fgsdagasdgds</p>
 				<p>fgsdagasdgds</p>
 				<p>fgsdagasdgds</p>
-			</Space>
+			</Space> */}
 			<SportsContainer>
 				<SportsHeader>
-					<Link href='/sportsbook/NFL'>
+					<Link href='/projections/NFL'>
 						<a>Football</a>
 					</Link>
-					<Link href='/sportsbook/NBA'>
+					<Link href='/projections/NBA'>
 						<a>Basketball</a>
 					</Link>
-					<Link href='/sportsbook/NHL'>
+					<Link href='/projections/NHL'>
 						<a>Hockey</a>
 					</Link>
-					<Link href='/sportsbook/MLB'>
+					<Link href='/projections/MLB'>
 						<a>Baseball</a>
 					</Link>
 				</SportsHeader>
@@ -233,7 +233,7 @@ const Projections = () => {
                 <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
 				{games &&
-					games.map((game) => {
+					games.map((game, idx) => {
 						let d = new Date(game.MatchTime).toDateString();
 						let t = new Date(game.MatchTime).toLocaleTimeString(
 							'en-US'
@@ -243,7 +243,7 @@ const Projections = () => {
 						let apiId = game.ID;
 						// console.log(apiId);
 						return (
-							<GameCard key={apiId}>
+							<GameCard key={idx}>
 								<TableRow>
 									<div className='gameInfo'>
 										{/* <div className='eventCell'> */}
@@ -287,9 +287,12 @@ const Projections = () => {
 														  game.Odds[0]
 																.PointSpreadAwayLine}
 												</div>
-												<div className='lineTrend'>
-													{typeof (bets[apiId]) !== 'undefined' && bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway]}
-												</div>
+												{/* <div className='lineTrend'>
+													{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " " + game.Odds[0].PointSpreadHome]) !== 'undefined' ? `${(bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway] / (bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway] + bets[apiId][game.HomeTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)}
+												</div> */}
+												{/* {typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " " + game.Odds[0].PointSpreadHome]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway] / (bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway] + bets[apiId][game.HomeTeam + " " + game.Odds[0].PointSpreadHome]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)} */}
+												{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadAway]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.AwayTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadAway] / (bets[apiId][game.AwayTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadAway] + bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)}
+
 											</div>
 										)}
 									</div>
@@ -312,6 +315,7 @@ const Projections = () => {
 														: '+' +
 														  game.Odds[0].OverLine}
 												</div>
+												{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId]["Over" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber]) !== 'undefined' ? typeof (bets[apiId]["Under" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId]["Over" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber] / (bets[apiId]["Over" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber] + bets[apiId]["Under" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)}
 											</div>
 										)}
 									</div>
@@ -336,13 +340,7 @@ const Projections = () => {
 																.MoneyLineAway}
 												</div>
 												{/* <div className='lineTrend'>
-													{typeof (bets[apiId]) !== 'undefined' && bets[apiId][game.AwayTeam + " ML"]}
-												</div> */}
-												<div className='lineTrend'>
 													{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.AwayTeam + " ML"] / (bets[apiId][game.AwayTeam + " ML"] + bets[apiId][game.HomeTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)}
-												</div>
-												{/* <div className='lineTrend'>
-													{typeof bets[apiId] !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.HomeTeam + " ML"] / (bets[apiId][game.HomeTeam + " ML"] + bets[apiId][game.AwayTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)}
 												</div> */}
 												{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.AwayTeam + " ML"] / (bets[apiId][game.AwayTeam + " ML"] + bets[apiId][game.HomeTeam + " ML"]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)}
 											</div>
@@ -392,6 +390,8 @@ const Projections = () => {
 														  game.Odds[0]
 																.PointSpreadHomeLine}
 												</div>
+												{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadAway]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome] / (bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome] + bets[apiId][game.AwayTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadAway]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)}
+
 											</div>
 										)}
 									</div>
@@ -415,6 +415,7 @@ const Projections = () => {
 														  game.Odds[0]
 																.UnderLine}
 												</div>
+												{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId]["Under" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber]) !== 'undefined' ? typeof (bets[apiId]["Over" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId]["Under" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber] / (bets[apiId]["Under" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber] + bets[apiId]["Over" + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].TotalNumber]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)}
 											</div>
 										)}
 									</div>
@@ -437,13 +438,10 @@ const Projections = () => {
 														  game.Odds[0]
 																.MoneyLineHome}
 												</div>
-												{/* <div className='lineTrend'>
-													{typeof (bets[apiId]) !== 'undefined' && bets[apiId][game.HomeTeam + " ML"]}
-												</div> */}
 												<div className='lineTrend'>
-													{typeof bets[apiId] !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.HomeTeam + " ML"] / (bets[apiId][game.HomeTeam + " ML"] + bets[apiId][game.AwayTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)}
-												</div>
+													{/* {typeof bets[apiId] !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.HomeTeam + " ML"] / (bets[apiId][game.HomeTeam + " ML"] + bets[apiId][game.AwayTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)} */}
 												{typeof bets[apiId] !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.HomeTeam + " ML"] / (bets[apiId][game.HomeTeam + " ML"] + bets[apiId][game.AwayTeam + " ML"]) * 100)}`} /> : <ProgressBar completed={100} /> : <ProgressBar completed={0} />)}
+												</div>
 											</div>
 										)}
 									</div>

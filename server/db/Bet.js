@@ -58,6 +58,12 @@ const Bet = db.define("bet", {
   spread: {
     type: Sequelize.DOUBLE,
   },
+  homeTeamLogo: {
+    type: Sequelize.STRING,
+  },
+  awayTeamLogo: {
+    type: Sequelize.STRING,
+  },
 });
 
 module.exports = Bet;

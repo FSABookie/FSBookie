@@ -1,106 +1,166 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import Router, { useRouter } from "next/router";
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 import {
-    useCreateCommentMutation,
+  useCreateCommentMutation,
+  useGetPostQuery,
 } from "../../src/redux/slices/apiSlice";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 const Content = styled.div`
-background-color: white;
-background: url('/p404.png'), grey;
-`;
+  background-color: white;
+  background: url("/p404.png"), #D5D3D3;
+  height: 100vh;
+  
+  .userList {
+    list-style: none;
+    width: max-width;
+    padding: 0;
+  }
 
-const Reply = styled.div`
-background-color: black;
-.toggle {
-    display: none;
-    background-color: orange;
-}
+  .backBtnDiv {
+    padding-bottom: 8%;
+    padding-top: 2%;
+    padding-left: 2%;
+  }
+
+  .backBtn {
+    border: none;
+    border-radius:8px;
+    height: 1.5em;
+    width: 5em;
+    font-weight: bold;
+  }
+
+  .replyForm {
+    text-align: center;
+    padding-top: 8%;
+    padding-bottom: 5%;
+  }
+
+  .commentInput {
+    border: none;
+    border-radius: 8px 0 0 8px;
+    width: 50%;
+    height: 2em;
+  }
+
+  .replyBtn {
+    border: none;
+    background: white;
+    border-radius: 0 8px 8px 0;
+    border-left: solid 0.8px black;
+    height: 2em;
+  }
+
+  .singleReply {
+    background: white;
+    width: 100%;
+  }
+
+  .postInfo {
+    padding: 4%;
+  }
+
+  .commentBody {
+    font-weight: 300;
+    padding: 1.5%;
+  }
+
+  .likes {
+    padding-top: 5%;
+  }
 `;
 //Able to post a new comment in the thread
 
-export async function getServerSideProps(context) {
-    console.log(context);
-    const { data: post } = await axios.get(`http://localhost:3000/api/posts/${context.params.id}`);
-    return {
-        props: {post}
+// export async function getServerSideProps(context) {
+//     const { data: post } = await axios.get(`http://localhost:3000/api/posts/${context.params.id}`);
+//     return {
+//         props: {post}
+//     }
+// }
+
+function SinglePost() {
+  const { data: session } = useSession();
+  const [CreateComment] = useCreateCommentMutation();
+  const bodyRef = useRef();
+  const router = useRouter();
+  const { postId } = useSelector((state) => state.persistedId);
+  const { data: post, isSuccess } = useGetPostQuery(
+    postId ? postId : skipToken
+  );
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const payload = {
+      userId: session.user.id,
+      postId: post.id,
+      isParent: true,
+      username: session.user.username,
+      body: bodyRef.current.value,
+    };
+    try {
+      await CreateComment(payload);
+    } catch (err) {
+      console.log("Failed to Post!");
+      console.error(err);
     }
-}
+  }
 
-function SinglePost(props) {
-    const { data: session } = useSession();
-    const [CreateComment] = useCreateCommentMutation();
-    const bodyRef = useRef();
-    const toggleRef = useRef();
-    console.log(props)
-    
-    function replyFunc() {
-         
-    }
-
-    function replyToggle() {
-        toggleRef.current.classList.toggle('toggle')
-        console.log(toggleRef.current)
-    }
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-        const payload = {
-          userId: session.user.userId,
-          username: session.user.username,
-          body: bodyRef.current.value,
-        };
-        try {
-          console.log(payload);
-          const commment = CreateComment(payload);
-          if (comment) {
-            router.push(`/posts/${props.id}`);
-          }
-        } catch (err) {
-          console.log("Failed to Post!");
-          console.error(err);
-        }
-      }
-
-    return (
-        <Content>
-            {session ? (
+  return (
+    <Content>
+      {session ? (
         <div>
-        <Link href='/posts'>Click Here to go BACK to Posts!</Link>
-       <h2>{props.post.title}</h2>
-       <p>{props.post.body}</p>
-       <p>Likes: {props.post.likes} <br></br>
-        Created At: {props.post.createdAt}</p>
-        By: {props.post.username}<br></br>
-        <ul>
-            {props.post.comments.map((comment) => {
-                return (
-                <li>
-                <div>
-                <h4>{comment.userId}</h4>
-                <p>{comment.body}</p>
-                <button onClick={replyToggle}>Reply</button>
-                <Reply className="toggle" ref={toggleRef}>
-                <input type="text" className="hiddenReply" ref={bodyRef} />
-                <button type="submit" onSubmit={replyFunc}>SUBMIT REPLY</button>
-                </Reply>
-                </div>
-                </li>
-                );
-            })}
-        </ul>
-        </div>
-        ) : (
+          <Link href="/posts">
+          <div className="backBtnDiv">
+           <button className="backBtn"> BACK</button>
+           </div>
+            </Link>
+          {isSuccess && (
             <>
-            <h1>Please Login to Create a Comment!</h1>
+             <div className="postInfo">
+              Posted By: {post.username} {post.createdAt}
+              
+              <br></br>
+              <div className="likes">
+              <ThumbUpIcon fontSize="small"/> {post.likes} <br></br>
+              </div>
+              <h2>{post.title}</h2>
+              <p>{post.body}</p>
+              <form className="replyForm" onSubmit={handleSubmit}>
+            <label>
+              <input className="commentInput" placeholder="Add a Comment..." type="text" ref={bodyRef} />
+            </label>
+            <button className="replyBtn" type="submit">Reply</button>
+          </form>
+          </div>
+              <ul className="userList">
+                {post.comments.map((comment, idx) => {
+                  return (
+                    <li key={idx}>
+                      <div className="singleReply">
+                        <h4>{comment.username}</h4>
+                        <p className="commentBody">{comment.body}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>{" "}
             </>
-        )}
-       </Content>
-    );
+          )}
+        </div>
+      ) : (
+        <>
+          <h1>Please Login to Create a Comment!</h1>
+        </>
+      )}
+    </Content>
+  );
 }
-
 
 export default SinglePost;
-

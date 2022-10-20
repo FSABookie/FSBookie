@@ -21,6 +21,7 @@ export const apiSlice = createApi({
     "allActiveBets",
     "usersActiveBets",
     "posts",
+    "post",
     "comments",
   ],
   endpoints: (builder) => ({
@@ -110,7 +111,7 @@ export const apiSlice = createApi({
         url: `/posts/${id}`,
         method: "GET",
       }),
-      providesTags: ["posts"],
+      providesTags: ["post"],
     }),
     createPost: builder.mutation({
       query: (payload) => ({
@@ -139,11 +140,12 @@ export const apiSlice = createApi({
     //   providesTags: ["comments"],
     // }),
     createComment: builder.mutation({
-      query: () => ({
+      query: (payload) => ({
         url: `/posts/comments`,
         method: "POST",
+        body: payload,
       }),
-      providesTags: ["comments"]
+      invalidatesTags: ["posts", "post", "comments"],
     }),
     deleteComment: builder.mutation({
       query: (id) => ({
@@ -151,6 +153,14 @@ export const apiSlice = createApi({
         method: "DELETE",
       }),
       invalidatesTags: ["comments"],
+    }),
+    incrementLike: builder.mutation({
+      query: (payload) => ({
+        url: `/posts/${payload.id}`,
+        method: 'PUT',
+        body: payload.payload,
+      }),
+    invalidatesTags: ["posts", "post"]
     }),
   }),
 });
@@ -174,7 +184,7 @@ export const {
   useCreatePostMutation,
   useDeletePostMutation,
   useCreateCommentMutation,
-  useGetCommentsQuery,
+  useIncrementLikeMutation,
   useGetCommentMutation,
   useDeleteCommentMutation,
 } = apiSlice;

@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { NBAlogos, NHLlogos, MLBlogos, NFLlogos } from "../../public/teamLogos";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
@@ -16,6 +18,16 @@ const SportsContainer = styled.div`
   padding-right: 3%;
 `;
 const SportsHeader = styled.div`
+@media only screen and (min-width: 850px) {
+  width: 100%;
+  margin-left: 28%;
+  margin-bottom: 2%;
+  height: 40%;
+  
+  .sport {
+   padding: 1% 2%;
+  }
+}
   margin-bottom: 15%;
   height: 100%;
   color: white;
@@ -43,9 +55,13 @@ const SportsHeader = styled.div`
   }
 `;
 const GamesContainer = styled.div`
-height: 100%;
+  height: 100%;
 `;
 const Games = styled.div`
+@media only screen and (min-width: 850px) {
+  width: 55%;
+  margin-left: 20%;
+}
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -188,20 +204,25 @@ function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
 
+  // useEffect(() => {
+  //   console.log(data.sport);
+  //   console.log(NFLlogos);
+  // }, []);
+
   return (
     <SportsContainer>
       <SportsHeader>
         <Link href="/sportsbook/NFL">
-          <a>Football</a>
+          <a className="sport">Football</a>
         </Link>
         <Link href="/sportsbook/NBA">
-          <a>Basketball</a>
+          <a className="sport">Basketball</a>
         </Link>
         <Link href="/sportsbook/NHL">
-          <a>Hockey</a>
+          <a className="sport">Hockey</a>
         </Link>
         <Link href="/sportsbook/MLB">
-          <a>Baseball</a>
+          <a className="sport">Baseball</a>
         </Link>
       </SportsHeader>
       <GamesContainer>
@@ -222,7 +243,42 @@ function Sportsbook({ data }) {
               // MUST FIX THE TIME
               let time = d + " " + t;
               let apiId = ele.ID;
-              const event = ele;
+              const event = ele.Odds.filter((odd) => odd.OddType === "Game")[0];
+              let homeTeamLogo;
+              let awayTeamLogo;
+              if (data.sport === "NBA") {
+                awayTeamLogo = NBAlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NBAlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "NFL") {
+                awayTeamLogo = NFLlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NFLlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "MLB") {
+                awayTeamLogo = MLBlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = MLBlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "NHL") {
+                awayTeamLogo = NHLlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NHLlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+
               return (
                 <GameCard key={apiId}>
                   <TableRow>
@@ -242,10 +298,19 @@ function Sportsbook({ data }) {
                         <div className="gameTime">{time}</div>
                         <div
                           className="teamInfo"
-                          onClick={() => dispatch(selectGame(event))}
+                          onClick={() =>
+                            dispatch(
+                              selectGame({
+                                game: ele,
+                                sport: data.sport,
+                                atl: awayTeamLogo,
+                                htl: homeTeamLogo,
+                              })
+                            )
+                          }
                         >
                           <div className="imgContainer">
-                            <img src="https://sportsbook.draftkings.com/static/logos/teams/nfl/LV.png" />
+                            <img src={awayTeamLogo} />
                           </div>
                           <div className="team1">{ele.AwayTeam}</div>
                         </div>
@@ -254,8 +319,8 @@ function Sportsbook({ data }) {
                     </Link>
                     {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
                     <div className="lineCol">
-                      {ele.Odds[0].PointSpreadAway == 0 ||
-                      ele.Odds[0].PointSpreadAway == 0.0 ? (
+                      {event.PointSpreadAway == 0 ||
+                      event.PointSpreadAway == 0.0 ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
@@ -265,23 +330,22 @@ function Sportsbook({ data }) {
                               addToBetSlip({
                                 id: betSlip.length,
                                 gameLine:
-                                  ele.AwayTeam +
-                                  " " +
-                                  ele.Odds[0].PointSpreadAway,
-                                odds: ele.Odds[0].PointSpreadAwayLine,
+                                  ele.AwayTeam + " " + event.PointSpreadAway,
+                                odds: event.PointSpreadAwayLine,
                                 teamToWin: "AwayTeam",
                                 oddType: "Game",
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
-
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 time: time,
                                 toWin: 0,
                                 wager: 0,
-                                betId: apiId,
+                                betId: event.ID,
                                 betType: "spread",
-                                spread: Number(ele.Odds[0].PointSpreadAway),
+                                spread: Number(event.PointSpreadAway),
                                 calc:
-                                  ele.Odds[0].PointSpreadAway[0] === "-"
+                                  event.PointSpreadAway[0] === "-"
                                     ? "minus"
                                     : "plus",
                               })
@@ -289,22 +353,22 @@ function Sportsbook({ data }) {
                           }}
                         >
                           <div className="line">
-                            {ele.Odds[0].PointSpreadAway[0] === "-"
-                              ? ele.Odds[0].PointSpreadAway
-                              : "+" + ele.Odds[0].PointSpreadAway}
+                            {event.PointSpreadAway[0] === "-"
+                              ? event.PointSpreadAway
+                              : "+" + event.PointSpreadAway}
                           </div>
                           <div className="lineodds">
-                            {ele.Odds[0].PointSpreadAwayLine[0] === "-"
-                              ? ele.Odds[0].PointSpreadAwayLine
-                              : "+" + ele.Odds[0].PointSpreadAwayLine}
+                            {event.PointSpreadAwayLine[0] === "-"
+                              ? event.PointSpreadAwayLine
+                              : "+" + event.PointSpreadAwayLine}
                           </div>
                         </div>
                       )}
                     </div>
                     {/* OVER!!!!!!!!!!! */}
                     <div className="lineCol">
-                      {ele.Odds[0].PointSpreadAway == 0 ||
-                      ele.Odds[0].PointSpreadAway == 0.0 ? (
+                      {event.PointSpreadAway == 0 ||
+                      event.PointSpreadAway == 0.0 ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
@@ -313,35 +377,35 @@ function Sportsbook({ data }) {
                             dispatch(
                               addToBetSlip({
                                 id: betSlip.length,
-                                gameLine: "Over " + ele.Odds[0].TotalNumber,
-                                odds: ele.Odds[0].OverLine,
+                                gameLine: "Over " + event.TotalNumber,
+                                odds: event.OverLine,
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
                                 wager: 0,
-                                betId: apiId,
+                                betId: event.ID,
                                 betType: "total",
                               })
                             );
                           }}
                         >
-                          <div className="line">
-                            O {ele.Odds[0].TotalNumber}
-                          </div>
+                          <div className="line">O {event.TotalNumber}</div>
                           <div className="lineodds">
-                            {ele.Odds[0].OverLine[0] === "-"
-                              ? ele.Odds[0].OverLine
-                              : "+" + ele.Odds[0].OverLine}
+                            {event.OverLine[0] === "-"
+                              ? event.OverLine
+                              : "+" + event.OverLine}
                           </div>
                         </div>
                       )}
                     </div>
                     {/* AWAY TEAM!!!!!!!!!!! */}
                     <div className="lineCol">
-                      {ele.Odds[0].PointSpreadAway == 0 ||
-                      ele.Odds[0].PointSpreadAway == 0.0 ? (
+                      {event.PointSpreadAway == 0 ||
+                      event.PointSpreadAway == 0.0 ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
@@ -351,15 +415,17 @@ function Sportsbook({ data }) {
                               addToBetSlip({
                                 id: betSlip.length,
                                 gameLine: ele.AwayTeam + " ML",
-                                odds: ele.Odds[0].MoneyLineAway,
+                                odds: event.MoneyLineAway,
                                 teamToWin: "AwayTeam",
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
                                 wager: 0,
-                                betId: apiId,
+                                betId: event.ID,
                                 betType: "ML",
                               })
                             );
@@ -367,9 +433,9 @@ function Sportsbook({ data }) {
                         >
                           <div className="lineodds">
                             {" "}
-                            {ele.Odds[0].MoneyLineAway[0] === "-"
-                              ? ele.Odds[0].MoneyLineAway
-                              : "+" + ele.Odds[0].MoneyLineAway}
+                            {event.MoneyLineAway[0] === "-"
+                              ? event.MoneyLineAway
+                              : "+" + event.MoneyLineAway}
                           </div>
                         </div>
                       )}
@@ -381,7 +447,7 @@ function Sportsbook({ data }) {
                       <div className="gameStatus"></div>
                       <div className="teamInfo">
                         <div className="imgContainer">
-                          <img src="https://sportsbook.draftkings.com/static/logos/teams/nfl/KC.png" />
+                          <img src={homeTeamLogo} />
                         </div>
                         <a className="team1">{ele.HomeTeam}</a>
                       </div>
@@ -389,8 +455,8 @@ function Sportsbook({ data }) {
                     </div>
                     {/* HOME TEAM SPREAD!!!!!!!!!!! */}
                     <div className="line2Col">
-                      {ele.Odds[0].PointSpreadAway == 0 ||
-                      ele.Odds[0].PointSpreadAway == 0.0 ? (
+                      {event.PointSpreadAway == 0 ||
+                      event.PointSpreadAway == 0.0 ? (
                         <div className="lineContainer">NA</div>
                       ) : (
                         <div
@@ -400,22 +466,22 @@ function Sportsbook({ data }) {
                               addToBetSlip({
                                 id: betSlip.length,
                                 gameLine:
-                                  ele.HomeTeam +
-                                  " " +
-                                  ele.Odds[0].PointSpreadHome,
-                                odds: ele.Odds[0].PointSpreadHomeLine,
+                                  ele.HomeTeam + " " + event.PointSpreadHome,
+                                odds: event.PointSpreadHomeLine,
                                 teamToWin: "HomeTeam",
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 time,
                                 oddType: "Game",
                                 toWin: 0,
                                 wager: 0,
-                                betId: apiId,
+                                betId: event.ID,
                                 betType: "spread",
-                                spread: Number(ele.Odds[0].PointSpreadHome),
+                                spread: Number(event.PointSpreadHome),
                                 calc:
-                                  ele.Odds[0].PointSpreadHome[0] === "-"
+                                  event.PointSpreadHome[0] === "-"
                                     ? "minus"
                                     : "plus",
                               })
@@ -423,22 +489,22 @@ function Sportsbook({ data }) {
                           }}
                         >
                           <div className="line">
-                            {ele.Odds[0].PointSpreadHome[0] === "-"
-                              ? ele.Odds[0].PointSpreadHome
-                              : "+" + ele.Odds[0].PointSpreadHome}
+                            {event.PointSpreadHome[0] === "-"
+                              ? event.PointSpreadHome
+                              : "+" + event.PointSpreadHome}
                           </div>
                           <div className="lineodds">
-                            {ele.Odds[0].PointSpreadHomeLine[0] === "-"
-                              ? ele.Odds[0].PointSpreadHomeLine
-                              : "+" + ele.Odds[0].PointSpreadHomeLine}
+                            {event.PointSpreadHomeLine[0] === "-"
+                              ? event.PointSpreadHomeLine
+                              : "+" + event.PointSpreadHomeLine}
                           </div>
                         </div>
                       )}
                     </div>
                     {/* UNDER!!!!!!!!!!! */}
                     <div className="line2Col">
-                      {ele.Odds[0].PointSpreadAway == 0 ||
-                      ele.Odds[0].PointSpreadAway == 0.0 ? (
+                      {event.PointSpreadAway == 0 ||
+                      event.PointSpreadAway == 0.0 ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
@@ -447,35 +513,35 @@ function Sportsbook({ data }) {
                             dispatch(
                               addToBetSlip({
                                 id: betSlip.length,
-                                gameLine: "Under " + ele.Odds[0].TotalNumber,
-                                odds: ele.Odds[0].UnderLine,
+                                gameLine: "Under " + event.TotalNumber,
+                                odds: event.UnderLine,
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
                                 wager: 0,
-                                betId: apiId,
+                                betId: event.ID,
                                 betType: "total",
                               })
                             );
                           }}
                         >
-                          <div className="line">
-                            U {ele.Odds[0].TotalNumber}
-                          </div>
+                          <div className="line">U {event.TotalNumber}</div>
                           <div className="lineodds">
-                            {ele.Odds[0].UnderLine[0] === "-"
-                              ? ele.Odds[0].UnderLine
-                              : "+" + ele.Odds[0].UnderLine}
+                            {event.UnderLine[0] === "-"
+                              ? event.UnderLine
+                              : "+" + event.UnderLine}
                           </div>
                         </div>
                       )}
                     </div>
                     {/* HOME TEAM ML!!!!!!!!!!! */}
                     <div className="line2Col">
-                      {ele.Odds[0].PointSpreadAway == 0 ||
-                      ele.Odds[0].PointSpreadAway == 0.0 ? (
+                      {event.PointSpreadAway == 0 ||
+                      event.PointSpreadAway == 0.0 ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
@@ -485,25 +551,27 @@ function Sportsbook({ data }) {
                               addToBetSlip({
                                 id: betSlip.length,
                                 gameLine: ele.HomeTeam + " ML",
-                                odds: ele.Odds[0].MoneyLineHome,
+                                odds: event.MoneyLineHome,
                                 team: ele.HomeTeam,
                                 awayTeam: ele.AwayTeam,
                                 homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
                                 teamToWin: "HomeTeam",
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
                                 wager: 0,
-                                betId: apiId,
+                                betId: event.ID,
                                 betType: "ML",
                               })
                             );
                           }}
                         >
                           <div className="lineodds">
-                            {ele.Odds[0].MoneyLineHome[0] === "-"
-                              ? ele.Odds[0].MoneyLineHome
-                              : "+" + ele.Odds[0].MoneyLineHome}
+                            {event.MoneyLineHome[0] === "-"
+                              ? event.MoneyLineHome
+                              : "+" + event.MoneyLineHome}
                           </div>
                         </div>
                       )}
