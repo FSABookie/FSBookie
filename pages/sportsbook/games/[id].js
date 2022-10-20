@@ -6,6 +6,7 @@ import { addToBetSlip } from "../../../src/redux/slices/BetSlip-slice";
 import {
   selectFirstHalf,
   selectFullGame,
+  selectPeriod,
   selectQuarter,
 } from "../../../src/redux/slices/game-slice";
 import {
@@ -266,9 +267,26 @@ function GamePage() {
           <SportsHeader>
             <div onClick={() => dispatch(selectFullGame())}>GAME LINES</div>
 
-            <div onClick={() => dispatch(selectFirstHalf())}>HALVES</div>
+            {sport === "NBA" && (
+              <div onClick={() => dispatch(selectFirstHalf())}>HALF</div>
+            )}
+            {sport === "NFL" && (
+              <div onClick={() => dispatch(selectFirstHalf())}>HALF</div>
+            )}
 
-            <div onClick={() => dispatch(selectQuarter())}>QUARTERS</div>
+            {sport === "MLB" && (
+              <div onClick={() => dispatch(selectFirstHalf())}>First 5 Inn</div>
+            )}
+            {sport === "NHL" && (
+              <div onClick={() => dispatch(selectPeriod())}>PERIOD</div>
+            )}
+
+            {sport === "NBA" && (
+              <div onClick={() => dispatch(selectQuarter())}>QUARTER</div>
+            )}
+            {sport === "NFL" && (
+              <div onClick={() => dispatch(selectQuarter())}>QUARTER</div>
+            )}
           </SportsHeader>
         </div>
 
@@ -354,7 +372,7 @@ function GamePage() {
                 </div>
                 {/* AWAY TEAM!!!!!!!!!!! */}
                 <div className="lineCol">
-                  {odd.PointSpreadAway == 0 || odd.PointSpreadAway == 0.0 ? (
+                  {odd.MoneyLineAway == 0 || odd.PointSpreadAway == 0.0 ? (
                     <div className="lineContainer">N/A</div>
                   ) : (
                     <div
@@ -467,7 +485,7 @@ function GamePage() {
                 </div>
                 {/* HOME TEAM ML!!!!!!!!!!! */}
                 <div className="line2Col">
-                  {odd.PointSpreadAway == 0 || odd.PointSpreadAway == 0.0 ? (
+                  {odd.MoneyLineHome == "0" || odd.MoneyLineHome == 0.0 ? (
                     <div className="lineContainer">N/A</div>
                   ) : (
                     <div

@@ -220,7 +220,7 @@ function MyBets() {
                 {bet.gameLine + " "}
                 {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
               </div>
-              <div>{bet.status}</div>
+              <div>{bet.result}</div>
             </BetsContainerHeader>
             <WagerHeader>
               Wager: ${bet.wager} To Pay: ${bet.toWin}

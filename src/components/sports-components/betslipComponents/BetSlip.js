@@ -95,27 +95,51 @@ function BetSlip() {
         alert("NOT ENOUGH FUNDS BROKE ASS");
       } else {
         try {
-          // first create the order for bets with createOrder mutation from apiSlice
-          let { data: order } = await createOrder(payload);
-          console.log(order);
-          // Then map through bets and create bets using createBet mutation
-          betSlip.forEach(async (bet) => {
-            // append orderId to each bet for association
-            let myBet = { ...bet, orderId: order.id };
-            // this not the real id so delete, new id will be appended through sequelize
-            delete myBet.id;
-            // create the bet
-            let { data: newBet } = await createBet(myBet);
-            // GG
-            console.log(newBet);
-          });
+          if (isNaN(myBet.wager) && isNaN(wager)) {
+            // first create the order for bets with createOrder mutation from apiSlice
+            let { data: order } = await createOrder(payload);
+            // Then map through bets and create bets using createBet mutation
+            betSlip.forEach(async (bet) => {
+              // append orderId to each bet for association
+              let myBet = { ...bet, orderId: order.id };
+              // this not the real id so delete, new id will be appended through sequelize
+              delete myBet.id;
+              // create the bet if wager fields are greater than 0
+              await createBet(myBet);
+            });
+            await updateFunds({
+              funds: user.balance - totalWager,
+              id: user.id,
+            });
+          } else {
+            alert("Please enter a wager amount");
+          }
 
           // update user funds after everything is successfull
-          await updateFunds({ funds: user.balance - totalWager, id: user.id });
+
+          // create a parlay
+          if (toWin > 1) {
+            let { data: parlay } = await createOrder({
+              ...payload,
+              isParlay: true,
+              wager: wager,
+              toWin: toWin,
+            });
+            betSlip.forEach(async (bet) => {
+              // append orderId to each bet for association
+              let myBet = { ...bet, orderId: parlay.id };
+              // this not the real id so delete, new id will be appended through sequelize
+              delete myBet.id;
+              // create the bet
+              await createBet(myBet);
+            });
+            await updateFunds({ funds: user.balance - wager, id: user.id });
+          }
+
           // remove bets from slip
           dispatch(RemoveAllSelections());
         } catch (error) {
-          alert(error);
+          throw new Error(error);
         }
       }
     }
@@ -126,7 +150,7 @@ function BetSlip() {
       <BetSlipHeaderContainer onClick={() => setToggled(!toggled)}>
         {" "}
         <div>{betSlip.length} Bet Slip</div>
-        {betSlip.length > 1 && <div>Parlay Odds +{parlayOdds}</div>}
+        {betSlip.length > 1 && <div>Parlay Odds {parlayOdds}</div>}
       </BetSlipHeaderContainer>
 
       {toggled && (
@@ -157,7 +181,7 @@ function BetSlip() {
           {status === "authenticated" ? (
             <Submit onClick={() => submitBets()}>Lock In Bet(s)</Submit>
           ) : (
-            <Link href="/LogIn">
+            <Link href="/login">
               <Submit>Log In to Place Bet</Submit>
             </Link>
           )}
