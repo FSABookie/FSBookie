@@ -64,6 +64,10 @@ const Content = styled.div`
     background: white;
     width: 100%;
   }
+  
+  .singleComment {
+    margin-left: 10%;
+  }
 
   .postInfo {
     padding: 4%;
@@ -150,11 +154,22 @@ function SinglePost() {
           </div>
               <ul className="userList">
                 {post.comments.map((comment, idx) => {
+                  console.log(comment)
                   return (
                     <li key={idx}>
                       <div className="singleReply">
                         <h4>{comment.username}</h4>
                         <p className="commentBody">{comment.body}</p>
+                        {comment.comments.length ? comment.comments.map((comment, idx) => {
+                          return (
+                            <li key={idx}>
+                              <div className="singleComment">
+                              <h4>{comment.username}</h4>
+                              <p className="commentBody">{comment.body}</p>
+                              </div>
+                            </li>
+                          )
+                        }) : null} 
                       </div>
                     </li>
                   );

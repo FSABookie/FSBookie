@@ -185,6 +185,5 @@ export const {
   useDeletePostMutation,
   useCreateCommentMutation,
   useIncrementLikeMutation,
-  useGetCommentMutation,
   useDeleteCommentMutation,
 } = apiSlice;

@@ -25,9 +25,17 @@ const comments = [
     likes: 10,
   },
   {
-    postId: 3,
     username: 'jonnyboi',
-    body: "TESTING TESTING COMMENTS",
+    isParent: false,
+    commentId: 1,
+    body: "TESTING NESTED COMMENTS",
+    likes: 5,
+  },
+  {
+    postId: 3,
+    username: 'byoonster',
+    isParent: false,
+    body: "TESTING NESTED COMMENTS",
     likes: 5,
   },
 ];
