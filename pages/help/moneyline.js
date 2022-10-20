@@ -170,9 +170,9 @@ function moneyline() {
         </p>
 
         <div className="signUp">
-             <a href='/signup'>
+             <Link href='/signup'>
                  SIGN UP
-            </a>
+            </Link>
         </div>
     </Odds>
 
