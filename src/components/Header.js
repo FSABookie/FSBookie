@@ -13,6 +13,8 @@ const headerMainHeight = "7em";
 const headerTopHeight = "2em";
 
 const HeaderContainer = styled.div`
+  display: hidden;
+@media only screen and (max-width: 850px) {
   color: white;
   height: 4vh;
   h1,
@@ -21,9 +23,16 @@ const HeaderContainer = styled.div`
       color: lightgray;
     }
   }
+
+ 
+    
+    
+    
+  }
 `;
 const HeaderTop = styled.div`
-  height: 100%;
+@media only screen and (max-width: 850px) {
+  height: 1000%;
   background-color: black;
   display: flex;
   justify-content: space-between;
@@ -35,6 +44,7 @@ const HeaderTop = styled.div`
     margin-top: 0.27em;
     padding: 0 0.4em 0.15em;
   }
+  
   .hide {
     min-height: 10px;
     position: absolute;
@@ -48,6 +58,7 @@ const HeaderTop = styled.div`
     width: 0%;
     z-index: 4;
   }
+}
 `;
 
 const mobileLogoTextWidth = "3.62em";
@@ -167,7 +178,7 @@ const Page = styled.div`
   width: 50%
 }
 @media only screen and (min-width: 850px) {
-  width: 30%
+  width: 20%;
 }
   width: 70%;
   transition: 0.5s;
@@ -180,7 +191,7 @@ const Page = styled.div`
   text-overflow: clip;
   white-space: nowrap;
   @media only screen and (min-width: 375px) {
-    background: #393636;
+    background: #242424;
   }
   button {
   }
@@ -198,7 +209,9 @@ const Page = styled.div`
   }
 
   .singleLink {
+    @media only screen and (max-width: 850px) {
     border-bottom: 1px solid grey;
+    }
     padding-bottom:5%;
   }
 `;
@@ -271,7 +284,7 @@ function Header() {
       <HeaderTop className="hfLinks">
         {session ? (
           <>
-            <GiHamburgerMenu onClick={toggleNav} />
+            <GiHamburgerMenu className="burgermenu" onClick={toggleNav} />
 
             <Page ref={mySidenavRef} className={"hide"}>
               <Menu className="sidenav">
@@ -281,9 +294,9 @@ function Header() {
 							>
 								&times;
 							</a> */}
-              <div className="sideLinks">
+              <div className="sideLinks" onClick={toggleNav}>
                 <div className="singleLink">
-                <Link href="/sportsbook">Home</Link>
+                <Link href="/sportsbook/NFL">Home</Link>
                 </div>
                 <div className="singleLink">
                 <Link href="/myBets">My Bets</Link>
@@ -295,7 +308,7 @@ function Header() {
                 <Link href="/posts">Forum</Link>
                 </div>
                 <div className="singleLink">
-                <Link href="#">Projections</Link>
+                <Link href="/projections/NFL">Projections</Link>
                 </div>
                 </div>
               </Menu>
@@ -330,9 +343,9 @@ function Header() {
 			>
 				&times;
 			</a> */}
-            <div className="sideLinks">
+            <div className="sideLinks" onClick={toggleNav}>
             <div className="singleLink">
-                <Link href="/sportsbook">Home</Link>
+                <Link href="/sportsbook/NFL">Home</Link>
                 </div>
                 <div className="singleLink">
                 <Link href="/myBets">My Bets</Link>
@@ -344,7 +357,7 @@ function Header() {
                 <Link href="/posts">Forum</Link>
                 </div>
                 <div className="singleLink">
-                <Link href="#">Projections</Link>
+                <Link href="/projections/NFL">Projections</Link>
                 </div>
                 </div>
               </Menu>

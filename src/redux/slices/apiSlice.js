@@ -154,6 +154,14 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["comments"],
     }),
+    incrementLike: builder.mutation({
+      query: (payload) => ({
+        url: `/posts/${payload.id}`,
+        method: 'PUT',
+        body: payload.payload,
+      }),
+    invalidatesTags: ["posts", "post"]
+    }),
   }),
 });
 
@@ -176,7 +184,7 @@ export const {
   useCreatePostMutation,
   useDeletePostMutation,
   useCreateCommentMutation,
-  useGetCommentsQuery,
+  useIncrementLikeMutation,
   useGetCommentMutation,
   useDeleteCommentMutation,
 } = apiSlice;
