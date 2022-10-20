@@ -14,7 +14,7 @@ const headerTopHeight = "2em";
 
 const HeaderContainer = styled.div`
   display: hidden;
-@media only screen and (max-width: 850px) {
+
   color: white;
   height: 4vh;
   h1,
@@ -23,16 +23,13 @@ const HeaderContainer = styled.div`
       color: lightgray;
     }
   }
-
- 
-    
-    
+  @media only screen and (max-width: 850px) {
     
   }
+  
 `;
 const HeaderTop = styled.div`
-@media only screen and (max-width: 850px) {
-  height: 1000%;
+  height: 100%;
   background-color: black;
   display: flex;
   justify-content: space-between;
@@ -58,7 +55,34 @@ const HeaderTop = styled.div`
     width: 0%;
     z-index: 4;
   }
-}
+  @media only screen and (max-width: 850px) {
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    * {
+      margin: auto 0;
+    }
+    p {
+      margin-top: 0.27em;
+      padding: 0 0.4em 0.15em;
+    }
+    
+    .hide {
+      min-height: 10px;
+      position: absolute;
+      left: 0;
+      top: 4%;
+      height: 530vh;
+      transition: 0.5s;
+      overflow: hidden;
+      text-overflow: clip;
+      white-space: nowrap;
+      width: 0%;
+      z-index: 4;
+    }
+ }
 `;
 
 const mobileLogoTextWidth = "3.62em";
@@ -211,6 +235,7 @@ const Page = styled.div`
   .singleLink {
     @media only screen and (max-width: 850px) {
     border-bottom: 1px solid grey;
+    padding-bottom:5%;
     }
     padding-bottom:5%;
   }
