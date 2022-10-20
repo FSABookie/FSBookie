@@ -26,6 +26,10 @@ background: url('/p404.png'), #D5D3D3;
   background-color: white;
   padding: 1.5%;
   width: 100%;
+  @media only screen and (min-width: 850px) {
+    width: 75%;
+    margin-left: 22.5%;
+  }
 }
 
  .footer {
