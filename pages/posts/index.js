@@ -4,13 +4,11 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import {
   useGetPostsQuery,
-  useGetPostQuery,
-  useGetUserQuery,
-  useCreatePostMutation,
-  useDeletePostMutation,
+  useIncrementLikeMutation,
 } from "../../src/redux/slices/apiSlice";
 import { selectId } from "../../src/redux/slices/postSlice";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Content = styled.div`
 height: 100%;
@@ -51,6 +49,7 @@ background: url('/p404.png'), #D5D3D3;
   margin: 4%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 0.5em;
  }
 
@@ -70,7 +69,12 @@ background: url('/p404.png'), #D5D3D3;
 
 function Posts() {
   const { data: posts } = useGetPostsQuery();
+  const [ incrementLike ] = useIncrementLikeMutation();
   const dispatch = useDispatch();
+
+  async function handleLikes(payload) {
+    await incrementLike(payload)
+  }
   // IDK if we should do getSingleUserQuery like here or create another APIslice to get all Users
   // and then just plug in the ID given from post.userId
 
@@ -94,7 +98,8 @@ function Posts() {
                 <div className="postDetail">
                Posted by: {post.username} {post.createdAt}<br></br> </div>
                <div className="postDetail">
-               <ThumbUpIcon fontSize="small"/> {post.likes} <br></br>
+               <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> <br></br>
+               <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} /> {post.likes} <br></br>
                </div>
                {/* <div className="postDetail">
               Created At: {post.createdAt}<br></br></div> */}
