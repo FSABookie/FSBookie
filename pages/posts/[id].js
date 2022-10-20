@@ -21,12 +21,15 @@ const Content = styled.div`
     list-style: none;
     width: max-width;
     padding: 0;
+    margin: 0;
   }
 
   .backBtnDiv {
     padding-bottom: 8%;
     padding-top: 2%;
     padding-left: 2%;
+    background-color: #242424;
+    
   }
 
   .backBtn {
@@ -34,7 +37,10 @@ const Content = styled.div`
     border-radius:8px;
     height: 1.5em;
     width: 5em;
-    font-weight: bold;
+    font-weight: 650;
+    background: black;
+    color: white;
+    position: fixed;
   }
 
   .replyForm {
@@ -61,15 +67,26 @@ const Content = styled.div`
   .singleReply {
     background: white;
     width: 100%;
+    background-color: #242424;
+    color: black;
+
+    h4 {
+      color: white;
+      margin-top: 2px;
+    }
   }
 
   .postInfo {
     padding: 4%;
+    color: #D5D3D3;
+    background-color: #242424;
   }
 
   .commentBody {
     font-weight: 300;
     padding: 1.5%;
+    margin-bottom: 0;
+    background-color:#d5d3d3;
   }
 
   .likes {
