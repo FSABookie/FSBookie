@@ -2,15 +2,17 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 import {
   useCreateCommentMutation,
   useGetPostQuery,
+  useIncrementLikeMutation,
 } from "../../src/redux/slices/apiSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Content = styled.div`
   background-color: white;
@@ -87,6 +89,7 @@ const Content = styled.div`
 
 function SinglePost() {
   const { data: session } = useSession();
+  const [ incrementLike ] = useIncrementLikeMutation();
   const [CreateComment] = useCreateCommentMutation();
   const bodyRef = useRef();
   const router = useRouter();
@@ -112,6 +115,11 @@ function SinglePost() {
     }
   }
 
+  async function handleLikes(payload) {
+    await incrementLike(payload)
+  }
+    
+
   return (
     <Content>
       {session ? (
@@ -128,7 +136,8 @@ function SinglePost() {
               
               <br></br>
               <div className="likes">
-              <ThumbUpIcon fontSize="small"/> {post.likes} <br></br>
+              <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> <br></br>
+              <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} /> {post.likes} <br></br>
               </div>
               <h2>{post.title}</h2>
               <p>{post.body}</p>

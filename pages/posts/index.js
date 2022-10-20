@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
+import { useSession } from "next-auth/react";
 import {
   useGetPostsQuery,
   useIncrementLikeMutation,
@@ -71,9 +72,14 @@ function Posts() {
   const { data: posts } = useGetPostsQuery();
   const [ incrementLike ] = useIncrementLikeMutation();
   const dispatch = useDispatch();
+  const { data: session } = useSession();
 
   async function handleLikes(payload) {
+    if (session) {
     await incrementLike(payload)
+    } else {
+      alert("Please Login To Like Posts!")
+    }
   }
   // IDK if we should do getSingleUserQuery like here or create another APIslice to get all Users
   // and then just plug in the ID given from post.userId
