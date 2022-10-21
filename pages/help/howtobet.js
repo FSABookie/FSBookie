@@ -56,6 +56,12 @@ const BetTypes = styled.div `
         padding-top: 5%;
         padding-bottom: 5%;
     }
+
+    @media only screen and (min-width: 850px) {
+        a {
+            padding: 2%;
+        }
+    }
 `
 const Odds = styled.div `
     width: 100%;
@@ -86,6 +92,19 @@ const Odds = styled.div `
 
     .signUp {
         padding-top: 6%;
+    }
+
+
+    @media only screen and (min-width: 850px) {
+        img {
+            display: none;
+        }
+        margin-bottom: 0;
+        padding-top: 5%;
+
+        a{
+            padding: 2%;
+        }
     }
 `
 
