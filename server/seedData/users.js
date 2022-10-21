@@ -25,6 +25,7 @@ const users = [
     lastName: "Margolin",
     isAdmin: true,
     balance: 100000,
+    username: "dannyman"
   },
   {
     email: "jake69@gmail.com",
