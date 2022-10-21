@@ -10,7 +10,7 @@ import {
 const Content = styled.div`
 height: 100vh;
 background-color: white;
-background: url('/p404.png'),#242424;
+background: url('/basketball.png'),#242424;
 
 
 .postForm {
@@ -21,7 +21,7 @@ background: url('/p404.png'),#242424;
 }
 
 .topbar {
-  padding-top: 10%
+  padding-top: 10%;
   display: flex;
   flex-direction: column;
   gap: 1em;
