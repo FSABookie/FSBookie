@@ -24,7 +24,7 @@ const HeaderContainer = styled.div`
     }
   }
   @media only screen and (max-width: 850px) {
-    
+
   }
   
 `;
@@ -327,7 +327,7 @@ function Header() {
                 <Link href="/myBets">My Bets</Link>
                 </div>
                 <div className="singleLink">
-                <Link href="#">How To Bet</Link>
+                <Link href="/help/howtobet">How To Bet</Link>
                 </div>
                 <div className="singleLink">
                 <Link href="/posts">Forum</Link>
@@ -376,7 +376,7 @@ function Header() {
                 <Link href="/myBets">My Bets</Link>
                 </div>
                 <div className="singleLink">
-                <Link href="#">How To Bet</Link>
+                <Link href="/help/howtobet">How To Bet</Link>
                 </div>
                 <div className="singleLink">
                 <Link href="/posts">Forum</Link>

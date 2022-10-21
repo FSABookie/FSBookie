@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
+import { useSession } from "next-auth/react";
 import {
   useGetPostsQuery,
   useIncrementLikeMutation,
@@ -14,7 +15,7 @@ const Content = styled.div`
 height: 100%;
 background-color: white;
 /* I was thinking we can Have a cool background image for our Forums Page! */
-background: url('/p404.png'), #D5D3D3;
+background: url('/p404.png'), #242424;
 
 .postList {
   list-style: none;
@@ -23,19 +24,20 @@ background: url('/p404.png'), #D5D3D3;
 }
 
 .row{
-  background-color: white;
+  background-color: black;
+  color: #D5D3D3;
   padding: 1.5%;
   width: 100%;
   @media only screen and (min-width: 850px) {
-    width: 75%;
-    margin-left: 22.5%;
+    // width: 100%;
+    // margin-left: 22.5%;
   }
 }
 
  .footer {
   border-top: 1.5px solid black;
   color:#D5D3D3;
-  background-color: #D5D3D3;
+  background-color: #242424;
   text-align: center;
   position: fixed;
   bottom: 0;
@@ -66,6 +68,8 @@ background: url('/p404.png'), #D5D3D3;
   padding: 2%;
   border: none;
   font-size: 1em;
+  background-color: #D5D3D3;
+  color:#242424;
  }
 `;
 
@@ -75,9 +79,14 @@ function Posts() {
   const { data: posts } = useGetPostsQuery();
   const [ incrementLike ] = useIncrementLikeMutation();
   const dispatch = useDispatch();
+  const { data: session } = useSession();
 
   async function handleLikes(payload) {
+    if (session) {
     await incrementLike(payload)
+    } else {
+      alert("Please Login To Like Posts!")
+    }
   }
   // IDK if we should do getSingleUserQuery like here or create another APIslice to get all Users
   // and then just plug in the ID given from post.userId

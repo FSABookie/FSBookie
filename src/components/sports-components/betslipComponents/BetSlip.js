@@ -164,7 +164,7 @@ function BetSlip() {
 
       {toggled && (
         <>
-          {status === "authenticated" ? (
+          {(status === "authenticated" && isSuccess) ? (
             <Funds>Your Available Funds : ${user.balance}</Funds>
           ) : (
             <Funds>Log In To See Funds</Funds>

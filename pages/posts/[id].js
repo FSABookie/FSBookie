@@ -2,15 +2,17 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 import {
   useCreateCommentMutation,
   useGetPostQuery,
+  useIncrementLikeMutation,
 } from "../../src/redux/slices/apiSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Content = styled.div`
   background-color: white;
@@ -21,12 +23,15 @@ const Content = styled.div`
     list-style: none;
     width: max-width;
     padding: 0;
+    margin: 0;
   }
 
   .backBtnDiv {
     padding-bottom: 8%;
     padding-top: 2%;
     padding-left: 2%;
+    background-color: #242424;
+    
   }
 
   .backBtn {
@@ -34,7 +39,10 @@ const Content = styled.div`
     border-radius:8px;
     height: 1.5em;
     width: 5em;
-    font-weight: bold;
+    font-weight: 650;
+    background: black;
+    color: white;
+    position: fixed;
   }
 
   .replyForm {
@@ -61,15 +69,30 @@ const Content = styled.div`
   .singleReply {
     background: white;
     width: 100%;
+    background-color: #242424;
+    color: black;
+
+    h4 {
+      color: white;
+      margin-top: 2px;
+    }
+  }
+  
+  .singleComment {
+    margin-left: 10%;
   }
 
   .postInfo {
     padding: 4%;
+    color: #D5D3D3;
+    background-color: #242424;
   }
 
   .commentBody {
     font-weight: 300;
     padding: 1.5%;
+    margin-bottom: 0;
+    background-color:#d5d3d3;
   }
 
   .likes {
@@ -87,6 +110,7 @@ const Content = styled.div`
 
 function SinglePost() {
   const { data: session } = useSession();
+  const [ incrementLike ] = useIncrementLikeMutation();
   const [CreateComment] = useCreateCommentMutation();
   const bodyRef = useRef();
   const router = useRouter();
@@ -112,6 +136,11 @@ function SinglePost() {
     }
   }
 
+  async function handleLikes(payload) {
+    await incrementLike(payload)
+  }
+    
+
   return (
     <Content>
       {session ? (
@@ -128,7 +157,8 @@ function SinglePost() {
               
               <br></br>
               <div className="likes">
-              <ThumbUpIcon fontSize="small"/> {post.likes} <br></br>
+              <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> <br></br>
+              <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} /> {post.likes} <br></br>
               </div>
               <h2>{post.title}</h2>
               <p>{post.body}</p>
@@ -141,11 +171,22 @@ function SinglePost() {
           </div>
               <ul className="userList">
                 {post.comments.map((comment, idx) => {
+                  console.log(comment)
                   return (
                     <li key={idx}>
                       <div className="singleReply">
                         <h4>{comment.username}</h4>
                         <p className="commentBody">{comment.body}</p>
+                        {comment.comments.length ? comment.comments.map((comment, idx) => {
+                          return (
+                            <li key={idx}>
+                              <div className="singleComment">
+                              <h4>{comment.username}</h4>
+                              <p className="commentBody">{comment.body}</p>
+                              </div>
+                            </li>
+                          )
+                        }) : null} 
                       </div>
                     </li>
                   );

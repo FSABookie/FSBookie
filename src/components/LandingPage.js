@@ -19,6 +19,9 @@ const Header = styled.div`
   flex-direction: row;
   column-gap: 70%;
   background: #1493ff;
+  @media only screen and (min-width: 850px) {
+    column-gap: 90%;
+  }
 `;
 const Loginbtn = styled.div`
   margin-top: 1em;
@@ -26,7 +29,7 @@ const Loginbtn = styled.div`
 const Headerfoot = styled.div`
   display: flex;
   flex-direction: row;
-  column-gap: 18%;
+  column-gap: 21%;
   width: 100vw;
   color: white;
   height: 2.25em;
@@ -35,6 +38,10 @@ const Headerfoot = styled.div`
   background: #1f375b;
   .sportbook {
     margin-left: 0.6em;
+  }
+
+  @media only screen and (min-width: 850px) {
+    column-gap: 40%;
   }
 `;
 const Welcomemsg = styled.div`
@@ -56,10 +63,18 @@ const Welcomemsg = styled.div`
   }
   margin-top: 35%;
 
+  @media only screen and (min-width: 850px) {
+    margin-top: 12%;
+  }
   img {
     display: flex;
     width: 80%;
     margin-left: 18%;
+
+    @media only screen and (min-width: 850px) {
+      width: 45%;
+      margin-left: 34%;
+    }
   }
   a {
     color: lightgreen;
@@ -68,6 +83,10 @@ const Welcomemsg = styled.div`
     font-weight: bold;
     border-radius: 0.55em;
     box-shadow: 0 12px 16px 4px rgb(0 0 0 / 20%);
+
+    @media only screen and (min-width: 850px) {
+     padding: 2%;
+    }
   }
 `;
 
@@ -107,6 +126,10 @@ const Projectionsinfo = styled.div`
     color: white;
     font-weight: 250;
   }
+
+  @media only screen and (min-width: 850px) {
+    margin-top: 6%;
+   }
 `;
 
 const Headercontainer = styled.div`

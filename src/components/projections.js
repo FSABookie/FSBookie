@@ -198,7 +198,7 @@ const Projections = ({games}) => {
 			bets[bet.betId] = {[bet.gameLine]: 1};
 		}
 	});
-	console.log(games);
+	console.log(bets);
 
 	return (
 		<div>
