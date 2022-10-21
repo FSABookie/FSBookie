@@ -64,10 +64,7 @@ const Overview = styled.div `
             color: green;
         }
     }
-
-    }
-
-`
+`;
 
 const BetTypes = styled.div `
     margin-top: 5%;
@@ -158,7 +155,7 @@ function parlay() {
         Parlay
     </h2>
     <p className='moneylineInfo'>
-    A 'Parlay' bet is a bet placed on multiple outcomes to occur. For a Parlay bet to win, all outcomes within the Parlay must be selected correctly. The odds for each pick are multiplied by one another to determine the odds for the Parlay.
+    A &apos;Parlay&apos; bet is a bet placed on multiple outcomes to occur. For a Parlay bet to win, all outcomes within the Parlay must be selected correctly. The odds for each pick are multiplied by one another to determine the odds for the Parlay.
     </p>
     <p className='moneylineInfo'>
     For example, New England at -150 odds, parlayed with New York at +200 odds, would result in +400 odds. Wager $20 on the above two picks, see New England and New York BOTH win and you cash in with a cool $80 payout.
