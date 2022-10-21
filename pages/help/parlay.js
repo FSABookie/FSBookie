@@ -167,7 +167,7 @@ function parlay() {
 
     <BetTypes>
         <h2>
-          You're Ready To Bet!
+          You&apos;re Ready To Bet!
         </h2>
         <p> Sign up now to place a bet</p>
         <div className="getStarted">
