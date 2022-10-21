@@ -176,6 +176,7 @@ function SinglePost() {
                       <div className="singleReply">
                         <h4>{comment.username}</h4>
                         <p className="commentBody">{comment.body}</p>
+                        <ul>
                         {comment.comments.length ? comment.comments.map((comment, idx) => {
                           return (
                             <li key={idx}>
@@ -186,6 +187,7 @@ function SinglePost() {
                             </li>
                           )
                         }) : null} 
+                        </ul>
                       </div>
                     </li>
                   );
