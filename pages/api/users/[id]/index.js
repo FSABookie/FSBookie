@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { User, Order, Bet } from "../../../../server/db";
+import { User, Bet, Parlay } from "../../../../server/db";
 
 export default async function handler(req, res) {
   const { id } = req.query;
@@ -11,13 +11,14 @@ export default async function handler(req, res) {
         },
         include: [
           {
-            model: Order,
+            model: Parlay,
             include: [
               {
                 model: Bet,
               },
             ],
           },
+          { model: Bet },
         ],
       });
       console.log(user);

@@ -55,7 +55,6 @@ function BetSlipGame({ bet }) {
         bet: bet,
       })
     );
-    console.log(bet);
   }, [wager, toWin]);
 
   return (

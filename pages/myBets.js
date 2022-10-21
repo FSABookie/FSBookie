@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   useGetUserQuery,
   useUpdateBetsMutation,
-  useUpdateOrderMutation,
+  useUpdateParlayMutation,
   useUpdateUserFundsMutation,
   useGetUsersActiveBetsQuery,
 } from "../src/redux/slices/apiSlice";
@@ -102,8 +102,16 @@ const TeamContainer = styled.div`
   padding: 1em 0.75em 1em 0.5em;
   font-size: 0.8rem;
 
+  img {
+    width: 12%;
+    padding-right: 0.25em;
+  }
+
   div {
     margin-bottom: 0.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   ${
@@ -129,7 +137,7 @@ function MyBets() {
       status === "authenticated" ? session.user.id : skipToken
     );
   const { usersBets, filteredBets } = useSelector((state) => state.usersBets);
-  const [updateOrder] = useUpdateOrderMutation();
+  const [updateParlay] = useUpdateParlayMutation();
   const [updateBet] = useUpdateBetsMutation();
   const [updateFunds] = useUpdateUserFundsMutation();
 
@@ -137,19 +145,18 @@ function MyBets() {
 
   useEffect(() => {
     dispatch(clearBets());
-    user &&
-      user.orders.forEach((order) =>
-        order.bets.forEach((bet) => dispatch(getBets(bet)))
-      );
+    isSuccess && user.bets.forEach((bet) => dispatch(getBets(bet)));
+    // console.log(user.parlays);
+    isSuccess && user.parlays.forEach((parlay) => dispatch(getBets(parlay)));
+    isSuccess && console.log(filteredBets);
   }, [dispatch, user]);
 
   useEffect(() => {
+    console.log(user);
     // if we are able to successfully get users active bets
-    gotActiveBets && console.log("active bets", usersActiveBets);
-    // map through orders
-    usersActiveBets?.orders.forEach((order) => {
-      // map through bets
-      order.bets
+    // map through bets
+    user?.bets &&
+      user.bets
         .filter((bet) => bet.status !== "complete")
         .forEach(async (bet) => {
           // fetch the api result for each active bet
@@ -185,7 +192,39 @@ function MyBets() {
             await updateBet({ id: bet.id, payload });
           }
         });
-    });
+
+    user?.parlays &&
+      user.parlays
+        .filter((parlay) => parlay.isActive)
+        .forEach(async (bet) => {
+          const { payload } = await dispatch(checkBetsThunk(bet.betId));
+          if (payload[0]?.FinalType === "NotFinished") return;
+          //dispatch data
+          const data = await dispatch(
+            determineWinnerThunk({ bet: bet, api: payload[0] })
+          );
+          // if the bet won, settle users funds
+
+          if (data.payload === "won") {
+            let payload = {
+              isActive: false,
+              status: "completed",
+              result: "won",
+            };
+            await updateBet({ id: bet.id, payload });
+          }
+
+          // IF THE BET LOSES
+          if (data.payload === "lost") {
+            let payload = {
+              isActive: false,
+              status: "completed",
+              result: "lost",
+            };
+            await updateBet({ id: bet.id, payload });
+            await updateParlay({ id: parlay.id, payload });
+          }
+        });
   }, [dispatch]);
 
   return (
@@ -212,34 +251,58 @@ function MyBets() {
           Lost
         </div>
       </SportsHeader>
-      {filteredBets.map((bet) => {
-        return (
-          <BetsContainer key={bet.id}>
-            <BetsContainerHeader>
-              <div>
-                {bet.gameLine + " "}
-                {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
-              </div>
-              <div>{bet.result}</div>
-            </BetsContainerHeader>
-            <WagerHeader>
-              Wager: ${bet.wager} To Pay: ${bet.toWin}
-            </WagerHeader>
-            <TeamContainer>
-              <div>
-                <img src={bet.homeTeamLogo} />
-                {bet.homeTeam}
-              </div>
-              <div>
-                <img src={bet.awayTeamLogo} />
-                {bet.awayTeam}
-              </div>
-              {bet.time}
-            </TeamContainer>
-            {bet.createdAt}
-          </BetsContainer>
-        );
-      })}
+      {filteredBets &&
+        filteredBets.map((bet) => {
+          return !bet.parlayId && bet.betType !== "parlay" ? (
+            <BetsContainer key={bet.id}>
+              <BetsContainerHeader>
+                <div>
+                  {bet.gameLine + " "}
+                  {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
+                </div>
+                <div>{bet.result}</div>
+              </BetsContainerHeader>
+              <WagerHeader>
+                Wager: ${bet.wager} To Pay: ${bet.toWin}
+              </WagerHeader>
+              <TeamContainer>
+                <div>
+                  <img src={bet.homeTeamLogo} />
+                  {bet.homeTeam}
+                </div>
+                <div>
+                  <img src={bet.awayTeamLogo} />
+                  {bet.awayTeam}
+                </div>
+                {bet.time}
+              </TeamContainer>
+              {bet.createdAt}
+            </BetsContainer>
+          ) : (
+            bet.betType === "parlay" && (
+              <BetsContainer key={bet.id}>
+                {" "}
+                <BetsContainerHeader>
+                  <div>Parlay</div>
+                  <div>{bet.result}</div>
+                </BetsContainerHeader>
+                <WagerHeader>
+                  Wager: ${bet.wager} To Pay: ${bet.toWin}
+                </WagerHeader>
+                <TeamContainer>
+                  {bet.bets.map((bet) => (
+                    <div key={bet.id}>
+                      {bet.awayTeam} @ {bet.homeTeam}
+                      <div>{bet.gameLine}</div>
+                      <div>{bet.result}</div>
+                    </div>
+                  ))}
+                </TeamContainer>
+                {bet.createdAt}
+              </BetsContainer>
+            )
+          );
+        })}
     </Container>
   );
 }

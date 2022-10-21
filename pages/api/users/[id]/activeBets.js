@@ -1,4 +1,4 @@
-import { User, Order, Bet } from "../../../../server/db";
+import { User, Parlay, Bet } from "../../../../server/db";
 
 export default async function handler(req, res) {
   const { id } = req.query;
@@ -10,18 +10,13 @@ export default async function handler(req, res) {
         },
         include: [
           {
-            model: Order,
+            model: Parlay,
             where: {
               isActive: true,
             },
-            include: [
-              {
-                model: Bet,
-                where: {
-                  isActive: true,
-                },
-              },
-            ],
+          },
+          {
+            model: Bet,
           },
         ],
       });

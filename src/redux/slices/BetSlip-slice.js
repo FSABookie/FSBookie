@@ -15,7 +15,6 @@ const BetSlipSlice = createSlice({
   },
   reducers: {
     addToBetSlip(state, action) {
-      console.log("in dispatch", action.payload, state.betSlip[0]);
       state.betSlip = [...state.betSlip, action.payload];
     },
     RemoveFromBetSlip(state, action) {
