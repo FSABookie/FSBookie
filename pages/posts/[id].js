@@ -16,7 +16,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Content = styled.div`
   background-color: white;
-  background: url("/p404.png"), #D5D3D3;
+  background: url("/basketball.png"), #D5D3D3;
   height: 100vh;
   
   .userList {
