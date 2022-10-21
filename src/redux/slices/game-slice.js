@@ -47,6 +47,12 @@ const gameSlice = createSlice({
         odd.OddType.includes("Period")
       );
     },
+    selectInning: (state) => {
+      state.odds = null;
+      state.odds = state.game.Odds.filter((odd) =>
+        odd.OddType.includes("Inning")
+      );
+    },
   },
 });
 
@@ -56,5 +62,6 @@ export const {
   selectQuarter,
   selectFullGame,
   selectPeriod,
+  selectInning,
 } = gameSlice.actions;
 export default gameSlice;
