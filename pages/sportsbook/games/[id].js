@@ -279,7 +279,7 @@ function GamePage() {
 	console.log(trend);
 	console.log(bets);
 
-	return game && odd ? (
+	return (game && odd) ? (
 		<>
 			<SingleGameContainer>
 				<div className='GameHeader'>
