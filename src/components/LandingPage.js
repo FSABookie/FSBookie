@@ -29,19 +29,19 @@ const Loginbtn = styled.div`
 const Headerfoot = styled.div`
   display: flex;
   flex-direction: row;
-  column-gap: 21%;
+  column-gap: 8%;
   width: 100vw;
   color: white;
   height: 2.25em;
   padding: 0.5em;
-  font-weight: 200;
+  font-weight: 300;
   background: #1f375b;
   .sportbook {
     margin-left: 0.6em;
   }
 
   @media only screen and (min-width: 850px) {
-    column-gap: 40%;
+    column-gap: 26%;
   }
 `;
 const Welcomemsg = styled.div`
@@ -156,6 +156,11 @@ function LandingPage() {
           <div className="projections">Projections</div>
           <Link href="/posts">
           <div className="forum">Forum</div>
+          </Link>
+          <Link href='/help/howtobet'>
+          <div className="howtobet">
+            How to Bet
+          </div>
           </Link>
         </Headerfoot>
       </Headercontainer>
