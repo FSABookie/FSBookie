@@ -42,8 +42,7 @@ function Parlay({ wager, setWager, toWin, setToWin, parlayOdds, setOdds }) {
       // converting american odds to decimal to be able to calculate parlay
       let odds = oddslib.from("moneyline", ele.odds);
       odds.to("decimal");
-      setToWin((wager * odds.decimalValue).toFixed(2));
-
+      setToWin((wager * parlayOdds).toFixed(2));
       //calculating odds for parlay
       setOdds((oldState) => Number(oldState * odds.decimalValue).toFixed(2));
     });

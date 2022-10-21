@@ -10,19 +10,18 @@ import BetSlipGame from "./BetSlipGame";
 import Parlay from "./Parlay";
 import {
   useCreateBetsMutation,
-  useCreateOrderMutation,
+  useCreateParlayMutation,
   useGetUserQuery,
   useUpdateUserFundsMutation,
 } from "../../../redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const BetSlipConntainer = styled.div`
-@media only screen and (min-width: 850px) {
-  width: 25%;
-  margin-left: 76.5%;
-  
-}
-// @media only screen and (max-width: 850px) {
+  @media only screen and (min-width: 850px) {
+    width: 25%;
+    margin-left: 76.5%;
+  }
+  // @media only screen and (max-width: 850px) {
   bottom: 0;
   position: sticky;
   margin-top: 15%;
@@ -31,9 +30,10 @@ const BetSlipConntainer = styled.div`
   margin-right: 0.5em;
   border-radius: 10px;
   transition: 0.3s;
-  transform: ${({ open }) => (open ? "translateY(-30%)" : "translateY(-1000%)")};
+  transform: ${({ open }) =>
+    open ? "translateY(-30%)" : "translateY(-1000%)"};
   height: ${({ open }) => (open ? "100%" : "3em")};
-// }
+  // }
 `;
 
 const Funds = styled.div``;
@@ -52,7 +52,7 @@ const ClearBets = styled.div`
 `;
 
 const BetSlipHeaderContainer = styled.div`
-  position: relative; 
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -73,15 +73,11 @@ function BetSlip() {
   const { data: user, isSuccess } = useGetUserQuery(
     status === "authenticated" ? session.user.id : skipToken
   );
-  const [createOrder] = useCreateOrderMutation();
+  const [createParlay] = useCreateParlayMutation();
   const [createBet] = useCreateBetsMutation();
   const [updateFunds] = useUpdateUserFundsMutation();
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    isSuccess && console.log(user);
-  }, [isSuccess, user]);
 
   useEffect(() => {
     setTotalWager(0);
@@ -92,36 +88,65 @@ function BetSlip() {
   }, [betSlip]);
 
   const submitBets = async () => {
-    let payload = {
-      userId: user.id,
-      isParlay: false,
-      isActive: true,
-    };
-
     if (isSuccess) {
       if (user.balance < totalWager) {
         alert("NOT ENOUGH FUNDS BROKE ASS");
       } else {
         try {
           // first create the order for bets with createOrder mutation from apiSlice
-          let { data: order } = await createOrder(payload);
-          console.log(order);
           // Then map through bets and create bets using createBet mutation
           betSlip.forEach(async (bet) => {
             // append orderId to each bet for association
-            let myBet = { ...bet, orderId: order.id };
+            let myBet = { ...bet, userId: user.id };
             // this not the real id so delete, new id will be appended through sequelize
             delete myBet.id;
-            // create the bet
-            let { data: newBet } = await createBet(myBet);
-            // GG
-            console.log(newBet);
+            // create the bet if wager fields are greater than 0
+
+            !isNaN(myBet.wager)
+              ? await createBet(myBet)
+              : alert("Enter a wager amount for " + myBet.gameLine);
           });
 
           // update user funds after everything is successfull
-          await updateFunds({ funds: user.balance - totalWager, id: user.id });
+          await updateFunds({
+            funds: user.balance - totalWager,
+            id: user.id,
+          });
+
           // remove bets from slip
           dispatch(RemoveAllSelections());
+        } catch (error) {
+          alert(error);
+        }
+      }
+    }
+  };
+
+  const submitParlay = async () => {
+    if (isSuccess) {
+      if (user.balance < wager) {
+        alert("NOT ENOUGH FUNDS BROKE ASS");
+      } else {
+        try {
+          let { data: parlay } = await createParlay({
+            userId: user.id,
+            isActive: true,
+            wager: wager,
+            toWin: toWin,
+          });
+          betSlip.forEach(async (bet) => {
+            // append orderId to each bet for association
+            let myBet = { ...bet, userId: user.id, parlayId: parlay.id };
+            // this not the real id so delete, new id will be appended through sequelize
+            delete myBet.id;
+            // create the bet if wager fields are greater than 0
+
+            await createBet(myBet);
+          });
+          await updateFunds({
+            funds: user.balance - wager,
+            id: user.id,
+          });
         } catch (error) {
           alert(error);
         }
@@ -134,7 +159,7 @@ function BetSlip() {
       <BetSlipHeaderContainer onClick={() => setToggled(!toggled)}>
         {" "}
         <div>{betSlip.length} Bet Slip</div>
-        {betSlip.length > 1 && <div>Parlay Odds +{parlayOdds}</div>}
+        {betSlip.length > 1 && <div>Parlay Odds {parlayOdds}</div>}
       </BetSlipHeaderContainer>
 
       {toggled && (
@@ -152,6 +177,13 @@ function BetSlip() {
             <CgTrash color="red" />
             Remove all Selections
           </ClearBets>
+          {status === "authenticated" ? (
+            <Submit onClick={() => submitBets()}>Lock In Bet(s)</Submit>
+          ) : (
+            <Link href="/login">
+              <Submit>Log In to Place Bet</Submit>
+            </Link>
+          )}
           {betSlip.length > 1 && (
             <Parlay
               toWin={toWin}
@@ -163,9 +195,9 @@ function BetSlip() {
             />
           )}
           {status === "authenticated" ? (
-            <Submit onClick={() => submitBets()}>Lock In Bet(s)</Submit>
+            <Submit onClick={() => submitParlay()}>Lock In Parlay</Submit>
           ) : (
-            <Link href="/LogIn">
+            <Link href="/login">
               <Submit>Log In to Place Bet</Submit>
             </Link>
           )}
