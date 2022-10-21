@@ -13,6 +13,8 @@ const headerMainHeight = "7em";
 const headerTopHeight = "2em";
 
 const HeaderContainer = styled.div`
+  display: hidden;
+
   color: white;
   height: 4vh;
   h1,
@@ -21,6 +23,10 @@ const HeaderContainer = styled.div`
       color: lightgray;
     }
   }
+  @media only screen and (max-width: 850px) {
+
+  }
+  
 `;
 const HeaderTop = styled.div`
   height: 100%;
@@ -35,6 +41,7 @@ const HeaderTop = styled.div`
     margin-top: 0.27em;
     padding: 0 0.4em 0.15em;
   }
+  
   .hide {
     min-height: 10px;
     position: absolute;
@@ -48,6 +55,34 @@ const HeaderTop = styled.div`
     width: 0%;
     z-index: 4;
   }
+  @media only screen and (max-width: 850px) {
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    * {
+      margin: auto 0;
+    }
+    p {
+      margin-top: 0.27em;
+      padding: 0 0.4em 0.15em;
+    }
+    
+    .hide {
+      min-height: 10px;
+      position: absolute;
+      left: 0;
+      top: 4%;
+      height: 530vh;
+      transition: 0.5s;
+      overflow: hidden;
+      text-overflow: clip;
+      white-space: nowrap;
+      width: 0%;
+      z-index: 4;
+    }
+ }
 `;
 
 const mobileLogoTextWidth = "3.62em";
@@ -167,7 +202,7 @@ const Page = styled.div`
   width: 50%
 }
 @media only screen and (min-width: 850px) {
-  width: 30%
+  width: 20%;
 }
   width: 70%;
   transition: 0.5s;
@@ -180,7 +215,7 @@ const Page = styled.div`
   text-overflow: clip;
   white-space: nowrap;
   @media only screen and (min-width: 375px) {
-    background: #393636;
+    background: #242424;
   }
   button {
   }
@@ -198,7 +233,10 @@ const Page = styled.div`
   }
 
   .singleLink {
+    @media only screen and (max-width: 850px) {
     border-bottom: 1px solid grey;
+    padding-bottom:5%;
+    }
     padding-bottom:5%;
   }
 `;
@@ -271,7 +309,7 @@ function Header() {
       <HeaderTop className="hfLinks">
         {session ? (
           <>
-            <GiHamburgerMenu onClick={toggleNav} />
+            <GiHamburgerMenu className="burgermenu" onClick={toggleNav} />
 
             <Page ref={mySidenavRef} className={"hide"}>
               <Menu className="sidenav">
@@ -289,7 +327,7 @@ function Header() {
                 <Link href="/myBets">My Bets</Link>
                 </div>
                 <div className="singleLink">
-                <Link href="#">How To Bet</Link>
+                <Link href="/help/howtobet">How To Bet</Link>
                 </div>
                 <div className="singleLink">
                 <Link href="/posts">Forum</Link>
@@ -338,7 +376,7 @@ function Header() {
                 <Link href="/myBets">My Bets</Link>
                 </div>
                 <div className="singleLink">
-                <Link href="#">How To Bet</Link>
+                <Link href="/help/howtobet">How To Bet</Link>
                 </div>
                 <div className="singleLink">
                 <Link href="/posts">Forum</Link>

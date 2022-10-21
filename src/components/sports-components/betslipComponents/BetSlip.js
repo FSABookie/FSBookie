@@ -17,16 +17,23 @@ import {
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const BetSlipConntainer = styled.div`
-  bottom: 0%;
+@media only screen and (min-width: 850px) {
+  width: 25%;
+  margin-left: 76.5%;
+  
+}
+// @media only screen and (max-width: 850px) {
+  bottom: 0;
   position: sticky;
   margin-top: 15%;
   background-color: white;
   margin-left: 0.5em;
   margin-right: 0.5em;
   border-radius: 10px;
-  transition: 0.3s ease-in-out;
-  transform: ${({ open }) => (open ? "translateY(-0em)" : "translateY(-100%)")};
+  transition: 0.3s;
+  transform: ${({ open }) => (open ? "translateY(-30%)" : "translateY(-1000%)")};
   height: ${({ open }) => (open ? "100%" : "3em")};
+// }
 `;
 
 const Funds = styled.div``;
@@ -45,6 +52,7 @@ const ClearBets = styled.div`
 `;
 
 const BetSlipHeaderContainer = styled.div`
+  position: relative; 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -131,7 +139,7 @@ function BetSlip() {
 
       {toggled && (
         <>
-          {status === "authenticated" ? (
+          {(status === "authenticated" && isSuccess) ? (
             <Funds>Your Available Funds : ${user.balance}</Funds>
           ) : (
             <Funds>Log In To See Funds</Funds>
