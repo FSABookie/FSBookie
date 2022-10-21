@@ -170,12 +170,12 @@ function parlay() {
 
     <BetTypes>
         <h2>
-          Different Bet Types
+          You're Ready To Bet!
         </h2>
-        <p> Lets learn about Parlay betting and how to make a parlay</p>
+        <p> Sign up now to place a bet</p>
         <div className="getStarted">
-             <Link href='/help/parlay'>
-                 Parlays
+             <Link href='/signup'>
+                 Sign Up Now
             </Link>
         </div>
     </BetTypes>
