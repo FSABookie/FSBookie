@@ -99,7 +99,7 @@ function howtobet() {
                 SPORTS BETTING EXPLAINED
             </h1>
             <h3>
-            Ready to get started betting on sports with DraftKings Sportsbook? Good!
+            Ready to get started betting on sports with our Sportsbook? Good!
             </h3>
 
             <div className="signUp">
