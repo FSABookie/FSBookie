@@ -108,7 +108,7 @@ function Posts() {
                   {post.title}
                 </h4>
               </Link>
-              <p className="postDetails">
+              <div className="postDetails">
                 <div className="postDetail">
                Posted by: {post.username} {post.createdAt}<br></br> </div>
                <div className="postDetail">
@@ -118,7 +118,7 @@ function Posts() {
                {/* <div className="postDetail">
               Created At: {post.createdAt}<br></br></div> */}
               {post.comments.length} comments
-              </p>
+              </div>
             </li>
           </ul>
     )})}
