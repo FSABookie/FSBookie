@@ -4,10 +4,12 @@ import styled from 'styled-components';
 import BetSlip from '../../../src/components/sports-components/betslipComponents/BetSlip';
 import { addToBetSlip } from '../../../src/redux/slices/BetSlip-slice';
 import {
-	selectFirstHalf,
-	selectFullGame,
-	selectQuarter,
-} from '../../../src/redux/slices/game-slice';
+  selectFirstHalf,
+  selectFullGame,
+  selectPeriod,
+  selectQuarter,
+} from "../../../src/redux/slices/game-slice";
+
 import {
 	NBAlogos,
 	NFLlogos,
@@ -220,13 +222,7 @@ const Trend = styled.div`
 display: flex;
 justify-content: space-evenly;
 `;
-// async function getServerSideProps(context) {
-//   return {
-//     props: {
-//       sport: context.sport,
-//     },
-//   };
-// }
+
 
 function GamePage() {
 	const [d, setDate] = useState();
@@ -296,7 +292,6 @@ function GamePage() {
 						</div>
 					</div>
 				</div>
-
 				<div>
 					<SportsHeader>
 						<div onClick={() => dispatch(selectFullGame())}>

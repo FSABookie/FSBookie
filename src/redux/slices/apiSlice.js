@@ -15,7 +15,6 @@ export const apiSlice = createApi({
     "NFL",
     "NHL",
     "bets",
-    "orders",
     "user",
     "game",
     "allActiveBets",
@@ -23,6 +22,7 @@ export const apiSlice = createApi({
     "posts",
     "post",
     "comments",
+    "parlay",
   ],
   endpoints: (builder) => ({
     //Fetching all sports
@@ -70,21 +70,21 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["user"],
     }),
-    createOrder: builder.mutation({
+    createParlay: builder.mutation({
       query: (payload) => ({
-        url: "/orders",
+        url: "/Parlay",
         method: "POST",
         body: payload,
       }),
-      invalidatesTags: ["orders", "user", "usersActiveBets"],
+      invalidatesTags: ["parlay", "user", "usersActiveBets"],
     }),
-    updateOrder: builder.mutation({
+    updateParlay: builder.mutation({
       query: (payload) => ({
-        url: `/orders/${payload.id}`,
+        url: `/parlay/${payload.id}`,
         method: "PUT",
         body: payload.data,
       }),
-      invalidatesTags: ["orders", "user", "usersActiveBets"],
+      invalidatesTags: ["parlay", "user", "usersActiveBets"],
     }),
     createBets: builder.mutation({
       query: (payload) => ({
@@ -157,10 +157,10 @@ export const apiSlice = createApi({
     incrementLike: builder.mutation({
       query: (payload) => ({
         url: `/posts/${payload.id}`,
-        method: 'PUT',
+        method: "PUT",
         body: payload.payload,
       }),
-    invalidatesTags: ["posts", "post"]
+      invalidatesTags: ["posts", "post"],
     }),
   }),
 });
@@ -175,10 +175,10 @@ export const {
   useGetUserQuery,
   useGetUsersActiveBetsQuery,
   useUpdateUserFundsMutation,
-  useUpdateOrderMutation,
+  useUpdateParlayMutation,
   useCreateBetsMutation,
   useUpdateBetsMutation,
-  useCreateOrderMutation,
+  useCreateParlayMutation,
   useGetPostsQuery,
   useGetPostQuery,
   useCreatePostMutation,
