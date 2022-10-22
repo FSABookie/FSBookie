@@ -82,7 +82,7 @@ export const apiSlice = createApi({
       query: (payload) => ({
         url: `/parlay/${payload.id}`,
         method: "PUT",
-        body: payload.data,
+        body: payload.payload,
       }),
       invalidatesTags: ["parlay", "user", "usersActiveBets"],
     }),
