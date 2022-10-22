@@ -29,19 +29,19 @@ const Loginbtn = styled.div`
 const Headerfoot = styled.div`
   display: flex;
   flex-direction: row;
-  column-gap: 21%;
+  column-gap: 8%;
   width: 100vw;
   color: white;
   height: 2.25em;
   padding: 0.5em;
-  font-weight: 200;
+  font-weight: 300;
   background: #1f375b;
   .sportbook {
     margin-left: 0.6em;
   }
 
   @media only screen and (min-width: 850px) {
-    column-gap: 40%;
+    column-gap: 26%;
   }
 `;
 const Welcomemsg = styled.div`
@@ -157,6 +157,11 @@ function LandingPage() {
           <Link href="/posts">
           <div className="forum">Forum</div>
           </Link>
+          <Link href='/help/howtobet'>
+          <div className="howtobet">
+            How to Bet
+          </div>
+          </Link>
         </Headerfoot>
       </Headercontainer>
       <Welcomemsg>
@@ -170,22 +175,19 @@ function LandingPage() {
         </Link>
       </Welcomemsg>
       <Projectionsinfo>
-        <h1>WHY OURBOOKIE?</h1>
+        <h1>FSBookie</h1>
         <div className="infodiv">
           <div className="info">
-            <h3 className="infotitle">What are our Projections?</h3>
+            <h3 className="infotitle">Why Our Bookie?</h3>
             <p className="infop">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-              tincidunt hendrerit ante a porta. Maecenas ultricies tempor ex,
-              vel faucibus nibh blandit sit amet. Nunc vitae ante in urna rutrum
-              placerat. Nam aliquet velit in neque porttitor lacinia. Nulla sit
-              amet scelerisque sem. Maecenas semper, orci et consectetur rutrum,
-              nibh nisi efficitur nulla, ac mattis ex ex a risus. Curabitur in
-              ante ac arcu dignissim luctus. Vestibulum sagittis iaculis
-              sagittis. Etiam in scelerisque dolor. Sed consequat, felis at
-              gravida aliquam, nulla sem commodo urna, id pretium metus dui vel
-              massa. Quisque condimentum scelerisque pharetra. Vestibulum
-              faucibus tellus vel nibh dignissim, non dapibus libero tempor.
+            FSBookie aims to bring the best of both worlds from your everyday forums and 
+            sportsbooks statistics into one application! Our bookie not only provides live betting 
+            trends and gamelines for each game but also provides users with unique trends that 
+            can only be viewed on FSBookie. Trends allow the community (new or veteran users) to 
+            view live statistics of bets that other users are making. This allows new users to understand 
+            betting patterns better while allowing experienced users to take advantage 
+            of this data to make better-informed bets. Our forums will be a middle ground for users to 
+            exchange information about upcoming events while allowing for a competitive edge adding friendly-banter!
             </p>
             <h3 className="infotitle">Why Choose our Projections?</h3>
             <p className="infop">

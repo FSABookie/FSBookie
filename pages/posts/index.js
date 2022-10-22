@@ -13,19 +13,20 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Content = styled.div`
 height: 100%;
-background-color: white;
+background: url('/pbg.png');
+
 /* I was thinking we can Have a cool background image for our Forums Page! */
-background: url('/p404.png'), #242424;
 
 .postList {
   list-style: none;
   font-size: 1.1em;
   padding: 0;
+  color: white;
 }
 
 .row{
-  background-color: black;
-  color: #D5D3D3;
+  border-top: 3px solid #242424;
+  /* color: #D5D3D3; */
   padding: 1.5%;
   width: 100%;
   @media only screen and (min-width: 850px) {
@@ -35,7 +36,7 @@ background: url('/p404.png'), #242424;
 }
 
  .footer {
-  border-top: 1.5px solid black;
+  border-top: 1.5px solid #242424;
   color:#D5D3D3;
   background-color: #242424;
   text-align: center;
@@ -107,7 +108,7 @@ function Posts() {
                   {post.title}
                 </h4>
               </Link>
-              <p className="postDetails">
+              <div className="postDetails">
                 <div className="postDetail">
                Posted by: {post.username} {post.createdAt}<br></br> </div>
                <div className="postDetail">
@@ -117,7 +118,7 @@ function Posts() {
                {/* <div className="postDetail">
               Created At: {post.createdAt}<br></br></div> */}
               {post.comments.length} comments
-              </p>
+              </div>
             </li>
           </ul>
     )})}

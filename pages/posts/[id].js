@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -9,14 +9,13 @@ import {
   useGetPostQuery,
   useIncrementLikeMutation,
 } from "../../src/redux/slices/apiSlice";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Content = styled.div`
   background-color: white;
-  background: url("/p404.png"), #D5D3D3;
+  background: #D5D3D3;
   height: 100vh;
   
   .userList {
@@ -177,6 +176,7 @@ function SinglePost() {
                       <div className="singleReply">
                         <h4>{comment.username}</h4>
                         <p className="commentBody">{comment.body}</p>
+                        <ul>
                         {comment.comments.length ? comment.comments.map((comment, idx) => {
                           return (
                             <li key={idx}>
@@ -187,6 +187,7 @@ function SinglePost() {
                             </li>
                           )
                         }) : null} 
+                        </ul>
                       </div>
                     </li>
                   );
