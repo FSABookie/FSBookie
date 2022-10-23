@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 
-const deposit = () => {
+const Deposit = () => {
 
   const amountRef = useRef(0);
 
@@ -74,4 +74,4 @@ const handleClick = async() => {
   )
 }
 
-export default deposit
+export default Deposit
