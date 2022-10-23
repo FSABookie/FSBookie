@@ -26,9 +26,10 @@ export default async function handler(req, res) {
             console.log('EVENT', event);
 			if (event.type === 'checkout.session.completed') {
 				const charge = event.data.object;
-                const amount = +charge.amount_subtotal.slice(0, -2)
 				// Handle successful charge
                 console.log('CHARGE', charge)
+                const amount = Number(charge.amount_subtotal.slice(0, -2))
+                console.log(amount)
                 axios.put("https://capstone-bookie.herokuapp.com/api/users/2", {balance: amount})
                 // updateUserFunds(charge);
 			} else {
