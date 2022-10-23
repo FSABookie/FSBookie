@@ -2,6 +2,7 @@ import axios from 'axios';
 import { buffer } from 'micro';
 import Stripe from 'stripe';
 
+
 const stripe = new Stripe(process.env.STRIPE_API, {
 	apiVersion: '2022-08-01',
 });
@@ -22,10 +23,13 @@ export default async function handler(req, res) {
 
 		try {
 			event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
-            console.log(event);
-			if (event.type === 'charge.succeeded') {
+            console.log('EVENT', event);
+			if (event.type === 'checkout.session.completed') {
 				const charge = event.data.object;
 				// Handle successful charge
+                console.log('CHARGE', charge)
+                axios.put("/api/users/2", {balance: 34567})
+                // updateUserFunds(charge);
 			} else {
 				console.warn(`Unhandled event type: ${event.type}`);
 			}

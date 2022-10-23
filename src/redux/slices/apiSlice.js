@@ -6,8 +6,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://capstone-bookie.herokuapp.com/api",
-    // baseUrl: "http://localhost:3000/api",
+    // baseUrl: "https://capstone-bookie.herokuapp.com/api",
+    baseUrl: "http://localhost:3000/api",
   }),
   tagTypes: [
     "MLB",
@@ -82,7 +82,7 @@ export const apiSlice = createApi({
       query: (payload) => ({
         url: `/parlay/${payload.id}`,
         method: "PUT",
-        body: payload.payload,
+        body: payload.data,
       }),
       invalidatesTags: ["parlay", "user", "usersActiveBets"],
     }),
