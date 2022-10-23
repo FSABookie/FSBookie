@@ -16,10 +16,12 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.10",
     "@reduxjs/toolkit": "^1.8.5",
+    "@stripe/stripe-js": "^1.42.0",
     "axios": "^1.0.0",
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.3",
     "jsonwebtoken": "^8.5.1",
+    "micro": "^9.4.1",
     "next": "12.3.1",
     "next-auth": "^4.12.3",
     "oddslib": "^2.1.0",
@@ -30,6 +32,7 @@
     "react-redux": "^8.0.4",
     "redux-persist": "^6.0.0",
     "sequelize": "^6.24.0",
+    "stripe": "^10.15.0",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {

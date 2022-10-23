@@ -86,7 +86,7 @@ const Welcomemsg = styled.div`
     box-shadow: 0 12px 16px 4px rgb(0 0 0 / 20%);
 
     @media only screen and (min-width: 850px) {
-     padding: 2%;
+      padding: 2%;
     }
   }
 `;
@@ -130,7 +130,7 @@ const Projectionsinfo = styled.div`
 
   @media only screen and (min-width: 850px) {
     margin-top: 6%;
-   }
+  }
 `;
 
 const Headercontainer = styled.div`
@@ -156,12 +156,10 @@ function LandingPage() {
           </Link>
           <div className="projections">Projections</div>
           <Link href="/posts">
-          <div className="forum">Forum</div>
+            <div className="forum">Forum</div>
           </Link>
-          <Link href='/help/howtobet'>
-          <div className="howtobet">
-            How to Bet
-          </div>
+          <Link href="/help/howtobet">
+            <div className="howtobet">How to Bet</div>
           </Link>
         </Headerfoot>
       </Headercontainer>
@@ -181,57 +179,63 @@ function LandingPage() {
           <div className="info">
             <h3 className="infotitle">Why Our Bookie?</h3>
             <p className="infop">
-            FSBookie aims to bring the best of both worlds from your everyday forums and 
-            sportsbooks statistics into one application! Our bookie not only provides live betting 
-            trends and gamelines for each game but also provides users with unique trends that 
-            can only be viewed on FSBookie. Trends allow the community (new or veteran users) to 
-            view live statistics of bets that other users are making. This allows new users to understand 
-            betting patterns better while allowing experienced users to take advantage 
-            of this data to make better-informed bets. Our forums will be a middle ground for users to 
-            exchange information about upcoming events while allowing for a competitive edge adding friendly-banter!
+              FSBookie aims to bring the best of both worlds from your everyday
+              forums and live sportsbook odds into one application! Our bookie
+              not only provides live betting trends and gamelines for each game
+              but also provides users with unique trends that can only be viewed
+              on FSBookie. Trends allow the community (new or veteran users) to
+              view live statistics of bets that other users are making. This
+              allows new users to understand betting patterns better while
+              allowing experienced users to take advantage of this data to make
+              better-informed bets. Our forums will be a middle ground for users
+              to exchange information about upcoming events while allowing for a
+              competitive edge adding friendly-banter!
             </p>
-            <h3 className="infotitle">Why Choose our Projections?</h3>
+            <h3 className="infotitle">What Are Our Trends?</h3>
             <p className="infop">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-              tincidunt hendrerit ante a porta. Maecenas ultricies tempor ex,
-              vel faucibus nibh blandit sit amet. Nunc vitae ante in urna rutrum
-              placerat. Nam aliquet velit in neque porttitor lacinia. Nulla sit
-              amet scelerisque sem. Maecenas semper, orci et consectetur rutrum,
-              nibh nisi efficitur nulla, ac mattis ex ex a risus. Curabitur in
-              ante ac arcu dignissim luctus. Vestibulum sagittis iaculis
-              sagittis. Etiam in scelerisque dolor. Sed consequat, felis at
-              gravida aliquam, nulla sem commodo urna, id pretium metus dui vel
-              massa. Quisque condimentum scelerisque pharetra. Vestibulum
-              faucibus tellus vel nibh dignissim, non dapibus libero tempor.
+              FSBookie provides a trends section that can be viewed as a
+              compiled set of data of all user bets in our system. It displays
+              statistics of betting trends which allows the user to create
+              better-informed bets. This tool aims to be accessible to both new
+              and veteran users as a new user can use these trends to start
+              making smart bets for the first time or allow veteran users to use
+              these statistics to create the best possible bet for a given game.
             </p>
-            <h3 className="infotitle">Our Sportsbook</h3>
+            <h3 className="infotitle">Our Sportsbook!</h3>
             <p className="infop">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-              tincidunt hendrerit ante a porta. Maecenas ultricies tempor ex,
-              vel faucibus nibh blandit sit amet. Nunc vitae ante in urna rutrum
-              placerat. Nam aliquet velit in neque porttitor lacinia. Nulla sit
-              amet scelerisque sem. Maecenas semper, orci et consectetur rutrum,
-              nibh nisi efficitur nulla, ac mattis ex ex a risus. Curabitur in
-              ante ac arcu dignissim luctus. Vestibulum sagittis iaculis
-              sagittis. Etiam in scelerisque dolor. Sed consequat, felis at
-              gravida aliquam, nulla sem commodo urna, id pretium metus dui vel
-              massa. Quisque condimentum scelerisque pharetra. Vestibulum
-              faucibus tellus vel nibh dignissim, non dapibus libero tempor.
+              The most important aspect of our application is our sportsbook. It
+              contains multiple sports that follow live odds according to how
+              the game is being played. Whether it may be odds for halftime, per
+              quarter, or for the whole game, our application allows the user to
+              see live gamelines as the game is being played. This allows the
+              user to seamlessly create new bets as they see the game being
+              played out and creating new bets as they deem fit according to the
+              live odds.
             </p>
-            <h3 className="infotitle">OurBookies Forum</h3>
+            <h3 className="infotitle">Our FSBookie Forum</h3>
             <p className="infop">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-              tincidunt hendrerit ante a porta. Maecenas ultricies tempor ex,
-              vel faucibus nibh blandit sit amet. Nunc vitae ante in urna rutrum
-              placerat. Nam aliquet velit in neque porttitor lacinia. Nulla sit
-              amet scelerisque sem. Maecenas semper, orci et consectetur rutrum,
-              nibh nisi efficitur nulla, ac mattis ex ex a risus. Curabitur in
-              ante ac arcu dignissim luctus. Vestibulum sagittis iaculis
-              sagittis. Etiam in scelerisque dolor. Sed consequat, felis at
-              gravida aliquam, nulla sem commodo urna, id pretium metus dui vel
-              massa. Quisque condimentum scelerisque pharetra. Vestibulum
-              faucibus tellus vel nibh dignissim, non dapibus libero tempor.
+              At FSBookie, we believe that with sports, there should be a
+              competition. Whether it is friendly-banter about your favorite
+              teams to heated discussions about who is the better pick for that
+              game, our forums section is a tool for the community to access and
+              a middleground for sports and betting!
             </p>
+            <h3 className="infotitle">Our History!</h3>
+            <p className="infop">
+              FSBookie was created from our inspiration that came with our love
+              for sports. Being that some people in our group were unfamiliar
+              with how to bet and reading gameline odds we were inspired to
+              create an application that would ease in new members into the
+              sports betting community while allowing veterans to access
+              information that would otherwise be unavailable to any other
+              sportsbookie application. Our Tech Stack includes React.js, Redux,
+              Next.js, Styled-Components, RTK Queries, Next-auth, and Redux
+              Thunks.
+            </p>
+            <h3 className="infotitle">For Information on How to start making Bets Click Here!</h3>
+          <Link href="/help/howtobet">
+            <button className="howtobetButton">How to Bet</button>
+          </Link>
           </div>
         </div>
       </Projectionsinfo>
