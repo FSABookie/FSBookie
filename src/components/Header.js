@@ -8,6 +8,17 @@ import { signOut, useSession } from "next-auth/react";
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
 import { GiMeatCleaver, GiHamburgerMenu } from "react-icons/gi";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
+import {
+  useGetUserQuery,
+  useUpdateBetsMutation,
+  useUpdateParlayMutation,
+  useUpdateUserFundsMutation,
+  useGetUsersActiveBetsQuery,
+} from "../redux/slices/apiSlice";
+import { skipToken } from "@reduxjs/toolkit/dist/query";
+import { checkBetsThunk } from "../redux/thunks/checkBets";
+import { determineWinnerThunk } from "../redux/thunks/determineWinner";
+import { useRouter } from "next/router";
 
 const headerMainHeight = "7em";
 const headerTopHeight = "2em";
@@ -24,9 +35,7 @@ const HeaderContainer = styled.div`
     }
   }
   @media only screen and (max-width: 850px) {
-
   }
-  
 `;
 const HeaderTop = styled.div`
   height: 100%;
@@ -41,7 +50,7 @@ const HeaderTop = styled.div`
     margin-top: 0.27em;
     padding: 0 0.4em 0.15em;
   }
-  
+
   .hide {
     min-height: 10px;
     position: absolute;
@@ -68,7 +77,7 @@ const HeaderTop = styled.div`
       margin-top: 0.27em;
       padding: 0 0.4em 0.15em;
     }
-    
+
     .hide {
       min-height: 10px;
       position: absolute;
@@ -82,7 +91,7 @@ const HeaderTop = styled.div`
       width: 0%;
       z-index: 4;
     }
- }
+  }
 `;
 
 const mobileLogoTextWidth = "3.62em";
@@ -156,54 +165,13 @@ const LinkContainer = styled.div`
   align-items: center;
 `;
 
-// const searchBarWidth = '15em';
-
-// const SearchContainer = styled.div`
-// 	position: absolute;
-// 	width: 100%;
-// 	height: calc(100% - 6em);
-// 	top: ${headerMainHeight + headerTopHeight};
-// 	z-index: 50;
-// 	transition: background-color 0.2s;
-// 	transition: opacity 0.2s;
-// 	background-color: rgba(50, 50, 50, 0.4);
-// 	padding-top: 1.2em;
-// 	input {
-// 		font-size: 1.1em;
-// 		top: 1em;
-// 		width: ${searchBarWidth};
-// 		margin: 0 auto;
-// 	}
-// 	display: flex column;
-// 	justify-content: center;
-// 	align-items: center;
-// 	text-align: center;
-// 	.searchProductList {
-// 		width: fit-content;
-// 		margin: 0 auto;
-// 		color: black;
-// 		background-color: white;
-// 		* {
-// 			padding: 0.3em 0.7em;
-// 			&:nth-child(even) {
-// 				background-color: rgb(238, 238, 238);
-// 			}
-// 		}
-// 	}
-// 	&.hide {
-// 		z-index: -100;
-// 		opacity: 0;
-// 		background-color: rgba(0, 0, 0, 0);
-// 	}
-// `;
-
 const Page = styled.div`
-@media only screen and (min-width: 500px) {
-  width: 50%
-}
-@media only screen and (min-width: 850px) {
-  width: 20%;
-}
+  @media only screen and (min-width: 500px) {
+    width: 50%;
+  }
+  @media only screen and (min-width: 850px) {
+    width: 20%;
+  }
   width: 70%;
   transition: 0.5s;
   position: absolute;
@@ -227,17 +195,17 @@ const Page = styled.div`
     padding-left: 4%;
     padding-top: 4%;
     padding-bottom: 4%;
-    display:flex;
+    display: flex;
     flex-direction: column;
     gap: 1.5em;
   }
 
   .singleLink {
     @media only screen and (max-width: 850px) {
-    border-bottom: 1px solid grey;
-    padding-bottom:5%;
+      border-bottom: 1px solid grey;
+      padding-bottom: 5%;
     }
-    padding-bottom:5%;
+    padding-bottom: 5%;
   }
 `;
 const Menu = styled.div`
@@ -256,13 +224,127 @@ const Menu = styled.div`
 function Header() {
   const [isSearchOpen, toggleSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  // const { data: blah } = useGetSingleUserQuery(user?.id)
-
-  // const [getUser] = useGetSingleUserQuery();
-
   const dispatch = useDispatch();
-
+  const { data: usersActiveBets, isSuccess: gotActiveBets } =
+    useGetUsersActiveBetsQuery(
+      status === "authenticated" ? session.user.id : skipToken
+    );
+  const {
+    data: user,
+    isSuccess,
+    isLoading,
+  } = useGetUserQuery(status === "authenticated" ? session.user.id : skipToken);
   const { data: session, status } = useSession();
+  const [updateParlay] = useUpdateParlayMutation();
+  const [updateBet] = useUpdateBetsMutation();
+  const [updateFunds] = useUpdateUserFundsMutation();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(user);
+    // if we are able to successfully get users active bets
+    // map through bets
+    gotActiveBets &&
+      usersActiveBets.bets.forEach(async (bet) => {
+        // fetch the api result for each active bet
+        //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
+        const { payload } = await dispatch(checkBetsThunk(bet.betId));
+        if (payload[0]?.FinalType === "NotFinished") return;
+        //dispatch data
+        const data = await dispatch(
+          determineWinnerThunk({ bet: bet, api: payload[0] })
+        );
+        // if the bet won, settle users funds
+
+        if (data.payload === "won") {
+          let payload = {
+            isActive: false,
+            status: "completed",
+            result: "won",
+          };
+          await updateBet({ id: bet.id, payload });
+          await updateFunds({
+            funds: user.balance + bet.toWin,
+            id: user.id,
+          });
+        }
+
+        // IF THE BET LOSES
+        if (data.payload === "lost") {
+          let payload = {
+            isActive: false,
+            status: "completed",
+            result: "lost",
+          };
+          await updateBet({ id: bet.id, payload });
+        }
+      });
+
+    const handleWinningParlay = async (parlay) => {
+      await updateParlay({
+        id: parlay.id,
+        payload: {
+          isActive: false,
+          status: "completed",
+          result: "won",
+        },
+      });
+      await updateFunds({
+        funds: user.balance + parlay.toWin,
+        id: user.id,
+      });
+    };
+
+    gotActiveBets &&
+      usersActiveBets?.parlays.forEach(
+        async (parlay) =>
+          await parlay.bets.forEach(async (bet) => {
+            const { payload } = await dispatch(checkBetsThunk(bet.betId));
+            if (payload[0]?.FinalType === "NotFinished") return;
+            //dispatch data
+            const data = await dispatch(
+              determineWinnerThunk({ bet: bet, api: payload[0] })
+            );
+            // if the bet won, settle users funds
+            if (data.payload === "won") {
+              let payload = {
+                isActive: false,
+                status: "completed",
+                result: "won",
+              };
+              await updateBet({ id: bet.id, payload });
+            }
+            // IF THE BET LOSES
+            if (data.payload === "lost") {
+              let payload = {
+                isActive: false,
+                status: "completed",
+                result: "lost",
+              };
+              await updateBet({ id: bet.id, payload });
+            }
+            let completedAndWon = parlay.bets.every(
+              (bet) => bet.status === "completed" && bet.result === "won"
+            );
+
+            if (completedAndWon) {
+              let { data } = await handleWinningParlay(parlay);
+              console.log(data);
+            } else {
+              let { data } = await updateParlay({
+                id: parlay.id,
+                payload: {
+                  isActive: false,
+                  status: "completed",
+                  result: "lost",
+                },
+              });
+              console.log(data);
+            }
+          })
+      );
+  }, [dispatch, router.asPath]);
 
   let userStatusLink = "/login";
   if (typeof window !== "undefined") {
@@ -276,23 +358,6 @@ function Header() {
   };
   const searchRef = useRef();
   const inputRef = useRef();
-
-  // const toggle = (e) => {
-  // 	const target = e.target.tagName;
-  // 	if (target === 'DIV' || target === 'svg' || target === 'path') {
-  // 		toggleSearch(!isSearchOpen);
-  // 		searchRef.current.classList.toggle('hide');
-  // 		setSearchTerm('');
-  // 		inputRef.current.focus();
-  // 	} else if (e.target.tagName === 'P') {
-  // 		searchRef.current.classList.add('hide');
-
-  // 		setTimeout(() => {
-  // 			toggleSearch(false);
-  // 			setSearchTerm('');
-  // 		}, 300);
-  // 	}
-  // };
 
   const mySidenavRef = useRef();
   const [isOpen, setOpen] = useState(false);
@@ -319,22 +384,22 @@ function Header() {
 							>
 								&times;
 							</a> */}
-              <div className="sideLinks" onClick={toggleNav}>
-                <div className="singleLink">
-                <Link href="/sportsbook/NFL">Home</Link>
-                </div>
-                <div className="singleLink">
-                <Link href="/myBets">My Bets</Link>
-                </div>
-                <div className="singleLink">
-                <Link href="/help/howtobet">How To Bet</Link>
-                </div>
-                <div className="singleLink">
-                <Link href="/posts">Forum</Link>
-                </div>
-                <div className="singleLink">
-                <Link href="/projections/NFL">Projections</Link>
-                </div>
+                <div className="sideLinks" onClick={toggleNav}>
+                  <div className="singleLink">
+                    <Link href="/sportsbook/NFL">Home</Link>
+                  </div>
+                  <div className="singleLink">
+                    <Link href="/myBets">My Bets</Link>
+                  </div>
+                  <div className="singleLink">
+                    <Link href="/help/howtobet">How To Bet</Link>
+                  </div>
+                  <div className="singleLink">
+                    <Link href="/posts">Forum</Link>
+                  </div>
+                  <div className="singleLink">
+                    <Link href="/projections/NFL">Projections</Link>
+                  </div>
                 </div>
               </Menu>
 
@@ -368,22 +433,22 @@ function Header() {
 			>
 				&times;
 			</a> */}
-            <div className="sideLinks" onClick={toggleNav}>
-            <div className="singleLink">
-                <Link href="/sportsbook/NFL">Home</Link>
-                </div>
-                <div className="singleLink">
-                <Link href="/myBets">My Bets</Link>
-                </div>
-                <div className="singleLink">
-                <Link href="/help/howtobet">How To Bet</Link>
-                </div>
-                <div className="singleLink">
-                <Link href="/posts">Forum</Link>
-                </div>
-                <div className="singleLink">
-                <Link href="/projections/NFL">Projections</Link>
-                </div>
+                <div className="sideLinks" onClick={toggleNav}>
+                  <div className="singleLink">
+                    <Link href="/sportsbook/NFL">Home</Link>
+                  </div>
+                  <div className="singleLink">
+                    <Link href="/myBets">My Bets</Link>
+                  </div>
+                  <div className="singleLink">
+                    <Link href="/help/howtobet">How To Bet</Link>
+                  </div>
+                  <div className="singleLink">
+                    <Link href="/posts">Forum</Link>
+                  </div>
+                  <div className="singleLink">
+                    <Link href="/projections/NFL">Projections</Link>
+                  </div>
                 </div>
               </Menu>
 
