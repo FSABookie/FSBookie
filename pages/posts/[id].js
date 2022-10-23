@@ -1,8 +1,7 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 import {
   useCreateCommentMutation,
@@ -137,6 +136,15 @@ const Content = styled.div`
   .likes {
     padding-top: 5%;
   }
+
+  .toggle {
+    display: none;
+    background-color: orange;
+}
+`;
+
+const Reply = styled.div`
+background-color: black;
 `;
 //Able to post a new comment in the thread
 
@@ -149,14 +157,19 @@ const Content = styled.div`
 
 function SinglePost() {
   const { data: session } = useSession();
+  //Possible way to use useState to hold bodyRef's states but causing infinite renders right now!
+  // const [refs, setRefs] = useState([]);
+  // const [bodyRefs, setBodyRefs] = useState([]);
   const [ incrementLike ] = useIncrementLikeMutation();
-  const [CreateComment] = useCreateCommentMutation();
+  const [ CreateComment ] = useCreateCommentMutation();
   const bodyRef = useRef();
-  const router = useRouter();
+  const refs = [];
+  const bodyRefs = [];
   const { postId } = useSelector((state) => state.persistedId);
   const { data: post, isSuccess } = useGetPostQuery(
     postId ? postId : skipToken
-  );
+    );
+    
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -175,9 +188,32 @@ function SinglePost() {
     }
   }
 
+  async function handleNestedComment(comment, idx) {
+    const payload = {
+      userId: session.user.id,
+      commentId: comment.id,
+      isParent: false,
+      username: session.user.username,
+      body: bodyRefs[idx].current.value,
+    };
+    try {
+      const {data} = await CreateComment(payload);
+      console.log(data);
+    } catch (err) {
+      console.log("Failed to Post!");
+      console.error(err);
+    }
+  }
+
   async function handleLikes(payload) {
     await incrementLike(payload)
   }
+
+  function replyToggle(e, idx) {
+    e.preventDefault();
+    refs[idx].current.classList.toggle('toggle')
+    // e.target.classList.toggle('toggle')
+}
     
 
   return (
@@ -210,14 +246,27 @@ function SinglePost() {
           </div>
               <ul className="userList">
                 {post.comments.map((comment, idx) => {
-                  console.log(comment)
+                  // console.log(comment)
+                  //I originally had my ref.push here but I am thinking of creating multiple refs in diff arrays
                   return (
                     <li key={idx}>
                       <div className="singleReply">
                         <h4>{comment.username}</h4>
                         <p className="commentBody">{comment.body}</p>
+                        <div className="toggle">
+                        {refs.push(React.createRef())}
+                        </div>
+                        <button onClick={(e) => replyToggle(e, idx)}>Reply</button>
+                        {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
+                        <Reply className="toggle" key={idx} ref={refs[idx]}>
+                        {bodyRefs.push(React.createRef())}
+                        {/* {setBodyRefs(oldState => [...oldState, React.createRef()])} */}
+                     <input type="text" className="hiddenReply" ref={bodyRefs[idx]} />
+                     <button type="submit" onClick={() => handleNestedComment(comment, idx)}>SUBMIT REPLY</button>
+                     </Reply>
                         <ul>
                         {comment.comments.length ? comment.comments.map((comment, idx) => {
+                          //I am thinking of putting another onSubmit handler for Nested comments to make it easier
                           return (
                             <li key={idx}>
                               <div className="singleComment">
