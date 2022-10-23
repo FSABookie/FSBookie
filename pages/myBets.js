@@ -136,9 +136,6 @@ function MyBets() {
       status === "authenticated" ? session.user.id : skipToken
     );
   const { usersBets, filteredBets } = useSelector((state) => state.usersBets);
-  const [updateParlay] = useUpdateParlayMutation();
-  const [updateBet] = useUpdateBetsMutation();
-  const [updateFunds] = useUpdateUserFundsMutation();
 
   const dispatch = useDispatch();
 
@@ -148,111 +145,6 @@ function MyBets() {
     // console.log(user.parlays);
     isSuccess && user.parlays.forEach((parlay) => dispatch(getBets(parlay)));
   }, [dispatch, user]);
-
-  useEffect(() => {
-    console.log(user);
-    // if we are able to successfully get users active bets
-    // map through bets
-    gotActiveBets &&
-      usersActiveBets.bets.forEach(async (bet) => {
-        // fetch the api result for each active bet
-        //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
-        const { payload } = await dispatch(checkBetsThunk(bet.betId));
-        if (payload[0]?.FinalType === "NotFinished") return;
-        //dispatch data
-        const data = await dispatch(
-          determineWinnerThunk({ bet: bet, api: payload[0] })
-        );
-        // if the bet won, settle users funds
-
-        if (data.payload === "won") {
-          let payload = {
-            isActive: false,
-            status: "completed",
-            result: "won",
-          };
-          await updateBet({ id: bet.id, payload });
-          await updateFunds({
-            funds: user.balance + bet.toWin,
-            id: user.id,
-          });
-        }
-
-        // IF THE BET LOSES
-        if (data.payload === "lost") {
-          let payload = {
-            isActive: false,
-            status: "completed",
-            result: "lost",
-          };
-          await updateBet({ id: bet.id, payload });
-        }
-      });
-
-    const handleWinningParlay = async (parlay) => {
-      await updateParlay({
-        id: parlay.id,
-        payload: {
-          isActive: false,
-          status: "completed",
-          result: "won",
-        },
-      });
-      await updateFunds({
-        funds: user.balance + parlay.toWin,
-        id: user.id,
-      });
-    };
-
-    gotActiveBets &&
-      usersActiveBets.parlays.forEach(
-        async (parlay) =>
-          await parlay.bets.forEach(async (bet) => {
-            const { payload } = await dispatch(checkBetsThunk(bet.betId));
-            if (payload[0]?.FinalType === "NotFinished") return;
-            //dispatch data
-            const data = await dispatch(
-              determineWinnerThunk({ bet: bet, api: payload[0] })
-            );
-            // if the bet won, settle users funds
-            if (data.payload === "won") {
-              let payload = {
-                isActive: false,
-                status: "completed",
-                result: "won",
-              };
-              await updateBet({ id: bet.id, payload });
-            }
-            // IF THE BET LOSES
-            if (data.payload === "lost") {
-              let payload = {
-                isActive: false,
-                status: "completed",
-                result: "lost",
-              };
-              await updateBet({ id: bet.id, payload });
-            }
-            let completedAndWon = parlay.bets.every(
-              (bet) => bet.status === "completed" && bet.result === "won"
-            );
-
-            if (completedAndWon) {
-              let { data } = await handleWinningParlay(parlay);
-              console.log(data);
-            } else {
-              let { data } = await updateParlay({
-                id: parlay.id,
-                payload: {
-                  isActive: false,
-                  status: "completed",
-                  result: "lost",
-                },
-              });
-              console.log(data);
-            }
-          })
-      );
-  }, [dispatch]);
 
   return (
     <Container>
