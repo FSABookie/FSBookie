@@ -29,8 +29,8 @@ export default async function handler(req, res) {
 				// Handle successful charge
                 console.log('CHARGE', charge)
                 const amount = Number(charge.amount_subtotal.slice(0, -2))
-                console.log(amount)
-                axios.put("https://capstone-bookie.herokuapp.com/api/users/2", {balance: amount})
+                console.log('AMOUNT', amount)
+                axios.put("https://capstone-bookie.herokuapp.com/api/users/2", {balance: 8888})
                 // updateUserFunds(charge);
 			} else {
 				console.warn(`Unhandled event type: ${event.type}`);
