@@ -271,7 +271,9 @@ function SinglePost() {
                         <button className="replyButton" onClick={(e) => replyToggle(e, idx)}>Reply</button>
                         {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
                         <Reply className="toggle" key={idx} ref={refs[idx]}>
+                        <div className="toggle">
                         {bodyRefs.push(React.createRef())}
+                        </div>
                         {/* {setBodyRefs(oldState => [...oldState, React.createRef()])} */}
                      <input type="text" className="hiddenReply" ref={bodyRefs[idx]} />
                      <button type="submit" onClick={() => handleNestedComment(comment, idx)}>SUBMIT REPLY</button>
