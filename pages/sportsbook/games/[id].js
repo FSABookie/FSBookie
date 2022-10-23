@@ -68,6 +68,24 @@ const SingleGameContainer = styled.div`
   .gamecard {
     margin-top: 4%;
   }
+
+  @media only screen and (min-width: 850px) {
+   .team1{
+    width: 50%;
+    text-align: center;
+    img {
+      padding-top:%;
+    }
+   }
+
+   .team2 {
+    width: 50%;
+   }
+
+   .MatchupContainer {
+    width: 100%;
+   }
+  }
 `;
 const GameCard = styled.div`
   color: white;

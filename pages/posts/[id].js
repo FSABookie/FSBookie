@@ -15,8 +15,15 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 const Content = styled.div`
   background-color: white;
   background: #D5D3D3;
-  height: 100vh;
+  height: max-height;
+  .space {
+    height: 50px;
+    background-color: #242424
+  }
   
+  &:hover {
+    cursor: pointer;
+  }
   .userList {
     list-style: none;
     width: max-width;
@@ -47,6 +54,10 @@ const Content = styled.div`
     text-align: center;
     padding-top: 8%;
     padding-bottom: 5%;
+
+    @media only screen and (min-width: 850px) {
+      padding-right: 8%;
+    }
   }
 
   .commentInput {
@@ -72,7 +83,16 @@ const Content = styled.div`
 
     h4 {
       color: white;
-      margin-top: 2px;
+      margin-top: 1px;
+    }
+
+    @media only screen and (min-width: 850px) {
+      padding-left: 15%;
+
+      h4{
+        margin-top: 0;
+        margin-bottom: 0;
+      }
     }
   }
   
@@ -84,6 +104,20 @@ const Content = styled.div`
     padding: 4%;
     color: #D5D3D3;
     background-color: #242424;
+
+    @media only screen and (min-width: 850px) {
+      h2 {
+        padding-left: 15%;
+      }
+      p {
+        padding-left: 20%;
+        padding-bottom: 5%;
+      }
+
+      .likes {
+        padding-top: 3%;
+      }
+    }
   }
 
   .commentBody {
@@ -91,6 +125,12 @@ const Content = styled.div`
     padding: 1.5%;
     margin-bottom: 0;
     background-color:#d5d3d3;
+
+    @media only screen and (min-width: 850px) {
+      width: 70%;
+      border: none;
+    }
+
   }
 
   .likes {
@@ -192,8 +232,8 @@ function SinglePost() {
               
               <br></br>
               <div className="likes">
-              <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> <br></br>
-              <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} /> {post.likes} <br></br>
+              <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> &nbsp;&nbsp;{post.likes} <br></br>
+              <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} />  <br></br>
               </div>
               <h2>{post.title}</h2>
               <p>{post.body}</p>
@@ -244,6 +284,9 @@ function SinglePost() {
               </ul>{" "}
             </>
           )}
+          <div className="space">
+            
+          </div>
         </div>
       ) : (
         <>
