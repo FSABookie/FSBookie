@@ -33,6 +33,12 @@ const Container = styled.div`
     margin-bottom: 15%;
     margin-top: 3%;
   }
+
+  @media only screen and (min-width: 850px) {
+    .title {
+      margin-bottom: 7%;
+    }
+  }
 `;
 
 const SportsHeader = styled.div`
@@ -40,11 +46,9 @@ const SportsHeader = styled.div`
   height: 100%;
   color: white;
   background: black;
-  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  gap: 1%;
+  column-gap: 4%;
   div {
     position: relative;
     text-decoration: none;
@@ -63,6 +67,15 @@ const SportsHeader = styled.div`
     cursor: pointer;
     transition: all 0.16s ease;
   }
+
+  @media only screen and (min-width: 850px) {
+    column-gap: 5%;
+    padding-left: 20%;
+    margin-bottom: 5%;
+    div {
+      padding: 1.5% 3.75%;
+    }
+  }
 `;
 
 const BetsContainer = styled.div`
@@ -74,6 +87,11 @@ const BetsContainer = styled.div`
   flex-direction: column;
   margin-top: 0.75em;
   margin-bottom: 0.75em;
+
+  @media only screen and (min-width: 850px) {
+    width: 70%;
+    margin-left: 12%;
+  }
 `;
 
 const BetsContainerHeader = styled.div`

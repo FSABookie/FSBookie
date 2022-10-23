@@ -35,6 +35,7 @@ const Headerfoot = styled.div`
   height: 2.25em;
   padding: 0.5em;
   font-weight: 300;
+  font-size: 0.85em;
   background: #1f375b;
   .sportbook {
     margin-left: 0.6em;

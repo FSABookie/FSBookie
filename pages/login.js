@@ -38,6 +38,11 @@ const LoginFormContainer = styled.div`
       border-radius: 8px;
       font-weight: bold;
     }
+
+    @media only screen and (min-width: 850px) {
+      width: 60%;
+      padding-left: 35%;
+    }
   }
   p {
     margin: auto;
@@ -45,6 +50,11 @@ const LoginFormContainer = styled.div`
     font-style: italic;
     a {
       text-decoration: underline;
+    }
+
+    @media only screen and (min-width: 850px) {
+      padding-right: 5%;
+      
     }
   }
 `;
