@@ -28,8 +28,8 @@ export default async function handler(req, res) {
 				const charge = event.data.object;
 				// Handle successful charge
                 console.log('CHARGE', charge)
-                const amount = Number(charge.amount_subtotal.slice(0, -2))
-                console.log('AMOUNT', amount)
+                // const amount = Number(charge.amount_subtotal.slice(0, -2))
+                // console.log('AMOUNT', amount)
                 axios.put("https://capstone-bookie.herokuapp.com/api/users/2", {balance: 8888})
                 // updateUserFunds(charge);
 			} else {
