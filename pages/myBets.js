@@ -135,17 +135,17 @@ const TeamContainer = styled.div`
 `;
 
 
-  ${
-    "" /* &:nth-child(2) {
-    margin-bottom: 1em;
-  } */
-  }
+  // ${
+  //   "" /* &:nth-child(2) {
+  //   margin-bottom: 1em;
+  // } */
+  // }
 
-  @media only screen and (min-width: 850px) {
-    img {
-      width: 5%;
-    }
-  }
+  // @media only screen and (min-width: 850px) {
+  //   img {
+  //     width: 5%;
+  //   }
+  // }
 
 const TeamDiv = styled.div`
   display: flex;

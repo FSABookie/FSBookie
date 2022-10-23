@@ -14,7 +14,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Content = styled.div`
   background-color: white;
-  background: #D5D3D3;
+  background: #242424;
   height: max-height;
   .space {
     height: 50px;
@@ -264,7 +264,7 @@ function SinglePost() {
                      <input type="text" className="hiddenReply" ref={bodyRefs[idx]} />
                      <button type="submit" onClick={() => handleNestedComment(comment, idx)}>SUBMIT REPLY</button>
                      </Reply>
-                        <ul>
+                        <ul className="userList">
                         {comment.comments.length ? comment.comments.map((comment, idx) => {
                           //I am thinking of putting another onSubmit handler for Nested comments to make it easier
                           return (
