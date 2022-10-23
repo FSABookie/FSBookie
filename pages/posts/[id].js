@@ -16,6 +16,7 @@ const Content = styled.div`
   background-color: white;
   background: #242424;
   height: max-height;
+  
   .space {
     height: 50px;
     background-color: #242424
@@ -83,7 +84,8 @@ const Content = styled.div`
 
     h4 {
       color: white;
-      margin-top: 1px;
+      margin-top: 0;
+      margin-bottom: 0;
     }
 
     @media only screen and (min-width: 850px) {
@@ -125,7 +127,7 @@ const Content = styled.div`
     padding: 1.5%;
     margin-bottom: 0;
     background-color:#d5d3d3;
-
+    border: none;
     @media only screen and (min-width: 850px) {
       width: 70%;
       border: none;
@@ -141,10 +143,20 @@ const Content = styled.div`
     display: none;
     background-color: orange;
 }
+
+.replyButton {
+  border-radius: 8px;
+  border: none;
+}
 `;
 
 const Reply = styled.div`
-background-color: black;
+background-color: #242424;
+padding-left: 20%;
+padding-top:5%;
+padding-bottom:5%;
+border: none;
+border-radius: 8px;
 `;
 //Able to post a new comment in the thread
 
@@ -256,7 +268,7 @@ function SinglePost() {
                         <div className="toggle">
                         {refs.push(React.createRef())}
                         </div>
-                        <button onClick={(e) => replyToggle(e, idx)}>Reply</button>
+                        <button className="replyButton" onClick={(e) => replyToggle(e, idx)}>Reply</button>
                         {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
                         <Reply className="toggle" key={idx} ref={refs[idx]}>
                         {bodyRefs.push(React.createRef())}
