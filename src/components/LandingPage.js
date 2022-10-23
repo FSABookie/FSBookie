@@ -231,6 +231,10 @@ function LandingPage() {
               Next.js, Styled-Components, RTK Queries, Next-auth, and Redux
               Thunks.
             </p>
+            <h3 className="infotitle">For Information on How to start making Bets Click Here!</h3>
+          <Link href="/help/howtobet">
+            <button className="howtobetButton">How to Bet</button>
+          </Link>
           </div>
         </div>
       </Projectionsinfo>
