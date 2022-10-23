@@ -16,8 +16,11 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 const Content = styled.div`
   background-color: white;
   background: #D5D3D3;
-  height: 100vh;
+  height: max-height;
   
+  &:hover {
+    cursor: pointer;
+  }
   .userList {
     list-style: none;
     width: max-width;

@@ -14,6 +14,9 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 const Content = styled.div`
 height: 100%;
 background: url('/pbg.png');
+&:hover{
+  cursor: pointer;
+}
 
 /* I was thinking we can Have a cool background image for our Forums Page! */
 
@@ -112,8 +115,8 @@ function Posts() {
                 <div className="postDetail">
                Posted by: {post.username} {post.createdAt}<br></br> </div>
                <div className="postDetail">
-               <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> <br></br>
-               <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} /> {post.likes} <br></br>
+               <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> {post.likes}<br></br>
+               <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} /> <br></br>
                </div>
                {/* <div className="postDetail">
               Created At: {post.createdAt}<br></br></div> */}

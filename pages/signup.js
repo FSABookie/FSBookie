@@ -41,6 +41,12 @@ const SignInFormContainer = styled.div`
       width: fit-content;
       margin: 0.7em auto;
     }
+
+    @media only screen and (min-width: 850px) {
+      width: 60%;
+      padding-left: 35%;
+    }
+
   }
   p {
     margin: auto;
