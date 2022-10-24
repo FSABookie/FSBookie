@@ -97,34 +97,34 @@ function Account() {
         <div className="body">
           <div className="Name setting">{session.user.name}</div>
           <div className="userEmail setting">
+            <div>
             {user.email}
-            <input
-              placeholder="Change Email Address"
-              type="text"
-              ref={emailRef}
-            />
+            </div>
+            <input placeholder="Change Email Address" type="text" ref={emailRef} />
+            <div>
             <button type="submit" onClick={handleEmail}>
               Change Email!
             </button>
+            </div>
           </div>
           <div className="userName setting">
             <div>
             {user.username}
             </div>
             <input placeholder="Change Username" type="text" ref={userRef} />
+            <div>
             <button type="submit" onClick={handleUsername}>
               Change Username!
             </button>
+            </div>
           </div>
           <div className="userPass setting">
-            <input
-              placeholder="Change Password"
-              type="password"
-              ref={passRef}
-            />
+            <input placeholder="Change Password" type="password" ref={passRef} />
+            <div>
             <button type="submit" onClick={handlePassword}>
               Change Password!
             </button>
+            </div>
           </div>
           <div className="logout setting">
             <div>Logout</div>
