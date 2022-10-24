@@ -70,6 +70,11 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["user"],
     }),
+    getActiveParlay: builder.query({
+      query: (id) => `/users/${id}/activeParlay`,
+      providesTags: ["parlay"],
+    }),
+
     createParlay: builder.mutation({
       query: (payload) => ({
         url: "/Parlay",
@@ -82,7 +87,7 @@ export const apiSlice = createApi({
       query: (payload) => ({
         url: `/parlay/${payload.id}`,
         method: "PUT",
-        body: payload.data,
+        body: payload.payload,
       }),
       invalidatesTags: ["parlay", "user", "usersActiveBets"],
     }),
@@ -186,4 +191,5 @@ export const {
   useCreateCommentMutation,
   useIncrementLikeMutation,
   useDeleteCommentMutation,
+  useGetActiveParlayQuery,
 } = apiSlice;

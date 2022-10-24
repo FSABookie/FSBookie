@@ -381,7 +381,7 @@ export const NHLlogos = [
     logo: "https://assets.sportsbook.fanduel.com/images/team/nhl/boston_bruins.png",
   },
   {
-    team: "Detriot Red Wings",
+    team: "Detroit Red Wings",
     logo: "https://assets.sportsbook.fanduel.com/images/team/nhl/detroit_red_wings.png",
   },
   {

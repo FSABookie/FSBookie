@@ -10,10 +10,13 @@ export default async function handler(req, res) {
         },
         include: [
           {
-            model: Bet,
+            model: Parlay,
             where: {
               isActive: true,
-              parlayId: null,
+            },
+            include: Bet,
+            where: {
+              isActive: true,
             },
           },
         ],

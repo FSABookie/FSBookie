@@ -15,6 +15,7 @@ import {
   useUpdateParlayMutation,
   useUpdateUserFundsMutation,
   useGetUsersActiveBetsQuery,
+  useGetActiveParlayQuery,
 } from "../redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { checkBetsThunk } from "../redux/thunks/checkBets";
@@ -22,7 +23,6 @@ import { determineWinnerThunk } from "../redux/thunks/determineWinner";
 import { useRouter } from "next/router";
 
 const headerMainHeight = "7em";
-const headerTopHeight = "2em";
 
 const HeaderContainer = styled.div`
   display: hidden;
@@ -249,31 +249,26 @@ const Menu = styled.div`
 
 //COMPONENT STARTS HERE
 function Header() {
-  const [isSearchOpen, toggleSearch] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const dispatch = useDispatch();
-  const { data: usersActiveBets, isSuccess: gotActiveBets } =
-    useGetUsersActiveBetsQuery(
-      status === "authenticated" ? session.user.id : skipToken
-    );
-  const {
-    data: user,
-    isSuccess,
-    isLoading,
-  } = useGetUserQuery(status === "authenticated" ? session.user.id : skipToken);
   const { data: session, status } = useSession();
+  const { data: user, isSuccess: gotActiveBets } = useGetUsersActiveBetsQuery(
+    status === "authenticated" ? session.user.id : skipToken
+  );
+  const { data: parlay, isSuccess: gotParlay } = useGetActiveParlayQuery(
+    status === "authenticated" ? session.user.id : skipToken
+  );
   const [updateParlay] = useUpdateParlayMutation();
   const [updateBet] = useUpdateBetsMutation();
   const [updateFunds] = useUpdateUserFundsMutation();
 
+  const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    console.log(user);
+    // gotActiveBets && console.log(user, gotActiveBets, session.user.id, parlay);
     // if we are able to successfully get users active bets
     // map through bets
     gotActiveBets &&
-      usersActiveBets.bets.forEach(async (bet) => {
+      user?.bets.forEach(async (bet) => {
         // fetch the api result for each active bet
         //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
         const { payload } = await dispatch(checkBetsThunk(bet.betId));
@@ -323,8 +318,8 @@ function Header() {
       });
     };
 
-    gotActiveBets &&
-      usersActiveBets?.parlays.forEach(
+    gotParlay &&
+      parlay?.parlays.forEach(
         async (parlay) =>
           await parlay.bets.forEach(async (bet) => {
             const { payload } = await dispatch(checkBetsThunk(bet.betId));
@@ -351,27 +346,43 @@ function Header() {
               };
               await updateBet({ id: bet.id, payload });
             }
-            let completedAndWon = parlay.bets.every(
-              (bet) => bet.status === "completed" && bet.result === "won"
-            );
 
-            if (completedAndWon) {
-              let { data } = await handleWinningParlay(parlay);
-              console.log(data);
-            } else {
-              let { data } = await updateParlay({
-                id: parlay.id,
-                payload: {
-                  isActive: false,
-                  status: "completed",
-                  result: "lost",
-                },
+            // if every game in the parlay is complete
+            let completed = parlay.bets.every(
+              (bet) => bet.status === "completed"
+            );
+            // check if the game lost
+            if (completed) {
+              // set a boolean to keep track of the bets result
+              let result = true;
+              await parlay.bets.forEach(async (bet) => {
+                if (bet.result === "lost") {
+                  await updateParlay({
+                    id: parlay.id,
+                    payload: {
+                      isActive: false,
+                      status: "completed",
+                      result: "lost",
+                    },
+                  });
+                  // set result to false if a game lost
+                  result = false;
+                }
               });
-              console.log(data);
+              // if every game won, win the parlay
+              result &&
+                (await handleWinningParlay({
+                  id: parlay.id,
+                  payload: {
+                    isActive: false,
+                    status: "completed",
+                    result: "won",
+                  },
+                }));
             }
           })
       );
-  }, [dispatch, router.asPath]);
+  }, [dispatch, router.asPath, gotActiveBets]);
 
   let userStatusLink = "/login";
   if (typeof window !== "undefined") {
@@ -383,8 +394,6 @@ function Header() {
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/sportsbook" });
   };
-  const searchRef = useRef();
-  const inputRef = useRef();
 
   const mySidenavRef = useRef();
   const [isOpen, setOpen] = useState(false);
