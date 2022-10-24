@@ -28,7 +28,10 @@ export default async function handler(req, res) {
 				const charge = event.data.object;
 				// Handle successful charge
                 console.log('CHARGE', charge)
-                console.log('1', charge.amount_subtotal,'2', charge.amount_subtotal.slice(0, -2),'3', Number(charge.amount_subtotal.slice(0, -2)),'4', charge.email)
+                console.log('1', charge.amount_subtotal)
+                console.log('2', charge.amount_subtotal.slice(0, -2))
+                console.log('3', Number(charge.amount_subtotal.slice(0, -2)))
+                console.log(charge.email)
                 // const amount = Number(charge.amount_subtotal.slice(0, -2))
                 // console.log('AMOUNT', amount)
                 axios.put("https://capstone-bookie.herokuapp.com/api/users", {deposit: Number(charge.amount_subtotal.slice(0, -2)), email: charge.email})
