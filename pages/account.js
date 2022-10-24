@@ -40,7 +40,7 @@ const LinkContainer = styled.div `
 
 
 
-function account() {
+function Account() {
     
     const handleLogout = async () => {
         await signOut({ callbackUrl: "/sportsbook" });
@@ -85,4 +85,4 @@ function account() {
   )
 }
 
-export default account
+export default Account
