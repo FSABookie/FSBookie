@@ -6,7 +6,12 @@ import * as oddslib from "oddslib";
 const WagerContainer = styled.div`
   display: flex;
   flex-direction: row;
+  padding: 3%;
 `;
+
+const ParlayOdds = styled.div`
+  padding: 3%;
+`
 
 const Wager = styled.div`
   border-style: solid;
@@ -50,7 +55,9 @@ function Parlay({ wager, setWager, toWin, setToWin, parlayOdds, setOdds }) {
 
   return (
     <>
+    <ParlayOdds>
       {betSlip.length} Leg Parlay +{parlayOdds}
+      </ParlayOdds>
       <WagerContainer>
         <Wager>
           Wager
