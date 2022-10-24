@@ -35,8 +35,6 @@ const HeaderContainer = styled.div`
       color: lightgray;
     }
   }
-  @media only screen and (max-width: 850px) {
-  }
 
   .userBalance{
     color: green;
@@ -51,6 +49,18 @@ const HeaderContainer = styled.div`
   .depositIcon{
     padding-top: 20%;
     color: lightgreen;
+  }
+
+  @media only screen and (min-width: 850px) {
+    .userBalance{
+      color: green;
+      display: flex;
+      flex-direction: row;
+      
+      .balance{
+        font-size: 1em;
+      }
+    }
   }
 `;
 const HeaderTop = styled.div`
@@ -80,7 +90,8 @@ const HeaderTop = styled.div`
     width: 0%;
     z-index: 4;
   }
-  @media only screen and (max-width: 850px) {
+  
+  @media only screen and (min-width: 850px) {
     height: 100%;
     background-color: black;
     display: flex;
