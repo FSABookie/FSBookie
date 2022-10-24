@@ -5,6 +5,8 @@ import styled from "styled-components";
 const WagerContainer = styled.div`
   display: flex;
   flex-direction: row;
+  padding-bottom: 4%;
+  
 `;
 
 const Wager = styled.div`
@@ -19,6 +21,12 @@ const Wager = styled.div`
     border-color: cornflowerblue;
   }
 `;
+
+const WinWager = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 6%;
+`
 
 const InputDiv = styled.div`
   display: flex;
@@ -48,19 +56,20 @@ function WagerField({ odds, setToWin, setWager, wager, toWin }) {
             />
           </InputDiv>
         </Wager>
-        <Wager>
-          To Win
+        <WinWager>
+          <div className="payout">
+           Payout
+          </div>
           <InputDiv>
-            $
-            <InputWager
+        $
+           <InputWager
               type="number"
               onChange={(e) => setToWin(e.target.value)}
               value={toWin}
             />
           </InputDiv>
-        </Wager>
+        </WinWager>
       </WagerContainer>
-      <hr />
     </>
   );
 }
