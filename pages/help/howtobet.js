@@ -8,6 +8,10 @@ background-color:rgb(16,16,16);
 color: white;
 text-align: center;
 font-family: 'Open Sans' sans-serif;
+padding: 4%;
+p{
+    text-align: left;
+}
 @media only screen and (min-width: 850px) {
     p {
         font-family: 'Open Sans' sans-serif;
@@ -20,7 +24,7 @@ font-family: 'Open Sans' sans-serif;
 const Overview = styled.div `
     padding: 3%;
     font-size: 1.2em;
-    padding-top: 6%;
+    padding-top: 20%;
 
     h2 {
         font-size: 1.75em;
@@ -29,6 +33,10 @@ const Overview = styled.div `
     p {
         font-size: 1.2em;
         font-weight: 300;
+    }
+
+    @media only screen and (min-width: 850px) {
+        padding-top: 4%;
     }
 `
 
