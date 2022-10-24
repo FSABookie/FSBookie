@@ -34,7 +34,7 @@ export default async function handler(req, res) {
                 console.log(charge.customer_details.email)
                 // const amount = Number(charge.amount_subtotal.slice(0, -2))
                 // console.log('AMOUNT', amount)
-                axios.put("https://capstone-bookie.herokuapp.com/api/users", {deposit: Number(charge.amount_subtotal.toString().slice(0, -2)), email: charge.customer_details.email})
+                axios.put("https://capstone-bookie.herokuapp.com/api/users/deposit", {deposit: Number(charge.amount_subtotal.toString().slice(0, -2)), email: charge.customer_details.email})
                 // updateUserFunds(charge);
 			} else {
 				console.warn(`Unhandled event type: ${event.type}`);
