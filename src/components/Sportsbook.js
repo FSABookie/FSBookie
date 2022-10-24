@@ -131,6 +131,7 @@ const GameCard = styled.div`
   .imgContainer {
     img {
       height: 18px;
+      width: 18px;
     }
   }
 
