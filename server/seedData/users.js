@@ -28,20 +28,22 @@ const users = [
     username: "dannyman"
   },
   {
-    email: "jake69@gmail.com",
+    email: "rob@gmail.com",
     password: "654321",
-    firstName: "Jake",
-    lastName: "Lohman",
+    firstName: "Robert",
+    lastName: "Ulrich",
     isAdmin: true,
-    balance: 100,
+    balance: 100000,
+    username: "robbyu",
   },
   {
-    email: "drew@gmail.com",
-    password: "ilikemap",
-    firstName: "Drew",
-    lastName: "Dobson",
-    isAdmin: false,
+    email: "dk@gmail.com",
+    password: "654321",
+    firstName: "Daniel",
+    lastName: "Kim",
+    isAdmin: true,
     balance: 100,
+    username: "eggcellent",
   },
 ];
 
