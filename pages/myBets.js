@@ -45,7 +45,7 @@ const SportsHeader = styled.div`
   margin-bottom: 15%;
   height: 100%;
   color: white;
-  background: black;
+  background: #242424;
   display: flex;
   flex-direction: row;
   column-gap: 4%;
@@ -56,8 +56,8 @@ const SportsHeader = styled.div`
     padding: 2% 4.25%;
     border: 1px solid #242424;
     border-radius: 50px;
-    color: #ababab;
-    background-color: #000;
+    color: white;
+    background-color: grey;
     white-space: nowrap;
     font-size: 0.625em;
     line-height: 14px;

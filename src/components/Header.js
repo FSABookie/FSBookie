@@ -445,7 +445,7 @@ function Header() {
                     <Link href="/posts">Forum</Link>
                   </div>
                   <div className="singleLink">
-                    <Link href="/projections/NFL">Projections</Link>
+                    <Link href="/projections/NFL">Trends</Link>
                   </div>
                   <div onClick={handleLogout} className="singleLink">
                     <Link  href="/sportsbook/NFL">Sign Out</Link>
@@ -507,7 +507,7 @@ function Header() {
                     <Link href="/posts">Forum</Link>
                   </div>
                   <div className="singleLink">
-                    <Link href="/projections/NFL">Projections</Link>
+                    <Link href="/projections/NFL">Trends</Link>
                   </div>
                 </div>
               </Menu>
