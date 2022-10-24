@@ -13,7 +13,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Content = styled.div`
-  background-color: white;
+  background-color: #242424;
   background: #242424;
   height: max-height;
   
