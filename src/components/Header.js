@@ -8,6 +8,7 @@ import { signOut, useSession } from "next-auth/react";
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
 import { GiMeatCleaver, GiHamburgerMenu } from "react-icons/gi";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import {
   useGetUserQuery,
   useUpdateBetsMutation,
@@ -35,6 +36,21 @@ const HeaderContainer = styled.div`
     }
   }
   @media only screen and (max-width: 850px) {
+  }
+
+  .userBalance{
+    color: green;
+    display: flex;
+    flex-direction: row;
+    
+    .balance{
+      font-size: 0.8em;
+    }
+  }
+
+  .depositIcon{
+    padding-top: 20%;
+    color: lightgreen;
   }
 `;
 const HeaderTop = styled.div`
@@ -400,6 +416,9 @@ function Header() {
                   <div className="singleLink">
                     <Link href="/projections/NFL">Projections</Link>
                   </div>
+                  <div onClick={handleLogout} className="singleLink">
+                    <Link  href="/sportsbook/NFL">Sign Out</Link>
+                  </div>
                 </div>
               </Menu>
 
@@ -409,17 +428,27 @@ function Header() {
             {/* account link - displayed as email */}
             <Link href={userStatusLink}>
               <LinkContainer>
-                <FaUser />
-                <p>{session.user.email}</p>
+                <FaUser fontSize />
+                {/* <p>{session.user.email}</p> */}
               </LinkContainer>
             </Link>
             {/* logout link */}
-            <Link href="/">
+            {/* <Link href="/">
               <LinkContainer onClick={handleLogout}>
                 <BiLogOut />
                 <p>Logout</p>
               </LinkContainer>
+            </Link> */}
+            <div className="userBalance">
+              <div className="balance">
+            ${session.user.balance} 
+            </div>
+            <div className="depositFunds">
+              <Link href="/deposit">
+            <ControlPointIcon fontSize="medium" className="depositIcon" />
             </Link>
+            </div>
+            </div>
           </>
         ) : (
           <>
