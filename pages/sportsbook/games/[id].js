@@ -74,7 +74,7 @@ const SingleGameContainer = styled.div`
     width: 50%;
     text-align: center;
     img {
-      padding-top:%;
+      padding-top:2%;
     }
    }
 
