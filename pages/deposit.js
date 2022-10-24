@@ -11,6 +11,12 @@ background-color:#242424;
 padding-left: 40%;
 padding-top: 2%;
 height: 5vh;
+
+@media only screen and (min-width: 850px) {
+  padding-left: 46%;
+  padding-top: 0.4%;
+  font-size: 1.2em;
+}
 `
 
 const Input = styled.div `
@@ -24,6 +30,24 @@ const Input = styled.div `
   button {
     border: none;
     height: 25px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  @media only screen and (min-width: 850px) {
+    padding-left: 15%;
+  }
+
+  input {
+    border: none;
+    height: 50px;
+    width: 70%;
+    border-right: 1px solid black;
+    border-radius: 8px 0 0 8px;
+  }
+  button {
+    border: none;
+    height: 50px;
+    width: 30%;
     border-radius: 0 8px 8px 0;
   }
 `
