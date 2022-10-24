@@ -403,12 +403,16 @@ function Header() {
     mySidenavRef.current.classList.toggle("hide");
   }
 
+  const { data: singleuser, isSuccess } = useGetUserQuery(
+    status === "authenticated" ? session.user.id : skipToken
+  );
+
   // if we want to hide search when user switch pages, maybe should add 'isSearching' to redux store
   // also need to allow user to exit out by clicking elsewhere
   return (
     <HeaderContainer>
       <HeaderTop className="hfLinks">
-        {session ? (
+        {isSuccess ? (
           <>
             <GiHamburgerMenu className="burgermenu" onClick={toggleNav} />
 
@@ -461,7 +465,7 @@ function Header() {
             </Link> */}
             <div className="userBalance">
               <div className="balance">
-            ${session.user.balance} 
+            ${singleuser.balance} 
             </div>
             <div className="depositFunds">
               <Link href="/deposit">
