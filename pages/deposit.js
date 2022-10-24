@@ -6,13 +6,6 @@ const Deposit = () => {
   const amountRef = useRef(0);
 
 
-const customClick = () => {
-
-  // https://buy.stripe.com/test_6oEfZh2jE5bY7yU4gg
-  
-};
-
-
 const handleClick = async() => {
     let n = amountRef.current.value;
     if (n == 0) return [0];
