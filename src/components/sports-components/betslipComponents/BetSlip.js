@@ -21,7 +21,6 @@ const BetSlipConntainer = styled.div`
     width: 25%;
     margin-left: 76.5%;
   }
-  // @media only screen and (max-width: 850px) {
   bottom: 0;
   position: sticky;
   margin-top: 15%;
@@ -29,11 +28,13 @@ const BetSlipConntainer = styled.div`
   margin-left: 0.5em;
   margin-right: 0.5em;
   border-radius: 10px;
+  max-height: 60vh;
+  overflow-y: scroll;
   transition: 0.3s;
   transform: ${({ open }) =>
-    open ? "translateY(-30%)" : "translateY(-1000%)"};
-  height: ${({ open }) => (open ? "100%" : "3em")};
-  // }
+    open ? "translateY(-30%)" : "translateY(-100%)"};
+   height: ${({ open }) => (open ? "100%" : "3em")};
+
 `;
 
 const Funds = styled.div``;
@@ -60,6 +61,10 @@ const BetSlipHeaderContainer = styled.div`
   padding-left: 0.25em;
   padding-right: 0.25em;
   margin-top: 10%;
+
+  .closedBetslip {
+   overflow-y: none;
+  }
 `;
 
 function BetSlip() {
@@ -158,8 +163,8 @@ function BetSlip() {
     <BetSlipConntainer open={toggled}>
       <BetSlipHeaderContainer onClick={() => setToggled(!toggled)}>
         {" "}
-        <div>{betSlip.length} Bet Slip</div>
-        {betSlip.length > 1 && <div>Parlay Odds {parlayOdds}</div>}
+        <div className="closedBetslip">{betSlip.length} Bet Slip</div>
+        {betSlip.length > 1 && <div className="closedBetslip">Parlay Odds {parlayOdds}</div>}
       </BetSlipHeaderContainer>
 
       {toggled && (
