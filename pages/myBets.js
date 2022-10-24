@@ -131,6 +131,13 @@ const TeamContainer = styled.div`
     flex-direction: row;
     align-items: center;
   }
+
+  @media only screen and (min-width: 850px) {
+    img{
+      padding-right: 1%;
+      width: 7%;
+    }
+  }
 `;
 
 const TeamDiv = styled.div`
