@@ -1,5 +1,33 @@
 import React, { useEffect, useRef } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
+import styled from 'styled-components';
+
+const Container = styled.div `
+`
+
+const Header = styled.div `
+color: white;
+background-color:#242424;
+padding-left: 40%;
+padding-top: 2%;
+height: 5vh;
+`
+
+const Input = styled.div `
+  padding: 20%;
+  input {
+    border: none;
+    height: 25px;
+    border-right: 1px solid black;
+    border-radius: 8px 0 0 8px;
+  }
+  button {
+    border: none;
+    height: 25px;
+    border-radius: 0 8px 8px 0;
+  }
+`
+
 
 const Deposit = () => {
 
@@ -58,12 +86,18 @@ const handleClick = async() => {
 };
 
   return (
-    <div>
-      <div>deposit amount: </div>
-      <input type="text" name="amount" ref={amountRef} placeholder="Amount" />
-      <button type="submit" className="mainButton" onClick={handleClick}>Deposit</button>
+    <Container>
+      <Header>
+          <div className='Deposit'>
+            Deposit
+          </div>
+      </Header>
+      <Input>
+      <input type="text" name="amount" ref={amountRef} placeholder="$0.00" />
+      <button type="submit" className="mainButton" onClick={handleClick}>Deposit </button>
+      </Input>
       {/* <a target="_blank" href='https://buy.stripe.com/test_8wM6oH6zUeMyg5q001'><button type="submit" className="mainButton">Custom Deposit</button></a> */}
-    </div>
+    </Container>
   )
 }
 
