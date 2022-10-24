@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
+import { useSession } from 'next-auth/react';
 
 const Deposit = () => {
+
+  const {data: session} = useSession();
 
   const amountRef = useRef(0);
 
@@ -54,6 +57,7 @@ const handleClick = async() => {
     mode: 'payment',
     successUrl: `${window.location.origin}/deposit/?session_id={CHECKOUT_SESSION_ID}`,
     cancelUrl: window.location.origin,
+    customerEmail: session.user?.email
   })
 };
 
