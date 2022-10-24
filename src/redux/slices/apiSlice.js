@@ -62,6 +62,14 @@ export const apiSlice = createApi({
       query: (id) => `/users/${id}`,
       providesTags: ["user"],
     }),
+    updateUser: builder.mutation({
+      query: (payload) => ({
+        url: `/users/${payload.id}`,
+        method: "PUT",
+        body: payload.payload,
+      }),
+      invalidatesTags: ["user"],
+    }),
     updateUserFunds: builder.mutation({
       query: (payload) => ({
         url: `/users/${payload.id}`,
@@ -192,4 +200,5 @@ export const {
   useIncrementLikeMutation,
   useDeleteCommentMutation,
   useGetActiveParlayQuery,
+  useUpdateUserMutation,
 } = apiSlice;
