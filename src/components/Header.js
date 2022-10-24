@@ -452,7 +452,7 @@ function Header() {
             {/* account link - displayed as email */}
             <Link href={userStatusLink}>
               <LinkContainer>
-                <FaUser fontSize />
+                <FaUser />
                 {/* <p>{session.user.email}</p> */}
               </LinkContainer>
             </Link>
