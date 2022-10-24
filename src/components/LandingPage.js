@@ -37,6 +37,9 @@ const Headerfoot = styled.div`
   font-weight: 300;
   font-size: 0.85em;
   background: #1f375b;
+  &:hover {
+    cursor: pointer;
+  }
   .sportbook {
     margin-left: 0.6em;
   }
@@ -130,6 +133,15 @@ const Projectionsinfo = styled.div`
 
   @media only screen and (min-width: 850px) {
     margin-top: 6%;
+  }
+
+  .howtobetButton {
+    border: none;
+    border-radius: 16px;
+    color: lightgreen;
+    background: navy;
+    font-weight: bold;
+    padding: 1.5%;
   }
 `;
 
