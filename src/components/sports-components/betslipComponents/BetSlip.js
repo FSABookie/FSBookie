@@ -17,27 +17,30 @@ import {
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const BetSlipConntainer = styled.div`
-  @media only screen and (min-width: 850px) {
-    width: 25%;
-    margin-left: 76.5%;
+  @media only screen and (min-width: 390px) {
+    bottom: 0;
+    position: sticky;
+    margin-top: 15%;
+    background-color: white;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    border-radius: 10px;
+    overflow-y: scroll;
+    transition: 0.3s;
+    transform: ${({ open }) =>
+      open ? "translateY(-1%)" : "translateY(-100%)"};
+    height: ${({ open }) => (open ? "35em;" : "3em")};
   }
-  bottom: 0;
-  position: sticky;
-  margin-top: 15%;
-  background-color: white;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  border-radius: 10px;
-  max-height: 60vh;
-  overflow-y: scroll;
-  transition: 0.3s;
-  transform: ${({ open }) =>
-    open ? "translateY(-30%)" : "translateY(-100%)"};
-   height: ${({ open }) => (open ? "100%" : "3em")};
-
 `;
 
 const Funds = styled.div``;
+
+const BetSlipFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  bottom: 0;
+  position: sticky;
+`;
 
 const Submit = styled.button`
   background-color: green;
@@ -53,17 +56,15 @@ const ClearBets = styled.div`
 `;
 
 const BetSlipHeaderContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-top: 0.9em;
-  padding-left: 0.25em;
-  padding-right: 0.25em;
-  margin-top: 10%;
-
-  .closedBetslip {
-   overflow-y: none;
+  @media only screen and (min-width: 390px) {
+    top: 0;
+    position: sticky;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 0.9em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
   }
 `;
 
@@ -130,7 +131,7 @@ function BetSlip() {
   const submitParlay = async () => {
     if (isSuccess) {
       if (user.balance < wager) {
-        alert("NOT ENOUGH FUNDS BROKE ASS");
+        alert("Please Deposit Funds");
       } else {
         try {
           let { data: parlay } = await createParlay({
@@ -164,12 +165,14 @@ function BetSlip() {
       <BetSlipHeaderContainer onClick={() => setToggled(!toggled)}>
         {" "}
         <div className="closedBetslip">{betSlip.length} Bet Slip</div>
-        {betSlip.length > 1 && <div className="closedBetslip">Parlay Odds {parlayOdds}</div>}
+        {betSlip.length > 1 && (
+          <div className="closedBetslip">Parlay Odds {parlayOdds}</div>
+        )}
       </BetSlipHeaderContainer>
 
       {toggled && (
         <>
-          {(status === "authenticated" && isSuccess) ? (
+          {status === "authenticated" && isSuccess ? (
             <Funds>Your Available Funds : ${user.balance}</Funds>
           ) : (
             <Funds>Log In To See Funds</Funds>
@@ -178,34 +181,39 @@ function BetSlip() {
           {betSlip.map((bet, idx) => {
             return <BetSlipGame bet={bet} key={idx} />;
           })}
-          <ClearBets onClick={() => dispatch(RemoveAllSelections())}>
-            <CgTrash color="red" />
-            Remove all Selections
-          </ClearBets>
-          {status === "authenticated" ? (
-            <Submit onClick={() => submitBets()}>Lock In Bet(s)</Submit>
-          ) : (
-            <Link href="/login">
-              <Submit>Log In to Place Bet</Submit>
-            </Link>
-          )}
-          {betSlip.length > 1 && (
-            <Parlay
-              toWin={toWin}
-              setToWin={setToWin}
-              wager={wager}
-              setWager={setWager}
-              parlayOdds={parlayOdds}
-              setOdds={setOdds}
-            />
-          )}
-          {status === "authenticated" ? (
-            <Submit onClick={() => submitParlay()}>Lock In Parlay</Submit>
-          ) : (
-            <Link href="/login">
-              <Submit>Log In to Place Bet</Submit>
-            </Link>
-          )}
+          <BetSlipFooter>
+            {" "}
+            <ClearBets onClick={() => dispatch(RemoveAllSelections())}>
+              <CgTrash color="red" />
+              Remove all Selections
+            </ClearBets>
+            {status === "authenticated" ? (
+              <Submit onClick={() => submitBets()}>Lock In Bet(s)</Submit>
+            ) : (
+              <Link href="/login">
+                <Submit>Log In to Place Bet</Submit>
+              </Link>
+            )}
+            {betSlip.length > 1 && (
+              <Parlay
+                toWin={toWin}
+                setToWin={setToWin}
+                wager={wager}
+                setWager={setWager}
+                parlayOdds={parlayOdds}
+                setOdds={setOdds}
+              />
+            )}
+            {status === "authenticated" ? (
+              betSlip.length > 1 && (
+                <Submit onClick={() => submitParlay()}>Lock In Parlay</Submit>
+              )
+            ) : (
+              <Link href="/login">
+                <Submit>Log In to Place Bet</Submit>
+              </Link>
+            )}
+          </BetSlipFooter>
         </>
       )}
     </BetSlipConntainer>
