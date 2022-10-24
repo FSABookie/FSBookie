@@ -44,6 +44,10 @@ const HeaderContainer = styled.div`
     .balance{
       font-size: 0.8em;
     }
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .depositIcon{
@@ -190,6 +194,9 @@ const HeaderMain = styled.div`
 const LinkContainer = styled.div`
   display: flex;
   align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Page = styled.div`
@@ -452,7 +459,7 @@ function Header() {
             {/* account link - displayed as email */}
             <Link href={userStatusLink}>
               <LinkContainer>
-                <FaUser fontSize />
+                <FaUser />
                 {/* <p>{session.user.email}</p> */}
               </LinkContainer>
             </Link>
