@@ -40,11 +40,17 @@ const BetSlipFooter = styled.div`
   flex-direction: column;
   bottom: 0;
   position: sticky;
+  background-color: white;
 `;
 
 const Submit = styled.button`
   background-color: green;
   width: 100%;
+  border: none;
+  height: 25px
+  font-weight: bold;
+  font-size: 1em;
+  
 `;
 
 const ClearBets = styled.div`
@@ -53,10 +59,12 @@ const ClearBets = styled.div`
   flex-direction: row;
   justify-content: center;
   cursor: pointer;
+  padding:4%;
+  border-top: 1px solid black;
 `;
 
 const BetSlipHeaderContainer = styled.div`
-  @media only screen and (min-width: 390px) {
+  @media only screen and (min-width: 374px) {
     top: 0;
     position: sticky;
     display: flex;
@@ -65,6 +73,8 @@ const BetSlipHeaderContainer = styled.div`
     padding-top: 0.9em;
     padding-left: 0.25em;
     padding-right: 0.25em;
+    background-color: white;
+    padding: 2%;
   }
 `;
 
@@ -174,11 +184,6 @@ function BetSlip() {
 
       {toggled && (
         <>
-          {status === "authenticated" && isSuccess ? (
-            <Funds>Your Available Funds : ${user.balance}</Funds>
-          ) : (
-            <Funds>Log In To See Funds</Funds>
-          )}
           {/* mapping through bets and rendiner each individual slip */}
           {betSlip.map((bet, idx) => {
             return <BetSlipGame bet={bet} key={idx} />;
