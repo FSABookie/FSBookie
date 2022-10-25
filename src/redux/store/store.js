@@ -18,6 +18,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import localGamesSlice from "../slices/localGames-slice";
 
 const persistConfig = {
   key: "root",
@@ -38,10 +39,10 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     betSlip: BetSlipSlice.reducer,
     user: userSlice.reducer,
-    // funds: fundsSlice.reducer,
-    persistedGame,
     usersBets: usersBetSlice.reducer,
-    persistedId, 
+    localGames: localGamesSlice.reducer,
+    persistedGame,
+    persistedId,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
