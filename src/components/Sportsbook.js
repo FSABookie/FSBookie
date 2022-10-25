@@ -244,6 +244,7 @@ function Sportsbook({ data }) {
               let time = d + " " + t;
               let apiId = ele.ID;
               const event = ele.Odds.filter((odd) => odd.OddType === "Game")[0];
+              console.log(ele);
               let homeTeamLogo;
               let awayTeamLogo;
               if (data.sport === "NBA") {
@@ -319,8 +320,7 @@ function Sportsbook({ data }) {
                     </Link>
                     {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
                     <div className="lineCol">
-                      {event.PointSpreadAway == 0 ||
-                      event.PointSpreadAway == 0.0 ? (
+                      {event.PointSpreadAway == 0 ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
@@ -367,8 +367,7 @@ function Sportsbook({ data }) {
                     </div>
                     {/* OVER!!!!!!!!!!! */}
                     <div className="lineCol">
-                      {event.PointSpreadAway == 0 ||
-                      event.PointSpreadAway == 0.0 ? (
+                      {event.OverLine == 0 || event.OverLine == 0.0 ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
@@ -404,8 +403,8 @@ function Sportsbook({ data }) {
                     </div>
                     {/* AWAY TEAM!!!!!!!!!!! */}
                     <div className="lineCol">
-                      {event.PointSpreadAway == 0 ||
-                      event.PointSpreadAway == 0.0 ? (
+                      {event.MoneyLineAway == "0" ||
+                      event.MoneyLineAway == "0.0" ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
@@ -455,8 +454,7 @@ function Sportsbook({ data }) {
                     </div>
                     {/* HOME TEAM SPREAD!!!!!!!!!!! */}
                     <div className="line2Col">
-                      {event.PointSpreadAway == 0 ||
-                      event.PointSpreadAway == 0.0 ? (
+                      {event.PointSpreadHome == 0 ? (
                         <div className="lineContainer">NA</div>
                       ) : (
                         <div
@@ -503,8 +501,7 @@ function Sportsbook({ data }) {
                     </div>
                     {/* UNDER!!!!!!!!!!! */}
                     <div className="line2Col">
-                      {event.PointSpreadAway == 0 ||
-                      event.PointSpreadAway == 0.0 ? (
+                      {event.UnderLine == 0 || event.UnderLine == 0.0 ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
@@ -540,8 +537,8 @@ function Sportsbook({ data }) {
                     </div>
                     {/* HOME TEAM ML!!!!!!!!!!! */}
                     <div className="line2Col">
-                      {event.PointSpreadAway == 0 ||
-                      event.PointSpreadAway == 0.0 ? (
+                      {event.MoneyLineHome == 0 ||
+                      event.MoneyLineHome == 0.0 ? (
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
