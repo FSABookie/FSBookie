@@ -18,16 +18,16 @@ const SportsContainer = styled.div`
   padding-right: 3%;
 `;
 const SportsHeader = styled.div`
-@media only screen and (min-width: 850px) {
-  width: 100%;
-  margin-left: 28%;
-  margin-bottom: 2%;
-  height: 40%;
-  
-  .sport {
-   padding: 1% 2%;
+  @media only screen and (min-width: 850px) {
+    width: 100%;
+    margin-left: 28%;
+    margin-bottom: 2%;
+    height: 40%;
+
+    .sport {
+      padding: 1% 2%;
+    }
   }
-}
   margin-bottom: 15%;
   height: 100%;
   color: white;
@@ -58,10 +58,10 @@ const GamesContainer = styled.div`
   height: 100%;
 `;
 const Games = styled.div`
-@media only screen and (min-width: 850px) {
-  width: 55%;
-  margin-left: 20%;
-}
+  @media only screen and (min-width: 850px) {
+    width: 55%;
+    margin-left: 20%;
+  }
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -205,10 +205,9 @@ function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
 
-  // useEffect(() => {
-  //   console.log(data.sport);
-  //   console.log(NFLlogos);
-  // }, []);
+  useEffect(() => {
+    console.log(data);
+  }, []);
 
   return (
     <SportsContainer>
