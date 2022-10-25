@@ -1,4 +1,5 @@
 import React from "react";
+import Loader from "../../src/components/Loader";
 import Sportsbook from "../../src/components/Sportsbook";
 import { useGetMLBQuery } from "../../src/redux/slices/apiSlice";
 
@@ -7,7 +8,7 @@ function Baseball() {
 
   const sport = "MLB";
 
-  return <Sportsbook data={{ data, sport }} />;
+  return isLoading ? <Loader /> : <Sportsbook data={{ data, sport }} />;
 }
 
 export default Baseball;
