@@ -1,21 +1,21 @@
 const posts = [
   {
     userId: 1,
-    title: "NFL",
+    title: "Marshawn Lynch in the NFL",
     body: "Marshawn Lynch is a beast and should still be in the NFL",
     likes: 20,
     username: 'jonnyboi'
   },
   {
     userId: 2,
-    title: "NBA",
+    title: "Steph Curry in the NBA",
     body: "Steph Curry is the greatest 3 point shooter of all time",
     likes: 10,
     username: 'byoonster'
   },
   {
     userId: 3,
-    title: "NHL",
+    title: "NHL, who's taking the chip?",
     body: `So who is your guys' pick for the chip this year guys?`,
     likes: 10,
     username: 'dannyman'
@@ -29,7 +29,7 @@ const posts = [
   },
   {
     userId: 2,
-    title: "Lebron James",
+    title: "Lebron James is actually the goat!",
     body: "Lebron James is the goat and you guys can't tell me otherwise. It is definitely not Michael Jordan",
     likes: 12,
     username: 'byoonster'
