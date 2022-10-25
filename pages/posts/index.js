@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
+import { useSession } from "next-auth/react";
 import {
   useGetPostsQuery,
   useIncrementLikeMutation,
@@ -12,26 +13,35 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Content = styled.div`
 height: 100%;
-background-color: white;
+background: url('/pbg.png');
+&:hover{
+  cursor: pointer;
+}
+
 /* I was thinking we can Have a cool background image for our Forums Page! */
-background: url('/p404.png'), #D5D3D3;
 
 .postList {
   list-style: none;
   font-size: 1.1em;
   padding: 0;
+  color: white;
 }
 
 .row{
-  background-color: white;
+  border-top: 3px solid #242424;
+  /* color: #D5D3D3; */
   padding: 1.5%;
   width: 100%;
+  @media only screen and (min-width: 850px) {
+    // width: 100%;
+    // margin-left: 22.5%;
+  }
 }
 
  .footer {
-  border-top: 1.5px solid black;
+  border-top: 1.5px solid #242424;
   color:#D5D3D3;
-  background-color: #D5D3D3;
+  background-color: #242424;
   text-align: center;
   position: fixed;
   bottom: 0;
@@ -62,6 +72,8 @@ background: url('/p404.png'), #D5D3D3;
   padding: 2%;
   border: none;
   font-size: 1em;
+  background-color: #D5D3D3;
+  color:#242424;
  }
 `;
 
@@ -71,9 +83,14 @@ function Posts() {
   const { data: posts } = useGetPostsQuery();
   const [ incrementLike ] = useIncrementLikeMutation();
   const dispatch = useDispatch();
+  const { data: session } = useSession();
 
   async function handleLikes(payload) {
+    if (session) {
     await incrementLike(payload)
+    } else {
+      alert("Please Login To Like Posts!")
+    }
   }
   // IDK if we should do getSingleUserQuery like here or create another APIslice to get all Users
   // and then just plug in the ID given from post.userId
@@ -94,17 +111,17 @@ function Posts() {
                   {post.title}
                 </h4>
               </Link>
-              <p className="postDetails">
+              <div className="postDetails">
                 <div className="postDetail">
                Posted by: {post.username} {post.createdAt}<br></br> </div>
                <div className="postDetail">
-               <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> <br></br>
-               <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} /> {post.likes} <br></br>
+               <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> {post.likes}<br></br>
+               <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} /> <br></br>
                </div>
                {/* <div className="postDetail">
               Created At: {post.createdAt}<br></br></div> */}
               {post.comments.length} comments
-              </p>
+              </div>
             </li>
           </ul>
     )})}

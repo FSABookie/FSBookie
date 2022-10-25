@@ -6,14 +6,19 @@ import { addToBetSlip } from "../../../src/redux/slices/BetSlip-slice";
 import {
   selectFirstHalf,
   selectFullGame,
+  selectPeriod,
   selectQuarter,
+  selectInning,
 } from "../../../src/redux/slices/game-slice";
+
 import {
   NBAlogos,
   NFLlogos,
   MLBlogos,
   NHLlogos,
 } from "../../../public/teamLogos";
+import { useGetActiveBetsQuery } from "../../../src/redux/slices/apiSlice";
+import ProgressBar from "../../../src/components/ProgressBar";
 
 const SingleGameContainer = styled.div`
   color: white;
@@ -62,6 +67,24 @@ const SingleGameContainer = styled.div`
 
   .gamecard {
     margin-top: 4%;
+  }
+
+  @media only screen and (min-width: 850px) {
+   .team1{
+    width: 50%;
+    text-align: center;
+    img {
+      padding-top:2%;
+    }
+   }
+
+   .team2 {
+    width: 50%;
+   }
+
+   .MatchupContainer {
+    width: 100%;
+   }
   }
 `;
 const GameCard = styled.div`
@@ -207,13 +230,17 @@ const SportsHeader = styled.div`
   }
 `;
 
-// async function getServerSideProps(context) {
-//   return {
-//     props: {
-//       sport: context.sport,
-//     },
-//   };
-// }
+const Trends = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  flex-direction: column;
+`;
+
+const Trend = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`;
 
 function GamePage() {
   const [d, setDate] = useState();
@@ -227,6 +254,7 @@ function GamePage() {
     homeTeamLogo,
   } = useSelector((state) => state.persistedGame);
   const { betSlip } = useSelector((state) => state.betSlip);
+  const { data: activeGames, isLoading: betsLoading } = useGetActiveBetsQuery();
 
   const dispatch = useDispatch();
 
@@ -243,6 +271,27 @@ function GamePage() {
       console.log(odd);
     }
   }, [game]);
+
+  // console.log(activeGames);
+  // console.log(game)
+  const trend = activeGames?.filter(
+    (activeGame) => activeGame.betId === game.ID
+  );
+  console.log(trend);
+  let bets = {};
+  trend?.forEach((bet) => {
+    if (Object.keys(bets).includes(bet.betId)) {
+      if (!Object.keys(bets[bet.betId]).includes(bet.gameLine)) {
+        bets[bet.betId][bet.gameLine] = 1;
+      } else {
+        bets[bet.betId][bet.gameLine] += 1;
+      }
+    } else {
+      bets[bet.betId] = { [bet.gameLine]: 1 };
+    }
+  });
+  console.log(trend);
+  console.log(bets);
 
   return game && odd ? (
     <>
@@ -261,20 +310,38 @@ function GamePage() {
             </div>
           </div>
         </div>
-
         <div>
           <SportsHeader>
             <div onClick={() => dispatch(selectFullGame())}>GAME LINES</div>
 
-            <div onClick={() => dispatch(selectFirstHalf())}>HALVES</div>
+            {sport === "NBA" && (
+              <div onClick={() => dispatch(selectFirstHalf())}>HALVES</div>
+            )}
 
-            <div onClick={() => dispatch(selectQuarter())}>QUARTERS</div>
+            {sport === "NBA" && (
+              <div onClick={() => dispatch(selectQuarter())}>QUARTERS</div>
+            )}
+            {sport === "NFL" && (
+              <div onClick={() => dispatch(selectFirstHalf())}>HALVES</div>
+            )}
+
+            {sport === "NFL" && (
+              <div onClick={() => dispatch(selectQuarter())}>QUARTERS</div>
+            )}
+
+            {sport === "NHL" && (
+              <div onClick={() => dispatch(selectPeriod())}>PERIOD</div>
+            )}
+            {sport === "MLB" && (
+              <div onClick={() => dispatch(selectInning())}>INNINGS</div>
+            )}
           </SportsHeader>
         </div>
 
         <div className="gamecard">
           {odd.map((odd) => (
             <GameCard key={odd.ID}>
+              {odd.OddType}
               <TableRow>
                 {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
                 <div className="lineCol">
@@ -504,6 +571,242 @@ function GamePage() {
             </GameCard>
           ))}
         </div>
+        <Trends>
+          <Trend>
+            <div>
+              Away Spread
+              {typeof bets[game.ID] !== "undefined" &&
+                (typeof bets[game.ID][
+                  game.AwayTeam +
+                    " " +
+                    game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                      .PointSpreadAway
+                ] !== "undefined" ? (
+                  typeof bets[game.ID][
+                    game.HomeTeam +
+                      " " +
+                      game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                        .PointSpreadHome
+                  ] !== "undefined" ? (
+                    <ProgressBar
+                      completed={`${
+                        (bets[game.ID][
+                          game.AwayTeam +
+                            " " +
+                            game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                              .PointSpreadAway
+                        ] /
+                          (bets[game.ID][
+                            game.AwayTeam +
+                              " " +
+                              game.Odds.filter(
+                                (odd) => odd.OddType === "Game"
+                              )[0].PointSpreadAway
+                          ] +
+                            bets[game.ID][
+                              game.HomeTeam +
+                                " " +
+                                game.Odds.filter(
+                                  (odd) => odd.OddType === "Game"
+                                )[0].PointSpreadHome
+                            ])) *
+                        100
+                      }`}
+                    />
+                  ) : (
+                    <ProgressBar completed={`${100}`} />
+                  )
+                ) : (
+                  <ProgressBar completed={`${0}`} />
+                ))}
+            </div>
+            <div>
+              Over
+              {typeof bets[game.ID] !== "undefined" &&
+                (typeof bets[game.ID][
+                  "Over" +
+                    " " +
+                    game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                      .TotalNumber
+                ] !== "undefined" ? (
+                  typeof bets[game.ID][
+                    "Under" +
+                      " " +
+                      game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                        .TotalNumber
+                  ] !== "undefined" ? (
+                    <ProgressBar
+                      completed={`${
+                        (bets[game.ID][
+                          "Over" +
+                            " " +
+                            game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                              .TotalNumber
+                        ] /
+                          (bets[game.ID][
+                            "Over" +
+                              " " +
+                              game.Odds.filter(
+                                (odd) => odd.OddType === "Game"
+                              )[0].TotalNumber
+                          ] +
+                            bets[game.ID][
+                              "Under" +
+                                " " +
+                                game.Odds.filter(
+                                  (odd) => odd.OddType === "Game"
+                                )[0].TotalNumber
+                            ])) *
+                        100
+                      }`}
+                    />
+                  ) : (
+                    <ProgressBar completed={`${100}`} />
+                  )
+                ) : (
+                  <ProgressBar completed={`${0}`} />
+                ))}
+            </div>
+            <div>
+              Away Moneyline
+              {typeof bets[game.ID] !== "undefined" &&
+                (typeof bets[game.ID][game.AwayTeam + " ML"] !== "undefined" ? (
+                  typeof bets[game.ID][game.HomeTeam + " ML"] !==
+                  "undefined" ? (
+                    <ProgressBar
+                      completed={`${
+                        (bets[game.ID][game.AwayTeam + " ML"] /
+                          (bets[game.ID][game.AwayTeam + " ML"] +
+                            bets[game.ID][game.HomeTeam + " ML"])) *
+                        100
+                      }`}
+                    />
+                  ) : (
+                    <ProgressBar completed={`${100}`} />
+                  )
+                ) : (
+                  <ProgressBar completed={`${0}`} />
+                ))}
+            </div>
+          </Trend>
+          <Trend>
+            <div>
+              Home Spread
+              {typeof bets[game.ID] !== "undefined" &&
+                (typeof bets[game.ID][
+                  game.HomeTeam +
+                    " " +
+                    game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                      .PointSpreadHome
+                ] !== "undefined" ? (
+                  typeof bets[game.ID][
+                    game.AwayTeam +
+                      " " +
+                      game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                        .PointSpreadAway
+                  ] !== "undefined" ? (
+                    <ProgressBar
+                      completed={`${
+                        (bets[game.ID][
+                          game.HomeTeam +
+                            " " +
+                            game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                              .PointSpreadHome
+                        ] /
+                          (bets[game.ID][
+                            game.HomeTeam +
+                              " " +
+                              game.Odds.filter(
+                                (odd) => odd.OddType === "Game"
+                              )[0].PointSpreadHome
+                          ] +
+                            bets[game.ID][
+                              game.AwayTeam +
+                                " " +
+                                game.Odds.filter(
+                                  (odd) => odd.OddType === "Game"
+                                )[0].PointSpreadAway
+                            ])) *
+                        100
+                      }`}
+                    />
+                  ) : (
+                    <ProgressBar completed={`${100}`} />
+                  )
+                ) : (
+                  <ProgressBar completed={`${0}`} />
+                ))}
+            </div>
+            <div>
+              Under
+              {typeof bets[game.ID] !== "undefined" &&
+                (typeof bets[game.ID][
+                  "Under" +
+                    " " +
+                    game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                      .TotalNumber
+                ] !== "undefined" ? (
+                  typeof bets[game.ID][
+                    "Over" +
+                      " " +
+                      game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                        .TotalNumber
+                  ] !== "undefined" ? (
+                    <ProgressBar
+                      completed={`${
+                        (bets[game.ID][
+                          "Under" +
+                            " " +
+                            game.Odds.filter((odd) => odd.OddType === "Game")[0]
+                              .TotalNumber
+                        ] /
+                          (bets[game.ID][
+                            "Under" +
+                              " " +
+                              game.Odds.filter(
+                                (odd) => odd.OddType === "Game"
+                              )[0].TotalNumber
+                          ] +
+                            bets[game.ID][
+                              "Over" +
+                                " " +
+                                game.Odds.filter(
+                                  (odd) => odd.OddType === "Game"
+                                )[0].TotalNumber
+                            ])) *
+                        100
+                      }`}
+                    />
+                  ) : (
+                    <ProgressBar completed={`${100}`} />
+                  )
+                ) : (
+                  <ProgressBar completed={`${0}`} />
+                ))}
+            </div>
+            <div>
+              Home Moneyline
+              {typeof bets[game.ID] !== "undefined" &&
+                (typeof bets[game.ID][game.HomeTeam + " ML"] !== "undefined" ? (
+                  typeof bets[game.ID][game.AwayTeam + " ML"] !==
+                  "undefined" ? (
+                    <ProgressBar
+                      completed={`${
+                        (bets[game.ID][game.HomeTeam + " ML"] /
+                          (bets[game.ID][game.HomeTeam + " ML"] +
+                            bets[game.ID][game.AwayTeam + " ML"])) *
+                        100
+                      }`}
+                    />
+                  ) : (
+                    <ProgressBar completed={100} />
+                  )
+                ) : (
+                  <ProgressBar completed={0} />
+                ))}
+            </div>
+          </Trend>
+        </Trends>
       </SingleGameContainer>
       {betSlip.length > 0 && <BetSlip />}
     </>

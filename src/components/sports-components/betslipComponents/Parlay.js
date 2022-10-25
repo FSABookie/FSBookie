@@ -6,7 +6,12 @@ import * as oddslib from "oddslib";
 const WagerContainer = styled.div`
   display: flex;
   flex-direction: row;
+  padding: 3%;
 `;
+
+const ParlayOdds = styled.div`
+  padding: 3%;
+`
 
 const Wager = styled.div`
   border-style: solid;
@@ -42,8 +47,7 @@ function Parlay({ wager, setWager, toWin, setToWin, parlayOdds, setOdds }) {
       // converting american odds to decimal to be able to calculate parlay
       let odds = oddslib.from("moneyline", ele.odds);
       odds.to("decimal");
-      setToWin((wager * odds.decimalValue).toFixed(2));
-
+      setToWin((wager * parlayOdds).toFixed(2));
       //calculating odds for parlay
       setOdds((oldState) => Number(oldState * odds.decimalValue).toFixed(2));
     });
@@ -51,7 +55,9 @@ function Parlay({ wager, setWager, toWin, setToWin, parlayOdds, setOdds }) {
 
   return (
     <>
+    <ParlayOdds>
       {betSlip.length} Leg Parlay +{parlayOdds}
+      </ParlayOdds>
       <WagerContainer>
         <Wager>
           Wager

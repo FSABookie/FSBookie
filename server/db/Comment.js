@@ -3,7 +3,8 @@ const { Sequelize } = db;
 
 const Comment = db.define('comment', {
     postId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: null,
     },
     commentId: {
         type: Sequelize.INTEGER,

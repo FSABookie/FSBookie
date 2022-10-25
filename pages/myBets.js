@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   useGetUserQuery,
   useUpdateBetsMutation,
-  useUpdateOrderMutation,
+  useUpdateParlayMutation,
   useUpdateUserFundsMutation,
   useGetUsersActiveBetsQuery,
 } from "../src/redux/slices/apiSlice";
@@ -33,18 +33,22 @@ const Container = styled.div`
     margin-bottom: 15%;
     margin-top: 3%;
   }
+
+  @media only screen and (min-width: 850px) {
+    .title {
+      margin-bottom: 7%;
+    }
+  }
 `;
 
 const SportsHeader = styled.div`
   margin-bottom: 15%;
   height: 100%;
   color: white;
-  background: black;
-  position: relative;
+  background: #242424;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  gap: 1%;
+  column-gap: 4%;
   div {
     position: relative;
     text-decoration: none;
@@ -52,8 +56,8 @@ const SportsHeader = styled.div`
     padding: 2% 4.25%;
     border: 1px solid #242424;
     border-radius: 50px;
-    color: #ababab;
-    background-color: #000;
+    color: white;
+    background-color: grey;
     white-space: nowrap;
     font-size: 0.625em;
     line-height: 14px;
@@ -62,6 +66,15 @@ const SportsHeader = styled.div`
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.16s ease;
+  }
+
+  @media only screen and (min-width: 850px) {
+    column-gap: 5%;
+    padding-left: 20%;
+    margin-bottom: 5%;
+    div {
+      padding: 1.5% 3.75%;
+    }
   }
 `;
 
@@ -74,6 +87,11 @@ const BetsContainer = styled.div`
   flex-direction: column;
   margin-top: 0.75em;
   margin-bottom: 0.75em;
+
+  @media only screen and (min-width: 850px) {
+    width: 70%;
+    margin-left: 12%;
+  }
 `;
 
 const BetsContainerHeader = styled.div`
@@ -102,15 +120,28 @@ const TeamContainer = styled.div`
   padding: 1em 0.75em 1em 0.5em;
   font-size: 0.8rem;
 
-  div {
-    margin-bottom: 0.5em;
+  img {
+    width: 12%;
+    padding-right: 0.25em;
   }
 
-  ${
-    "" /* &:nth-child(2) {
-    margin-bottom: 1em;
-  } */
+  div {
+    margin-bottom: 0.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
+
+  @media only screen and (min-width: 850px) {
+    img{
+      padding-right: 1%;
+      width: 7%;
+    }
+  }
+`;
+
+const TeamDiv = styled.div`
+  display: flex;
 `;
 
 // COMPONENT STARTS HERE
@@ -129,65 +160,15 @@ function MyBets() {
       status === "authenticated" ? session.user.id : skipToken
     );
   const { usersBets, filteredBets } = useSelector((state) => state.usersBets);
-  const [updateOrder] = useUpdateOrderMutation();
-  const [updateBet] = useUpdateBetsMutation();
-  const [updateFunds] = useUpdateUserFundsMutation();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(clearBets());
-    user &&
-      user.orders.forEach((order) =>
-        order.bets.forEach((bet) => dispatch(getBets(bet)))
-      );
+    isSuccess && user.bets.forEach((bet) => dispatch(getBets(bet)));
+    // console.log(user.parlays);
+    isSuccess && user.parlays.forEach((parlay) => dispatch(getBets(parlay)));
   }, [dispatch, user]);
-
-  useEffect(() => {
-    // if we are able to successfully get users active bets
-    gotActiveBets && console.log("active bets", usersActiveBets);
-    // map through orders
-    usersActiveBets?.orders.forEach((order) => {
-      // map through bets
-      order.bets
-        .filter((bet) => bet.status !== "complete")
-        .forEach(async (bet) => {
-          // fetch the api result for each active bet
-          //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
-          const { payload } = await dispatch(checkBetsThunk(bet.betId));
-          if (payload[0]?.FinalType === "NotFinished") return;
-          //dispatch data
-          const data = await dispatch(
-            determineWinnerThunk({ bet: bet, api: payload[0] })
-          );
-          // if the bet won, settle users funds
-
-          if (data.payload === "won") {
-            let payload = {
-              isActive: false,
-              status: "completed",
-              result: "won",
-            };
-            await updateBet({ id: bet.id, payload });
-            await updateFunds({
-              funds: user.balance + bet.toWin,
-              id: user.id,
-            });
-          }
-
-          // IF THE BET LOSES
-          if (data.payload === "lost") {
-            let payload = {
-              isActive: false,
-              status: "completed",
-              result: "lost",
-            };
-            await updateBet({ id: bet.id, payload });
-          }
-        });
-    });
-  }, [dispatch]);
-
 
   return (
     <Container>
@@ -213,34 +194,62 @@ function MyBets() {
           Lost
         </div>
       </SportsHeader>
-      {filteredBets.map((bet) => {
-        return (
-          <BetsContainer key={bet.id}>
-            <BetsContainerHeader>
-              <div>
-                {bet.gameLine + " "}
-                {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
-              </div>
-              <div>{bet.status}</div>
-            </BetsContainerHeader>
-            <WagerHeader>
-              Wager: ${bet.wager} To Pay: ${bet.toWin}
-            </WagerHeader>
-            <TeamContainer>
-              <div>
-                <img src={bet.homeTeamLogo} />
-                {bet.homeTeam}
-              </div>
-              <div>
-                <img src={bet.awayTeamLogo} />
-                {bet.awayTeam}
-              </div>
-              {bet.time}
-            </TeamContainer>
-            {bet.createdAt}
-          </BetsContainer>
-        );
-      })}
+      {filteredBets &&
+        filteredBets.map((bet) => {
+          return !bet.parlayId && bet.betType !== "parlay" ? (
+            <BetsContainer key={bet.id}>
+              <BetsContainerHeader>
+                <div>
+                  {bet.gameLine + " "}
+                  {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
+                </div>
+                <div>{bet.result}</div>
+              </BetsContainerHeader>
+              <WagerHeader>
+                Wager: ${bet.wager} To Pay: ${bet.toWin}
+              </WagerHeader>
+              <TeamContainer>
+                <div>
+                  <img src={bet.homeTeamLogo} />
+                  {bet.homeTeam}
+                </div>
+                <div>
+                  <img src={bet.awayTeamLogo} />
+                  {bet.awayTeam}
+                </div>
+                {bet.time}
+              </TeamContainer>
+              {bet.createdAt}
+            </BetsContainer>
+          ) : (
+            bet.betType === "parlay" && (
+              <BetsContainer key={bet.id}>
+                {" "}
+                <BetsContainerHeader>
+                  <div>Parlay</div>
+                  <div>{bet.result}</div>
+                </BetsContainerHeader>
+                <WagerHeader>
+                  Wager: ${bet.wager} To Pay: ${bet.toWin}
+                </WagerHeader>
+                <TeamContainer>
+                  {bet.bets.map((bet) => (
+                    <div key={bet.id}>
+                      <TeamDiv>
+                        <div>
+                          {bet.awayTeam} @ {bet.homeTeam}
+                        </div>
+                        <div>{bet.gameLine}</div>
+                      </TeamDiv>
+                      <div>{bet.result}</div>
+                    </div>
+                  ))}
+                </TeamContainer>
+                {bet.createdAt}
+              </BetsContainer>
+            )
+          );
+        })}
     </Container>
   );
 }

@@ -15,7 +15,6 @@ const BetSlipSlice = createSlice({
   },
   reducers: {
     addToBetSlip(state, action) {
-      console.log("in dispatch", action.payload, state.betSlip[0]);
       state.betSlip = [...state.betSlip, action.payload];
     },
     RemoveFromBetSlip(state, action) {
@@ -35,7 +34,7 @@ const BetSlipSlice = createSlice({
       state.bet.wager = action.payload.wager;
       // removing the previous bet from bet slip and adding the updated bet
       state.betSlip.forEach((b) => {
-        b.betId === action.payload.bet.betId &&
+        b.id === action.payload.bet.id &&
           state.betSlip.splice(b.id, 1, state.bet);
       });
     },

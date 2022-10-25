@@ -10,8 +10,8 @@ import {
 const Content = styled.div`
 height: 100vh;
 background-color: white;
-/* I was thinking we can Have a cool background image for our Forums Page! */
-background: url('/p404.png'),#D5D3D3;
+background: url('/basketball.png'),#242424;
+
 
 .postForm {
   display: flex;
@@ -21,17 +21,25 @@ background: url('/p404.png'),#D5D3D3;
 }
 
 .topbar {
-  padding-top: 10%
+  padding-top: 10%;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  text-align: center;
 }
 
 .addTitle {
   height: 3em;
   width: 100%;
+  background: #d5d3d3;
+  border: none;
 }
 
 .bodyText {
   width: 100%;
   height: 60vh;
+  background: #d5d3d3;
+  border: none;
 }
 
 .postButton {
@@ -40,6 +48,7 @@ background: url('/p404.png'),#D5D3D3;
   height: 2em;
   border-radius: 12px;
   border: none;
+  background: #d5d3d3;
 }
 `;
 
@@ -90,7 +99,7 @@ return (
                 <button type="submit" className="postButton">Create Post!</button>
                 </div>
             </form>
-        </div>
+         </div>
         ) : (
             <>
             <h1>PLEASE LOGIN or CREATE an ACCOUNT before CREATING a NEW POST</h1>

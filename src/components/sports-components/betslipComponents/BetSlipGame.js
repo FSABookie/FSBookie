@@ -15,6 +15,8 @@ const TopRow = styled.div`
   justify-content: space-between;
   padding-right: 0.15rem;
   padding-right: 1rem;
+  border-top: 1px solid #242424;
+  padding-top: 4%;
 `;
 
 const Eh = styled.div`
@@ -24,11 +26,15 @@ const Eh = styled.div`
 
 const GameContainer = styled.div``;
 
-const Team = styled.div``;
+const Team = styled.div`
+font-weight: bold;
+`;
 
 const Odds = styled.div``;
 
-const MatchUp = styled.div``;
+const MatchUp = styled.div`
+  padding-bottom: 4%;
+`;
 
 const Time = styled.div``;
 
@@ -55,7 +61,6 @@ function BetSlipGame({ bet }) {
         bet: bet,
       })
     );
-    console.log(bet);
   }, [wager, toWin]);
 
   return (
@@ -82,7 +87,6 @@ function BetSlipGame({ bet }) {
         {bet.oddType === "ThirdQuarter" && "3Q"}
         {bet.oddType === "FourthQuarter" && "4Q"} {bet.gameLine && bet.gameLine}
       </MatchUp>
-      <Time>{bet.time}</Time>
       {/* INPUT WAGER COMPONENT */}
       <WagerField
         odds={odds.decimalValue}

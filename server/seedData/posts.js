@@ -1,36 +1,36 @@
 const posts = [
   {
     userId: 1,
-    title: "Hello World",
-    body: "Hello World I love this project so much I am loving it so much wow, wow!",
+    title: "NFL",
+    body: "Marshawn Lynch is a beast and should still be in the NFL",
     likes: 20,
     username: 'jonnyboi'
   },
   {
     userId: 2,
-    title: "Different Title",
-    body: "Different title is cool and all",
+    title: "NBA",
+    body: "Steph Curry is the greatest 3 point shooter of all time",
     likes: 10,
     username: 'byoonster'
   },
   {
-    userId: 1,
-    title: "Spend 5 dollars on a dinner",
-    body: "Spend 5 dollars on my next dinner date cause im broke",
+    userId: 3,
+    title: "NHL",
+    body: `So who is your guys' pick for the chip this year guys?`,
     likes: 10,
-    username: 'jonnyboi'
+    username: 'dannyman'
   },
   {
-    userId: 1,
-    title: "Cool Titles",
-    body: "Coolio coolio body paragaraph goes here yerrrrr",
+    userId: 5,
+    title: "MLB",
+    body: "So who do guys think is the greatest pitcher of all time?",
     likes: 15,
-    username: 'jonnyboi'
+    username: 'eggcellent'
   },
   {
     userId: 2,
-    title: "Check me out fam",
-    body: "What are those fam",
+    title: "Lebron James",
+    body: "Lebron James is the goat and you guys can't tell me otherwise. It is definitely not Michael Jordan",
     likes: 12,
     username: 'byoonster'
   },
