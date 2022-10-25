@@ -8,7 +8,7 @@ import { signOut, useSession } from "next-auth/react";
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
 import { GiMeatCleaver, GiHamburgerMenu } from "react-icons/gi";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import {
   useGetUserQuery,
   useUpdateBetsMutation,
@@ -36,12 +36,12 @@ const HeaderContainer = styled.div`
     }
   }
 
-  .userBalance{
+  .userBalance {
     color: green;
     display: flex;
     flex-direction: row;
-    
-    .balance{
+
+    .balance {
       font-size: 0.8em;
     }
 
@@ -50,18 +50,18 @@ const HeaderContainer = styled.div`
     }
   }
 
-  .depositIcon{
+  .depositIcon {
     padding-top: 20%;
     color: lightgreen;
   }
 
   @media only screen and (min-width: 850px) {
-    .userBalance{
+    .userBalance {
       color: green;
       display: flex;
       flex-direction: row;
-      
-      .balance{
+
+      .balance {
         font-size: 1em;
       }
     }
@@ -94,7 +94,7 @@ const HeaderTop = styled.div`
     width: 0%;
     z-index: 4;
   }
-  
+
   @media only screen and (min-width: 850px) {
     height: 100%;
     background-color: black;
@@ -448,7 +448,7 @@ function Header() {
                     <Link href="/projections/NFL">Trends</Link>
                   </div>
                   <div onClick={handleLogout} className="singleLink">
-                    <Link  href="/sportsbook/NFL">Sign Out</Link>
+                    <Link href="/sportsbook/NFL">Sign Out</Link>
                   </div>
                 </div>
               </Menu>
@@ -471,14 +471,12 @@ function Header() {
               </LinkContainer>
             </Link> */}
             <div className="userBalance">
-              <div className="balance">
-            ${singleuser.balance} 
-            </div>
-            <div className="depositFunds">
-              <Link href="/deposit">
-            <ControlPointIcon fontSize="medium" className="depositIcon" />
-            </Link>
-            </div>
+              <div className="balance">${singleuser.balance.toFixed(2)}</div>
+              <div className="depositFunds">
+                <Link href="/deposit">
+                  <ControlPointIcon fontSize="medium" className="depositIcon" />
+                </Link>
+              </div>
             </div>
           </>
         ) : (
