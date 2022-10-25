@@ -16,10 +16,19 @@ const Content = styled.div`
   background-color: #242424;
   background: #242424;
   height: max-height;
-  
+  padding: 3%;
+  h2{
+    font-style: italic;
+  }
+  .postBody{
+    border-top: 2px solid #d5d3d3;
+    margin-right: 30%;
+    padding-top: 2%;
+  }
+
   .space {
-    height: 50px;
-    background-color: #242424
+    height: 10em;
+    background-color: #242424;
   }
   
   &:hover {
@@ -86,6 +95,7 @@ const Content = styled.div`
       color: white;
       margin-top: 0;
       margin-bottom: 0;
+      padding-left: 2%;
     }
 
     @media only screen and (min-width: 850px) {
@@ -103,10 +113,9 @@ const Content = styled.div`
   }
 
   .postInfo {
-    padding: 4%;
     color: #D5D3D3;
     background-color: #242424;
-
+    padding: 4%;
     @media only screen and (min-width: 850px) {
       h2 {
         padding-left: 15%;
@@ -126,8 +135,10 @@ const Content = styled.div`
     font-weight: 300;
     padding: 1.5%;
     margin-bottom: 0;
+    margin-top: 0;
     background-color:#d5d3d3;
     border: none;
+    border-radius: 25px;
     @media only screen and (min-width: 850px) {
       width: 70%;
       border: none;
@@ -136,7 +147,7 @@ const Content = styled.div`
   }
 
   .likes {
-    padding-top: 5%;
+
   }
 
   .toggle {
@@ -240,15 +251,13 @@ function SinglePost() {
           {isSuccess && (
             <>
              <div className="postInfo">
-              Posted By: {post.username} {post.createdAt}
-              
-              <br></br>
+               Posted By: {post.username} {post.createdAt}
+              <h2>{post.title}</h2>
+              <p className="postBody">{post.body}</p>
               <div className="likes">
               <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> &nbsp;&nbsp;{post.likes} <br></br>
               <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} />  <br></br>
               </div>
-              <h2>{post.title}</h2>
-              <p>{post.body}</p>
               <form className="replyForm" onSubmit={handleSubmit}>
             <label>
               <input className="commentInput" placeholder="Add a Comment..." type="text" ref={bodyRef} />

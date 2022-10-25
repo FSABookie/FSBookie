@@ -18,6 +18,12 @@ background: url('/pbg.png');
   cursor: pointer;
 }
 
+h4{
+ padding-left: 2%;
+ margin-bottom: 0;
+ font-style: oblique;
+};
+
 /* I was thinking we can Have a cool background image for our Forums Page! */
 
 .postList {
