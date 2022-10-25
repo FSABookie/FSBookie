@@ -8,7 +8,7 @@ import { useGetUserQuery } from "../src/redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const Container = styled.div`
-  color: white;
+
   .body {
     display: flex;
     flex-direction: column;
@@ -17,11 +17,22 @@ const Container = styled.div`
     padding-top: 25%;
 
     .setting {
-      background-color: #242424;
+      background-color: #d3d5d5;
       padding: 3%;
       width: 70%;
       padding-left: 5%;
       height: 10%;
+      color: black;
+    }
+
+    .header {
+        color: white;
+        padding-left: 6%;
+        padding-right: 6%;
+        margin-bottom: 5%; 
+        font-family: "Open Sans", sans-serif;
+        border: 1px solid white;
+        font-size: 0.7em;
     }
 
     .logout {
@@ -33,6 +44,29 @@ const Container = styled.div`
       }
     }
   }
+
+  @media only screen and (min-width: 850px) {
+    .body {
+        padding-top: 5%;
+        row-gap: 0.3em;
+    
+
+    .setting {
+    width: 60%;
+    margin-bottom: 3%;
+    padding: 1%;
+    }
+
+    .header {
+        color: white;
+        padding-left: 3%;
+        padding-right: 3%;
+        margin-bottom: 5%; 
+        font-family: "Open Sans", sans-serif;
+        border: 2px solid white;
+    }
+  }
+}
 `;
 
 const LinkContainer = styled.div``;
@@ -95,7 +129,12 @@ function Account() {
     <Container>
       {isSuccess ? (
         <div className="body">
-          <div className="Name setting">{session.user.name}</div>
+            <div className="header">
+                <h2>Settings</h2>
+            </div>
+          <div className="Name setting">
+            {session.user.name}
+          </div>
           <div className="userEmail setting">
             <div>
             {user.email}
