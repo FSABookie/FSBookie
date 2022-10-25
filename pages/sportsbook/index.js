@@ -9,6 +9,7 @@ import {
 } from "../../src/redux/slices/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { clearGames, setGames } from "../../src/redux/slices/localGames-slice";
+import Loader from "../../src/components/Loader";
 
 function Index() {
   const { data: mlb, isSuccess: gotMLB } = useGetMLBQuery();
@@ -90,9 +91,8 @@ function Index() {
   }, [gotMLB, gotNBA, gotNFL, gotNHL]);
 
   return (
-    localGames.length > 0 && (
-      <Sportsbook data={{ data: localGames.flat() }}></Sportsbook>
-    )
+    localGames.length > 0 &&
+    (isLoading ? <Loader /> : <Sportsbook data={{ data, sport }} />)
   );
 }
 

@@ -133,7 +133,7 @@ const TeamContainer = styled.div`
   }
 
   @media only screen and (min-width: 850px) {
-    img{
+    img {
       padding-right: 1%;
       width: 7%;
     }
@@ -154,20 +154,15 @@ function MyBets() {
     isSuccess,
     isLoading,
   } = useGetUserQuery(status === "authenticated" ? session.user.id : skipToken);
-  // Get active bets only
-  const { data: usersActiveBets, isSuccess: gotActiveBets } =
-    useGetUsersActiveBetsQuery(
-      status === "authenticated" ? session.user.id : skipToken
-    );
-  const { usersBets, filteredBets } = useSelector((state) => state.usersBets);
+  const { filteredBets } = useSelector((state) => state.usersBets);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(clearBets());
-    isSuccess && user.bets.forEach((bet) => dispatch(getBets(bet)));
-    // console.log(user.parlays);
-    isSuccess && user.parlays.forEach((parlay) => dispatch(getBets(parlay)));
+    isSuccess && dispatch(getBets([user.bets, user.parlays]));
+
+    filteredBets && console.log(filteredBets);
   }, [dispatch, user]);
 
   return (
@@ -195,12 +190,19 @@ function MyBets() {
         </div>
       </SportsHeader>
       {filteredBets &&
-        filteredBets.map((bet) => {
+        filteredBets.map((bet, idx) => {
           return !bet.parlayId && bet.betType !== "parlay" ? (
             <BetsContainer key={bet.id}>
               <BetsContainerHeader>
                 <div>
-                  {bet.gameLine + " "}
+                  {bet.teamToWin
+                    ? bet.teamToWin === "HomeTeam"
+                      ? bet.homeTeam
+                      : bet.awayTeam
+                    : bet.gameLine}{" "}
+                  {bet.spread && String(bet.spread)[0] !== "-"
+                    ? "+" + bet.spread
+                    : bet.spread}{" "}
                   {bet.odds[0] !== "-" ? "+" + bet.odds : bet.odds}
                 </div>
                 <div>{bet.result}</div>
@@ -223,7 +225,7 @@ function MyBets() {
             </BetsContainer>
           ) : (
             bet.betType === "parlay" && (
-              <BetsContainer key={bet.id}>
+              <BetsContainer key={idx}>
                 {" "}
                 <BetsContainerHeader>
                   <div>Parlay</div>
