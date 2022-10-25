@@ -7,14 +7,14 @@ import {
   useGetNFLQuery,
   useGetNHLQuery,
 } from "../../src/redux/slices/apiSlice";
+import Loader from "../../src/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { clearGames, setGames } from "../../src/redux/slices/localGames-slice";
-import Loader from "../../src/components/Loader";
 
 function Index() {
   const { data: mlb, isSuccess: gotMLB } = useGetMLBQuery();
   const { data: nba, isSuccess: gotNBA } = useGetNBAQuery();
-  const { data: nfl, isSuccess: gotNFL } = useGetNFLQuery();
+  const { data: nfl, isSuccess: gotNFL, isLoading } = useGetNFLQuery();
   const { data: nhl, isSuccess: gotNHL } = useGetNHLQuery();
 
   const [status, setStatus] = useState("");
@@ -90,9 +90,12 @@ function Index() {
     console.log(localGames);
   }, [gotMLB, gotNBA, gotNFL, gotNHL]);
 
-  return (
-    localGames.length > 0 &&
-    (isLoading ? <Loader /> : <Sportsbook data={{ data, sport }} />)
+  return isLoading ? (
+    <Loader />
+  ) : (
+    localGames.length > 0 && (
+      <Sportsbook data={{ data: localGames.flat() }}></Sportsbook>
+    )
   );
 }
 
