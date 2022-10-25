@@ -244,7 +244,6 @@ function Sportsbook({ data }) {
               let time = d + " " + t;
               let apiId = ele.ID;
               const event = ele.Odds.filter((odd) => odd.OddType === "Game")[0];
-              console.log(ele);
               let homeTeamLogo;
               let awayTeamLogo;
               if (data.sport === "NBA") {
