@@ -11,7 +11,7 @@ const MLB = () => {
 		isLoading,
 	} = useGetMLBQuery();
 
-	return <Projections games={games}/>;
+	return <Projections games={games} sport={'MLB'}/>;
 };
 
 export default MLB;

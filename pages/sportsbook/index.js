@@ -10,6 +10,7 @@ import {
 import Loader from "../../src/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { clearGames, setGames } from "../../src/redux/slices/localGames-slice";
+import { allLogos } from "../../public/teamLogos"
 
 function Index() {
   const { data: mlb, isSuccess: gotMLB } = useGetMLBQuery();
@@ -71,7 +72,7 @@ function Index() {
           city === "New York" &&
             dispatch(
               setGames(
-                v.filter(
+                v?.filter(
                   (game) =>
                     game.HomeTeam.includes("Brooklyn") ||
                     game.AwayTeam.includes("Brooklyn")
@@ -94,7 +95,7 @@ function Index() {
     <Loader />
   ) : (
     localGames.length > 0 && (
-      <Sportsbook data={{ data: localGames.flat() }}></Sportsbook>
+      <Sportsbook data={{ data: localGames.flat(), sport: 'index' }}></Sportsbook>
     )
   );
 }
