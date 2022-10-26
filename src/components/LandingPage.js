@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const LandingpageContainer = styled.div`
   background: #1493ff;
-  height: 400vh;
+  height: 300vh;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -46,6 +46,7 @@ const Headerfoot = styled.div`
 
   @media only screen and (min-width: 850px) {
     column-gap: 26%;
+    font-weight: 500;
   }
 `;
 const Welcomemsg = styled.div`

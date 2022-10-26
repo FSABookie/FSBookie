@@ -157,6 +157,12 @@ padding-top:5%;
 padding-bottom:5%;
 border: none;
 border-radius: 8px;
+
+@media only screen and (min-width: 850px) {
+  padding-left: 10%;
+padding-top:2%;
+padding-bottom:2%;
+}
 `;
 //Able to post a new comment in the thread
 
