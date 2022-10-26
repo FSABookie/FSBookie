@@ -14,6 +14,7 @@ const Header = styled.div`
   width: 100%;
   img {
     height: 100%;
+    padding-left: 1.5%;
   }
   display: flex;
   flex-direction: row;
@@ -156,7 +157,7 @@ function LandingPage() {
     <LandingpageContainer>
       <Headercontainer>
         <Header>
-          <img src="header-logo.png" />
+          <img src="/FSBookie.png" />
           <Link href="/login">
             <Loginbtn>
               <button>Login</button>
@@ -164,7 +165,7 @@ function LandingPage() {
           </Link>
         </Header>
         <Headerfoot>
-          <Link href="/sportsbook">
+          <Link href="/sportsbook/NFL">
             <div className="sportbook">Sportsbook</div>
           </Link>
           <div className="projections">Projections</div>

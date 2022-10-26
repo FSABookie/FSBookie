@@ -35,38 +35,38 @@ const HeaderContainer = styled.div`
       color: lightgray;
     }
   }
-
+  
   .userBalance {
     color: green;
     display: flex;
     flex-direction: row;
-
+    
     .balance {
       font-size: 0.8em;
     }
-
+    
     &:hover {
       cursor: pointer;
     }
   }
-
+  
   .depositIcon {
     padding-top: 20%;
     color: lightgreen;
   }
-
+  
   @media only screen and (min-width: 850px) {
     .userBalance {
       color: green;
       display: flex;
       flex-direction: row;
-
+      
       .balance {
         font-size: 1em;
       }
     }
   }
-`;
+  `;
 const HeaderTop = styled.div`
   height: 100%;
   background-color: black;
@@ -80,7 +80,7 @@ const HeaderTop = styled.div`
     margin-top: 0.27em;
     padding: 0 0.4em 0.15em;
   }
-
+  
   .hide {
     min-height: 10px;
     position: absolute;
@@ -93,6 +93,23 @@ const HeaderTop = styled.div`
     white-space: nowrap;
     width: 0%;
     z-index: 4;
+  }
+  
+  .logo{
+    /* width: 10%; */
+    height: 2.5em;
+    .imglogo {
+      height: 100%;
+      padding-left: 10%;
+    }
+  }
+
+  .loginLogo{
+    /* width: 10%; */
+    height: 2.5em;
+    .imglogoLogin {
+      height: 100%;
+    }
   }
 
   @media only screen and (min-width: 850px) {
@@ -108,7 +125,7 @@ const HeaderTop = styled.div`
       margin-top: 0.27em;
       padding: 0 0.4em 0.15em;
     }
-
+    
     .hide {
       min-height: 10px;
       position: absolute;
@@ -123,7 +140,7 @@ const HeaderTop = styled.div`
       z-index: 4;
     }
   }
-`;
+  `;
 
 const mobileLogoTextWidth = "3.62em";
 
@@ -192,12 +209,22 @@ const HeaderMain = styled.div`
 `;
 
 const LinkContainer = styled.div`
+  padding-left: 15%;
   display: flex;
   align-items: center;
   &:hover {
     cursor: pointer;
   }
 `;
+
+const LogoLinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 
 const Page = styled.div`
   @media only screen and (min-width: 500px) {
@@ -433,7 +460,7 @@ function Header() {
 							</a> */}
                 <div className="sideLinks" onClick={toggleNav}>
                   <div className="singleLink">
-                    <Link href="/sportsbook">Sportsbook</Link>
+                    <Link href="/sportsbook/NFL">Sportsbook</Link>
                   </div>
                   <div className="singleLink">
                     <Link href="/myBets">My Bets</Link>
@@ -457,12 +484,17 @@ function Header() {
             </Page>
 
             {/* account link - displayed as email */}
-            <Link href={userStatusLink}>
               <LinkContainer>
+              <Link href={userStatusLink}>
                 <FaUser />
                 {/* <p>{session.user.email}</p> */}
-              </LinkContainer>
+               </Link>
+            <Link href="/">
+              <div className="logo">
+                <img src="/FSBookie.png" className="imglogo"/>
+              </div>
             </Link>
+              </LinkContainer>
             {/* logout link */}
             {/* <Link href="/">
               <LinkContainer onClick={handleLogout}>
@@ -495,7 +527,7 @@ function Header() {
 			</a> */}
                 <div className="sideLinks" onClick={toggleNav}>
                   <div className="singleLink">
-                    <Link href="/sportsbook">Sportsbook</Link>
+                    <Link href="/sportsbook/NFL">Sportsbook</Link>
                   </div>
                   <div className="singleLink">
                     <Link href="/myBets">My Bets</Link>
@@ -515,11 +547,16 @@ function Header() {
               {/* <button onClick={toggleNav}>&#9776;</button> */}
             </Page>
 
+            <Link href="/">
+              <div className="loginLogo">
+                <img src="/FSBookie.png" className="imglogoLogin"/>
+              </div>
+            </Link>
             <Link href="/login">
-              <LinkContainer>
+              <LogoLinkContainer>
                 <BiLogIn />
                 <p>Login</p>
-              </LinkContainer>
+              </LogoLinkContainer>
             </Link>
           </>
         )}
