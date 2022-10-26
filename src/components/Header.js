@@ -109,6 +109,7 @@ const HeaderTop = styled.div`
     height: 2.5em;
     .imglogoLogin {
       height: 100%;
+      padding-left: 30%;
     }
   }
 
