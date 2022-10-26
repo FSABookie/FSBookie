@@ -57,19 +57,19 @@ function Index() {
 
     const getGames = async () => {
       await Promise.all([nba, mlb, nhl, nfl]).then((values) => {
-        values.forEach((v) => {
+        values.forEach(async (v) => {
           v.length > 0 &&
-            dispatch(
+            (await dispatch(
               setGames(
                 v.filter(
                   (game) =>
                     game.HomeTeam.includes(city) || game.AwayTeam.includes(city)
                 )
               )
-            );
+            ));
           // FOR BROOKLYN NETS ONLY FOR NYC
           city === "New York" &&
-            dispatch(
+            (await dispatch(
               setGames(
                 v.filter(
                   (game) =>
@@ -77,7 +77,7 @@ function Index() {
                     game.AwayTeam.includes("Brooklyn")
                 )
               )
-            );
+            ));
         });
       });
     };
@@ -93,9 +93,7 @@ function Index() {
   return isLoading ? (
     <Loader />
   ) : (
-    localGames.length > 0 && (
-      <Sportsbook data={{ data: localGames.flat() }}></Sportsbook>
-    )
+    <Sportsbook data={"local games"}></Sportsbook>
   );
 }
 
