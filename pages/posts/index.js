@@ -81,6 +81,13 @@ h4{
   background-color: #D5D3D3;
   color:#242424;
  }
+
+ @media only screen and (min-width: 850px) {
+  .createPost {
+    padding: 1.2%;
+  }
+}
+
 `;
 
 //I am Assuming I need 

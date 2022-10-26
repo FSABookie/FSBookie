@@ -433,7 +433,7 @@ function Header() {
 							</a> */}
                 <div className="sideLinks" onClick={toggleNav}>
                   <div className="singleLink">
-                    <Link href="/sportsbook/NFL">Home</Link>
+                    <Link href="/sportsbook">Sportsbook</Link>
                   </div>
                   <div className="singleLink">
                     <Link href="/myBets">My Bets</Link>
@@ -495,7 +495,7 @@ function Header() {
 			</a> */}
                 <div className="sideLinks" onClick={toggleNav}>
                   <div className="singleLink">
-                    <Link href="/sportsbook/NFL">Home</Link>
+                    <Link href="/sportsbook">Sportsbook</Link>
                   </div>
                   <div className="singleLink">
                     <Link href="/myBets">My Bets</Link>
