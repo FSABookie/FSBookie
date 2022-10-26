@@ -192,7 +192,7 @@ function MyBets() {
       {filteredBets &&
         filteredBets.map((bet, idx) => {
           return !bet.parlayId && bet.betType !== "parlay" ? (
-            <BetsContainer key={bet.id}>
+            <BetsContainer key={idx}>
               <BetsContainerHeader>
                 <div>
                   {bet.teamToWin
@@ -235,8 +235,8 @@ function MyBets() {
                   Wager: ${bet.wager} To Pay: ${bet.toWin}
                 </WagerHeader>
                 <TeamContainer>
-                  {bet.bets.map((bet) => (
-                    <div key={bet.id}>
+                  {bet.bets.map((bet, idx) => (
+                    <div key={idx}>
                       <TeamDiv>
                         <div>
                           {bet.awayTeam} @ {bet.homeTeam}

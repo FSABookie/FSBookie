@@ -11,7 +11,7 @@ const NBA = () => {
 		isLoading,
 	} = useGetNBAQuery();
 
-	return <Projections games={games}/>;
+	return <Projections games={games} sport={'NBA'}/>;
 };
 
 export default NBA;

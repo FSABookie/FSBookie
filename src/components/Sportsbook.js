@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { NBAlogos, NHLlogos, MLBlogos, NFLlogos } from "../../public/teamLogos";
+import { NBAlogos, NHLlogos, MLBlogos, NFLlogos, allLogos } from "../../public/teamLogos";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
@@ -276,6 +276,14 @@ function Sportsbook({ data }) {
                   (name) => name.team === ele.AwayTeam
                 )[0]?.logo;
                 homeTeamLogo = NHLlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "index") {
+                awayTeamLogo = allLogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = allLogos.filter(
                   (name) => name.team === ele.HomeTeam
                 )[0]?.logo;
               }
