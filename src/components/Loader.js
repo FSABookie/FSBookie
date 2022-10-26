@@ -7,8 +7,6 @@ const Container = styled.div`
   align-items: center;
   height: 100vh;
   #root .loader-container {
-    top: 50%;
-    left: 50%;
     background-color: #0cbaba;
     background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
     height: 100vh;

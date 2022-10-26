@@ -297,7 +297,7 @@ function GamePage() {
     <>
       <SingleGameContainer>
         <div className="GameHeader">
-          <div className="eventSport">{sport}</div>
+          <div className="eventSport">{sport !== "index" && sport}</div>
           <div className="MatchupContainer">
             <div className="team1">
               {game.AwayTeam}
