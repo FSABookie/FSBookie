@@ -163,7 +163,6 @@ function BetSlip() {
             funds: user.balance - wager,
             id: user.id,
           });
-          alert("Parlay Succcessfully Created!");
           dispatch(RemoveAllSelections());
         } catch (error) {
           alert(error);
