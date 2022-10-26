@@ -3,7 +3,13 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { NBAlogos, NHLlogos, MLBlogos, NFLlogos, allLogos } from "../../public/teamLogos";
+import {
+  NBAlogos,
+  NHLlogos,
+  MLBlogos,
+  NFLlogos,
+  allLogos,
+} from "../../public/teamLogos";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
@@ -28,7 +34,7 @@ const SportsHeader = styled.div`
       padding: 1% 2%;
     }
   }
-  margin-bottom: 15%;
+  margin-bottom: 5%;
   height: 100%;
   color: white;
   background: black;
@@ -201,6 +207,16 @@ const GamesHeader = styled.div`
   font-size: 0.7em;
 `;
 
+const Header = styled.div`
+  color: white;
+  text-align: center;
+  font-size: 1.25em;
+  border-bottom: 1.5px solid #d3d5d5;
+  padding-bottom: 1em;
+  margin-left: 10%;
+  margin-right: 10%;
+`;
+
 function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
@@ -226,6 +242,11 @@ function Sportsbook({ data }) {
           <a className="sport">Baseball</a>
         </Link>
       </SportsHeader>
+      {data.sport === "index" && <Header>Your Local Games</Header>};
+      {data.sport === "NBA" && <Header>NBA</Header>};
+      {data.sport === "NFL" && <Header>NFL</Header>};
+      {data.sport === "NHL" && <Header>NHL</Header>};
+      {data.sport === "MLB" && <Header>MLB</Header>};
       <GamesContainer>
         <Games>
           <GamesHeader>
@@ -234,6 +255,7 @@ function Sportsbook({ data }) {
             <p className="gamelines">TOTAL</p>
             <p className="gamelines">MONEYLINE</p>
           </GamesHeader>
+          {console.log(data.data)}
           {(data.data ? data.data : localGames && localGames.flat()).map(
             (ele) => {
               let d = new Date(ele.MatchTime).toDateString();
@@ -287,7 +309,6 @@ function Sportsbook({ data }) {
                   (name) => name.team === ele.HomeTeam
                 )[0]?.logo;
               }
-
               return (
                 <GameCard key={apiId}>
                   <TableRow>
