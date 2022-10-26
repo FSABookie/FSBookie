@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const LandingpageContainer = styled.div`
   background: #1493ff;
-  height: 400vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   width: 100%;
