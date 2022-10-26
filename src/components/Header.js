@@ -26,9 +26,8 @@ const headerMainHeight = "7em";
 
 const HeaderContainer = styled.div`
   display: hidden;
-
   color: white;
-  height: 4vh;
+  height: 100%;
   h1,
   p {
     :hover {
@@ -461,7 +460,7 @@ function Header() {
 							</a> */}
                 <div className="sideLinks" onClick={toggleNav}>
                   <div className="singleLink">
-                    <Link href="/sportsbook/NFL">Sportsbook</Link>
+                    <Link href="/sportsbook">Sportsbook</Link>
                   </div>
                   <div className="singleLink">
                     <Link href="/myBets">My Bets</Link>
@@ -476,7 +475,7 @@ function Header() {
                     <Link href="/projections/NFL">Trends</Link>
                   </div>
                   <div onClick={handleLogout} className="singleLink">
-                    <Link href="/sportsbook/NFL">Sign Out</Link>
+                    <Link href="/sportsbook">Sign Out</Link>
                   </div>
                 </div>
               </Menu>
@@ -528,7 +527,7 @@ function Header() {
 			</a> */}
                 <div className="sideLinks" onClick={toggleNav}>
                   <div className="singleLink">
-                    <Link href="/sportsbook/NFL">Sportsbook</Link>
+                    <Link href="/sportsbook">Sportsbook</Link>
                   </div>
                   <div className="singleLink">
                     <Link href="/myBets">My Bets</Link>

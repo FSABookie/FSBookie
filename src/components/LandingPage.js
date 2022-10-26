@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const LandingpageContainer = styled.div`
   background: #1493ff;
-  height: 300vh;
+  height: 400vh;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -30,7 +30,7 @@ const Loginbtn = styled.div`
 const Headerfoot = styled.div`
   display: flex;
   flex-direction: row;
-  column-gap: 8%;
+  column-gap: 13%;
   width: 100vw;
   color: white;
   height: 2.25em;
@@ -82,13 +82,14 @@ const Welcomemsg = styled.div`
       margin-left: 34%;
     }
   }
-  a {
+  .a {
     color: lightgreen;
     background: navy;
     padding: 5%;
     font-weight: bold;
     border-radius: 0.55em;
     box-shadow: 0 12px 16px 4px rgb(0 0 0 / 20%);
+    z-index: 4;
 
     @media only screen and (min-width: 850px) {
       padding: 2%;
@@ -165,10 +166,12 @@ function LandingPage() {
           </Link>
         </Header>
         <Headerfoot>
-          <Link href="/sportsbook/NFL">
+          <Link href="/sportsbook">
             <div className="sportbook">Sportsbook</div>
           </Link>
-          <div className="projections">Projections</div>
+          <Link href="/projections/NFL">
+          <div className="projections">Trends</div>
+          </Link>
           <Link href="/posts">
             <div className="forum">Forum</div>
           </Link>
@@ -181,11 +184,11 @@ function LandingPage() {
         <h1>MAKE EVERY MOMENT</h1>
         <span>MORE</span>
         <img src="https://s3.amazonaws.com/cdn.fanduel.com/images/2019/Homepage/Home/phones-sm.png" />
-        <Link href="/sportsbook">
           <Welcomemsgbtn>
-            <a>Sport Betting {">"}</a>
-          </Welcomemsgbtn>
+        <Link href="/sportsbook">
+            <div className="a">Sport Betting {">"}</div>
         </Link>
+          </Welcomemsgbtn>
       </Welcomemsg>
       <Projectionsinfo>
         <h1>FSBookie</h1>
