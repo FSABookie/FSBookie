@@ -30,7 +30,7 @@ const Loginbtn = styled.div`
 const Headerfoot = styled.div`
   display: flex;
   flex-direction: row;
-  column-gap: 13%;
+  column-gap: 11%;
   width: 100vw;
   color: white;
   height: 2.25em;
@@ -89,7 +89,7 @@ const Welcomemsg = styled.div`
     font-weight: bold;
     border-radius: 0.55em;
     box-shadow: 0 12px 16px 4px rgb(0 0 0 / 20%);
-    z-index: 4;
+    z-index: 3;
 
     @media only screen and (min-width: 850px) {
       padding: 2%;
