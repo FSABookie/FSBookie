@@ -471,7 +471,9 @@ function Header() {
               </LinkContainer>
             </Link> */}
             <div className="userBalance">
-              <div className="balance">${singleuser.balance.toFixed(2)}</div>
+              <div className="balance">
+                ${singleuser.balance && singleuser.balance.toFixed(2)}
+              </div>
               <div className="depositFunds">
                 <Link href="/deposit">
                   <ControlPointIcon fontSize="medium" className="depositIcon" />

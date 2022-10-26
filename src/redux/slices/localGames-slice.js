@@ -12,15 +12,16 @@ const localGamesSlice = createSlice({
     localGames: [],
   },
   reducers: {
-    clearGames: (state) => {
+    clearLocalGames: (state) => {
       state.localGames = [];
     },
-    setGames: (state, { payload }) => {
+    setLocalGames: (state, { payload }) => {
       console.log(payload);
-      state.localGames.push(payload.flat());
+      state.localGames.push(payload);
+      state.localGames.flat();
     },
   },
 });
 
-export const { clearGames, setGames } = localGamesSlice.actions;
+export const { clearLocalGames, setLocalGames } = localGamesSlice.actions;
 export default localGamesSlice;
