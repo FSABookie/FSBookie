@@ -234,7 +234,9 @@ const Page = styled.div`
     width: 20%;
   }
   width: 70%;
+  /* .animation { */
   transition: 0.5s;
+  /* } */
   position: absolute;
   left: 0;
   height: 530vh;
@@ -296,6 +298,15 @@ function Header() {
 
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const useIsMounted = () => {
+    const isMounted = useRef(false);
+    useEffect(() => {
+      isMounted.current = true;
+      return () => isMounted.current = false;
+    }, []);
+    return isMounted;
+  };
 
   useEffect(() => {
     // gotActiveBets && console.log(user, gotActiveBets, session.user.id, parlay);
@@ -443,6 +454,7 @@ function Header() {
 
   // if we want to hide search when user switch pages, maybe should add 'isSearching' to redux store
   // also need to allow user to exit out by clicking elsewhere
+  const isMounted = useIsMounted();
   return (
     <HeaderContainer>
       <HeaderTop className="hfLinks">
@@ -450,7 +462,7 @@ function Header() {
           <>
             <GiHamburgerMenu className="burgermenu" onClick={toggleNav} />
 
-            <Page ref={mySidenavRef} className={"hide"}>
+            <Page ref={mySidenavRef} className={`${isMounted ? "hide" : ''}`}>
               <Menu className="sidenav">
                 {/* <a
 								href='javascript:void(0)'
@@ -517,7 +529,7 @@ function Header() {
           <>
             <GiHamburgerMenu onClick={toggleNav} />
 
-            <Page ref={mySidenavRef}>
+            <Page ref={mySidenavRef} className={`${isMounted ? "hide" : ''}`}>
               <Menu className="sidenav">
                 {/* <a
 				href='javascript:void(0)'
