@@ -204,9 +204,10 @@ const GamesHeader = styled.div`
 function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
+  const { localGames } = useSelector((state) => state.persistedLocalGames);
 
   useEffect(() => {
-    console.log(data);
+    localGames && console.log(data, localGames);
   }, []);
 
   return (
@@ -233,8 +234,8 @@ function Sportsbook({ data }) {
             <p className="gamelines">TOTAL</p>
             <p className="gamelines">MONEYLINE</p>
           </GamesHeader>
-          {data.data &&
-            data.data.map((ele) => {
+          {(data.data ? data.data : localGames && localGames.flat()).map(
+            (ele) => {
               let d = new Date(ele.MatchTime).toDateString();
               let t = new Date(ele.MatchTime).toLocaleTimeString([], {
                 hour: "2-digit",
@@ -583,7 +584,8 @@ function Sportsbook({ data }) {
                   </TableRow>
                 </GameCard>
               );
-            })}
+            }
+          )}
         </Games>
       </GamesContainer>
       {betSlip.length > 0 && <BetSlip />}

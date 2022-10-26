@@ -33,14 +33,17 @@ const persistConfig = {
 
 const persistedGame = persistReducer(persistConfig, gameSlice.reducer);
 const persistedId = persistReducer(persistConfig, postSlice.reducer);
-
+const persistedLocalGames = persistReducer(
+  persistConfig,
+  localGamesSlice.reducer
+);
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     betSlip: BetSlipSlice.reducer,
     user: userSlice.reducer,
     usersBets: usersBetSlice.reducer,
-    localGames: localGamesSlice.reducer,
+    persistedLocalGames,
     persistedGame,
     persistedId,
   },

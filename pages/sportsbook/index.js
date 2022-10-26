@@ -11,6 +11,11 @@ import Loader from "../../src/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { clearGames, setGames } from "../../src/redux/slices/localGames-slice";
 import { allLogos } from "../../public/teamLogos"
+import {
+  clearLocalGames,
+  setLocalGames,
+} from "../../src/redux/slices/localGames-slice";
+
 
 function Index() {
   const { data: mlb, isSuccess: gotMLB } = useGetMLBQuery();
@@ -23,12 +28,11 @@ function Index() {
   const [long, setLng] = useState("");
   const [city, setCity] = useState("");
 
-  const { localGames } = useSelector((state) => state.localGames);
+  const { localGames } = useSelector((state) => state.persistedLocalGames);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(clearGames());
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");
     } else {
@@ -57,17 +61,18 @@ function Index() {
     getCity();
 
     const getGames = async () => {
+      dispatch(clearLocalGames());
       await Promise.all([nba, mlb, nhl, nfl]).then((values) => {
-        values.forEach((v) => {
+        values.forEach(async (v) => {
           v.length > 0 &&
-            dispatch(
-              setGames(
+            (await dispatch(
+              setLocalGames(
                 v.filter(
                   (game) =>
                     game.HomeTeam.includes(city) || game.AwayTeam.includes(city)
                 )
               )
-            );
+            ));
           // FOR BROOKLYN NETS ONLY FOR NYC
           city === "New York" &&
             dispatch(
@@ -79,16 +84,16 @@ function Index() {
                 )
               )
             );
+
         });
       });
     };
 
-    city &&
-      Promise.all([gotMLB, gotNBA, gotNFL, gotNHL]).then((values) => {
-        values.every((v) => v) && getGames();
-      });
-
-    console.log(localGames);
+    localGames.length > 0
+      ? console.log("found", localGames.flat())
+      : Promise.all([gotMLB, gotNBA, gotNFL, gotNHL]).then((values) => {
+          values.every((v) => v) && getGames();
+        });
   }, [gotMLB, gotNBA, gotNFL, gotNHL]);
 
   return isLoading ? (
