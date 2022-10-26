@@ -384,8 +384,8 @@ const Projections = ({ games, sport }) => {
 																	] !==
 																	'undefined' ? (
 																		<ProgressBar
-																			completed={`${
-																				(bets[
+																			completed={
+																				((bets[
 																					apiId
 																				][
 																					'AwayTeam spread'
@@ -400,12 +400,12 @@ const Projections = ({ games, sport }) => {
 																						][
 																							'HomeTeam spread'
 																						])) *
-																				100
-																			}`}
+																				100).toFixed(2)
+																			}
 																		/>
 																	) : (
 																		<ProgressBar
-																			completed={`${100}`}
+																			completed={100}
 																		/>
 																	)
 																) : (
@@ -455,7 +455,7 @@ const Projections = ({ games, sport }) => {
 																	'undefined' ? (
 																		<ProgressBar
 																			completed={`${
-																				(bets[
+																				((bets[
 																					apiId
 																				][
 																					'AwayTeam total'
@@ -470,17 +470,17 @@ const Projections = ({ games, sport }) => {
 																						][
 																							'HomeTeam total'
 																						])) *
-																				100
+																				100).toFixed(2)
 																			}`}
 																		/>
 																	) : (
 																		<ProgressBar
-																			completed={`${100}`}
+																			completed={100}
 																		/>
 																	)
 																) : (
 																	<ProgressBar
-																		completed={`${0}`}
+																		completed={0}
 																	/>
 																))}
 														</div>
@@ -529,7 +529,7 @@ const Projections = ({ games, sport }) => {
 																	'undefined' ? (
 																		<ProgressBar
 																			completed={`${
-																				(bets[
+																				((bets[
 																					apiId
 																				][
 																					'AwayTeam ML'
@@ -544,7 +544,7 @@ const Projections = ({ games, sport }) => {
 																						][
 																							'HomeTeam ML'
 																						])) *
-																				100
+																				100).toFixed(2)
 																			}`}
 																		/>
 																	) : (
@@ -625,7 +625,7 @@ const Projections = ({ games, sport }) => {
 																	'undefined' ? (
 																		<ProgressBar
 																			completed={`${
-																				(bets[
+																				((bets[
 																					apiId
 																				][
 																					'HomeTeam spread'
@@ -640,7 +640,7 @@ const Projections = ({ games, sport }) => {
 																						][
 																							'AwayTeam spread'
 																						])) *
-																				100
+																				100).toFixed(2)
 																			}`}
 																		/>
 																	) : (
@@ -696,7 +696,7 @@ const Projections = ({ games, sport }) => {
 																	'undefined' ? (
 																		<ProgressBar
 																			completed={`${
-																				(bets[
+																				((bets[
 																					apiId
 																				][
 																					'HomeTeam total'
@@ -711,7 +711,7 @@ const Projections = ({ games, sport }) => {
 																						][
 																							'AwayTeam total'
 																						])) *
-																				100
+																				100).toFixed(2)
 																			}`}
 																		/>
 																	) : (
@@ -769,7 +769,7 @@ const Projections = ({ games, sport }) => {
 																		'undefined' ? (
 																			<ProgressBar
 																				completed={`${
-																					(bets[
+																					((bets[
 																						apiId
 																					][
 																						'HomeTeam ML'
@@ -784,7 +784,7 @@ const Projections = ({ games, sport }) => {
 																							][
 																								'AwayTeam ML'
 																							])) *
-																					100
+																					100).toFixed(2)
 																				}`}
 																			/>
 																		) : (
