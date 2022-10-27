@@ -17,7 +17,7 @@ import {
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const BetSlipConntainer = styled.div`
-  @media only screen and (min-width: 390px) {
+  @media only screen and (min-width: 300px) {
     bottom: 0;
     position: sticky;
     margin-top: 15%;
@@ -28,7 +28,7 @@ const BetSlipConntainer = styled.div`
     overflow-y: scroll;
     transition: 0.3s;
     transform: ${({ open }) => 
-      open ? "translateY(-1%)" : "translateY(-100%)"};
+      open ? "translateY(-1%)" : "translateY(-20%)"};
     height: ${({ open }) => (open ? "35em;" : "3em")};
       
   }
@@ -36,7 +36,7 @@ const BetSlipConntainer = styled.div`
 
 
 
-const Funds = styled.div``;
+// const Funds = styled.div``;
 
 const BetSlipFooter = styled.div`
   display: flex;
@@ -67,7 +67,7 @@ const ClearBets = styled.div`
 `;
 
 const BetSlipHeaderContainer = styled.div`
-  @media only screen and (min-width: 374px) {
+  @media only screen and (min-width: 300px) {
     top: 0;
     position: sticky;
     display: flex;
@@ -77,7 +77,8 @@ const BetSlipHeaderContainer = styled.div`
     padding-left: 0.25em;
     padding-right: 0.25em;
     background-color: white;
-    padding: 2%;
+    /* padding: 2%; */
+    height: 3em;
   }
 `;
 
