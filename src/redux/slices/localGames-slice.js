@@ -1,10 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  NBAlogos,
-  MLBlogos,
-  NFLlogos,
-  NHLlogos,
-} from "../../../public/teamLogos";
 
 const localGamesSlice = createSlice({
   name: "localGames",

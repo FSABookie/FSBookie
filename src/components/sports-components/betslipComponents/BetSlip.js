@@ -27,7 +27,7 @@ const BetSlipConntainer = styled.div`
     border-radius: 10px;
     overflow-y: scroll;
     transition: 0.3s;
-    transform: ${({ open }) => 
+    transform: ${({ open }) =>
       open ? "translateY(-1%)" : "translateY(-100%)"};
     height: ${({ open }) => (open ? "35em;" : "3em")};
   }
@@ -39,7 +39,7 @@ const BetSlipFooter = styled.div`
   display: flex;
   flex-direction: column;
   bottom: 0;
-  position: sticky;
+  position: absolute;
   background-color: white;
 `;
 
@@ -50,7 +50,6 @@ const Submit = styled.button`
   height: 25px;
   font-weight: bold;
   font-size: 1em;
-  
 `;
 
 const ClearBets = styled.div`
@@ -59,7 +58,7 @@ const ClearBets = styled.div`
   flex-direction: row;
   justify-content: center;
   cursor: pointer;
-  padding:4%;
+  padding: 4%;
   border-top: 1px solid black;
 `;
 

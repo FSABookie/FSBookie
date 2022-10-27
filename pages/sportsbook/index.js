@@ -10,12 +10,11 @@ import {
 import Loader from "../../src/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { clearGames, setGames } from "../../src/redux/slices/localGames-slice";
-import { allLogos } from "../../public/teamLogos"
+import { allLogos } from "../../public/teamLogos";
 import {
   clearLocalGames,
   setLocalGames,
 } from "../../src/redux/slices/localGames-slice";
-
 
 function Index() {
   const { data: mlb, isSuccess: gotMLB } = useGetMLBQuery();
@@ -74,17 +73,18 @@ function Index() {
               )
             ));
           // FOR BROOKLYN NETS ONLY FOR NYC
-          city === "New York" &&
-            dispatch(
-              setGames(
-                v?.filter(
-                  (game) =>
-                    game.HomeTeam.includes("Brooklyn") ||
-                    game.AwayTeam.includes("Brooklyn")
+          v
+            ? city === "New York" &&
+              dispatch(
+                await setLocalGames(
+                  v.filter(
+                    (game) =>
+                      game.HomeTeam.includes("Brooklyn") ||
+                      game.AwayTeam.includes("Brooklyn")
+                  )
                 )
               )
-            );
-
+            : null;
         });
       });
     };
@@ -100,7 +100,9 @@ function Index() {
     <Loader />
   ) : (
     localGames.length > 0 && (
-      <Sportsbook data={{ data: localGames.flat(), sport: 'index' }}></Sportsbook>
+      <Sportsbook
+        data={{ data: localGames.flat(), sport: "index" }}
+      ></Sportsbook>
     )
   );
 }
