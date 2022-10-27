@@ -259,7 +259,6 @@ function Sportsbook({ data }) {
             <p className="gamelines">TOTAL</p>
             <p className="gamelines">MONEYLINE</p>
           </GamesHeader>
-          {console.log(data.data)}
           {(data.data ? data.data : localGames && localGames.flat()).map(
             (ele) => {
               let d = new Date(ele.MatchTime).toDateString();

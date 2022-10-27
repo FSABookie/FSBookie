@@ -42,7 +42,7 @@ const BetSlipFooter = styled.div`
   display: flex;
   flex-direction: column;
   bottom: 0;
-  position: sticky;
+  position: absolute;
   background-color: white;
 `;
 
@@ -53,7 +53,6 @@ const Submit = styled.button`
   height: 25px;
   font-weight: bold;
   font-size: 1em;
-  
 `;
 
 const ClearBets = styled.div`
@@ -62,7 +61,7 @@ const ClearBets = styled.div`
   flex-direction: row;
   justify-content: center;
   cursor: pointer;
-  padding:4%;
+  padding: 4%;
   border-top: 1px solid black;
 `;
 
