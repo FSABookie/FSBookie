@@ -30,8 +30,11 @@ const BetSlipConntainer = styled.div`
     transform: ${({ open }) => 
       open ? "translateY(-1%)" : "translateY(-100%)"};
     height: ${({ open }) => (open ? "35em;" : "3em")};
+      
   }
 `;
+
+
 
 const Funds = styled.div``;
 
@@ -172,7 +175,9 @@ function BetSlip() {
   };
 
   return (
-    <BetSlipConntainer open={toggled}>
+    <BetSlipConntainer open={toggled} 
+    style={betSlip.length <= 1 ? {height: `${(toggled ? "100%" : "3em")}`} : {height: `${(toggled ? "35em" : "3em")}`}}
+    >
       <BetSlipHeaderContainer onClick={() => setToggled(!toggled)}>
         {" "}
         <div className="closedBetslip">{betSlip.length} Bet Slip</div>
