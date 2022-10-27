@@ -162,7 +162,11 @@ const GameCard = styled.div`
     height: 48px;
     color: white;
   }
+  .selected {
+    background-color: #545353 !important;
+  }
 `;
+
 
 const TableRow = styled.div`
   display: flex;
@@ -308,6 +312,8 @@ function Sportsbook({ data }) {
                   (name) => name.team === ele.HomeTeam
                 )[0]?.logo;
               }
+              // console.log(ele)
+              console.log(betSlip)
               return (
                 <GameCard key={apiId}>
                   <TableRow>
@@ -352,7 +358,7 @@ function Sportsbook({ data }) {
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
-                          className="lineContainer"
+                          className={`lineContainer ${betSlip.find(bet => bet.betId === ele.ID && bet.teamToWin === 'AwayTeam' && bet.betType === 'spread') !== undefined ? 'selected' : ''}`}
                           onClick={() => {
                             dispatch(
                               addToBetSlip({
@@ -399,7 +405,7 @@ function Sportsbook({ data }) {
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
-                          className="lineContainer"
+                          className={`lineContainer ${betSlip.find(bet => bet.betId === ele.ID && bet.teamToWin === 'AwayTeam' && bet.betType === 'total') !== undefined ? 'selected' : ''}`}
                           onClick={() => {
                             dispatch(
                               addToBetSlip({
@@ -410,6 +416,7 @@ function Sportsbook({ data }) {
                                 homeTeam: ele.HomeTeam,
                                 awayTeamLogo: awayTeamLogo,
                                 homeTeamLogo: homeTeamLogo,
+                                teamToWin: 'AwayTeam',
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
@@ -436,7 +443,7 @@ function Sportsbook({ data }) {
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
-                          className="lineContainer"
+                          className={`lineContainer ${betSlip.find(bet => bet.betId === ele.ID && bet.teamToWin === 'AwayTeam' && bet.betType === 'ML') !== undefined ? 'selected' : ''}`}
                           onClick={() => {
                             dispatch(
                               addToBetSlip({
@@ -486,7 +493,7 @@ function Sportsbook({ data }) {
                         <div className="lineContainer">NA</div>
                       ) : (
                         <div
-                          className="lineContainer"
+                          className={`lineContainer ${betSlip.find(bet => bet.betId === ele.ID && bet.teamToWin === 'HomeTeam' && bet.betType === 'spread') !== undefined ? 'selected' : ''}`}
                           onClick={() => {
                             dispatch(
                               addToBetSlip({
@@ -533,7 +540,7 @@ function Sportsbook({ data }) {
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
-                          className="lineContainer"
+                          className={`lineContainer ${betSlip.find(bet => bet.betId === ele.ID && bet.teamToWin === 'HomeTeam' && bet.betType === 'total') !== undefined ? 'selected' : ''}`}
                           onClick={() => {
                             dispatch(
                               addToBetSlip({
@@ -544,6 +551,7 @@ function Sportsbook({ data }) {
                                 homeTeam: ele.HomeTeam,
                                 awayTeamLogo: awayTeamLogo,
                                 homeTeamLogo: homeTeamLogo,
+                                teamToWin: 'HomeTeam',
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
@@ -570,7 +578,7 @@ function Sportsbook({ data }) {
                         <div className="lineContainer">N/A</div>
                       ) : (
                         <div
-                          className="lineContainer"
+                          className={`lineContainer ${betSlip.find(bet => bet.betId === ele.ID && bet.teamToWin === 'HomeTeam' && bet.betType === 'ML') !== undefined ? 'selected' : ''}`}
                           onClick={() => {
                             dispatch(
                               addToBetSlip({

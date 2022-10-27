@@ -297,7 +297,7 @@ function GamePage() {
     <>
       <SingleGameContainer>
         <div className="GameHeader">
-          <div className="eventSport">{sport}</div>
+          <div className="eventSport">{sport !== "index" && sport}</div>
           <div className="MatchupContainer">
             <div className="team1">
               {game.AwayTeam}
@@ -590,7 +590,7 @@ function GamePage() {
                   ] !== "undefined" ? (
                     <ProgressBar
                       completed={`${
-                        (bets[game.ID][
+                        ((bets[game.ID][
                           game.AwayTeam +
                             " " +
                             game.Odds.filter((odd) => odd.OddType === "Game")[0]
@@ -610,7 +610,7 @@ function GamePage() {
                                   (odd) => odd.OddType === "Game"
                                 )[0].PointSpreadHome
                             ])) *
-                        100
+                        100).toFixed(2)
                       }`}
                     />
                   ) : (
@@ -637,7 +637,7 @@ function GamePage() {
                   ] !== "undefined" ? (
                     <ProgressBar
                       completed={`${
-                        (bets[game.ID][
+                        ((bets[game.ID][
                           "Over" +
                             " " +
                             game.Odds.filter((odd) => odd.OddType === "Game")[0]
@@ -657,7 +657,7 @@ function GamePage() {
                                   (odd) => odd.OddType === "Game"
                                 )[0].TotalNumber
                             ])) *
-                        100
+                        100).toFixed(2)
                       }`}
                     />
                   ) : (
@@ -675,10 +675,10 @@ function GamePage() {
                   "undefined" ? (
                     <ProgressBar
                       completed={`${
-                        (bets[game.ID][game.AwayTeam + " ML"] /
+                        ((bets[game.ID][game.AwayTeam + " ML"] /
                           (bets[game.ID][game.AwayTeam + " ML"] +
                             bets[game.ID][game.HomeTeam + " ML"])) *
-                        100
+                        100).toFixed(2)
                       }`}
                     />
                   ) : (
@@ -707,7 +707,7 @@ function GamePage() {
                   ] !== "undefined" ? (
                     <ProgressBar
                       completed={`${
-                        (bets[game.ID][
+                        ((bets[game.ID][
                           game.HomeTeam +
                             " " +
                             game.Odds.filter((odd) => odd.OddType === "Game")[0]
@@ -727,7 +727,7 @@ function GamePage() {
                                   (odd) => odd.OddType === "Game"
                                 )[0].PointSpreadAway
                             ])) *
-                        100
+                        100).toFixed(2)
                       }`}
                     />
                   ) : (
@@ -754,7 +754,7 @@ function GamePage() {
                   ] !== "undefined" ? (
                     <ProgressBar
                       completed={`${
-                        (bets[game.ID][
+                        ((bets[game.ID][
                           "Under" +
                             " " +
                             game.Odds.filter((odd) => odd.OddType === "Game")[0]
@@ -774,7 +774,7 @@ function GamePage() {
                                   (odd) => odd.OddType === "Game"
                                 )[0].TotalNumber
                             ])) *
-                        100
+                        100).toFixed(2)
                       }`}
                     />
                   ) : (
@@ -792,10 +792,10 @@ function GamePage() {
                   "undefined" ? (
                     <ProgressBar
                       completed={`${
-                        (bets[game.ID][game.HomeTeam + " ML"] /
+                        ((bets[game.ID][game.HomeTeam + " ML"] /
                           (bets[game.ID][game.HomeTeam + " ML"] +
                             bets[game.ID][game.AwayTeam + " ML"])) *
-                        100
+                        100).toFixed(2)
                       }`}
                     />
                   ) : (
