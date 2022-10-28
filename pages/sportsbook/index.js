@@ -26,7 +26,7 @@ function Index() {
   const [long, setLng] = useState("");
   const [city, setCity] = useState("");
 
-  const { localGames } = useSelector((state) => state.persistedLocalGames);
+  const { localGames } = useSelector((state) => state.localGames);
 
   const dispatch = useDispatch();
 
