@@ -238,8 +238,8 @@ const Attempt = styled.div`
 `;
 
 const Bs = styled.div`
-  width: 100%;
-  height: 200vh;
+  width: 50%;
+  /* height: 200vh; */
 `;
 
 function Sportsbook({ data }) {

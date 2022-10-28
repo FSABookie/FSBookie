@@ -32,6 +32,7 @@ const BetSlipConntainer = styled.div`
   }
 
   @media only screen and (min-width: 850px) {
+    position: fixed;
     width: 45%;
     margin-top: 5%;
     background-color: white;
