@@ -105,7 +105,7 @@ const Welcomemsgbtn = styled.div`
 `;
 
 const Projectionsinfo = styled.div`
-  height: 200vh;
+  /* height: 200vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
