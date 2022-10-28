@@ -341,8 +341,6 @@ function Sportsbook({ data }) {
                   (name) => name.team === ele.HomeTeam
                 )[0]?.logo;
               }
-              // console.log(ele)
-              console.log(betSlip);
               return (
                 <GameCard key={apiId}>
                   <TableRow>
