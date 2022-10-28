@@ -24,6 +24,10 @@ const Content = styled.div`
     border-top: 2px solid #d5d3d3;
     margin-right: 30%;
     padding-top: 2%;
+    @media only screen and (min-width: 850px) {
+      justify-content: center;
+      margin-right: 0;
+    }
   }
 
   .space {
@@ -118,15 +122,20 @@ const Content = styled.div`
     padding: 4%;
     @media only screen and (min-width: 850px) {
       h2 {
-        padding-left: 15%;
+        /* padding-left: 15%; */
+        text-align: center;
       }
       p {
-        padding-left: 20%;
+        /* padding-left: 20%; */
+        text-align: center;
         padding-bottom: 5%;
       }
 
       .likes {
         padding-top: 3%;
+        display: flex;
+        width: 100px;
+        justify-content: space-between;
       }
     }
   }

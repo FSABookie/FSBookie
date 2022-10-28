@@ -256,7 +256,7 @@ function Sportsbook({ data }) {
   const { localGames } = useSelector((state) => state.localGames);
 
   useEffect(() => {
-    localGames && console.log(data, localGames);
+    localGames?.length && console.log(data, localGames);
   }, []);
 
   return (
