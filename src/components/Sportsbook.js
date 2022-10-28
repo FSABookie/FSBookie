@@ -238,8 +238,16 @@ const Attempt = styled.div`
 `;
 
 const Bs = styled.div`
-  width: 50%;
-  /* height: 200vh; */
+  @media only screen and (min-width: 390px) {
+    bottom: 0;
+    position: sticky;
+  }
+
+  @media only screen and (min-width: 850px) {
+    width: 50%;
+    bottom: 0;
+    position: sticky;
+  }
 `;
 
 function Sportsbook({ data }) {

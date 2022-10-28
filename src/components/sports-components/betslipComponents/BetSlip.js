@@ -41,7 +41,7 @@ const BetSlipConntainer = styled.div`
     border-radius: 10px;
     overflow-y: scroll;
     transition: 0.3s;
-    transform: ${({ open }) => (open ? "translateY(-5%)" : "translateY(-80%)")};
+    transform: ${({ open }) => (open ? "translateY(-0%)" : "translateY(-80%)")};
     height: ${({ open }) => (open ? "10em" : "3em")};
   }
 `;
@@ -186,7 +186,7 @@ function BetSlip() {
       open={toggled}
       style={
         betSlip.length <= 1
-          ? { height: `${toggled ? "100%" : "3em"}` }
+          ? { height: `${toggled ? "40vh" : "3em"}` }
           : { height: `${toggled ? "70vh" : "3em"}` }
       }
     >
