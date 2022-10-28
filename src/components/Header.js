@@ -22,8 +22,6 @@ import { checkBetsThunk } from "../redux/thunks/checkBets";
 import { determineWinnerThunk } from "../redux/thunks/determineWinner";
 import { useRouter } from "next/router";
 
-const headerMainHeight = "7em";
-
 const HeaderContainer = styled.div`
   display: hidden;
   color: white;
@@ -34,42 +32,45 @@ const HeaderContainer = styled.div`
       color: lightgray;
     }
   }
-  
+
   .userBalance {
     color: green;
     display: flex;
     flex-direction: row;
-    
+
     .balance {
       font-size: 0.8em;
     }
-    
+
     &:hover {
       cursor: pointer;
     }
   }
-  
+
   .depositIcon {
     padding-top: 20%;
     color: lightgreen;
   }
-  
+
   @media only screen and (min-width: 850px) {
     .userBalance {
       color: green;
       display: flex;
       flex-direction: row;
-      
+      width: 200px;
+      justify-content: space-evenly;
       .balance {
         font-size: 1em;
       }
     }
   }
-  `;
+`;
+
 const HeaderTop = styled.div`
   height: 100%;
   background-color: black;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   * {
@@ -79,7 +80,7 @@ const HeaderTop = styled.div`
     margin-top: 0.27em;
     padding: 0 0.4em 0.15em;
   }
-  
+
   .hide {
     min-height: 10px;
     position: absolute;
@@ -93,8 +94,8 @@ const HeaderTop = styled.div`
     width: 0%;
     z-index: 4;
   }
-  
-  .logo{
+
+  .logo {
     /* width: 10%; */
     height: 2.5em;
     .imglogo {
@@ -103,7 +104,7 @@ const HeaderTop = styled.div`
     }
   }
 
-  .loginLogo{
+  .loginLogo {
     /* width: 10%; */
     height: 2.5em;
     .imglogoLogin {
@@ -125,7 +126,7 @@ const HeaderTop = styled.div`
       margin-top: 0.27em;
       padding: 0 0.4em 0.15em;
     }
-    
+
     .hide {
       min-height: 10px;
       position: absolute;
@@ -140,76 +141,9 @@ const HeaderTop = styled.div`
       z-index: 4;
     }
   }
-  `;
-
-const mobileLogoTextWidth = "3.62em";
-
-const HeaderMain = styled.div`
-  margin-top: -1px;
-  width: 100%;
-  height: ${headerMainHeight};
-  background-color: #8b0000;
-  @media screen and (min-width: 750px) {
-    background-color: #7b0000;
-    > div {
-      width: 750px;
-      margin: auto;
-      background-color: #8b0000;
-    }
-  }
-  > div {
-    h1 {
-      margin-top: 0.13em;
-    }
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .headerIconButton {
-    background-color: #7b0000;
-    width: calc(${headerMainHeight} - 0.5em);
-    height: ${headerMainHeight};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .headerIconButton:active {
-    background-color: #660000;
-  }
-  /* #headerLogo {
-    width: calc(${headerMainHeight} + ${mobileLogoTextWidth});
-    padding-left: 0.25em;
-    h1 {
-      font-size: 1em;
-      width: ${mobileLogoTextWidth};
-      margin: 0 0.4em 0 0.5em;
-    }
-  } */
-  .productType {
-    font-size: 1.4em;
-    padding: 0 0.2em;
-    /* margin: 0 0.8em; */
-  }
-  #headerMainCenter {
-    text-align: center;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-    #siteTitle {
-      width: fit-content;
-      margin: 0.05em auto 0.15em;
-      font-size: 2.1em;
-      flex: 2 2 200%;
-      border-bottom: 1px solid white;
-    }
-  }
-  @media screen and (min-width: 800px) {
-    // should expand logo to be wider, maybe at smaller width?
-  }
 `;
 
 const LinkContainer = styled.div`
-  padding-left: 15%;
   display: flex;
   align-items: center;
   &:hover {
@@ -224,7 +158,6 @@ const LogoLinkContainer = styled.div`
     cursor: pointer;
   }
 `;
-
 
 const Page = styled.div`
   @media only screen and (min-width: 500px) {
@@ -283,6 +216,21 @@ const Menu = styled.div`
   }
 `;
 
+const HamburgerContainer = styled.div`
+  width: 200px;
+  padding-left: 10px;
+  box-sizing: border-box;
+`;
+
+const DepositButton = styled.button`
+  background-color: rgb(144, 238, 144);
+  border: none;
+  border-radius: 2px;
+  color: black;
+  width: 100%;
+  cursor: pointer;
+`;
+
 //COMPONENT STARTS HERE
 function Header() {
   const { data: session, status } = useSession();
@@ -303,7 +251,7 @@ function Header() {
     const isMounted = useRef(false);
     useEffect(() => {
       isMounted.current = true;
-      return () => isMounted.current = false;
+      return () => (isMounted.current = false);
     }, []);
     return isMounted;
   };
@@ -458,139 +406,69 @@ function Header() {
   return (
     <HeaderContainer>
       <HeaderTop className="hfLinks">
-        {isSuccess ? (
-          <>
-            <GiHamburgerMenu className="burgermenu" onClick={toggleNav} />
+        <HamburgerContainer>
+          {" "}
+          <GiHamburgerMenu className="burgermenu" onClick={toggleNav} />
+        </HamburgerContainer>
 
-            <Page ref={mySidenavRef} className={`${isMounted ? "hide" : ''}`}>
-              <Menu className="sidenav">
-                {/* <a
-								href='javascript:void(0)'
-								onClick={toggleNav}
-							>
-								&times;
-							</a> */}
-                <div className="sideLinks" onClick={toggleNav}>
-                  <div className="singleLink">
-                    <Link href="/sportsbook">Sportsbook</Link>
-                  </div>
-                  <div className="singleLink">
-                    <Link href="/myBets">My Bets</Link>
-                  </div>
-                  <div className="singleLink">
-                    <Link href="/help/howtobet">How To Bet</Link>
-                  </div>
-                  <div className="singleLink">
-                    <Link href="/posts">Forum</Link>
-                  </div>
-                  <div className="singleLink">
-                    <Link href="/projections/NFL">Trends</Link>
-                  </div>
-                  <div onClick={handleLogout} className="singleLink">
-                    <Link href="/sportsbook">Sign Out</Link>
-                  </div>
-                </div>
-              </Menu>
-
-              {/* <button onClick={toggleNav}>&#9776;</button> */}
-            </Page>
-
-            {/* account link - displayed as email */}
-              <LinkContainer>
-              <Link href={userStatusLink}>
-                <FaUser />
-                {/* <p>{session.user.email}</p> */}
-               </Link>
-            <Link href="/">
-              <div className="logo">
-                <img src="/FSBookie.png" className="imglogo"/>
+        <Page ref={mySidenavRef} className={`${isMounted ? "hide" : ""}`}>
+          <Menu className="sidenav">
+            <div className="sideLinks" onClick={toggleNav}>
+              <div className="singleLink">
+                <Link href="/sportsbook">Sportsbook</Link>
               </div>
-            </Link>
-              </LinkContainer>
-            {/* logout link */}
-            {/* <Link href="/">
-              <LinkContainer onClick={handleLogout}>
-                <BiLogOut />
-                <p>Logout</p>
-              </LinkContainer>
-            </Link> */}
-            <div className="userBalance">
-              <div className="balance">
-                ${singleuser.balance && singleuser.balance.toFixed(2)}
+              <div className="singleLink">
+                <Link href="/myBets">My Bets</Link>
               </div>
-              <div className="depositFunds">
-                <Link href="/deposit">
-                  <ControlPointIcon fontSize="medium" className="depositIcon" />
-                </Link>
+              <div className="singleLink">
+                <Link href="/help/howtobet">How To Bet</Link>
+              </div>
+              <div className="singleLink">
+                <Link href="/posts">Forum</Link>
+              </div>
+              <div className="singleLink">
+                <Link href="/projections/NFL">Trends</Link>
+              </div>
+              <div onClick={handleLogout} className="singleLink">
+                <Link href="/sportsbook">Sign Out</Link>
               </div>
             </div>
-          </>
+          </Menu>
+        </Page>
+
+        <LinkContainer>
+          <Link href={userStatusLink}>
+            <FaUser />
+          </Link>
+          <Link href="/">
+            <div className="logo">
+              <img src="/FSBookie.png" className="imglogo" />
+            </div>
+          </Link>
+        </LinkContainer>
+
+        {isSuccess ? (
+          <div className="userBalance">
+            <div className="balance">
+              ${singleuser.balance && singleuser.balance.toFixed(2)}
+            </div>
+            <div className="depositFunds">
+              <Link href="/deposit">
+                <DepositButton>Deposit</DepositButton>
+              </Link>
+            </div>
+          </div>
         ) : (
-          <>
-            <GiHamburgerMenu onClick={toggleNav} />
-
-            <Page ref={mySidenavRef} className={`${isMounted ? "hide" : ''}`}>
-              <Menu className="sidenav">
-                {/* <a
-				href='javascript:void(0)'
-				onClick={toggleNav}
-			>
-				&times;
-			</a> */}
-                <div className="sideLinks" onClick={toggleNav}>
-                  <div className="singleLink">
-                    <Link href="/sportsbook">Sportsbook</Link>
-                  </div>
-                  <div className="singleLink">
-                    <Link href="/myBets">My Bets</Link>
-                  </div>
-                  <div className="singleLink">
-                    <Link href="/help/howtobet">How To Bet</Link>
-                  </div>
-                  <div className="singleLink">
-                    <Link href="/posts">Forum</Link>
-                  </div>
-                  <div className="singleLink">
-                    <Link href="/projections/NFL">Trends</Link>
-                  </div>
-                </div>
-              </Menu>
-
-              {/* <button onClick={toggleNav}>&#9776;</button> */}
-            </Page>
-
-            <Link href="/">
-              <div className="loginLogo">
-                <img src="/FSBookie.png" className="imglogoLogin"/>
-              </div>
-            </Link>
-            <Link href="/login">
-              <LogoLinkContainer>
-                <BiLogIn />
-                <p>Login</p>
-              </LogoLinkContainer>
-            </Link>
-          </>
+          <Link href="/login">
+            <LogoLinkContainer>
+              <BiLogIn />
+              <p>Login</p>
+            </LogoLinkContainer>
+          </Link>
         )}
-        {/* {isLoggedIn && usersCart ? (
-					<Link href='/cart'>
-						<LinkContainer>
-							<FaShoppingCart />
-							<p>{`Cart (${usersCart.lineItems?.length})`}</p>
-						</LinkContainer>
-					</Link>
-				) : (
-					<Link href='/cart'>
-						<LinkContainer>
-							<FaShoppingCart />
-							<p>{`Cart (${cart.length})`}</p>
-						</LinkContainer>
-					</Link>
-				)} */}
       </HeaderTop>
     </HeaderContainer>
   );
 }
 
-// disabling SSR for the header, because its contents depend on the localStorage
 export default Header;

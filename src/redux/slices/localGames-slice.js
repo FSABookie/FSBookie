@@ -7,6 +7,7 @@ const localGamesSlice = createSlice({
   },
   reducers: {
     clearLocalGames: (state) => {
+      state.localGames = null;
       state.localGames = [];
     },
     setLocalGames: (state, { payload }) => {
