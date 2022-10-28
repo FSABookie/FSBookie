@@ -289,7 +289,7 @@ function Sportsbook({ data }) {
               <p className="gamelines">TOTAL</p>
               <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
-            {(data.data ? data.data : localGames.flat()).map((ele) => {
+            {(data.data.length > 0 ? data.data : localGames.flat()).map((ele) => {
               let d = new Date(ele.MatchTime).toDateString();
               let t = new Date(ele.MatchTime).toLocaleTimeString([], {
                 hour: "2-digit",
