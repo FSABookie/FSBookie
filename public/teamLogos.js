@@ -1003,4 +1003,4 @@ export const allLogos = [
     team: "San Jose Sharks",
     logo: "https://assets.sportsbook.fanduel.com/images/team/nhl/san_jose_sharks.png",
   },
-]
+];

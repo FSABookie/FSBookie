@@ -9,7 +9,6 @@ import {
 } from "../../src/redux/slices/apiSlice";
 import Loader from "../../src/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { clearGames, setGames } from "../../src/redux/slices/localGames-slice";
 import { allLogos } from "../../public/teamLogos";
 import {
   clearLocalGames,
@@ -73,10 +72,10 @@ function Index() {
               )
             ));
           // FOR BROOKLYN NETS ONLY FOR NYC
-          v
+          (await v)
             ? city === "New York" &&
               dispatch(
-                await setLocalGames(
+                setLocalGames(
                   v.filter(
                     (game) =>
                       game.HomeTeam.includes("Brooklyn") ||
@@ -89,11 +88,9 @@ function Index() {
       });
     };
 
-    localGames.length > 0
-      ? console.log("found", localGames.flat())
-      : Promise.all([gotMLB, gotNBA, gotNFL, gotNHL]).then((values) => {
-          values.every((v) => v) && getGames();
-        });
+    Promise.all([gotMLB, gotNBA, gotNFL, gotNHL]).then((values) => {
+      values.every((v) => v) && getGames();
+    });
   }, [gotMLB, gotNBA, gotNFL, gotNHL]);
 
   return isLoading ? (
