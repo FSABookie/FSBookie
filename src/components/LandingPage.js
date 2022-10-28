@@ -105,7 +105,7 @@ const Welcomemsgbtn = styled.div`
 `;
 
 const Projectionsinfo = styled.div`
-  height: 100vh;
+  height: 200vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -170,7 +170,7 @@ function LandingPage() {
             <div className="sportbook">Sportsbook</div>
           </Link>
           <Link href="/projections/NFL">
-          <div className="projections">Trends</div>
+            <div className="projections">Trends</div>
           </Link>
           <Link href="/posts">
             <div className="forum">Forum</div>
@@ -184,11 +184,11 @@ function LandingPage() {
         <h1>MAKE EVERY MOMENT</h1>
         <span>MORE</span>
         <img src="https://s3.amazonaws.com/cdn.fanduel.com/images/2019/Homepage/Home/phones-sm.png" />
-          <Welcomemsgbtn>
-        <Link href="/sportsbook">
+        <Welcomemsgbtn>
+          <Link href="/sportsbook">
             <div className="a">Sport Betting {">"}</div>
-        </Link>
-          </Welcomemsgbtn>
+          </Link>
+        </Welcomemsgbtn>
       </Welcomemsg>
       <Projectionsinfo>
         <h1>FSBookie</h1>
@@ -249,10 +249,12 @@ function LandingPage() {
               Next.js, Styled-Components, RTK Queries, Next-auth, and Redux
               Thunks.
             </p>
-            <h3 className="infotitle">For Information on How to start making Bets Click Here!</h3>
-          <Link href="/help/howtobet">
-            <button className="howtobetButton">How to Bet</button>
-          </Link>
+            <h3 className="infotitle">
+              For Information on How to start making Bets Click Here!
+            </h3>
+            <Link href="/help/howtobet">
+              <button className="howtobetButton">How to Bet</button>
+            </Link>
           </div>
         </div>
       </Projectionsinfo>
