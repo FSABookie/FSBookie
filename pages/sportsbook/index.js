@@ -71,19 +71,19 @@ function Index() {
                 )
               )
             ));
-          // FOR BROOKLYN NETS ONLY FOR NYC
-          (await v)
-            ? city === "New York" &&
-              dispatch(
-                setLocalGames(
-                  v.filter(
-                    (game) =>
-                      game.HomeTeam.includes("Brooklyn") ||
-                      game.AwayTeam.includes("Brooklyn")
-                  )
-                )
-              )
-            : null;
+          // // FOR BROOKLYN NETS ONLY FOR NYC
+          // (await v)
+          //   ? city === "New York" &&
+          //     dispatch(
+          //       setLocalGames(
+          //         v.filter(
+          //           (game) =>
+          //             game.HomeTeam.includes("Brooklyn") ||
+          //             game.AwayTeam.includes("Brooklyn")
+          //         )
+          //       )
+          //     )
+          //   : null;
         });
       });
     };
