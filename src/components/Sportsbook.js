@@ -253,7 +253,7 @@ const Bs = styled.div`
 function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
-  const { localGames } = useSelector((state) => state.persistedLocalGames);
+  const { localGames } = useSelector((state) => state.localGames);
 
   useEffect(() => {
     localGames && console.log(data, localGames);
