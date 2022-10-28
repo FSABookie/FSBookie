@@ -40,7 +40,7 @@ const SportsHeader = styled.div`
   background: black;
   position: relative;
   display: flex;
-  align-item: center;
+  align-items: center;
   justify-content: center;
   gap: 1%;
   a {
