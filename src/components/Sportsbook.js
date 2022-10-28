@@ -68,7 +68,7 @@ const SportsHeader = styled.div`
 const GamesContainer = styled.div`
   height: 100%;
   @media only screen and (min-width: 850px) {
-    width: 50em;
+    width: 90%;
   }
 `;
 const Games = styled.div`
