@@ -15,7 +15,7 @@ import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
 
 const SportsContainer = styled.div`
-  @media only screen and (min-width: 390px) {
+  @media only screen and (min-width: 360px) {
     width: 100%;
     max-width: 100%;
     height: 100%;
@@ -238,7 +238,7 @@ const Attempt = styled.div`
 `;
 
 const Bs = styled.div`
-  @media only screen and (min-width: 390px) {
+  @media only screen and (min-width: 360px) {
     bottom: 0;
     position: sticky;
   }

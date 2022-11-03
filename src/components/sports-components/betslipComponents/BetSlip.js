@@ -17,7 +17,7 @@ import {
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const BetSlipConntainer = styled.div`
-  @media only screen and (min-width: 390px) {
+  @media only screen and (min-width: 360px) {
     bottom: 0;
     position: sticky;
     margin-top: 15%;
