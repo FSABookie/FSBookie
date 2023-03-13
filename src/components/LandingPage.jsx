@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 const LandingpageContainer = styled.div`
-  background: #1493ff;
+  background: #36454F;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   column-gap: 70%;
-  background: #1493ff;
+  background: #36454F;
   @media only screen and (min-width: 850px) {
     column-gap: 90%;
   }
@@ -37,7 +37,7 @@ const Headerfoot = styled.div`
   padding: 0.5em;
   font-weight: 300;
   font-size: 0.85em;
-  background: #1f375b;
+  background: #376e6f;
   &:hover {
     cursor: pointer;
   }
@@ -62,7 +62,7 @@ const Welcomemsg = styled.div`
     text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
   }
   span {
-    color: darkblue;
+    color: #3dd883;
     font-size: 5em;
     font-weight: bold;
     text-shadow: -0.025em -0.025em 4px rgb(0 0 0 / 25%);
@@ -83,10 +83,10 @@ const Welcomemsg = styled.div`
     }
   }
   .a {
-    color: lightgreen;
-    background: navy;
+    color: black;
+    background: #5cdb95;
     padding: 5%;
-    font-weight: bold;
+    font-weight: 600;
     border-radius: 0.55em;
     box-shadow: 0 12px 16px 4px rgb(0 0 0 / 20%);
     z-index: 3;
@@ -122,7 +122,7 @@ const Projectionsinfo = styled.div`
   .info {
     padding: 2rem;
     position: relative;
-    background: rgba(31, 55, 91, 0.5);
+    background: #376e6f;
   }
   .infotitle {
     margin: 0 0 1rem;
@@ -141,8 +141,8 @@ const Projectionsinfo = styled.div`
   .howtobetButton {
     border: none;
     border-radius: 16px;
-    color: lightgreen;
-    background: navy;
+    color: black;
+    background: #3dd883;
     font-weight: bold;
     padding: 1.5%;
   }
@@ -181,8 +181,8 @@ function LandingPage() {
         </Headerfoot>
       </Headercontainer>
       <Welcomemsg>
-        <h1>MAKE EVERY MOMENT</h1>
-        <span>MORE</span>
+        <h1>Every Second</h1>
+        <span>COUNTS</span>
         <img src="https://s3.amazonaws.com/cdn.fanduel.com/images/2019/Homepage/Home/phones-sm.png" />
         <Welcomemsgbtn>
           <Link href="/sportsbook">
