@@ -132,7 +132,7 @@ const GameCard = styled.div`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    max-width: 100px;
+    max-width: 100%;
     min-width: 100px;
   }
   .gameTime {
@@ -185,12 +185,13 @@ const TableRow = styled.div`
     /* border-top: 0.25em solid #242424; */
     /* padding-top: 4%; */
     /* flex-grow: 2; */
-    width: 150%;
+    overflow: hidden;
+    width: 100%;
   }
   .game2Info {
     /* padding-top: 4%; */
     /* flex-grow: 2; */
-    width: 150%;
+    width: 100%;
   }
   .lineCol {
     /* border-top: 0.25em solid #242424; */
