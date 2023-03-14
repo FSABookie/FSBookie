@@ -87,11 +87,6 @@ const Games = styled.div`
   padding: 8px;
   background-color: #121212;
 
-  .alwaysleft {
-    width: 21%;
-    font-weight: 600;
-    text-align: left;
-  }
 `;
 const GameCard = styled.div`
   color: white;
@@ -191,6 +186,7 @@ const TableRow = styled.div`
   .game2Info {
     /* padding-top: 4%; */
     /* flex-grow: 2; */
+    overflow: hidden;
     width: 100%;
   }
   .lineCol {
@@ -219,6 +215,11 @@ const GamesHeader = styled.div`
   cursor: default;
   color: #c5c5c5;
   font-size: 0.7em;
+  font-weight: 600;
+  text-align: center;
+  .gamelines {
+    width: 100%;
+  }
 `;
 
 const Header = styled.div`
@@ -285,7 +286,7 @@ function Sportsbook({ data }) {
         <GamesContainer>
           <Games>
             <GamesHeader>
-              <p className="alwaysleft gamelines">TODAY</p>
+              <p className="gamelines">TODAY</p>
               <p className="gamelines">SPREAD</p>
               <p className="gamelines">TOTAL</p>
               <p className="gamelines">MONEYLINE</p>

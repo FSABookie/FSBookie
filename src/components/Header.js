@@ -152,6 +152,8 @@ const LinkContainer = styled.div`
 `;
 
 const LogoLinkContainer = styled.div`
+  width: 200px;
+  justify-content: right;
   display: flex;
   align-items: center;
   &:hover {
