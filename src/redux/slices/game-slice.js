@@ -24,6 +24,7 @@ const gameSlice = createSlice({
 
       // set the sport
       state.sport = action.payload.sport;
+      console.log(state.sport);
       state.homeTeamLogo = action.payload.htl;
       state.awayTeamLogo = action.payload.atl;
     },
