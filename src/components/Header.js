@@ -413,7 +413,7 @@ function Header() {
           <GiHamburgerMenu className="burgermenu" onClick={toggleNav} />
         </HamburgerContainer>
 
-        <Page ref={mySidenavRef} className={`${isMounted ? "hide" : ""}`}>
+        <Page ref={mySidenavRef} className={isMounted ? "hide" : ""}>
           <Menu className="sidenav">
             <div className="sideLinks" onClick={toggleNav}>
               <div className="singleLink">

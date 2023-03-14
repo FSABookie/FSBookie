@@ -32,17 +32,17 @@ const BetSlipConntainer = styled.div`
   }
 
   @media only screen and (min-width: 850px) {
-    position: fixed;
-    width: 35%;
-    margin-top: 5%;
+    justify-self: flex-end;
+    width: 100%;
+    margin-top: 0;
     background-color: white;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+    margin-left: 0;
+    margin-right: 0;
     border-radius: 10px;
     overflow-y: scroll;
     transition: 0.3s;
-    transform: ${({ open }) => (open ? "translateY(-0%)" : "translateY(-80%)")};
-    height: ${({ open }) => (open ? "10em" : "3em")};
+    transform: translateY(-0%);
+    height: 100% !important;
   }
 `;
 
@@ -105,6 +105,9 @@ function BetSlip() {
 
   const dispatch = useDispatch();
 
+  const queryToggle = window.matchMedia("(min-width: 850px)");
+  let desktopView = queryToggle.matches;
+
   useEffect(() => {
     setTotalWager(0);
     betSlip.forEach((ele) => {
@@ -142,7 +145,7 @@ function BetSlip() {
           // remove bets from slip
           dispatch(RemoveAllSelections());
         } catch (error) {
-          alert(error);
+          alert (error);
         }
       }
     }
@@ -183,7 +186,7 @@ function BetSlip() {
 
   return (
     <BetSlipConntainer
-      open={toggled}
+      open={toggled || desktopView}
       style={
         betSlip.length <= 1
           ? { height: `${toggled ? "40vh" : "3em"}` }
@@ -192,13 +195,13 @@ function BetSlip() {
     >
       <BetSlipHeaderContainer onClick={() => setToggled(!toggled)}>
         {" "}
-        <div className="closedBetslip">{betSlip.length} Bet Slip</div>
+        <div className="closedBetslip">{betSlip.length}Bet Slip</div>
         {betSlip.length > 1 && (
           <div className="closedBetslip">Parlay Odds {parlayOdds}</div>
         )}
       </BetSlipHeaderContainer>
 
-      {toggled && (
+      {(toggled || desktopView) && (
         <>
           {/* mapping through bets and rendiner each individual slip */}
           {betSlip.map((bet, idx) => {

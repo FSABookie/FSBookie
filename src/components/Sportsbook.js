@@ -21,8 +21,8 @@ const SportsContainer = styled.div`
     height: 100%;
     background-color: black;
     padding-top: 3%;
-    padding-left: 3%;
-    padding-right: 3%;
+    padding-left: 0.5%;
+    padding-right: 0.5%;
   }
 `;
 const SportsHeader = styled.div`
@@ -68,7 +68,8 @@ const SportsHeader = styled.div`
 const GamesContainer = styled.div`
   height: 100%;
   @media only screen and (min-width: 850px) {
-    width: 90%;
+    width: 100%;
+    padding-top: 10px;
   }
 `;
 const Games = styled.div`
@@ -233,22 +234,39 @@ const Header = styled.div`
 `;
 
 const Attempt = styled.div`
-  @media only screen and (min-width: 850px) {
+    .hideSlip {
+      width: 0%;
+      padding-left: 0;
+    }
+    @media only screen and (min-width: 850px) {
     display: flex;
     flex-direction: row;
+    position: relative;
+    /* padding-top: 10px; */
   }
-`;
+  `;
 
 const Bs = styled.div`
-  @media only screen and (min-width: 360px) {
-    bottom: 0;
+    /* .hideSlip {
+      width: 0% !important;
+      background-color: purple;
+      transition: 1s;
+    } */
+    transition: 1s;
+    @media only screen and (min-width: 360px) {
+      bottom: 0;
+      position: sticky;
+    }
+    
+    @media only screen and (min-width: 850px) {
+    width: 350px;
+    top: 0;
+    display: flex;
+    height: 100vh;
     position: sticky;
-  }
-
-  @media only screen and (min-width: 850px) {
-    width: 30%;
-    bottom: 0;
-    position: sticky;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-bottom: 5px;
   }
 `;
 
@@ -277,11 +295,11 @@ function Sportsbook({ data }) {
           <a className="sport">Baseball</a>
         </Link>
       </SportsHeader>
-      {data.sport === "index" && <Header>Your Local Games</Header>};
-      {data.sport === "NBA" && <Header>NBA</Header>};
-      {data.sport === "NFL" && <Header>NFL</Header>};
-      {data.sport === "NHL" && <Header>NHL</Header>};
-      {data.sport === "MLB" && <Header>MLB</Header>};
+      {data.sport === "index" && <Header>Your Local Games</Header>}
+      {data.sport === "NBA" && <Header>NBA</Header>}
+      {data.sport === "NFL" && <Header>NFL</Header>}
+      {data.sport === "NHL" && <Header>NHL</Header>}
+      {data.sport === "MLB" && <Header>MLB</Header>}
       <Attempt>
         <GamesContainer>
           <Games>
@@ -698,7 +716,7 @@ function Sportsbook({ data }) {
             })}
           </Games>
         </GamesContainer>
-        <Bs>{betSlip.length > 0 && <BetSlip />}</Bs>
+        <Bs className={!betSlip.length ? "hideSlip" : ""}>{betSlip.length > 0 && <BetSlip />}</Bs>
       </Attempt>
     </SportsContainer>
   );
