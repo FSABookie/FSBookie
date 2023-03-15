@@ -10,26 +10,18 @@ import {
   selectQuarter,
   selectInning,
 } from "../../../src/redux/slices/game-slice";
-
-import {
-  NBAlogos,
-  NFLlogos,
-  MLBlogos,
-  NHLlogos,
-} from "../../../public/teamLogos";
+import Link from "next/link";
 import { useGetActiveBetsQuery } from "../../../src/redux/slices/apiSlice";
-import ProgressBar from "../../../src/components/ProgressBar";
 
 const SingleGameContainer = styled.div`
   color: white;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   padding: 4%;
   .eventSport {
     text-align: center;
     font-weight: 200;
     font-size: 0.75em;
-    margin-top: 15%;
     padding-bottom: 3%;
     border-bottom: 0.15em solid #242424;
     opacity: 0.8;
@@ -38,28 +30,32 @@ const SingleGameContainer = styled.div`
   .MatchupContainer {
     display: flex;
     flex-direction: row;
-    gap: 5%;
-    margin-top: 7%;
+    justify-content: space-between;
+    align-items: center;
+    height: 150px;
   }
 
   .team1 {
     text-align: center;
     font-weight: 200;
-  }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
 
-  .team2 {
-    margin-right: 5%;
-    text-align: center;
-    font-weight: 200;
+    img {
+      padding-bottom: 10px;
+    }
   }
 
   .AT {
-    background: #242424;
-    padding: 2%;
     font-size: 0.8em;
-    height: 5%;
     font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+
   .headimg {
     width: 50px;
     height: 50px;
@@ -87,6 +83,23 @@ const SingleGameContainer = styled.div`
     }
   }
 `;
+
+const GamesHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  cursor: default;
+  color: #c5c5c5;
+  font-size: 0.7em;
+  font-weight: 600;
+  text-align: center;
+  margin-left: 113px;
+
+  p {
+    width: 150%;
+  }
+`;
+
 const GameCard = styled.div`
   color: white;
   border-top: 0.1em solid #242424;
@@ -165,32 +178,38 @@ const GameCard = styled.div`
     height: 48px;
     color: white;
   }
+
+  .teamContainer {
+    width: 500px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    padding-bottom: 5px;
+  }
+
+  .oddType {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 12.5px;
+  }
 `;
 
 const TableRow = styled.div`
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between; */
   .gameInfo {
-    /* border-top: 0.25em solid #242424; */
-    /* padding-top: 4%; */
-    /* flex-grow: 2; */
     width: 150%;
   }
   .game2Info {
-    /* padding-top: 4%; */
-    /* flex-grow: 2; */
     width: 150%;
   }
   .lineCol {
-    /* border-top: 0.25em solid #242424; */
-    /* padding-top: 6%; */
     font-size: 0.7em;
     box-sizing: border-box;
     height: 100%;
     width: 100%;
     position: relative;
-    /* flex-grow: 1; */
   }
 
   .line2Col {
@@ -203,13 +222,14 @@ const TableRow = styled.div`
 `;
 
 const SportsHeader = styled.div`
-  margin-top: 18%;
   height: 100%;
   color: white;
   background: black;
   position: relative;
   display: flex;
-  gap: 1%;
+  flex-direction: row;
+  justify-content: space-around;
+
   div {
     position: relative;
     text-decoration: none;
@@ -228,18 +248,6 @@ const SportsHeader = styled.div`
     cursor: pointer;
     transition: all 0.16s ease;
   }
-`;
-
-const Trends = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  flex-direction: column;
-`;
-
-const Trend = styled.div`
-  display: flex;
-  justify-content: space-evenly;
 `;
 
 const NoLinesContainer = styled.div`
@@ -263,6 +271,7 @@ function GamePage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(game);
     if (game) {
       setDate(new Date(game.MatchTime).toDateString());
       setT(
@@ -276,8 +285,6 @@ function GamePage() {
     }
   }, [game]);
 
-  // console.log(activeGames);
-  // console.log(game)
   const trend = activeGames?.filter(
     (activeGame) => activeGame.betId === game.ID
   );
@@ -300,23 +307,26 @@ function GamePage() {
   return game && odd ? (
     <>
       <SingleGameContainer>
+        <Link href={`/sportsbook/NBA`}>
+          <div>BASKETBALL / NBA</div>
+        </Link>
         <div className="GameHeader">
           <div className="eventSport">{sport !== "index" && sport}</div>
           <div className="MatchupContainer">
             <div className="team1">
-              {game.AwayTeam}
               <img src={awayTeamLogo} />
+              {game.AwayTeam}
             </div>
             <div className="AT">AT</div>
-            <div className="team2">
-              {game.HomeTeam}
+            <div className="team1">
               <img src={homeTeamLogo} />
+              {game.HomeTeam}
             </div>
           </div>
         </div>
         <div>
           <SportsHeader>
-            <div onClick={() => dispatch(selectFullGame())}>GAME LINES</div>
+            <div onClick={() => dispatch(selectFullGame())}>Full Game</div>
 
             {game.Sport == 1 && (
               <div onClick={() => dispatch(selectFirstHalf())}>HALVES</div>
@@ -343,12 +353,22 @@ function GamePage() {
         </div>
 
         <div className="gamecard">
+          <GamesHeader>
+            <p className="gamelines">SPREAD</p>
+            <p className="gamelines">TOTAL</p>
+            <p className="gamelines">MONEYLINE</p>
+          </GamesHeader>
           {odd.length > 0 ? (
             odd.map((odd) => (
               <GameCard key={odd.ID}>
-                {odd.OddType}
+                {/* <div className="oddType">{odd.OddType} Lines</div> */}
+                {odd.oddType == "FirstQuarter" && <div>1Q Lines</div>}
+                {odd.oddType == "SecondQuarter" && <div>2Q Lines</div>}
+                {odd.oddType == "ThirdQuarter" && <div>3Q Lines</div>}
+                {odd.oddType == "FourthQuarter" && <div>4Q Lines</div>}
                 <TableRow>
                   {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
+                  <div className="teamContainer">{game.AwayTeam}</div>
                   <div className="lineCol">
                     {odd.PointSpreadAway == 0 || odd.PointSpreadAway == 0.0 ? (
                       <div className="lineContainer">N/A</div>
@@ -465,6 +485,7 @@ function GamePage() {
                 </TableRow>
                 <TableRow>
                   {/* HOME TEAM SPREAD!!!!!!!!!!! */}
+                  <div className="teamContainer">{game.HomeTeam}</div>
                   <div className="line2Col">
                     {odd.PointSpreadAway == 0 || odd.PointSpreadAway == 0.0 ? (
                       <div className="lineContainer">NA</div>
@@ -585,242 +606,6 @@ function GamePage() {
             <NoLinesContainer>Check Back Later for Lines!</NoLinesContainer>
           )}
         </div>
-        <Trends>
-          <Trend>
-            <div>
-              Away Spread
-              {typeof bets[game.ID] !== "undefined" &&
-                (typeof bets[game.ID][
-                  game.AwayTeam +
-                    " " +
-                    game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                      .PointSpreadAway
-                ] !== "undefined" ? (
-                  typeof bets[game.ID][
-                    game.HomeTeam +
-                      " " +
-                      game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                        .PointSpreadHome
-                  ] !== "undefined" ? (
-                    <ProgressBar
-                      completed={`${(
-                        (bets[game.ID][
-                          game.AwayTeam +
-                            " " +
-                            game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                              .PointSpreadAway
-                        ] /
-                          (bets[game.ID][
-                            game.AwayTeam +
-                              " " +
-                              game.Odds.filter(
-                                (odd) => odd.OddType === "Game"
-                              )[0].PointSpreadAway
-                          ] +
-                            bets[game.ID][
-                              game.HomeTeam +
-                                " " +
-                                game.Odds.filter(
-                                  (odd) => odd.OddType === "Game"
-                                )[0].PointSpreadHome
-                            ])) *
-                        100
-                      ).toFixed(2)}`}
-                    />
-                  ) : (
-                    <ProgressBar completed={`${100}`} />
-                  )
-                ) : (
-                  <ProgressBar completed={`${0}`} />
-                ))}
-            </div>
-            <div>
-              Over
-              {typeof bets[game.ID] !== "undefined" &&
-                (typeof bets[game.ID][
-                  "Over" +
-                    " " +
-                    game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                      .TotalNumber
-                ] !== "undefined" ? (
-                  typeof bets[game.ID][
-                    "Under" +
-                      " " +
-                      game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                        .TotalNumber
-                  ] !== "undefined" ? (
-                    <ProgressBar
-                      completed={`${(
-                        (bets[game.ID][
-                          "Over" +
-                            " " +
-                            game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                              .TotalNumber
-                        ] /
-                          (bets[game.ID][
-                            "Over" +
-                              " " +
-                              game.Odds.filter(
-                                (odd) => odd.OddType === "Game"
-                              )[0].TotalNumber
-                          ] +
-                            bets[game.ID][
-                              "Under" +
-                                " " +
-                                game.Odds.filter(
-                                  (odd) => odd.OddType === "Game"
-                                )[0].TotalNumber
-                            ])) *
-                        100
-                      ).toFixed(2)}`}
-                    />
-                  ) : (
-                    <ProgressBar completed={`${100}`} />
-                  )
-                ) : (
-                  <ProgressBar completed={`${0}`} />
-                ))}
-            </div>
-            <div>
-              Away Moneyline
-              {typeof bets[game.ID] !== "undefined" &&
-                (typeof bets[game.ID][game.AwayTeam + " ML"] !== "undefined" ? (
-                  typeof bets[game.ID][game.HomeTeam + " ML"] !==
-                  "undefined" ? (
-                    <ProgressBar
-                      completed={`${(
-                        (bets[game.ID][game.AwayTeam + " ML"] /
-                          (bets[game.ID][game.AwayTeam + " ML"] +
-                            bets[game.ID][game.HomeTeam + " ML"])) *
-                        100
-                      ).toFixed(2)}`}
-                    />
-                  ) : (
-                    <ProgressBar completed={`${100}`} />
-                  )
-                ) : (
-                  <ProgressBar completed={`${0}`} />
-                ))}
-            </div>
-          </Trend>
-          <Trend>
-            <div>
-              Home Spread
-              {typeof bets[game.ID] !== "undefined" &&
-                (typeof bets[game.ID][
-                  game.HomeTeam +
-                    " " +
-                    game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                      .PointSpreadHome
-                ] !== "undefined" ? (
-                  typeof bets[game.ID][
-                    game.AwayTeam +
-                      " " +
-                      game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                        .PointSpreadAway
-                  ] !== "undefined" ? (
-                    <ProgressBar
-                      completed={`${(
-                        (bets[game.ID][
-                          game.HomeTeam +
-                            " " +
-                            game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                              .PointSpreadHome
-                        ] /
-                          (bets[game.ID][
-                            game.HomeTeam +
-                              " " +
-                              game.Odds.filter(
-                                (odd) => odd.OddType === "Game"
-                              )[0].PointSpreadHome
-                          ] +
-                            bets[game.ID][
-                              game.AwayTeam +
-                                " " +
-                                game.Odds.filter(
-                                  (odd) => odd.OddType === "Game"
-                                )[0].PointSpreadAway
-                            ])) *
-                        100
-                      ).toFixed(2)}`}
-                    />
-                  ) : (
-                    <ProgressBar completed={`${100}`} />
-                  )
-                ) : (
-                  <ProgressBar completed={`${0}`} />
-                ))}
-            </div>
-            <div>
-              Under
-              {typeof bets[game.ID] !== "undefined" &&
-                (typeof bets[game.ID][
-                  "Under" +
-                    " " +
-                    game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                      .TotalNumber
-                ] !== "undefined" ? (
-                  typeof bets[game.ID][
-                    "Over" +
-                      " " +
-                      game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                        .TotalNumber
-                  ] !== "undefined" ? (
-                    <ProgressBar
-                      completed={`${(
-                        (bets[game.ID][
-                          "Under" +
-                            " " +
-                            game.Odds.filter((odd) => odd.OddType === "Game")[0]
-                              .TotalNumber
-                        ] /
-                          (bets[game.ID][
-                            "Under" +
-                              " " +
-                              game.Odds.filter(
-                                (odd) => odd.OddType === "Game"
-                              )[0].TotalNumber
-                          ] +
-                            bets[game.ID][
-                              "Over" +
-                                " " +
-                                game.Odds.filter(
-                                  (odd) => odd.OddType === "Game"
-                                )[0].TotalNumber
-                            ])) *
-                        100
-                      ).toFixed(2)}`}
-                    />
-                  ) : (
-                    <ProgressBar completed={`${100}`} />
-                  )
-                ) : (
-                  <ProgressBar completed={`${0}`} />
-                ))}
-            </div>
-            <div>
-              Home Moneyline
-              {typeof bets[game.ID] !== "undefined" &&
-                (typeof bets[game.ID][game.HomeTeam + " ML"] !== "undefined" ? (
-                  typeof bets[game.ID][game.AwayTeam + " ML"] !==
-                  "undefined" ? (
-                    <ProgressBar
-                      completed={`${(
-                        (bets[game.ID][game.HomeTeam + " ML"] /
-                          (bets[game.ID][game.HomeTeam + " ML"] +
-                            bets[game.ID][game.AwayTeam + " ML"])) *
-                        100
-                      ).toFixed(2)}`}
-                    />
-                  ) : (
-                    <ProgressBar completed={100} />
-                  )
-                ) : (
-                  <ProgressBar completed={0} />
-                ))}
-            </div>
-          </Trend>
-        </Trends>
       </SingleGameContainer>
       {betSlip.length > 0 && <BetSlip />}
     </>
