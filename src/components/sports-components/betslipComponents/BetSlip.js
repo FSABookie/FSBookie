@@ -29,6 +29,7 @@ const BetSlipConntainer = styled.div`
     transition: 0.3s;
     transform: ${({ open }) => (open ? "translateY(-5%)" : "translateY(-80%)")};
     height: ${({ open }) => (open ? "35em" : "3em")};
+    color: black;
   }
 
   @media only screen and (min-width: 850px) {
@@ -145,7 +146,7 @@ function BetSlip() {
           // remove bets from slip
           dispatch(RemoveAllSelections());
         } catch (error) {
-          alert (error);
+          alert(error);
         }
       }
     }
