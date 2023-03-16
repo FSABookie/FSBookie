@@ -17,7 +17,7 @@ const SingleGameContainer = styled.div`
   color: white;
   height: 100vh;
   width: 100%;
-  padding: 4%;
+  padding: 1%;
   .eventSport {
     text-align: center;
     font-weight: 200;
@@ -62,7 +62,10 @@ const SingleGameContainer = styled.div`
   }
 
   .gamecard {
-    margin-top: 4%;
+    width: 100%;
+    padding: 8px;
+    height: 100%;
+    background-color: #121212;
   }
 
   @media only screen and (min-width: 850px) {
@@ -93,8 +96,6 @@ const GamesHeader = styled.div`
   font-size: 0.7em;
   font-weight: 600;
   text-align: center;
-  margin-left: 113px;
-
   p {
     width: 150%;
   }
@@ -180,11 +181,18 @@ const GameCard = styled.div`
   }
 
   .teamContainer {
-    width: 500px;
+    width: 100%;
     font-size: 12px;
     display: flex;
     align-items: center;
     padding-bottom: 5px;
+    overflow: hidden;
+    max-width: 100%;
+    p{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    }
   }
 
   .oddType {
@@ -255,16 +263,17 @@ const NoLinesContainer = styled.div`
 `;
 
 const Attempt = styled.div`
-  ${
-    "" /* .hideSlip {
+    .hideSlip {
     width: 0%;
     padding-left: 0;
-  } */
   }
   @media only screen and (min-width: 850px) {
     display: flex;
     flex-direction: row;
     position: relative;
+    padding-top: 15px;
+    border-top: 1px inset;
+    margin-top: 15px;
     /* padding-top: 10px; */
   }
 `;
@@ -287,7 +296,6 @@ const Bs = styled.div`
     display: flex;
     height: 100vh;
     position: sticky;
-    padding-top: 10px;
     padding-left: 5px;
     padding-bottom: 5px;
   }
@@ -393,6 +401,7 @@ function GamePage() {
         <Attempt>
           <div className="gamecard">
             <GamesHeader>
+              <p className="gamelines"></p>
               <p className="gamelines">SPREAD</p>
               <p className="gamelines">TOTAL</p>
               <p className="gamelines">MONEYLINE</p>
@@ -420,7 +429,11 @@ function GamePage() {
                   {odd.oddType.includes("FourthQuarter") && <div>4Q Lines</div>} */}
                   <TableRow>
                     {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
-                    <div className="teamContainer">{game.AwayTeam}</div>
+                    <div className="teamContainer">
+                      <p>
+                        {game.AwayTeam}
+                        </p>
+                      </div>
                     <div className="lineCol">
                       {odd.PointSpreadAway == 0 ||
                       odd.PointSpreadAway == 0.0 ? (
@@ -540,7 +553,11 @@ function GamePage() {
                   </TableRow>
                   <TableRow>
                     {/* HOME TEAM SPREAD!!!!!!!!!!! */}
-                    <div className="teamContainer">{game.HomeTeam}</div>
+                    <div className="teamContainer">
+                      <p>
+                        {game.HomeTeam}
+                        </p>
+                        </div>
                     <div className="line2Col">
                       {odd.PointSpreadAway == 0 ||
                       odd.PointSpreadAway == 0.0 ? (
