@@ -214,12 +214,8 @@ function BetSlip() {
               <CgTrash color="red" />
               Remove all Selections
             </ClearBets>
-            {status === "authenticated" ? (
+            {status === "authenticated" && (
               <Submit onClick={() => submitBets()}>Lock In Bet(s)</Submit>
-            ) : (
-              <Link href="/login">
-                <Submit>Log In to Place Bet</Submit>
-              </Link>
             )}
             {betSlip.length > 1 && (
               <Parlay
