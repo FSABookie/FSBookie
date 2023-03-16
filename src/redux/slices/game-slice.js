@@ -41,6 +41,15 @@ const gameSlice = createSlice({
       state.odds = state.game.Odds.filter((odd) =>
         odd.OddType.includes("Quarter")
       );
+      state.odds = state.odds.sort((a, b) => {
+        const quarterOrder = {
+          FirstQuarter: 1,
+          SecondQuarter: 2,
+          ThirdQuarter: 3,
+          FourthQuarter: 4,
+        };
+        return quarterOrder[a.OddType] - quarterOrder[b.OddType];
+      });
     },
     selectPeriod: (state) => {
       state.odds = null;
