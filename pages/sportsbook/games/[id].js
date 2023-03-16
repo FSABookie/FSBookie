@@ -400,11 +400,24 @@ function GamePage() {
             {odd.length > 0 ? (
               odd.map((odd) => (
                 <GameCard key={odd.ID}>
-                  {/* <div className="oddType">{odd.OddType} Lines</div> */}
-                  {odd.oddType == "FirstQuarter" && <div>1Q Lines</div>}
-                  {odd.oddType == "SecondQuarter" && <div>2Q Lines</div>}
-                  {odd.oddType == "ThirdQuarter" && <div>3Q Lines</div>}
-                  {odd.oddType == "FourthQuarter" && <div>4Q Lines</div>}
+                  {odd.OddType.includes("Game") && <div>Full Game Lines</div>}
+                  {odd.OddType.includes("Half") && <div>First Half Lines</div>}
+                  <div>
+                    {odd.OddType === "FirstQuarter" && "1st Quarter Lines"}
+                  </div>
+                  <div>
+                    {odd.OddType === "SecondQuarter" && "2nd Quarter Lines"}
+                  </div>
+                  <div>
+                    {odd.OddType === "ThirdQuarter" && "3rd Quarter Lines"}
+                  </div>
+                  <div>
+                    {odd.OddType === "FourthQuarter" && "4th Quarter Lines"}
+                  </div>
+                  {/* {odd.oddType.includes("FirstQuarter") && <div>1Q Lines</div>}
+                  {odd.oddType.includes("SecondQuarter") && <div>2Q Lines</div>}
+                  {odd.oddType.includes("ThirdQuarter") && <div>3Q Lines</div>}
+                  {odd.oddType.includes("FourthQuarter") && <div>4Q Lines</div>} */}
                   <TableRow>
                     {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
                     <div className="teamContainer">{game.AwayTeam}</div>
