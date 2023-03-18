@@ -11,12 +11,13 @@ const WagerContainer = styled.div`
 
 const ParlayOdds = styled.div`
   padding: 3%;
+  font-weight: 700;
+  span {
+    font-weight: 600;
+  }
 `
 
 const Wager = styled.div`
-  border-style: solid;
-  border-width: 1px;
-  border-color: lightgray;
   margin-left: 0.1em;
   display: flex;
   flex-direction: column;
@@ -56,7 +57,7 @@ function Parlay({ wager, setWager, toWin, setToWin, parlayOdds, setOdds }) {
   return (
     <>
     <ParlayOdds>
-      {betSlip.length} Leg Parlay +{parlayOdds}
+      {betSlip.length} Leg Parlay <span>+{parlayOdds}</span>
       </ParlayOdds>
       <WagerContainer>
         <Wager>

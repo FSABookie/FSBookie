@@ -15,7 +15,6 @@ const TopRow = styled.div`
   justify-content: space-between;
   padding-right: 0.15rem;
   padding-right: 1rem;
-  border-top: 1px solid #242424;
   padding-top: 4%;
 `;
 
@@ -24,13 +23,18 @@ const Eh = styled.div`
   flex-direction: row;
 `;
 
-const GameContainer = styled.div``;
+const GameContainer = styled.div`
+  border-bottom: 1px solid #242424;
+
+`;
 
 const Team = styled.div`
 font-weight: bold;
 `;
 
-const Odds = styled.div``;
+const Odds = styled.div`
+  font-weight: 600;
+`;
 
 const MatchUp = styled.div`
   padding-bottom: 4%;
