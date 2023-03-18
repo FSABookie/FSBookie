@@ -10,9 +10,6 @@ const WagerContainer = styled.div`
 `;
 
 const Wager = styled.div`
-  border-style: solid;
-  border-width: 1px;
-  border-color: lightgray;
   margin-left: 0.1em;
   display: flex;
   flex-direction: column;
