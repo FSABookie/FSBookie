@@ -483,7 +483,7 @@ function Sportsbook({ data }) {
                                   homeTeam: ele.HomeTeam,
                                   awayTeamLogo: awayTeamLogo,
                                   homeTeamLogo: homeTeamLogo,
-                                  oddType: odd.OddType,
+                                  oddType: ele.OddType,
                                   oddType: "Game",
                                   time,
                                   toWin: 0,

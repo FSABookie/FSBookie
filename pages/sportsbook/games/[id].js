@@ -188,10 +188,10 @@ const GameCard = styled.div`
     padding-bottom: 5px;
     overflow: hidden;
     max-width: 100%;
-    p{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+    p {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
   }
 
@@ -263,7 +263,7 @@ const NoLinesContainer = styled.div`
 `;
 
 const Attempt = styled.div`
-    .hideSlip {
+  .hideSlip {
     width: 0%;
     padding-left: 0;
   }
@@ -430,10 +430,8 @@ function GamePage() {
                   <TableRow>
                     {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
                     <div className="teamContainer">
-                      <p>
-                        {game.AwayTeam}
-                        </p>
-                      </div>
+                      <p>{game.AwayTeam}</p>
+                    </div>
                     <div className="lineCol">
                       {odd.PointSpreadAway == 0 ||
                       odd.PointSpreadAway == 0.0 ? (
@@ -494,7 +492,7 @@ function GamePage() {
                             dispatch(
                               addToBetSlip({
                                 id: betSlip.length,
-                                gameLine: "Over " + odd.TotalNumber,
+                                gaeLine: "Over " + odd.TotalNumber,
                                 odds: odd.OverLine,
                                 awayTeam: game.AwayTeam,
                                 homeTeam: game.HomeTeam,
@@ -561,10 +559,8 @@ function GamePage() {
                   <TableRow>
                     {/* HOME TEAM SPREAD!!!!!!!!!!! */}
                     <div className="teamContainer">
-                      <p>
-                        {game.HomeTeam}
-                        </p>
-                        </div>
+                      <p>{game.HomeTeam}</p>
+                    </div>
                     <div className="line2Col">
                       {odd.PointSpreadAway == 0 ||
                       odd.PointSpreadAway == 0.0 ? (
