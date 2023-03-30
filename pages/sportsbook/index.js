@@ -21,9 +21,9 @@ function Index() {
   const { data: nfl, isSuccess: gotNFL, isLoading } = useGetNFLQuery();
   const { data: nhl, isSuccess: gotNHL } = useGetNHLQuery();
 
-  const [status, setStatus] = useState("");
-  const [lat, setLat] = useState("");
-  const [long, setLng] = useState("");
+  // const [status, setStatus] = useState("");
+  // const [lat, setLat] = useState("");
+  // const [long, setLng] = useState("");
   const [city, setCity] = useState("");
 
   const { localGames } = useSelector((state) => state.localGames);
@@ -31,30 +31,32 @@ function Index() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!navigator.geolocation) {
-      setStatus("Geolocation is not supported by your browser");
-    } else {
-      setStatus("Locating...");
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setStatus(null);
-          setLat(position.coords.latitude);
-          setLng(position.coords.longitude);
-        },
-        () => {
-          setStatus("Unable to retrieve your location");
-        }
-      );
-    }
+    // if (!navigator.geolocation) {
+    //   setStatus("Geolocation is not supported by your browser");
+    // } else {
+    //   setStatus("Locating...");
+    //   navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+    //       setStatus(null);
+    //       setLat(position.coords.latitude);
+    //       setLng(position.coords.longitude);
+    //     },
+    //     () => {
+    //       setStatus("Unable to retrieve your location");
+    //     }
+    //   );
+    // }
 
     const getCity = async () => {
+      console.log('LOOK HERE', city);
       let { data } = await axios.get(
-        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=en`
-      );
-      data.city == "New York City"
-        ? await setCity("New York")
-        : await setCity(data.city);
-    };
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=&longitude=&localityLanguage=en`
+        );
+        data.city == "New York City"
+        ? setCity("New York")
+        : setCity(data.city);
+        console.log('DATA BEING RETURNED?', data)
+      };
 
     getCity();
 
@@ -91,7 +93,7 @@ function Index() {
     Promise.all([gotMLB, gotNBA, gotNFL, gotNHL]).then((values) => {
       values.every((v) => v) && getGames();
     });
-  }, [gotMLB, gotNBA, gotNFL, gotNHL]);
+  }, [gotMLB, gotNBA, gotNFL, gotNHL, city]);
 
   return isLoading ? (
     <Loader />
