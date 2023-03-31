@@ -9,6 +9,7 @@ import "../styles/globals.css";
 
 const Container = styled.div`
   margin: 0;
+  min-height: 100vh;
 `;
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
