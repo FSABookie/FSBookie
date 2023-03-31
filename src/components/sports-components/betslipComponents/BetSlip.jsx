@@ -15,6 +15,8 @@ import {
     useUpdateUserFundsMutation,
 } from "../../../redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
+//this is for our order confirmation page
+import { useRouter } from "next/router";
 
 const BetSlipConntainer = styled.div`
     @media only screen and (min-width: 360px) {
@@ -121,6 +123,9 @@ function BetSlip() {
 
     const queryToggle = window.matchMedia("(min-width: 850px)");
     let desktopView = queryToggle.matches;
+    
+    //This is for our order confirmation page
+    const router = useRouter();
 
     useEffect(() => {
         setTotalWager(0);
@@ -131,16 +136,19 @@ function BetSlip() {
     }, [betSlip]);
 
     const submitBets = async () => {
+        let betsArr  = [];
         if (isSuccess) {
             if (user.balance < totalWager) {
-                alert("NOT ENOUGH FUNDS BROKE ASS");
+                alert("NOT ENOUGH FUNDS");
             } else {
                 try {
                     // first create the order for bets with createOrder mutation from apiSlice
                     // Then map through bets and create bets using createBet mutation
                     betSlip.forEach(async (bet) => {
                         // append orderId to each bet for association
+                        betsArr.push(bet);
                         let myBet = { ...bet, userId: user.id };
+
                         // this not the real id so delete, new id will be appended through sequelize
                         delete myBet.id;
                         // create the bet if wager fields are greater than 0
@@ -151,13 +159,12 @@ function BetSlip() {
                                   "Enter a wager amount for " + myBet.gameLine
                               );
                     });
-
                     // update user funds after everything is successfull
                     await updateFunds({
                         funds: user.balance - totalWager,
                         id: user.id,
-                    });
-
+                    }).then(router.push({pathname: '/orderconfirmed', query: {data: JSON.stringify(betsArr)}}));
+                    
                     // remove bets from slip
                     dispatch(RemoveAllSelections());
                 } catch (error) {

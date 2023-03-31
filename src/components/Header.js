@@ -25,7 +25,7 @@ import { useRouter } from "next/router";
 const HeaderContainer = styled.div`
   display: hidden;
   color: white;
-  height: 100%;
+  /* height: 100%; */
   h1,
   p {
     :hover {

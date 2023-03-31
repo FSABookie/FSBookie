@@ -18,19 +18,19 @@ const Header = styled.div`
     }
     display: flex;
     flex-direction: row;
-    column-gap: 70%;
     background: #36454f;
+    justify-content: space-between;
     @media only screen and (min-width: 850px) {
-        column-gap: 90%;
     }
 `;
 const Loginbtn = styled.div`
     margin-top: 1em;
+    margin-right: 10px;
 `;
 const Headerfoot = styled.div`
     display: flex;
     flex-direction: row;
-    column-gap: 11%;
+    justify-content: space-between;
     width: 100vw;
     color: white;
     height: 2.25em;
@@ -38,6 +38,7 @@ const Headerfoot = styled.div`
     font-weight: 300;
     font-size: 0.85em;
     background: #376e6f;
+    font-weight: 500;
     &:hover {
         cursor: pointer;
     }
@@ -46,8 +47,6 @@ const Headerfoot = styled.div`
     }
 
     @media only screen and (min-width: 850px) {
-        column-gap: 26%;
-        font-weight: 500;
     }
 `;
 const Welcomemsg = styled.div`
