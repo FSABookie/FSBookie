@@ -31,7 +31,7 @@ const Headerfoot = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 100vw;
+    width: 100%;
     color: white;
     height: 2.25em;
     padding: 0.5em;
@@ -151,6 +151,7 @@ const Projectionsinfo = styled.div`
 const Headercontainer = styled.div`
     position: fixed;
     z-index: 4;
+    width: 100%;
 `;
 
 function LandingPage() {
@@ -186,7 +187,8 @@ function LandingPage() {
                 <img src="https://s3.amazonaws.com/cdn.fanduel.com/images/2019/Homepage/Home/phones-sm.png" />
                 <Welcomemsgbtn>
                     <Link href="/sportsbook">
-                        <div className="a">Sport Betting {">"}</div>
+                        {/* <div className="a">Sport Betting {">"}</div> */}
+                        Sport Betting {">"}
                     </Link>
                 </Welcomemsgbtn>
             </Welcomemsg>
