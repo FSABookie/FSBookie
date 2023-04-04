@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useCreatePostMutation } from "../../src/redux/slices/apiSlice";
+import { WindowSharp } from "@mui/icons-material";
 
 const Content = styled.div`
   height: 100vh;
@@ -38,43 +39,44 @@ const Content = styled.div`
     background: #d5d3d3;
     border: none;
   }
-
-  .postButton {
-    text-align: center;
-    width: 50%;
-    height: 2em;
-    border-radius: 12px;
-    border: none;
-    background: #d5d3d3;
-  }
 `;
 
-const CantPostBtn = styled.div`
-  cursor: not-allowed;
-  color: white;
+const PostButton = styled.div`
+  cursor: ${({ allowed }) => (allowed ? "pointer" : "not-allowed")};
+  text-align: center;
+  width: 50%;
+  height: 2em;
+  border-radius: 12px;
+  border: none;
+  background: #d5d3d3;
 `;
 
 function CreatePost() {
   const { data: session } = useSession();
   console.log(session);
   const [CreatePost] = useCreatePostMutation();
-  const titleRef = useRef();
-  const bodyRef = useRef();
   const router = useRouter();
+
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+
+  useEffect(() => {
+    console.log(title, body);
+  }, [title, body]);
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    if (title.length < 10 || body.length < 15) return;
+
     const payload = {
       userId: session.user.userId,
       username: session.user.username,
-      title: titleRef.current.value,
-      body: bodyRef.current.value,
+      title,
+      body,
     };
 
     try {
-      // setError("");
-      // setLoading(true);
-      // await login(credentials);
       console.log(payload);
       const post = CreatePost(payload);
       if (post) {
@@ -90,30 +92,33 @@ function CreatePost() {
     <Content>
       {session ? (
         <div className="topbar">
-          <form className="postForm" onSubmit={handleSubmit}>
+          <form className="postForm">
             <label>
               <input
                 className="addTitle"
                 placeholder="Add a title"
                 type="text"
-                ref={titleRef}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </label>
             <label>
               <textarea
                 className="bodyText"
                 placeholder="Add optional body text"
-                ref={bodyRef}
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
               />
             </label>
             <div className="creatBtn">
-              {titleRef.length < 15 || bodyRef.length < 15 ? (
-                <button type="submit" className="postButton">
-                  Create Post!
-                </button>
-              ) : (
-                <CantPostBtn>Create Post</CantPostBtn>
-              )}
+              <PostButton
+                type="submit"
+                className="postButton"
+                onClick={handleSubmit}
+                allowed={title.length > 10 && body.length > 15}
+              >
+                Create Post!
+              </PostButton>
             </div>
           </form>
         </div>
