@@ -269,6 +269,14 @@ const Bs = styled.div`
   }
 `;
 
+const AvailableLines = styled.div`
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+`;
+
 function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
@@ -308,6 +316,7 @@ function Sportsbook({ data }) {
               <p className="gamelines">TOTAL</p>
               <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
+
             {(data.data.length > 0 ? data.data : localGames.flat()).map(
               (ele) => {
                 let d = new Date(ele.MatchTime).toDateString();
@@ -717,6 +726,9 @@ function Sportsbook({ data }) {
               }
             )}
           </Games>
+          {data.sport !== "index" && data.data.length < 1 && (
+            <AvailableLines>Not in Season</AvailableLines>
+          )}
         </GamesContainer>
         <Bs className={!betSlip.length ? "hideSlip" : ""}>
           {betSlip.length > 0 && <BetSlip />}
