@@ -10,6 +10,7 @@ import {
   NFLlogos,
   allLogos,
 } from "../../public/teamLogos";
+import convertUTCtoEST from "../functions/TimeCoverter";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
@@ -323,13 +324,16 @@ function Sportsbook({ data }) {
             </GamesHeader>
             {(data.data.length > 0 ? data.data : localGames.flat()).map(
               (ele) => {
-                let d = new Date(ele.MatchTime).toDateString();
+                {
+                  /* let d = new Date(ele.MatchTime).toDateString();
                 let t = new Date(ele.MatchTime).toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
                 });
                 // MUST FIX THE TIME
-                let time = d + " " + t;
+                let time = d + " " + t; */
+                }
+                let time = convertUTCtoEST(ele.MatchTime);
                 let apiId = ele.ID;
                 const event = ele.Odds.filter(
                   (odd) => odd.OddType === "Game"
