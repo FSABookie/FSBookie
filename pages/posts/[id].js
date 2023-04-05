@@ -9,18 +9,19 @@ import {
   useIncrementLikeMutation,
 } from "../../src/redux/slices/apiSlice";
 import { useSelector } from "react-redux";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import convertUTCtoEST from "../../src/functions/TimeCoverter";
 
 const Content = styled.div`
   background-color: #242424;
   background: #242424;
   height: max-height;
   padding: 3%;
-  h2{
+  h2 {
     font-style: italic;
   }
-  .postBody{
+  .postBody {
     border-top: 2px solid #d5d3d3;
     margin-right: 30%;
     padding-top: 2%;
@@ -34,7 +35,7 @@ const Content = styled.div`
     height: 10em;
     background-color: #242424;
   }
-  
+
   &:hover {
     cursor: pointer;
   }
@@ -50,12 +51,11 @@ const Content = styled.div`
     padding-top: 2%;
     padding-left: 2%;
     background-color: #242424;
-    
   }
 
   .backBtn {
     border: none;
-    border-radius:8px;
+    border-radius: 8px;
     height: 1.5em;
     width: 5em;
     font-weight: 650;
@@ -105,19 +105,19 @@ const Content = styled.div`
     @media only screen and (min-width: 850px) {
       padding-left: 15%;
 
-      h4{
+      h4 {
         margin-top: 0;
         margin-bottom: 0;
       }
     }
   }
-  
+
   .singleComment {
     margin-left: 10%;
   }
 
   .postInfo {
-    color: #D5D3D3;
+    color: #d5d3d3;
     background-color: #242424;
     padding: 4%;
     @media only screen and (min-width: 850px) {
@@ -145,44 +145,42 @@ const Content = styled.div`
     padding: 1.5%;
     margin-bottom: 0;
     margin-top: 0;
-    background-color:#d5d3d3;
+    background-color: #d5d3d3;
     border: none;
     border-radius: 25px;
     @media only screen and (min-width: 850px) {
       width: 70%;
       border: none;
     }
-
   }
 
   .likes {
-
   }
 
   .toggle {
     display: none;
     background-color: orange;
-}
+  }
 
-.replyButton {
-  border-radius: 8px;
-  border: none;
-}
+  .replyButton {
+    border-radius: 8px;
+    border: none;
+  }
 `;
 
 const Reply = styled.div`
-background-color: #242424;
-padding-left: 20%;
-padding-top:5%;
-padding-bottom:5%;
-border: none;
-border-radius: 8px;
+  background-color: #242424;
+  padding-left: 20%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  border: none;
+  border-radius: 8px;
 
-@media only screen and (min-width: 850px) {
-  padding-left: 10%;
-padding-top:2%;
-padding-bottom:2%;
-}
+  @media only screen and (min-width: 850px) {
+    padding-left: 10%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+  }
 `;
 //Able to post a new comment in the thread
 
@@ -198,16 +196,15 @@ function SinglePost() {
   //Possible way to use useState to hold bodyRef's states but causing infinite renders right now!
   // const [refs, setRefs] = useState([]);
   // const [bodyRefs, setBodyRefs] = useState([]);
-  const [ incrementLike ] = useIncrementLikeMutation();
-  const [ CreateComment ] = useCreateCommentMutation();
+  const [incrementLike] = useIncrementLikeMutation();
+  const [CreateComment] = useCreateCommentMutation();
   const bodyRef = useRef();
   const refs = [];
   const bodyRefs = [];
   const { postId } = useSelector((state) => state.persistedId);
   const { data: post, isSuccess } = useGetPostQuery(
     postId ? postId : skipToken
-    );
-    
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -235,7 +232,7 @@ function SinglePost() {
       body: bodyRefs[idx].current.value,
     };
     try {
-      const {data} = await CreateComment(payload);
+      const { data } = await CreateComment(payload);
       console.log(data);
     } catch (err) {
       console.log("Failed to Post!");
@@ -244,42 +241,66 @@ function SinglePost() {
   }
 
   async function handleLikes(payload) {
-    await incrementLike(payload)
+    await incrementLike(payload);
   }
 
   function replyToggle(e, idx) {
     e.preventDefault();
-    refs[idx].current.classList.toggle('toggle')
+    refs[idx].current.classList.toggle("toggle");
     // e.target.classList.toggle('toggle')
-}
-    
+  }
 
   return (
     <Content>
       {session ? (
         <div>
           <Link href="/posts">
-          <div className="backBtnDiv">
-           <button className="backBtn"> BACK</button>
-           </div>
-            </Link>
+            <div className="backBtnDiv">
+              <button className="backBtn"> BACK</button>
+            </div>
+          </Link>
           {isSuccess && (
             <>
-             <div className="postInfo">
-               Posted By: {post.username} {post.createdAt}
-              <h2>{post.title}</h2>
-              <p className="postBody">{post.body}</p>
-              <div className="likes">
-              <ThumbUpIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes + 1}})} /> &nbsp;&nbsp;{post.likes} <br></br>
-              <ThumbDownIcon fontSize="small" onClick={() => handleLikes({id: post.id, payload: {likes: post.likes - 1}})} />  <br></br>
+              <div className="postInfo">
+                Posted By: {post.username} {convertUTCtoEST(post.createdAt)}
+                <h2>{post.title}</h2>
+                <p className="postBody">{post.body}</p>
+                <div className="likes">
+                  <ThumbUpIcon
+                    fontSize="small"
+                    onClick={() =>
+                      handleLikes({
+                        id: post.id,
+                        payload: { likes: post.likes + 1 },
+                      })
+                    }
+                  />{" "}
+                  &nbsp;&nbsp;{post.likes} <br></br>
+                  <ThumbDownIcon
+                    fontSize="small"
+                    onClick={() =>
+                      handleLikes({
+                        id: post.id,
+                        payload: { likes: post.likes - 1 },
+                      })
+                    }
+                  />{" "}
+                  <br></br>
+                </div>
+                <form className="replyForm" onSubmit={handleSubmit}>
+                  <label>
+                    <input
+                      className="commentInput"
+                      placeholder="Add a Comment..."
+                      type="text"
+                      ref={bodyRef}
+                    />
+                  </label>
+                  <button className="replyBtn" type="submit">
+                    Reply
+                  </button>
+                </form>
               </div>
-              <form className="replyForm" onSubmit={handleSubmit}>
-            <label>
-              <input className="commentInput" placeholder="Add a Comment..." type="text" ref={bodyRef} />
-            </label>
-            <button className="replyBtn" type="submit">Reply</button>
-          </form>
-          </div>
               <ul className="userList">
                 {post.comments.map((comment, idx) => {
                   // console.log(comment)
@@ -290,30 +311,48 @@ function SinglePost() {
                         <h4>{comment.username}</h4>
                         <p className="commentBody">{comment.body}</p>
                         <div className="toggle">
-                        {refs.push(React.createRef())}
+                          {refs.push(React.createRef())}
                         </div>
-                        <button className="replyButton" onClick={(e) => replyToggle(e, idx)}>Reply</button>
+                        <button
+                          className="replyButton"
+                          onClick={(e) => replyToggle(e, idx)}
+                        >
+                          Reply
+                        </button>
                         {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
                         <Reply className="toggle" key={idx} ref={refs[idx]}>
-                        <div className="toggle">
-                        {bodyRefs.push(React.createRef())}
-                        </div>
-                        {/* {setBodyRefs(oldState => [...oldState, React.createRef()])} */}
-                     <input type="text" className="hiddenReply" ref={bodyRefs[idx]} />
-                     <button type="submit" onClick={() => handleNestedComment(comment, idx)}>SUBMIT REPLY</button>
-                     </Reply>
+                          <div className="toggle">
+                            {bodyRefs.push(React.createRef())}
+                          </div>
+                          {/* {setBodyRefs(oldState => [...oldState, React.createRef()])} */}
+                          <input
+                            type="text"
+                            className="hiddenReply"
+                            ref={bodyRefs[idx]}
+                          />
+                          <button
+                            type="submit"
+                            onClick={() => handleNestedComment(comment, idx)}
+                          >
+                            SUBMIT REPLY
+                          </button>
+                        </Reply>
                         <ul className="userList">
-                        {comment.comments.length ? comment.comments.map((comment, idx) => {
-                          //I am thinking of putting another onSubmit handler for Nested comments to make it easier
-                          return (
-                            <li key={idx}>
-                              <div className="singleComment">
-                              <h4>{comment.username}</h4>
-                              <p className="commentBody">{comment.body}</p>
-                              </div>
-                            </li>
-                          )
-                        }) : null} 
+                          {comment.comments.length
+                            ? comment.comments.map((comment, idx) => {
+                                //I am thinking of putting another onSubmit handler for Nested comments to make it easier
+                                return (
+                                  <li key={idx}>
+                                    <div className="singleComment">
+                                      <h4>{comment.username}</h4>
+                                      <p className="commentBody">
+                                        {comment.body}
+                                      </p>
+                                    </div>
+                                  </li>
+                                );
+                              })
+                            : null}
                         </ul>
                       </div>
                     </li>
@@ -322,9 +361,7 @@ function SinglePost() {
               </ul>{" "}
             </>
           )}
-          <div className="space">
-            
-          </div>
+          <div className="space"></div>
         </div>
       ) : (
         <>
