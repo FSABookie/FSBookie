@@ -15,147 +15,6 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
 
-// const Content = styled.div`
-//   color: white;
-//   height: 100%;
-//   &:hover {
-//     cursor: pointer;
-//   }
-
-//   h4 {
-//     padding-left: 2%;
-//     margin-bottom: 0;
-//     font-style: oblique;
-//   }
-
-//   .postList {
-//     list-style: none;
-//     font-size: 1.1em;
-//     padding: 0;
-//     color: white;
-//   }
-
-//   .row {
-//     border-top: 3px solid #242424;
-//     padding: 1.5%;
-//     width: 100%;
-//     ${'' /* @media only screen and (min-width: 850px) {
-//       // width: 100%;
-//       // margin-left: 22.5%;
-//     } */}
-//   }
-
-//   .footer {
-//     border-top: 1.5px solid #242424;
-//     color: #d5d3d3;
-//     background-color: #242424;
-//     text-align: center;
-//     position: fixed;
-//     bottom: 0;
-//     right: 0;
-//     width: 100%;
-//   }
-
-//   .postTitle {
-//     padding: 0;
-//     margin: 4%;
-//   }
-
-//   .postDetails {
-//     padding: 0;
-//     margin: 4%;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: space-between;
-//     gap: 0.5em;
-//   }
-
-//   .Header {
-//     text-align: center;
-//     padding-top: 4%;
-//   }
-
-//   .createPost {
-//     padding: 2%;
-//     border: none;
-//     font-size: 1em;
-//     background-color: #d5d3d3;
-//     color: #242424;
-//   }
-
-//   @media only screen and (min-width: 850px) {
-//     .createPost {
-//       padding: 1.2%;
-//     }
-//   }
-// `;
-
-// //I am Assuming I need
-
-// function Posts() {
-//   return (
-//     <Content>
-//       Forums
-//       {posts?.length &&
-//         posts.map((post) => {
-//           return (
-//             <ul key={post.id} className="postList">
-//               <li className="row">
-// <Link
-//   href={{
-//     pathname: `/posts/${post.id}`,
-//     query: { id: post.id },
-//   }}
-// >
-//                   <h4 onClick={() => dispatch(selectId(post.id))}>
-//                     {post.title}
-//                   </h4>
-//                 </Link>
-//                 <div className="postDetails">
-//                   <div className="postDetail">
-//                     Posted by: {post.username} {convertUTCtoEST(post.createdAt)}
-//                     <br></br>{" "}
-//                   </div>
-//                   <div className="postDetail">
-// <ThumbUpIcon
-//   fontSize="small"
-//   onClick={() =>
-//     handleLikes({
-//       id: post.id,
-//       payload: { likes: post.likes + 1 },
-//     })
-//   }
-// />{" "}
-//                     {post.likes}
-//                     <br></br>
-// <ThumbDownIcon
-//   fontSize="small"
-//   onClick={() =>
-//     handleLikes({
-//       id: post.id,
-//       payload: { likes: post.likes - 1 },
-//     })
-//   }
-// />{" "}
-//                     <br></br>
-//                   </div>
-//                   {post.comments.length} comments
-//                 </div>
-//               </li>
-//             </ul>
-//           );
-//         })}
-//       <div className="footer">
-//         <Link href={"/posts/createpost"}>
-//           <button className="createPost">Create Post</button>
-//         </Link>
-//       </div>
-//     </Content>
-//   );
-// }
-
-// export default Posts;
-
 const ThreadContainer = styled.div`
   color: white;
   display: flex;
@@ -170,7 +29,7 @@ const ThreadContainer = styled.div`
   }
 `;
 
-const CommentList = styled.div`
+const PostList = styled.div`
   width: 100%;
   max-width: 800px;
 
@@ -243,10 +102,18 @@ const FooterEleContainer = styled.div`
   padding-left: 10px;
 `;
 
+const SideBar = styled.div`
+  position: fixed;
+  height: 100vh;
+  width: 70px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+  margin-left: 685px;
+`;
+
 export default function ForumThread() {
   const { data: posts } = useGetPostsQuery();
   const [incrementLike] = useIncrementLikeMutation();
-  const dispatch = useDispatch();
   const { data: session } = useSession();
 
   async function handleLikes(payload) {
@@ -258,66 +125,72 @@ export default function ForumThread() {
   }
 
   return (
-    <ThreadContainer>
-      {/* <ThreadHeader>Forum Thread Title</ThreadHeader> */}
-      <CommentList>
-        {posts?.length &&
-          posts.map((singlePost) => {
-            return (
-              <Link
-                key={singlePost.id}
-                href={{
-                  pathname: `/posts/${singlePost.id}`,
-                  query: { id: singlePost.id },
-                }}
-              >
-                <CommentContainer>
-                  <CommentHeader>
-                    <HeaderElement>{singlePost.username} </HeaderElement>
-                    <HeaderElement>
-                      {convertUTCtoEST(singlePost.createdAt)}
-                    </HeaderElement>
-                  </CommentHeader>
-                  <CommentTitle>{singlePost.title}</CommentTitle>
-                  <CommentContent>{singlePost.body}</CommentContent>
-                  <CommentFooter>
-                    <FooterEleContainer likes={true}>
-                      <ThumbUpIcon
-                        fontSize="small"
-                        onClick={() =>
-                          handleLikes({
-                            id: singlePost.id,
-                            payload: { likes: singlePost.likes + 1 },
-                          })
-                        }
-                      />
-                      <CommentFooterText>{singlePost.likes}</CommentFooterText>
-                      <ThumbDownIcon
-                        fontSize="small"
-                        onClick={() =>
-                          handleLikes({
-                            id: singlePost.id,
-                            payload: { likes: singlePost.likes - 1 },
-                          })
-                        }
-                      />
-                    </FooterEleContainer>
-                    <FooterEleContainer>
-                      <CommentIcon />
-                      <CommentFooterText>
-                        {singlePost.comments.length}
-                      </CommentFooterText>
-                    </FooterEleContainer>
-                    <FooterEleContainer>
-                      <ShareIcon />
-                      <CommentFooterText>Share</CommentFooterText>
-                    </FooterEleContainer>
-                  </CommentFooter>
-                </CommentContainer>
-              </Link>
-            );
-          })}
-      </CommentList>
-    </ThreadContainer>
+    <>
+      {" "}
+      <ThreadContainer>
+        {/* <ThreadHeader>Forum Thread Title</ThreadHeader> */}
+        <PostList>
+          {posts?.length &&
+            posts.map((singlePost) => {
+              return (
+                <Link
+                  key={singlePost.id}
+                  href={{
+                    pathname: `/posts/${singlePost.id}`,
+                    query: { id: singlePost.id },
+                  }}
+                >
+                  <CommentContainer>
+                    <CommentHeader>
+                      <HeaderElement>{singlePost.username} </HeaderElement>
+                      <HeaderElement>
+                        {convertUTCtoEST(singlePost.createdAt)}
+                      </HeaderElement>
+                    </CommentHeader>
+                    <CommentTitle>{singlePost.title}</CommentTitle>
+                    <CommentContent>{singlePost.body}</CommentContent>
+                    <CommentFooter>
+                      <FooterEleContainer likes={true}>
+                        <ThumbUpIcon
+                          fontSize="small"
+                          onClick={() =>
+                            handleLikes({
+                              id: singlePost.id,
+                              payload: { likes: singlePost.likes + 1 },
+                            })
+                          }
+                        />
+                        <CommentFooterText>
+                          {singlePost.likes}
+                        </CommentFooterText>
+                        <ThumbDownIcon
+                          fontSize="small"
+                          onClick={() =>
+                            handleLikes({
+                              id: singlePost.id,
+                              payload: { likes: singlePost.likes - 1 },
+                            })
+                          }
+                        />
+                      </FooterEleContainer>
+                      <FooterEleContainer>
+                        <CommentIcon />
+                        <CommentFooterText>
+                          {singlePost.comments.length}
+                        </CommentFooterText>
+                      </FooterEleContainer>
+                      <FooterEleContainer>
+                        <ShareIcon />
+                        <CommentFooterText>Share</CommentFooterText>
+                      </FooterEleContainer>
+                    </CommentFooter>
+                  </CommentContainer>
+                </Link>
+              );
+            })}
+        </PostList>{" "}
+        <SideBar />
+      </ThreadContainer>
+    </>
   );
 }
