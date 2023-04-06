@@ -195,11 +195,11 @@ const CommentContainer = styled.div`
 const CommentHeader = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 
   @media (min-width: 769px) {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
   }
 `;
 
