@@ -264,14 +264,14 @@ export default function ForumThread() {
         {posts?.length &&
           posts.map((singlePost, idx) => {
             return (
-              <Link
-                key={idx}
-                href={{
-                  pathname: `/posts/${singlePost.id}`,
-                  query: { id: singlePost.id },
-                }}
-              >
-                <CommentContainer>
+              <CommentContainer>
+                <Link
+                  key={singlePost.id}
+                  href={{
+                    pathname: `/posts/${singlePost.id}`,
+                    query: { id: singlePost.id },
+                  }}
+                >
                   <CommentHeader>
                     <HeaderElement>{singlePost.username} </HeaderElement>
                     <HeaderElement>
@@ -280,41 +280,49 @@ export default function ForumThread() {
                   </CommentHeader>
                   <CommentTitle>{singlePost.title}</CommentTitle>
                   <CommentContent>{singlePost.body}</CommentContent>
-                  <CommentFooter>
-                    <FooterEleContainer likes={true}>
-                      <ThumbUpIcon
-                        fontSize="small"
-                        onClick={() =>
-                          handleLikes({
-                            id: singlePost.id,
-                            payload: { likes: singlePost.likes + 1 },
-                          })
-                        }
-                      />
-                      <CommentFooterText>{singlePost.likes}</CommentFooterText>
-                      <ThumbDownIcon
-                        fontSize="small"
-                        onClick={() =>
-                          handleLikes({
-                            id: singlePost.id,
-                            payload: { likes: singlePost.likes - 1 },
-                          })
-                        }
-                      />
-                    </FooterEleContainer>
-                    <FooterEleContainer>
-                      <CommentIcon />
-                      <CommentFooterText>
-                        {singlePost.comments.length}
-                      </CommentFooterText>
-                    </FooterEleContainer>
-                    <FooterEleContainer>
-                      <ShareIcon />
-                      <CommentFooterText>Share</CommentFooterText>
-                    </FooterEleContainer>
-                  </CommentFooter>
-                </CommentContainer>
-              </Link>
+                </Link>
+                <CommentFooter>
+                  <FooterEleContainer likes={true}>
+                    <ThumbUpIcon
+                      fontSize="small"
+                      onClick={() =>
+                        handleLikes({
+                          id: singlePost.id,
+                          payload: { likes: singlePost.likes + 1 },
+                        })
+                      }
+                    />
+                    <CommentFooterText>{singlePost.likes}</CommentFooterText>
+                    <ThumbDownIcon
+                      fontSize="small"
+                      onClick={() =>
+                        handleLikes({
+                          id: singlePost.id,
+                          payload: { likes: singlePost.likes - 1 },
+                        })
+                      }
+                    />
+                  </FooterEleContainer>
+                  {/* <Link
+                    key={singlePost.id}
+                    href={{
+                      pathname: `/posts/${singlePost.id}`,
+                      query: { id: singlePost.id },
+                    }}
+                  > */}
+                  <FooterEleContainer>
+                    <CommentIcon />
+                    <CommentFooterText>
+                      {singlePost.comments.length}
+                    </CommentFooterText>
+                  </FooterEleContainer>
+                  <FooterEleContainer>
+                    <ShareIcon />
+                    <CommentFooterText>Share</CommentFooterText>
+                  </FooterEleContainer>
+                  {/* </Link> */}
+                </CommentFooter>
+              </CommentContainer>
             );
           })}
       </CommentList>
