@@ -266,7 +266,7 @@ export default function ForumThread() {
             return (
               <CommentContainer>
                 <Link
-                  key={singlePost.id}
+                  key={idx}
                   href={{
                     pathname: `/posts/${singlePost.id}`,
                     query: { id: singlePost.id },
