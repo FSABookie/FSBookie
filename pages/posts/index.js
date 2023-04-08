@@ -262,10 +262,10 @@ export default function ForumThread() {
       {/* <ThreadHeader>Forum Thread Title</ThreadHeader> */}
       <CommentList>
         {posts?.length &&
-          posts.map((singlePost) => {
+          posts.map((singlePost, idx) => {
             return (
               <Link
-                key={singlePost.id}
+                key={idx}
                 href={{
                   pathname: `/posts/${singlePost.id}`,
                   query: { id: singlePost.id },
