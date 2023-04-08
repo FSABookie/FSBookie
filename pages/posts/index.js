@@ -264,14 +264,14 @@ export default function ForumThread() {
         {posts?.length &&
           posts.map((singlePost) => {
             return (
-              <Link
-                key={singlePost.id}
-                href={{
-                  pathname: `/posts/${singlePost.id}`,
-                  query: { id: singlePost.id },
-                }}
-              >
-                <CommentContainer>
+              <CommentContainer>
+                  <Link
+                    key={singlePost.id}
+                    href={{
+                      pathname: `/posts/${singlePost.id}`,
+                      query: { id: singlePost.id },
+                    }}
+                  >
                   <CommentHeader>
                     <HeaderElement>{singlePost.username} </HeaderElement>
                     <HeaderElement>
@@ -280,6 +280,7 @@ export default function ForumThread() {
                   </CommentHeader>
                   <CommentTitle>{singlePost.title}</CommentTitle>
                   <CommentContent>{singlePost.body}</CommentContent>
+                  </Link>
                   <CommentFooter>
                     <FooterEleContainer likes={true}>
                       <ThumbUpIcon
@@ -302,6 +303,13 @@ export default function ForumThread() {
                         }
                       />
                     </FooterEleContainer>
+                    {/* <Link
+                    key={singlePost.id}
+                    href={{
+                      pathname: `/posts/${singlePost.id}`,
+                      query: { id: singlePost.id },
+                    }}
+                  > */}
                     <FooterEleContainer>
                       <CommentIcon />
                       <CommentFooterText>
@@ -312,9 +320,9 @@ export default function ForumThread() {
                       <ShareIcon />
                       <CommentFooterText>Share</CommentFooterText>
                     </FooterEleContainer>
+                  {/* </Link> */}
                   </CommentFooter>
                 </CommentContainer>
-              </Link>
             );
           })}
       </CommentList>
