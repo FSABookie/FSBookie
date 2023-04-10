@@ -6,16 +6,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { signOut, useSession } from "next-auth/react";
 // react-icons
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
+import { FiPlusCircle } from "react-icons/fi";
 import { GiMeatCleaver, GiHamburgerMenu } from "react-icons/gi";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import {
-    useGetUserQuery,
-    useUpdateBetsMutation,
-    useUpdateParlayMutation,
-    useUpdateUserFundsMutation,
-    useGetUsersActiveBetsQuery,
-    useGetActiveParlayQuery,
+  useGetUserQuery,
+  useUpdateBetsMutation,
+  useUpdateParlayMutation,
+  useUpdateUserFundsMutation,
+  useGetUsersActiveBetsQuery,
+  useGetActiveParlayQuery,
 } from "../redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { checkBetsThunk } from "../redux/thunks/checkBets";
@@ -23,462 +24,459 @@ import { determineWinnerThunk } from "../redux/thunks/determineWinner";
 import { useRouter } from "next/router";
 
 const HeaderContainer = styled.div`
-    display: hidden;
-    color: white;
-    /* width: 100%; */
-    /* height: 100%; */
-    h1,
-    p {
-        :hover {
-            color: lightgray;
-        }
+  display: hidden;
+  color: white;
+  /* width: 100%; */
+  /* height: 100%; */
+  h1,
+  p {
+    :hover {
+      color: lightgray;
+    }
+  }
+
+  .userBalance {
+    color: green;
+    display: flex;
+    flex-direction: row;
+
+    .balance {
+      font-size: 0.8em;
     }
 
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .depositIcon {
+    padding-top: 20%;
+    color: lightgreen;
+  }
+
+  @media only screen and (min-width: 850px) {
     .userBalance {
-        color: green;
-        display: flex;
-        flex-direction: row;
-
-        .balance {
-            font-size: 0.8em;
-        }
-
-        &:hover {
-            cursor: pointer;
-        }
+      color: green;
+      display: flex;
+      flex-direction: row;
+      width: 200px;
+      justify-content: space-evenly;
+      .balance {
+        font-size: 1em;
+      }
     }
-
-    .depositIcon {
-        padding-top: 20%;
-        color: lightgreen;
-    }
-
-    @media only screen and (min-width: 850px) {
-        .userBalance {
-            color: green;
-            display: flex;
-            flex-direction: row;
-            width: 200px;
-            justify-content: space-evenly;
-            .balance {
-                font-size: 1em;
-            }
-        }
-    }
+  }
 `;
 
 const HeaderTop = styled.div`
-    height: 100%;
-    background-color: black;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    * {
-        margin: auto 0;
-    }
-    p {
-        margin-top: 0.27em;
-        padding: 0 0.4em 0.15em;
-    }
+  height: 100%;
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  * {
+    margin: auto 0;
+  }
+  p {
+    margin-top: 0.27em;
+    padding: 0 0.4em 0.15em;
+  }
 
-    .hide {
-        min-height: 10px;
-        position: absolute;
-        left: 0;
-        top: 4%;
-        height: 530vh;
-        transition: 0.5s;
-        overflow: hidden;
-        text-overflow: clip;
-        white-space: nowrap;
-        width: 0%;
-        z-index: 4;
-    }
-
-    .logo {
-        /* width: 10%; */
-        height: 2.5em;
-        .imglogo {
-            height: 100%;
-            padding-left: 10%;
-        }
-    }
-
-    .loginLogo {
-        /* width: 10%; */
-        height: 2.5em;
-        .imglogoLogin {
-            height: 100%;
-            padding-left: 30%;
-        }
-    }
-
-    @media only screen and (min-width: 850px) {
-        height: 100%;
-        background-color: black;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        * {
-            margin: auto 0;
-        }
-        p {
-            margin-top: 0.27em;
-            padding: 0 0.4em 0.15em;
-        }
-
-        .hide {
-            min-height: 10px;
-            position: absolute;
-            left: 0;
-            top: 4%;
-            height: 530vh;
-            transition: 0.5s;
-            overflow: hidden;
-            text-overflow: clip;
-            white-space: nowrap;
-            width: 0%;
-            z-index: 4;
-        }
-    }
-`;
-
-const LinkContainer = styled.div`
-    display: flex;
-    align-items: center;
-    &:hover {
-        cursor: pointer;
-    }
-`;
-
-const LogoLinkContainer = styled.div`
-    width: 200px;
-    justify-content: right;
-    display: flex;
-    align-items: center;
-    &:hover {
-        cursor: pointer;
-    }
-`;
-
-const Page = styled.div`
-    @media only screen and (min-width: 500px) {
-        width: 50%;
-    }
-    @media only screen and (min-width: 850px) {
-        width: 20%;
-    }
-    width: 70%;
-    /* .animation { */
-    transition: 0.5s;
-    /* } */
+  .hide {
+    min-height: 10px;
     position: absolute;
     left: 0;
-    height: 530vh;
-    z-index: 4;
     top: 4%;
+    height: 530vh;
+    transition: 0.5s;
     overflow: hidden;
     text-overflow: clip;
     white-space: nowrap;
-    @media only screen and (min-width: 375px) {
-        background: #242424;
+    width: 0%;
+    z-index: 4;
+  }
+
+  .logo {
+    /* width: 10%; */
+    height: 2.5em;
+    .imglogo {
+      height: 100%;
+      padding-left: 10%;
     }
-    button {
+  }
+
+  .loginLogo {
+    /* width: 10%; */
+    height: 2.5em;
+    .imglogoLogin {
+      height: 100%;
+      padding-left: 30%;
     }
-    .active {
-        opacity: 1;
+  }
+
+  @media only screen and (min-width: 850px) {
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    * {
+      margin: auto 0;
+    }
+    p {
+      margin-top: 0.27em;
+      padding: 0 0.4em 0.15em;
     }
 
-    .sideLinks {
-        padding-left: 4%;
-        padding-top: 4%;
-        padding-bottom: 4%;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5em;
+    .hide {
+      min-height: 10px;
+      position: absolute;
+      left: 0;
+      top: 4%;
+      height: 530vh;
+      transition: 0.5s;
+      overflow: hidden;
+      text-overflow: clip;
+      white-space: nowrap;
+      width: 0%;
+      z-index: 4;
     }
-
-    .singleLink {
-        @media only screen and (max-width: 850px) {
-            border-bottom: 1px solid grey;
-            padding-bottom: 5%;
-        }
-        padding-bottom: 5%;
-    }
+  }
 `;
-const Menu = styled.div`
+
+const LinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const LogoLinkContainer = styled.div`
+  width: 200px;
+  justify-content: right;
+  display: flex;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const Page = styled.div`
+  @media only screen and (min-width: 500px) {
+    width: 50%;
+  }
+  @media only screen and (min-width: 850px) {
+    width: 20%;
+  }
+  width: 70%;
+  /* .animation { */
+  transition: 0.5s;
+  /* } */
+  position: absolute;
+  left: 0;
+  height: 530vh;
+  z-index: 4;
+  top: 4%;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+  @media only screen and (min-width: 375px) {
+    background: #242424;
+  }
+  button {
+  }
+  .active {
+    opacity: 1;
+  }
+
+  .sideLinks {
+    padding-left: 4%;
+    padding-top: 4%;
+    padding-bottom: 4%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    /* position: absolute; */
-    color: white;
-    width: 100%;
-    a {
-        display: block;
+    gap: 1.5em;
+  }
+
+  .singleLink {
+    @media only screen and (max-width: 850px) {
+      border-bottom: 1px solid grey;
+      padding-bottom: 5%;
     }
+    padding-bottom: 5%;
+  }
+`;
+const Menu = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* position: absolute; */
+  color: white;
+  width: 100%;
+  a {
+    display: block;
+  }
 `;
 
 const HamburgerContainer = styled.div`
-    @media (min-width: 850px) {
-        width: 200px;
-    }
-    padding-left: 10px;
-    box-sizing: border-box;
+  @media (min-width: 850px) {
+    width: 200px;
+  }
+  width: 115px;
+  padding-left: 10px;
+  box-sizing: border-box;
 `;
 
 const DepositButton = styled.button`
-    background-color: rgb(144, 238, 144);
-    border: none;
-    border-radius: 2px;
-    color: black;
-    width: 100%;
-    cursor: pointer;
+  background-color: rgb(144, 238, 144);
+  border: none;
+  border-radius: 2px;
+  color: black;
+  width: 100%;
+  cursor: pointer;
 `;
 
 //COMPONENT STARTS HERE
 function Header() {
-    const { data: session, status } = useSession();
-    // const { data: user, isSuccess: gotActiveBets } = useGetUsersActiveBetsQuery(
-    //   status === "authenticated" ? session.user.id : skipToken
-    // );
-    // const { data: parlay, isSuccess: gotParlay } = useGetActiveParlayQuery(
-    //   status === "authenticated" ? session.user.id : skipToken
-    // );
-    // const [updateParlay] = useUpdateParlayMutation();
-    // const [updateBet] = useUpdateBetsMutation();
-    // const [updateFunds] = useUpdateUserFundsMutation();
+  const { data: session, status } = useSession();
+  // const { data: user, isSuccess: gotActiveBets } = useGetUsersActiveBetsQuery(
+  //   status === "authenticated" ? session.user.id : skipToken
+  // );
+  // const { data: parlay, isSuccess: gotParlay } = useGetActiveParlayQuery(
+  //   status === "authenticated" ? session.user.id : skipToken
+  // );
+  // const [updateParlay] = useUpdateParlayMutation();
+  // const [updateBet] = useUpdateBetsMutation();
+  // const [updateFunds] = useUpdateUserFundsMutation();
 
-    const dispatch = useDispatch();
-    const router = useRouter();
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-    const useIsMounted = () => {
-        const isMounted = useRef(false);
-        useEffect(() => {
-            isMounted.current = true;
-            return () => (isMounted.current = false);
-        }, []);
-        return isMounted;
-    };
+  const useIsMounted = () => {
+    const isMounted = useRef(false);
+    useEffect(() => {
+      isMounted.current = true;
+      return () => (isMounted.current = false);
+    }, []);
+    return isMounted;
+  };
 
-    // useEffect(() => {
-    //   // gotActiveBets && console.log(user, gotActiveBets, session.user.id, parlay);
-    //   // if we are able to successfully get users active bets
-    //   // map through bets
-    //   gotActiveBets &&
-    //     user?.bets.forEach(async (bet) => {
-    //       // fetch the api result for each active bet
-    //       //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
-    //       const { payload } = await dispatch(checkBetsThunk(bet.betId));
-    //       if (payload[0]?.FinalType === "NotFinished") return;
-    //       //dispatch data
-    //       const data = await dispatch(
-    //         determineWinnerThunk({ bet: bet, api: payload[0] })
-    //       );
-    //       // if the bet won, settle users funds
+  // useEffect(() => {
+  //   // gotActiveBets && console.log(user, gotActiveBets, session.user.id, parlay);
+  //   // if we are able to successfully get users active bets
+  //   // map through bets
+  //   gotActiveBets &&
+  //     user?.bets.forEach(async (bet) => {
+  //       // fetch the api result for each active bet
+  //       //CHECK HERE OR BACKEND FOR INCOMPLETED BETS??
+  //       const { payload } = await dispatch(checkBetsThunk(bet.betId));
+  //       if (payload[0]?.FinalType === "NotFinished") return;
+  //       //dispatch data
+  //       const data = await dispatch(
+  //         determineWinnerThunk({ bet: bet, api: payload[0] })
+  //       );
+  //       // if the bet won, settle users funds
 
-    //       if (data.payload === "won") {
-    //         let payload = {
-    //           isActive: false,
-    //           status: "completed",
-    //           result: "won",
-    //         };
-    //         await updateBet({ id: bet.id, payload });
-    //         await updateFunds({
-    //           funds: user.balance + bet.toWin,
-    //           id: user.id,
-    //         });
-    //       }
+  //       if (data.payload === "won") {
+  //         let payload = {
+  //           isActive: false,
+  //           status: "completed",
+  //           result: "won",
+  //         };
+  //         await updateBet({ id: bet.id, payload });
+  //         await updateFunds({
+  //           funds: user.balance + bet.toWin,
+  //           id: user.id,
+  //         });
+  //       }
 
-    //       // IF THE BET LOSES
-    //       if (data.payload === "lost") {
-    //         let payload = {
-    //           isActive: false,
-    //           status: "completed",
-    //           result: "lost",
-    //         };
-    //         await updateBet({ id: bet.id, payload });
-    //       }
-    //     });
+  //       // IF THE BET LOSES
+  //       if (data.payload === "lost") {
+  //         let payload = {
+  //           isActive: false,
+  //           status: "completed",
+  //           result: "lost",
+  //         };
+  //         await updateBet({ id: bet.id, payload });
+  //       }
+  //     });
 
-    //   const handleWinningParlay = async (parlay) => {
-    //     await updateParlay({
-    //       id: parlay.id,
-    //       payload: {
-    //         isActive: false,
-    //         status: "completed",
-    //         result: "won",
-    //       },
-    //     });
-    //     await updateFunds({
-    //       funds: user.balance + parlay.toWin,
-    //       id: user.id,
-    //     });
-    //   };
+  //   const handleWinningParlay = async (parlay) => {
+  //     await updateParlay({
+  //       id: parlay.id,
+  //       payload: {
+  //         isActive: false,
+  //         status: "completed",
+  //         result: "won",
+  //       },
+  //     });
+  //     await updateFunds({
+  //       funds: user.balance + parlay.toWin,
+  //       id: user.id,
+  //     });
+  //   };
 
-    //   gotParlay &&
-    //     parlay?.parlays.forEach(
-    //       async (parlay) =>
-    //         await parlay.bets.forEach(async (bet) => {
-    //           const { payload } = await dispatch(checkBetsThunk(bet.betId));
-    //           if (payload[0]?.FinalType === "NotFinished") return;
-    //           //dispatch data
-    //           const data = await dispatch(
-    //             determineWinnerThunk({ bet: bet, api: payload[0] })
-    //           );
-    //           // if the bet won, settle users funds
-    //           if (data.payload === "won") {
-    //             let payload = {
-    //               isActive: false,
-    //               status: "completed",
-    //               result: "won",
-    //             };
-    //             await updateBet({ id: bet.id, payload });
-    //           }
-    //           // IF THE BET LOSES
-    //           if (data.payload === "lost") {
-    //             let payload = {
-    //               isActive: false,
-    //               status: "completed",
-    //               result: "lost",
-    //             };
-    //             await updateBet({ id: bet.id, payload });
-    //           }
+  //   gotParlay &&
+  //     parlay?.parlays.forEach(
+  //       async (parlay) =>
+  //         await parlay.bets.forEach(async (bet) => {
+  //           const { payload } = await dispatch(checkBetsThunk(bet.betId));
+  //           if (payload[0]?.FinalType === "NotFinished") return;
+  //           //dispatch data
+  //           const data = await dispatch(
+  //             determineWinnerThunk({ bet: bet, api: payload[0] })
+  //           );
+  //           // if the bet won, settle users funds
+  //           if (data.payload === "won") {
+  //             let payload = {
+  //               isActive: false,
+  //               status: "completed",
+  //               result: "won",
+  //             };
+  //             await updateBet({ id: bet.id, payload });
+  //           }
+  //           // IF THE BET LOSES
+  //           if (data.payload === "lost") {
+  //             let payload = {
+  //               isActive: false,
+  //               status: "completed",
+  //               result: "lost",
+  //             };
+  //             await updateBet({ id: bet.id, payload });
+  //           }
 
-    //           // if every game in the parlay is complete
-    //           let completed = parlay.bets.every(
-    //             (bet) => bet.status === "completed"
-    //           );
-    //           // check if the game lost
-    //           if (completed) {
-    //             // set a boolean to keep track of the bets result
-    //             let result = true;
-    //             await parlay.bets.forEach(async (bet) => {
-    //               if (bet.result === "lost") {
-    //                 await updateParlay({
-    //                   id: parlay.id,
-    //                   payload: {
-    //                     isActive: false,
-    //                     status: "completed",
-    //                     result: "lost",
-    //                   },
-    //                 });
-    //                 // set result to false if a game lost
-    //                 result = false;
-    //               }
-    //             });
-    //             // if every game won, win the parlay
-    //             result &&
-    //               (await handleWinningParlay({
-    //                 id: parlay.id,
-    //                 payload: {
-    //                   isActive: false,
-    //                   status: "completed",
-    //                   result: "won",
-    //                 },
-    //               }));
-    //           }
-    //         })
-    //     );
-    // }, [dispatch, router.asPath, gotActiveBets]);
+  //           // if every game in the parlay is complete
+  //           let completed = parlay.bets.every(
+  //             (bet) => bet.status === "completed"
+  //           );
+  //           // check if the game lost
+  //           if (completed) {
+  //             // set a boolean to keep track of the bets result
+  //             let result = true;
+  //             await parlay.bets.forEach(async (bet) => {
+  //               if (bet.result === "lost") {
+  //                 await updateParlay({
+  //                   id: parlay.id,
+  //                   payload: {
+  //                     isActive: false,
+  //                     status: "completed",
+  //                     result: "lost",
+  //                   },
+  //                 });
+  //                 // set result to false if a game lost
+  //                 result = false;
+  //               }
+  //             });
+  //             // if every game won, win the parlay
+  //             result &&
+  //               (await handleWinningParlay({
+  //                 id: parlay.id,
+  //                 payload: {
+  //                   isActive: false,
+  //                   status: "completed",
+  //                   result: "won",
+  //                 },
+  //               }));
+  //           }
+  //         })
+  //     );
+  // }, [dispatch, router.asPath, gotActiveBets]);
 
-    let userStatusLink = "/login";
-    if (typeof window !== "undefined") {
-        if (session) {
-            userStatusLink = "/account";
-        }
+  let userStatusLink = "/login";
+  if (typeof window !== "undefined") {
+    if (session) {
+      userStatusLink = "/account";
     }
+  }
 
-    const handleLogout = async () => {
-        await signOut({ callbackUrl: "/sportsbook" });
-    };
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/sportsbook" });
+  };
 
-    const mySidenavRef = useRef();
-    const [isOpen, setOpen] = useState(false);
+  const mySidenavRef = useRef();
+  const [isOpen, setOpen] = useState(false);
 
-    function toggleNav() {
-        setOpen(!isOpen);
-        mySidenavRef.current.classList.toggle("hide");
-    }
+  function toggleNav() {
+    setOpen(!isOpen);
+    mySidenavRef.current.classList.toggle("hide");
+  }
 
-    const { data: singleuser, isSuccess } = useGetUserQuery(
-        status === "authenticated" ? session.user.id : skipToken
-    );
+  const { data: singleuser, isSuccess } = useGetUserQuery(
+    status === "authenticated" ? session.user.id : skipToken
+  );
 
-    // if we want to hide search when user switch pages, maybe should add 'isSearching' to redux store
-    // also need to allow user to exit out by clicking elsewhere
-    const isMounted = useIsMounted();
-    return (
-        <HeaderContainer>
-            <HeaderTop className="hfLinks">
-                <HamburgerContainer>
-                    {" "}
-                    <GiHamburgerMenu
-                        className="burgermenu"
-                        onClick={toggleNav}
-                    />
-                </HamburgerContainer>
+  // if we want to hide search when user switch pages, maybe should add 'isSearching' to redux store
+  // also need to allow user to exit out by clicking elsewhere
+  const isMounted = useIsMounted();
+  return (
+    <HeaderContainer>
+      <HeaderTop className="hfLinks">
+        <HamburgerContainer>
+          {" "}
+          <GiHamburgerMenu className="burgermenu" onClick={toggleNav} />
+        </HamburgerContainer>
 
-                <Page ref={mySidenavRef} className={isMounted ? "hide" : ""}>
-                    <Menu className="sidenav">
-                        <div className="sideLinks" onClick={toggleNav}>
-                            <div className="singleLink">
-                                <Link href="/sportsbook">Sportsbook</Link>
-                            </div>
-                            <div className="singleLink">
-                                <Link href="/myBets">My Bets</Link>
-                            </div>
-                            <div className="singleLink">
-                                <Link href="/help/howtobet">How To Bet</Link>
-                            </div>
-                            <div className="singleLink">
-                                <Link href="/posts">Forum</Link>
-                            </div>
-                            <div className="singleLink">
-                                <Link href="/projections/NFL">Trends</Link>
-                            </div>
-                            <div onClick={handleLogout} className="singleLink">
-                                <Link href="/sportsbook">Sign Out</Link>
-                            </div>
-                        </div>
-                    </Menu>
-                </Page>
+        <Page ref={mySidenavRef} className={isMounted ? "hide" : ""}>
+          <Menu className="sidenav">
+            <div className="sideLinks" onClick={toggleNav}>
+              <div className="singleLink">
+                <Link href="/sportsbook">Sportsbook</Link>
+              </div>
+              <div className="singleLink">
+                <Link href="/myBets">My Bets</Link>
+              </div>
+              <div className="singleLink">
+                <Link href="/help/howtobet">How To Bet</Link>
+              </div>
+              <div className="singleLink">
+                <Link href="/posts">Forum</Link>
+              </div>
+              <div className="singleLink">
+                <Link href="/projections/NFL">Trends</Link>
+              </div>
+              <div onClick={handleLogout} className="singleLink">
+                <Link href="/sportsbook">Sign Out</Link>
+              </div>
+            </div>
+          </Menu>
+        </Page>
 
-                <LinkContainer>
-                    <Link href={userStatusLink}>
-                        <FaUser />
-                    </Link>
-                    <Link href="/">
-                        <div className="logo">
-                            <img src="/FSBookie.png" className="imglogo" />
-                        </div>
-                    </Link>
-                </LinkContainer>
+        <LinkContainer>
+          <Link href={userStatusLink}>
+            <FaUser />
+          </Link>
+          <Link href="/">
+            <div className="logo">
+              <img src="/FSBookie.png" className="imglogo" />
+            </div>
+          </Link>
+        </LinkContainer>
 
-                {isSuccess ? (
-                    <div className="userBalance">
-                        <div className="balance">
-                            $
-                            {singleuser.balance &&
-                                singleuser.balance.toFixed(2)}
-                        </div>
-                        <div className="depositFunds">
-                            <Link href="/deposit">
-                                <DepositButton>Deposit</DepositButton>
-                            </Link>
-                        </div>
-                    </div>
-                ) : (
-                    <Link href="/login">
-                        <LogoLinkContainer>
-                            <BiLogIn />
-                            <p>Login</p>
-                        </LogoLinkContainer>
-                    </Link>
-                )}
-            </HeaderTop>
-        </HeaderContainer>
-    );
+        {isSuccess ? (
+          <div className="userBalance">
+            <div className="balance">
+              ${singleuser.balance && singleuser.balance.toFixed(2)}
+            </div>
+            <div className="depositFunds">
+              <Link href="/deposit">
+                {/* <DepositButton>Deposit</DepositButton> */}
+                <FiPlusCircle size={21} />
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <Link href="/login">
+            <LogoLinkContainer>
+              <BiLogIn />
+              <p>Login</p>
+            </LogoLinkContainer>
+          </Link>
+        )}
+      </HeaderTop>
+    </HeaderContainer>
+  );
 }
 
 export default Header;

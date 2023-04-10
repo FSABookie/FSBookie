@@ -35,16 +35,20 @@ const SportsHeader = styled.div`
       padding: 1% 2%;
     }
   }
+  @media only screen and (max-width: 850px) {
+    /* overflow: scroll;
+    justify-content: flex-start; */
+    gap: 1%;
+  }
   margin-bottom: 5%;
   height: 100%;
   color: white;
   background: black;
   position: relative;
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: flex-start;
-  overflow: scroll;
-  gap: 1%;
+  gap: 5%;
   a {
     display: flex;
     justify-content: center;
@@ -65,6 +69,9 @@ const SportsHeader = styled.div`
     cursor: pointer;
     transition: all 0.16s ease;
     width: 10em;
+    @media only screen and (max-width: 850px) {
+      width: 24vw;
+    }
   }
 `;
 const GamesContainer = styled.div`
