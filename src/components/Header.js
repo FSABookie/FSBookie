@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { signOut, useSession } from "next-auth/react";
 // react-icons
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
+import { FiPlusCircle } from "react-icons/fi";
 import { GiMeatCleaver, GiHamburgerMenu } from "react-icons/gi";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
@@ -326,7 +327,8 @@ function Header() {
             </div>
             <div className="depositFunds">
               <Link href="/deposit">
-                <DepositButton>Deposit</DepositButton>
+                {/* <DepositButton>Deposit</DepositButton> */}
+                <FiPlusCircle size={21} />
               </Link>
             </div>
           </div>
