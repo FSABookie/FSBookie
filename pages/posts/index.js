@@ -18,10 +18,11 @@ import ShareIcon from "@mui/icons-material/Share";
 const ThreadContainer = styled.div`
   color: white;
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
-  margin: 2rem auto;
-  max-width: 800px;
+  margin: 20px;
+  /* max-width: 800px; */
 
   @media (max-width: 768px) {
     max-width: 100%;
@@ -33,7 +34,7 @@ const PostList = styled.div`
   width: 100%;
   max-width: 800px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     max-width: 100%;
   }
 `;
@@ -45,7 +46,7 @@ const CommentContainer = styled.div`
   margin-top: 1rem;
   width: 100%;
 
-  @media (min-width: 769px) {
+  @media (min-width: 850px) {
     max-width: 600px;
     margin: 1rem auto;
   }
@@ -56,7 +57,7 @@ const CommentHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
-  @media (min-width: 769px) {
+  @media (min-width: 850px) {
     flex-direction: row;
     align-items: center;
   }
@@ -88,7 +89,7 @@ const CommentFooterText = styled.p`
   padding-left: ${({ likes }) => (likes ? "15px" : "10px")};
   color: #666;
 
-  @media (min-width: 769px) {
+  @media (min-width: 859px) {
     margin-left: 1rem;
   }
 `;
@@ -103,12 +104,20 @@ const FooterEleContainer = styled.div`
 `;
 
 const SideBar = styled.div`
-  position: fixed;
-  height: 100vh;
-  width: 70px;
+  height: 7vh;
+  /* width: 600px; */
+  padding-inline: 15px;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
-  margin-left: 685px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  @media (max-width: 850px) {
+    width: 100%;
+  }
+  h3 {
+  }
 `;
 
 export default function ForumThread() {
@@ -129,6 +138,11 @@ export default function ForumThread() {
       {" "}
       <ThreadContainer>
         {/* <ThreadHeader>Forum Thread Title</ThreadHeader> */}
+        <Link href="/posts/createpost">
+          <SideBar>
+            <h3>Create a Post</h3>
+          </SideBar>
+        </Link>
         <PostList>
           {posts?.length &&
             posts.map((singlePost) => {
@@ -189,7 +203,6 @@ export default function ForumThread() {
               );
             })}
         </PostList>{" "}
-        <SideBar />
       </ThreadContainer>
     </>
   );
