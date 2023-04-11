@@ -39,6 +39,9 @@ const HeaderContainer = styled.div`
     color: green;
     display: flex;
     flex-direction: row;
+    @media (max-width: 850px) {
+      width: 90px;
+    }
 
     .balance {
       font-size: 0.8em;
@@ -224,6 +227,7 @@ const HamburgerContainer = styled.div`
   @media (min-width: 850px) {
     width: 200px;
   }
+  width: 90px;
   padding-left: 10px;
   box-sizing: border-box;
 `;

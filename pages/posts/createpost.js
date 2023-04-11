@@ -13,16 +13,26 @@ const Content = styled.div`
   .postForm {
     display: flex;
     flex-direction: column;
+    /* justify-content: center; */
     gap: 1em;
     text-align: center;
+    margin-inline: clamp(2%, 5%, 10%);
+    max-width: 75%;
+    width: 100vw;
+    align-self: center;
   }
 
   .topbar {
-    padding-top: 10%;
+    /* padding-top: 10%; */
     display: flex;
     flex-direction: column;
     gap: 1em;
     text-align: center;
+    padding-top: 2%;
+    h1 {
+      margin: 0;
+      color: white;
+    }
   }
 
   .addTitle {
@@ -37,15 +47,20 @@ const Content = styled.div`
     height: 60vh;
     background: #d5d3d3;
     border: none;
+    resize: none;
   }
 
   .postButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     width: 50%;
     height: 2em;
     border-radius: 12px;
     border: none;
     background: #d5d3d3;
+    align-self: center;
   }
 `;
 
@@ -57,6 +72,7 @@ const PostButton = styled.div`
   border-radius: 12px;
   border: none;
   background: #d5d3d3;
+  font-weight: 500;
 `;
 
 function CreatePost() {
@@ -98,6 +114,7 @@ function CreatePost() {
     <Content>
       {session ? (
         <div className="topbar">
+          <h1>Create a Post</h1>
           <form className="postForm">
             <label>
               <input
@@ -122,7 +139,7 @@ function CreatePost() {
               onClick={handleSubmit}
               allowed={title.length > 10 && body.length > 15}
             >
-              Create Post!
+              <p>Create Post!</p>
             </PostButton>
           </form>
         </div>
