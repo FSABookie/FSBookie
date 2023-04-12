@@ -49,6 +49,11 @@ const SortBar = styled.div`
   div {
     padding-right: 5px;
   }
+
+  @media (min-width: 850px) {
+    max-width: 600px;
+    margin: 1rem auto;
+  }
 `;
 
 const CommentContainer = styled.div`
