@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 //Functions
@@ -14,6 +14,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
+import DropDown from "../../src/components/PostComps/dropDown";
 
 const ThreadContainer = styled.div`
   color: white;
@@ -36,6 +37,17 @@ const PostList = styled.div`
 
   @media (max-width: 850px) {
     max-width: 100%;
+  }
+`;
+
+const SortBar = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+
+  div {
+    padding-right: 5px;
   }
 `;
 
@@ -103,7 +115,7 @@ const FooterEleContainer = styled.div`
   padding-left: 10px;
 `;
 
-const SideBar = styled.div`
+const CreatePostBtn = styled.div`
   height: 7vh;
   /* width: 600px; */
   padding-inline: 15px;
@@ -120,10 +132,39 @@ const SideBar = styled.div`
   }
 `;
 
+const options = ["Trending", "Most Popular", "Most Recent"];
+
 export default function ForumThread() {
+  const [filter, setFilter] = useState(null);
   const { data: posts } = useGetPostsQuery();
   const [incrementLike] = useIncrementLikeMutation();
   const { data: session } = useSession();
+  const [filteredPosts, setFP] = useState();
+
+  useEffect(() => {
+    posts && setFP(posts);
+    let arr = [];
+
+    if (posts) {
+      arr.push(...posts);
+    }
+
+    if (filter === "Most Recent") {
+      setFP(
+        arr.sort(function (a, b) {
+          return b.createdAt - a.createdAt;
+        })
+      );
+    }
+    if (filter === "Most Popular") {
+      setFP(
+        arr.sort(function (a, b) {
+          return b.likes - a.likes;
+        })
+      );
+      console.log(filteredPosts);
+    }
+  }, [filter, posts]);
 
   async function handleLikes(payload) {
     if (session) {
@@ -139,67 +180,68 @@ export default function ForumThread() {
       <ThreadContainer>
         {/* <ThreadHeader>Forum Thread Title</ThreadHeader> */}
         <Link href="/posts/createpost">
-          <SideBar>
+          <CreatePostBtn>
             <h3>Create a Post</h3>
-          </SideBar>
+          </CreatePostBtn>
         </Link>
+        <SortBar>
+          <div>Sort By</div>{" "}
+          <DropDown options={options} setFilter={setFilter} filter={filter} />
+        </SortBar>
         <PostList>
-          {posts?.length &&
-            posts.map((singlePost) => {
+          {filteredPosts?.length &&
+            filteredPosts.map((singlePost) => {
               return (
-                <Link
-                  key={singlePost.id}
-                  href={{
-                    pathname: `/posts/${singlePost.id}`,
-                    query: { id: singlePost.id },
-                  }}
-                >
-                  <CommentContainer>
-                    <CommentHeader>
-                      <HeaderElement>{singlePost.username} </HeaderElement>
-                      <HeaderElement>
-                        {convertUTCtoEST(singlePost.createdAt)}
-                      </HeaderElement>
-                    </CommentHeader>
+                <CommentContainer key={singlePost.id}>
+                  <CommentHeader>
+                    <HeaderElement>{singlePost.username} </HeaderElement>
+                    <HeaderElement>
+                      {convertUTCtoEST(singlePost.createdAt)}
+                    </HeaderElement>
+                  </CommentHeader>
+                  <Link
+                    href={{
+                      pathname: `/posts/${singlePost.id}`,
+                      query: { id: singlePost.id },
+                    }}
+                  >
                     <CommentTitle>{singlePost.title}</CommentTitle>
-                    <CommentContent>{singlePost.body}</CommentContent>
-                    <CommentFooter>
-                      <FooterEleContainer likes={true}>
-                        <ThumbUpIcon
-                          fontSize="small"
-                          onClick={() =>
-                            handleLikes({
-                              id: singlePost.id,
-                              payload: { likes: singlePost.likes + 1 },
-                            })
-                          }
-                        />
-                        <CommentFooterText>
-                          {singlePost.likes}
-                        </CommentFooterText>
-                        <ThumbDownIcon
-                          fontSize="small"
-                          onClick={() =>
-                            handleLikes({
-                              id: singlePost.id,
-                              payload: { likes: singlePost.likes - 1 },
-                            })
-                          }
-                        />
-                      </FooterEleContainer>
-                      <FooterEleContainer>
-                        <CommentIcon />
-                        <CommentFooterText>
-                          {singlePost.comments.length}
-                        </CommentFooterText>
-                      </FooterEleContainer>
-                      <FooterEleContainer>
-                        <ShareIcon />
-                        <CommentFooterText>Share</CommentFooterText>
-                      </FooterEleContainer>
-                    </CommentFooter>
-                  </CommentContainer>
-                </Link>
+                  </Link>
+                  <CommentContent>{singlePost.body}</CommentContent>
+                  <CommentFooter>
+                    <FooterEleContainer likes={true}>
+                      <ThumbUpIcon
+                        fontSize="small"
+                        onClick={() =>
+                          handleLikes({
+                            id: singlePost.id,
+                            payload: { likes: singlePost.likes + 1 },
+                          })
+                        }
+                      />
+                      <CommentFooterText>{singlePost.likes}</CommentFooterText>
+                      <ThumbDownIcon
+                        fontSize="small"
+                        onClick={() =>
+                          handleLikes({
+                            id: singlePost.id,
+                            payload: { likes: singlePost.likes - 1 },
+                          })
+                        }
+                      />
+                    </FooterEleContainer>
+                    <FooterEleContainer>
+                      <CommentIcon />
+                      <CommentFooterText>
+                        {singlePost.comments.length}
+                      </CommentFooterText>
+                    </FooterEleContainer>
+                    <FooterEleContainer>
+                      <ShareIcon />
+                      <CommentFooterText>Share</CommentFooterText>
+                    </FooterEleContainer>
+                  </CommentFooter>
+                </CommentContainer>
               );
             })}
         </PostList>{" "}
