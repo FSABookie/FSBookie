@@ -262,15 +262,6 @@ function Header() {
     return isMounted;
   };
 
-  const { data: singleuser, isSuccess } = useGetUserQuery(
-    status === "authenticated" ? session.user.id : skipToken
-  );
-
-  useEffect(() => {
-    // singleuser = { test: "test" };
-    console.log("SINGLEUSER OR STATUS CHANGED");
-  }, [singleuser, status]);
-
   let userStatusLink = "/login";
   if (typeof window !== "undefined") {
     if (session) {
@@ -290,6 +281,13 @@ function Header() {
     mySidenavRef.current.classList.toggle("hide");
   }
 
+  const { data: singleuser, isSuccess } = useGetUserQuery(
+    status === "authenticated" ? session.user.id : skipToken
+  );
+
+  useEffect(() => {
+    console.log(singleuser.balance);
+  }, [isSuccess, singleuser]);
   // if we want to hide search when user switch pages, maybe should add 'isSearching' to redux store
   // also need to allow user to exit out by clicking elsewhere
   const isMounted = useIsMounted();
