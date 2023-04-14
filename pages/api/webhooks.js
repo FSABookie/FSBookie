@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         console.log(charge.customer_details.email);
         // const amount = Number(charge.amount_subtotal.slice(0, -2))
         // console.log('AMOUNT', amount)
-        axios.put("https://fsabookie.com/api/users/deposit", {
+        axios.put("https://www.fsabookie.com/api/users/deposit", {
           deposit: Number(charge.amount_subtotal.toString().slice(0, -2)),
           email: charge.customer_details.email,
         });
