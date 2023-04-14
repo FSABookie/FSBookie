@@ -23,7 +23,7 @@ const SportsContainer = styled.div`
     background-color: black;
     padding-top: 3%;
     padding-left: 0.5%;
-    padding-right: 0.5%;
+    padding-right: 1%;
   }
 `;
 const SportsHeader = styled.div`
