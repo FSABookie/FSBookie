@@ -31,7 +31,7 @@ const Receipt = styled.div`
     .cont {
         width: 85%;
     }
-    @media (max-width: 850px) {
+    @media (max-width: 849px) {
         width: 80vw;
         max-width: 500px;
     }

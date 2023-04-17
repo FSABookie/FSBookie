@@ -14,6 +14,7 @@ import convertUTCtoEST from "../functions/TimeCoverter";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
+import { clearLocalGames } from "../../src/redux/slices/localGames-slice";
 
 const SportsContainer = styled.div`
   @media only screen and (min-width: 360px) {
@@ -283,16 +284,23 @@ const AvailableLines = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10%;
+  margin-top: 7%;
+  p {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 500;
+  }
 `;
 
 function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
   const { localGames } = useSelector((state) => state.localGames);
+  // dispatch(clearLocalGames());
 
   useEffect(() => {
     localGames?.length && console.log(data, localGames);
+    console.log("DATA", data.data, "SPORT", data.sport);
   }, []);
 
   return (
@@ -331,7 +339,9 @@ function Sportsbook({ data }) {
             </GamesHeader>
             {(data.data.length > 0 && data.sport !== "index"
               ? data.data
-              : localGames.flat()
+              : data.data.length > 0
+              ? localGames.flat()
+              : []
             ).map((ele) => {
               {
                 /* let d = new Date(ele.MatchTime).toDateString();
@@ -741,8 +751,13 @@ function Sportsbook({ data }) {
               );
             })}
           </Games>
-          {data.sport !== "index" && data.data.length < 1 && (
-            <AvailableLines>Not in Season</AvailableLines>
+          {data.data.length < 1 && data.sport !== "index" && (
+            <AvailableLines>
+              <p>Not in Season</p>
+            </AvailableLines>
+          )}
+          {data.data.length < 1 && data.sport == "index" && (
+            <AvailableLines>No Local Games</AvailableLines>
           )}
         </GamesContainer>
         <Bs className={!betSlip.length ? "hideSlip" : ""}>
