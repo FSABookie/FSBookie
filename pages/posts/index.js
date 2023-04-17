@@ -35,7 +35,7 @@ const PostList = styled.div`
   width: 100%;
   max-width: 800px;
 
-  @media (max-width: 850px) {
+  @media (max-width: 849px) {
     max-width: 100%;
   }
 `;
@@ -125,7 +125,7 @@ const CreatePostBtn = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  @media (max-width: 850px) {
+  @media (max-width: 849px) {
     width: 100%;
   }
   h3 {
