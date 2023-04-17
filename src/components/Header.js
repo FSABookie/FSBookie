@@ -39,7 +39,7 @@ const HeaderContainer = styled.div`
     color: green;
     display: flex;
     flex-direction: row;
-    @media (max-width: 850px) {
+    @media (max-width: 849px) {
       width: 100px;
       justify-content: space-evenly;
     }
@@ -172,6 +172,9 @@ const LogoLinkContainer = styled.div`
   &:hover {
     cursor: pointer;
   }
+  @media (max-width: 849px) {
+    width: 100px;
+  }
 `;
 
 const Page = styled.div`
@@ -212,7 +215,7 @@ const Page = styled.div`
   }
 
   .singleLink {
-    @media only screen and (max-width: 850px) {
+    @media only screen and (max-width: 849px) {
       border-bottom: 1px solid grey;
       padding-bottom: 5%;
     }
