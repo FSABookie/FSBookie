@@ -39,8 +39,9 @@ const HeaderContainer = styled.div`
     color: green;
     display: flex;
     flex-direction: row;
-    @media (max-width: 850px) {
-      width: 90px;
+    @media (max-width: 849px) {
+      width: 100px;
+      justify-content: space-evenly;
     }
 
     .balance {
@@ -49,6 +50,11 @@ const HeaderContainer = styled.div`
 
     &:hover {
       cursor: pointer;
+    }
+    .depositFunds {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 
@@ -63,7 +69,9 @@ const HeaderContainer = styled.div`
       display: flex;
       flex-direction: row;
       width: 200px;
-      justify-content: space-evenly;
+      justify-content: flex-end;
+      gap: 5px;
+      padding-right: 10px;
       .balance {
         font-size: 1em;
       }
@@ -164,6 +172,9 @@ const LogoLinkContainer = styled.div`
   &:hover {
     cursor: pointer;
   }
+  @media (max-width: 849px) {
+    width: 100px;
+  }
 `;
 
 const Page = styled.div`
@@ -204,7 +215,7 @@ const Page = styled.div`
   }
 
   .singleLink {
-    @media only screen and (max-width: 850px) {
+    @media only screen and (max-width: 849px) {
       border-bottom: 1px solid grey;
       padding-bottom: 5%;
     }
@@ -227,7 +238,7 @@ const HamburgerContainer = styled.div`
   @media (min-width: 850px) {
     width: 200px;
   }
-  width: 90px;
+  width: 100px;
   padding-left: 10px;
   box-sizing: border-box;
 `;
@@ -329,12 +340,10 @@ function Header() {
             <div className="balance">
               ${singleuser.balance && singleuser.balance.toFixed(2)}
             </div>
-            <div className="depositFunds">
-              <Link href="/deposit">
-                {/* <DepositButton>Deposit</DepositButton> */}
-                <FiPlusCircle size={21} />
-              </Link>
-            </div>
+            <Link href="/deposit" className="depositFunds">
+              {/* <DepositButton>Deposit</DepositButton> */}
+              <FiPlusCircle size={21} />
+            </Link>
           </div>
         ) : (
           <Link href="/login">

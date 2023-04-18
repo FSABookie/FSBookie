@@ -14,6 +14,7 @@ import convertUTCtoEST from "../functions/TimeCoverter";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
+import { clearLocalGames } from "../../src/redux/slices/localGames-slice";
 
 const SportsContainer = styled.div`
   @media only screen and (min-width: 360px) {
@@ -23,7 +24,7 @@ const SportsContainer = styled.div`
     background-color: black;
     padding-top: 3%;
     padding-left: 0.5%;
-    padding-right: 0.5%;
+    padding-right: 1%;
   }
 `;
 const SportsHeader = styled.div`
@@ -283,16 +284,23 @@ const AvailableLines = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10%;
+  margin-top: 7%;
+  p {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 500;
+  }
 `;
 
 function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
   const { localGames } = useSelector((state) => state.localGames);
+  // dispatch(clearLocalGames());
 
   useEffect(() => {
     localGames?.length && console.log(data, localGames);
+    console.log("DATA", data.data, "SPORT", data.sport);
   }, []);
 
   return (
@@ -329,415 +337,428 @@ function Sportsbook({ data }) {
               <p className="gamelines">TOTAL</p>
               <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
-            {data.sport !== "index" && data.data.length < 1 ? (
-              <AvailableLines>Not in Season</AvailableLines>
-            ) : (
-              (data.data.length > 0 && data.sport !== "index"
-                ? data.data
-                : localGames.flat()
-              ).map((ele) => {
-                let time = convertUTCtoEST(ele.MatchTime);
-                let apiId = ele.ID;
-                const event = ele.Odds.filter(
-                  (odd) => odd.OddType === "Game"
-                )[0];
-                let homeTeamLogo;
-                let awayTeamLogo;
-                if (data.sport === "NBA") {
-                  awayTeamLogo = NBAlogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = NBAlogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                if (data.sport === "NFL") {
-                  awayTeamLogo = NFLlogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = NFLlogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                if (data.sport === "MLB") {
-                  awayTeamLogo = MLBlogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = MLBlogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                if (data.sport === "NHL") {
-                  awayTeamLogo = NHLlogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = NHLlogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                if (data.sport === "index") {
-                  awayTeamLogo = allLogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = allLogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                return (
-                  <GameCard key={apiId}>
-                    <TableRow>
-                      <Link
-                        className="gameInfo"
-                        href={{
-                          pathname: `/sportsbook/games/[id]`,
-                          query: {
-                            sport: data.sport,
-                            id: apiId,
-                          },
-                        }}
-                        as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
-                        key={apiId}
+            {(data.data.length > 0 && data.sport !== "index"
+              ? data.data
+              : data.data.length > 0
+              ? localGames.flat()
+              : []
+            ).map((ele) => {
+              {
+                /* let d = new Date(ele.MatchTime).toDateString();
+                let t = new Date(ele.MatchTime).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+                // MUST FIX THE TIME
+                let time = d + " " + t; */
+              }
+              let time = convertUTCtoEST(ele.MatchTime);
+              let apiId = ele.ID;
+              const event = ele.Odds.filter((odd) => odd.OddType === "Game")[0];
+              let homeTeamLogo;
+              let awayTeamLogo;
+              if (data.sport === "NBA") {
+                awayTeamLogo = NBAlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NBAlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "NFL") {
+                awayTeamLogo = NFLlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NFLlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "MLB") {
+                awayTeamLogo = MLBlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = MLBlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "NHL") {
+                awayTeamLogo = NHLlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NHLlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "index") {
+                awayTeamLogo = allLogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = allLogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              return (
+                <GameCard key={apiId}>
+                  <TableRow>
+                    <Link
+                      className="gameInfo"
+                      href={{
+                        pathname: `/sportsbook/games/[id]`,
+                        query: {
+                          sport: data.sport,
+                          id: apiId,
+                        },
+                      }}
+                      as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
+                      key={apiId}
+                    >
+                      {/* <div className="gameInfo"> */}
+                      {/* <div className='eventCell'> */}
+                      <div className="gameTime">{time}</div>
+                      <div
+                        className="teamInfo"
+                        onClick={() =>
+                          dispatch(
+                            selectGame({
+                              game: ele,
+                              sport: data.sport,
+                              atl: awayTeamLogo,
+                              htl: homeTeamLogo,
+                            })
+                          )
+                        }
                       >
-                        {/* <div className="gameInfo"> */}
-                        {/* <div className='eventCell'> */}
-                        <div className="gameTime">{time}</div>
+                        <div className="imgContainer">
+                          <img src={awayTeamLogo} />
+                        </div>
+                        <div className="team1">{ele.AwayTeam}</div>
+                      </div>
+                      {/* </div> */}
+                      {/* </div> */}
+                    </Link>
+                    {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
+                    <div className="lineCol">
+                      {event.PointSpreadAway == 0 ? (
+                        <div className="lineContainer">N/A</div>
+                      ) : (
                         <div
-                          className="teamInfo"
-                          onClick={() =>
+                          className={`lineContainer ${
+                            betSlip.find(
+                              (bet) =>
+                                bet.betId === ele.ID &&
+                                bet.teamToWin === "AwayTeam" &&
+                                bet.betType === "spread"
+                            ) !== undefined
+                              ? "selected"
+                              : ""
+                          }`}
+                          onClick={() => {
                             dispatch(
-                              selectGame({
-                                game: ele,
-                                sport: data.sport,
-                                atl: awayTeamLogo,
-                                htl: homeTeamLogo,
+                              addToBetSlip({
+                                id: betSlip.length,
+                                gameLine:
+                                  ele.AwayTeam + " " + event.PointSpreadAway,
+                                odds: event.PointSpreadAwayLine,
+                                teamToWin: "AwayTeam",
+                                oddType: "Game",
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
+                                time: time,
+                                toWin: 0,
+                                wager: 0,
+                                betId: event.ID,
+                                betType: "spread",
+                                spread: Number(event.PointSpreadAway),
+                                calc:
+                                  event.PointSpreadAway[0] === "-"
+                                    ? "minus"
+                                    : "plus",
                               })
-                            )
-                          }
+                            );
+                          }}
                         >
-                          <div className="imgContainer">
-                            <img src={awayTeamLogo} />
+                          <div className="line">
+                            {event.PointSpreadAway[0] === "-"
+                              ? event.PointSpreadAway
+                              : "+" + event.PointSpreadAway}
                           </div>
-                          <div className="team1">{ele.AwayTeam}</div>
+                          <div className="lineodds">
+                            {event.PointSpreadAwayLine[0] === "-"
+                              ? event.PointSpreadAwayLine
+                              : "+" + event.PointSpreadAwayLine}
+                          </div>
                         </div>
-                        {/* </div> */}
-                        {/* </div> */}
-                      </Link>
-                      {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
-                      <div className="lineCol">
-                        {event.PointSpreadAway == 0 ? (
-                          <div className="lineContainer">N/A</div>
-                        ) : (
-                          <div
-                            className={`lineContainer ${
-                              betSlip.find(
-                                (bet) =>
-                                  bet.betId === ele.ID &&
-                                  bet.teamToWin === "AwayTeam" &&
-                                  bet.betType === "spread"
-                              ) !== undefined
-                                ? "selected"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              dispatch(
-                                addToBetSlip({
-                                  id: betSlip.length,
-                                  gameLine:
-                                    ele.AwayTeam + " " + event.PointSpreadAway,
-                                  odds: event.PointSpreadAwayLine,
-                                  teamToWin: "AwayTeam",
-                                  oddType: "Game",
-                                  awayTeam: ele.AwayTeam,
-                                  homeTeam: ele.HomeTeam,
-                                  awayTeamLogo: awayTeamLogo,
-                                  homeTeamLogo: homeTeamLogo,
-                                  time: time,
-                                  toWin: 0,
-                                  wager: 0,
-                                  betId: event.ID,
-                                  betType: "spread",
-                                  spread: Number(event.PointSpreadAway),
-                                  calc:
-                                    event.PointSpreadAway[0] === "-"
-                                      ? "minus"
-                                      : "plus",
-                                })
-                              );
-                            }}
-                          >
-                            <div className="line">
-                              {event.PointSpreadAway[0] === "-"
-                                ? event.PointSpreadAway
-                                : "+" + event.PointSpreadAway}
-                            </div>
-                            <div className="lineodds">
-                              {event.PointSpreadAwayLine[0] === "-"
-                                ? event.PointSpreadAwayLine
-                                : "+" + event.PointSpreadAwayLine}
-                            </div>
+                      )}
+                    </div>
+                    {/* OVER!!!!!!!!!!! */}
+                    <div className="lineCol">
+                      {event.OverLine == 0 || event.OverLine == 0.0 ? (
+                        <div className="lineContainer">N/A</div>
+                      ) : (
+                        <div
+                          className={`lineContainer ${
+                            betSlip.find(
+                              (bet) =>
+                                bet.betId === ele.ID &&
+                                bet.teamToWin === "AwayTeam" &&
+                                bet.betType === "total"
+                            ) !== undefined
+                              ? "selected"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            dispatch(
+                              addToBetSlip({
+                                id: betSlip.length,
+                                gameLine: "Over " + event.TotalNumber,
+                                odds: event.OverLine,
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
+                                oddType: ele.OddType,
+                                oddType: "Game",
+                                time,
+                                toWin: 0,
+                                wager: 0,
+                                betId: event.ID,
+                                betType: "total",
+                              })
+                            );
+                          }}
+                        >
+                          <div className="line">O {event.TotalNumber}</div>
+                          <div className="lineodds">
+                            {event.OverLine[0] === "-"
+                              ? event.OverLine
+                              : "+" + event.OverLine}
                           </div>
-                        )}
-                      </div>
-                      {/* OVER!!!!!!!!!!! */}
-                      <div className="lineCol">
-                        {event.OverLine == 0 || event.OverLine == 0.0 ? (
-                          <div className="lineContainer">N/A</div>
-                        ) : (
-                          <div
-                            className={`lineContainer ${
-                              betSlip.find(
-                                (bet) =>
-                                  bet.betId === ele.ID &&
-                                  bet.teamToWin === "AwayTeam" &&
-                                  bet.betType === "total"
-                              ) !== undefined
-                                ? "selected"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              dispatch(
-                                addToBetSlip({
-                                  id: betSlip.length,
-                                  gameLine: "Over " + event.TotalNumber,
-                                  odds: event.OverLine,
-                                  awayTeam: ele.AwayTeam,
-                                  homeTeam: ele.HomeTeam,
-                                  awayTeamLogo: awayTeamLogo,
-                                  homeTeamLogo: homeTeamLogo,
-                                  oddType: ele.OddType,
-                                  oddType: "Game",
-                                  time,
-                                  toWin: 0,
-                                  wager: 0,
-                                  betId: event.ID,
-                                  betType: "total",
-                                })
-                              );
-                            }}
-                          >
-                            <div className="line">O {event.TotalNumber}</div>
-                            <div className="lineodds">
-                              {event.OverLine[0] === "-"
-                                ? event.OverLine
-                                : "+" + event.OverLine}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      {/* AWAY TEAM!!!!!!!!!!! */}
-                      <div className="lineCol">
-                        {event.MoneyLineAway == "0" ||
-                        event.MoneyLineAway == "0.0" ? (
-                          <div className="lineContainer">N/A</div>
-                        ) : (
-                          <div
-                            className={`lineContainer ${
-                              betSlip.find(
-                                (bet) =>
-                                  bet.betId === ele.ID &&
-                                  bet.teamToWin === "AwayTeam" &&
-                                  bet.betType === "ML"
-                              ) !== undefined
-                                ? "selected"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              dispatch(
-                                addToBetSlip({
-                                  id: betSlip.length,
-                                  gameLine: ele.AwayTeam + " ML",
-                                  odds: event.MoneyLineAway,
-                                  teamToWin: "AwayTeam",
-                                  awayTeam: ele.AwayTeam,
-                                  homeTeam: ele.HomeTeam,
-                                  awayTeamLogo: awayTeamLogo,
-                                  homeTeamLogo: homeTeamLogo,
-                                  oddType: "Game",
-                                  time,
-                                  toWin: 0,
-                                  wager: 0,
-                                  betId: event.ID,
-                                  betType: "ML",
-                                })
-                              );
-                            }}
-                          >
-                            <div className="lineodds">
-                              {" "}
-                              {event.MoneyLineAway[0] === "-"
-                                ? event.MoneyLineAway
-                                : "+" + event.MoneyLineAway}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </TableRow>
-                    <TableRow>
-                      <div className="game2Info">
-                        {/* <div className='eventCell'> */}
-                        <div className="gameStatus"></div>
-                        <div className="teamInfo">
-                          <div className="imgContainer">
-                            <img src={homeTeamLogo} />
-                          </div>
-                          <a className="team1">{ele.HomeTeam}</a>
                         </div>
-                        {/* </div> */}
-                      </div>
-                      {/* HOME TEAM SPREAD!!!!!!!!!!! */}
-                      <div className="line2Col">
-                        {event.PointSpreadHome == 0 ? (
-                          <div className="lineContainer">NA</div>
-                        ) : (
-                          <div
-                            className={`lineContainer ${
-                              betSlip.find(
-                                (bet) =>
-                                  bet.betId === ele.ID &&
-                                  bet.teamToWin === "HomeTeam" &&
-                                  bet.betType === "spread"
-                              ) !== undefined
-                                ? "selected"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              dispatch(
-                                addToBetSlip({
-                                  id: betSlip.length,
-                                  gameLine:
-                                    ele.HomeTeam + " " + event.PointSpreadHome,
-                                  odds: event.PointSpreadHomeLine,
-                                  teamToWin: "HomeTeam",
-                                  awayTeam: ele.AwayTeam,
-                                  homeTeam: ele.HomeTeam,
-                                  awayTeamLogo: awayTeamLogo,
-                                  homeTeamLogo: homeTeamLogo,
-                                  time,
-                                  oddType: "Game",
-                                  toWin: 0,
-                                  wager: 0,
-                                  betId: event.ID,
-                                  betType: "spread",
-                                  spread: Number(event.PointSpreadHome),
-                                  calc:
-                                    event.PointSpreadHome[0] === "-"
-                                      ? "minus"
-                                      : "plus",
-                                })
-                              );
-                            }}
-                          >
-                            <div className="line">
-                              {event.PointSpreadHome[0] === "-"
-                                ? event.PointSpreadHome
-                                : "+" + event.PointSpreadHome}
-                            </div>
-                            <div className="lineodds">
-                              {event.PointSpreadHomeLine[0] === "-"
-                                ? event.PointSpreadHomeLine
-                                : "+" + event.PointSpreadHomeLine}
-                            </div>
+                      )}
+                    </div>
+                    {/* AWAY TEAM!!!!!!!!!!! */}
+                    <div className="lineCol">
+                      {event.MoneyLineAway == "0" ||
+                      event.MoneyLineAway == "0.0" ? (
+                        <div className="lineContainer">N/A</div>
+                      ) : (
+                        <div
+                          className={`lineContainer ${
+                            betSlip.find(
+                              (bet) =>
+                                bet.betId === ele.ID &&
+                                bet.teamToWin === "AwayTeam" &&
+                                bet.betType === "ML"
+                            ) !== undefined
+                              ? "selected"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            dispatch(
+                              addToBetSlip({
+                                id: betSlip.length,
+                                gameLine: ele.AwayTeam + " ML",
+                                odds: event.MoneyLineAway,
+                                teamToWin: "AwayTeam",
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
+                                oddType: "Game",
+                                time,
+                                toWin: 0,
+                                wager: 0,
+                                betId: event.ID,
+                                betType: "ML",
+                              })
+                            );
+                          }}
+                        >
+                          <div className="lineodds">
+                            {" "}
+                            {event.MoneyLineAway[0] === "-"
+                              ? event.MoneyLineAway
+                              : "+" + event.MoneyLineAway}
                           </div>
-                        )}
+                        </div>
+                      )}
+                    </div>
+                  </TableRow>
+                  <TableRow>
+                    <div className="game2Info">
+                      {/* <div className='eventCell'> */}
+                      <div className="gameStatus"></div>
+                      <div className="teamInfo">
+                        <div className="imgContainer">
+                          <img src={homeTeamLogo} />
+                        </div>
+                        <a className="team1">{ele.HomeTeam}</a>
                       </div>
-                      {/* UNDER!!!!!!!!!!! */}
-                      <div className="line2Col">
-                        {event.UnderLine == 0 || event.UnderLine == 0.0 ? (
-                          <div className="lineContainer">N/A</div>
-                        ) : (
-                          <div
-                            className={`lineContainer ${
-                              betSlip.find(
-                                (bet) =>
-                                  bet.betId === ele.ID &&
-                                  bet.teamToWin === "HomeTeam" &&
-                                  bet.betType === "total"
-                              ) !== undefined
-                                ? "selected"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              dispatch(
-                                addToBetSlip({
-                                  id: betSlip.length,
-                                  gameLine: "Under " + event.TotalNumber,
-                                  odds: event.UnderLine,
-                                  awayTeam: ele.AwayTeam,
-                                  homeTeam: ele.HomeTeam,
-                                  awayTeamLogo: awayTeamLogo,
-                                  homeTeamLogo: homeTeamLogo,
-                                  oddType: "Game",
-                                  time,
-                                  toWin: 0,
-                                  wager: 0,
-                                  betId: event.ID,
-                                  betType: "total",
-                                })
-                              );
-                            }}
-                          >
-                            <div className="line">U {event.TotalNumber}</div>
-                            <div className="lineodds">
-                              {event.UnderLine[0] === "-"
-                                ? event.UnderLine
-                                : "+" + event.UnderLine}
-                            </div>
+                      {/* </div> */}
+                    </div>
+                    {/* HOME TEAM SPREAD!!!!!!!!!!! */}
+                    <div className="line2Col">
+                      {event.PointSpreadHome == 0 ? (
+                        <div className="lineContainer">NA</div>
+                      ) : (
+                        <div
+                          className={`lineContainer ${
+                            betSlip.find(
+                              (bet) =>
+                                bet.betId === ele.ID &&
+                                bet.teamToWin === "HomeTeam" &&
+                                bet.betType === "spread"
+                            ) !== undefined
+                              ? "selected"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            dispatch(
+                              addToBetSlip({
+                                id: betSlip.length,
+                                gameLine:
+                                  ele.HomeTeam + " " + event.PointSpreadHome,
+                                odds: event.PointSpreadHomeLine,
+                                teamToWin: "HomeTeam",
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
+                                time,
+                                oddType: "Game",
+                                toWin: 0,
+                                wager: 0,
+                                betId: event.ID,
+                                betType: "spread",
+                                spread: Number(event.PointSpreadHome),
+                                calc:
+                                  event.PointSpreadHome[0] === "-"
+                                    ? "minus"
+                                    : "plus",
+                              })
+                            );
+                          }}
+                        >
+                          <div className="line">
+                            {event.PointSpreadHome[0] === "-"
+                              ? event.PointSpreadHome
+                              : "+" + event.PointSpreadHome}
                           </div>
-                        )}
-                      </div>
-                      {/* HOME TEAM ML!!!!!!!!!!! */}
-                      <div className="line2Col">
-                        {event.MoneyLineHome == 0 ||
-                        event.MoneyLineHome == 0.0 ? (
-                          <div className="lineContainer">N/A</div>
-                        ) : (
-                          <div
-                            className={`lineContainer ${
-                              betSlip.find(
-                                (bet) =>
-                                  bet.betId === ele.ID &&
-                                  bet.teamToWin === "HomeTeam" &&
-                                  bet.betType === "ML"
-                              ) !== undefined
-                                ? "selected"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              dispatch(
-                                addToBetSlip({
-                                  id: betSlip.length,
-                                  gameLine: ele.HomeTeam + " ML",
-                                  odds: event.MoneyLineHome,
-                                  team: ele.HomeTeam,
-                                  awayTeam: ele.AwayTeam,
-                                  homeTeam: ele.HomeTeam,
-                                  awayTeamLogo: awayTeamLogo,
-                                  homeTeamLogo: homeTeamLogo,
-                                  teamToWin: "HomeTeam",
-                                  oddType: "Game",
-                                  time,
-                                  toWin: 0,
-                                  wager: 0,
-                                  betId: event.ID,
-                                  betType: "ML",
-                                })
-                              );
-                            }}
-                          >
-                            <div className="lineodds">
-                              {event.MoneyLineHome[0] === "-"
-                                ? event.MoneyLineHome
-                                : "+" + event.MoneyLineHome}
-                            </div>
+                          <div className="lineodds">
+                            {event.PointSpreadHomeLine[0] === "-"
+                              ? event.PointSpreadHomeLine
+                              : "+" + event.PointSpreadHomeLine}
                           </div>
-                        )}
-                      </div>
-                    </TableRow>
-                  </GameCard>
-                );
-              })
-            )}
+                        </div>
+                      )}
+                    </div>
+                    {/* UNDER!!!!!!!!!!! */}
+                    <div className="line2Col">
+                      {event.UnderLine == 0 || event.UnderLine == 0.0 ? (
+                        <div className="lineContainer">N/A</div>
+                      ) : (
+                        <div
+                          className={`lineContainer ${
+                            betSlip.find(
+                              (bet) =>
+                                bet.betId === ele.ID &&
+                                bet.teamToWin === "HomeTeam" &&
+                                bet.betType === "total"
+                            ) !== undefined
+                              ? "selected"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            dispatch(
+                              addToBetSlip({
+                                id: betSlip.length,
+                                gameLine: "Under " + event.TotalNumber,
+                                odds: event.UnderLine,
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
+                                oddType: "Game",
+                                time,
+                                toWin: 0,
+                                wager: 0,
+                                betId: event.ID,
+                                betType: "total",
+                              })
+                            );
+                          }}
+                        >
+                          <div className="line">U {event.TotalNumber}</div>
+                          <div className="lineodds">
+                            {event.UnderLine[0] === "-"
+                              ? event.UnderLine
+                              : "+" + event.UnderLine}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    {/* HOME TEAM ML!!!!!!!!!!! */}
+                    <div className="line2Col">
+                      {event.MoneyLineHome == 0 ||
+                      event.MoneyLineHome == 0.0 ? (
+                        <div className="lineContainer">N/A</div>
+                      ) : (
+                        <div
+                          className={`lineContainer ${
+                            betSlip.find(
+                              (bet) =>
+                                bet.betId === ele.ID &&
+                                bet.teamToWin === "HomeTeam" &&
+                                bet.betType === "ML"
+                            ) !== undefined
+                              ? "selected"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            dispatch(
+                              addToBetSlip({
+                                id: betSlip.length,
+                                gameLine: ele.HomeTeam + " ML",
+                                odds: event.MoneyLineHome,
+                                team: ele.HomeTeam,
+                                awayTeam: ele.AwayTeam,
+                                homeTeam: ele.HomeTeam,
+                                awayTeamLogo: awayTeamLogo,
+                                homeTeamLogo: homeTeamLogo,
+                                teamToWin: "HomeTeam",
+                                oddType: "Game",
+                                time,
+                                toWin: 0,
+                                wager: 0,
+                                betId: event.ID,
+                                betType: "ML",
+                              })
+                            );
+                          }}
+                        >
+                          <div className="lineodds">
+                            {event.MoneyLineHome[0] === "-"
+                              ? event.MoneyLineHome
+                              : "+" + event.MoneyLineHome}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </TableRow>
+                </GameCard>
+              );
+            })}
           </Games>
+          {data.data.length < 1 && data.sport !== "index" && (
+            <AvailableLines>
+              <p>Not in Season</p>
+            </AvailableLines>
+          )}
+          {data.data.length < 1 && data.sport == "index" && (
+            <AvailableLines>No Local Games</AvailableLines>
+          )}
         </GamesContainer>
         <Bs className={!betSlip.length ? "hideSlip" : ""}>
           {betSlip.length > 0 && <BetSlip />}
