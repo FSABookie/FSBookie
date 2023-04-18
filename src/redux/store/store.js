@@ -7,7 +7,6 @@ import userSlice from "../slices/user-slice";
 import gameSlice from "../slices/game-slice";
 import usersBetSlice from "../slices/usersBets-slice";
 import storage from "redux-persist/lib/storage";
-import postSlice from "../slices/postSlice";
 import {
   persistStore,
   persistReducer,
@@ -19,6 +18,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import localGamesSlice from "../slices/localGames-slice";
+import { createWrapper } from "next-redux-wrapper";
 
 const persistConfig = {
   key: "root",
@@ -32,25 +32,27 @@ const persistConfig = {
 };
 
 const persistedGame = persistReducer(persistConfig, gameSlice.reducer);
-const persistedId = persistReducer(persistConfig, postSlice.reducer);
 
-export const store = configureStore({
-  reducer: {
-    [apiSlice.reducerPath]: apiSlice.reducer,
-    betSlip: BetSlipSlice.reducer,
-    user: userSlice.reducer,
-    usersBets: usersBetSlice.reducer,
-    localGames: localGamesSlice.reducer,
-    persistedGame,
-    persistedId,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }).concat(apiSlice.middleware),
-});
+const makeStore = () =>
+  configureStore({
+    reducer: {
+      [apiSlice.reducerPath]: apiSlice.reducer,
+      betSlip: BetSlipSlice.reducer,
+      user: userSlice.reducer,
+      usersBets: usersBetSlice.reducer,
+      localGames: localGamesSlice.reducer,
+      persistedGame,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }).concat(apiSlice.middleware),
+  });
+
+const store = makeStore();
 
 setupListeners(store.dispatch);
 export const persistor = persistStore(store);
+export const wrapper = createWrapper(makeStore, { debug: true });
