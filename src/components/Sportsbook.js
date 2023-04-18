@@ -14,6 +14,7 @@ import convertUTCtoEST from "../functions/TimeCoverter";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
+import { clearLocalGames } from "../../src/redux/slices/localGames-slice";
 
 const SportsContainer = styled.div`
   @media only screen and (min-width: 360px) {
@@ -23,7 +24,7 @@ const SportsContainer = styled.div`
     background-color: black;
     padding-top: 3%;
     padding-left: 0.5%;
-    padding-right: 0.5%;
+    padding-right: 1%;
   }
 `;
 const SportsHeader = styled.div`
@@ -283,16 +284,23 @@ const AvailableLines = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10%;
+  margin-top: 7%;
+  p {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 500;
+  }
 `;
 
 function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
   const { localGames } = useSelector((state) => state.localGames);
+  // dispatch(clearLocalGames());
 
   useEffect(() => {
     localGames?.length && console.log(data, localGames);
+    console.log("DATA", data.data, "SPORT", data.sport);
   }, []);
 
   return (
@@ -329,74 +337,96 @@ function Sportsbook({ data }) {
               <p className="gamelines">TOTAL</p>
               <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
-            {data.sport !== "index" && data.data.length < 1 ? (
-              <AvailableLines>Not in Season</AvailableLines>
-            ) : (
-              (data.data.length > 0 && data.sport !== "index"
-                ? data.data
-                : localGames.flat()
-              ).map((ele) => {
-                let time = convertUTCtoEST(ele.MatchTime);
-                let apiId = ele.ID;
-                const event = ele.Odds.filter(
-                  (odd) => odd.OddType === "Game"
-                )[0];
-                let homeTeamLogo;
-                let awayTeamLogo;
-                if (data.sport === "NBA") {
-                  awayTeamLogo = NBAlogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = NBAlogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                if (data.sport === "NFL") {
-                  awayTeamLogo = NFLlogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = NFLlogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                if (data.sport === "MLB") {
-                  awayTeamLogo = MLBlogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = MLBlogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                if (data.sport === "NHL") {
-                  awayTeamLogo = NHLlogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = NHLlogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                if (data.sport === "index") {
-                  awayTeamLogo = allLogos.filter(
-                    (name) => name.team === ele.AwayTeam
-                  )[0]?.logo;
-                  homeTeamLogo = allLogos.filter(
-                    (name) => name.team === ele.HomeTeam
-                  )[0]?.logo;
-                }
-                return (
-                  <GameCard key={apiId}>
-                    <TableRow>
-                      <Link
-                        className="gameInfo"
-                        href={{
-                          pathname: `/sportsbook/games/[id]`,
-                          query: {
-                            sport: data.sport,
-                            id: apiId,
-                          },
-                        }}
-                        as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
-                        key={apiId}
+            {(data.data.length > 0 && data.sport !== "index"
+              ? data.data
+              : data.data.length > 0
+              ? localGames.flat()
+              : []
+            ).map((ele) => {
+              {
+                /* let d = new Date(ele.MatchTime).toDateString();
+                let t = new Date(ele.MatchTime).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+                // MUST FIX THE TIME
+                let time = d + " " + t; */
+              }
+              let time = convertUTCtoEST(ele.MatchTime);
+              let apiId = ele.ID;
+              const event = ele.Odds.filter((odd) => odd.OddType === "Game")[0];
+              let homeTeamLogo;
+              let awayTeamLogo;
+              if (data.sport === "NBA") {
+                awayTeamLogo = NBAlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NBAlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "NFL") {
+                awayTeamLogo = NFLlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NFLlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "MLB") {
+                awayTeamLogo = MLBlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = MLBlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "NHL") {
+                awayTeamLogo = NHLlogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = NHLlogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              if (data.sport === "index") {
+                awayTeamLogo = allLogos.filter(
+                  (name) => name.team === ele.AwayTeam
+                )[0]?.logo;
+                homeTeamLogo = allLogos.filter(
+                  (name) => name.team === ele.HomeTeam
+                )[0]?.logo;
+              }
+              return (
+                <GameCard key={apiId}>
+                  <TableRow>
+                    <Link
+                      className="gameInfo"
+                      href={{
+                        pathname: `/sportsbook/games/[id]`,
+                        query: {
+                          sport: data.sport,
+                          id: apiId,
+                        },
+                      }}
+                      as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
+                      key={apiId}
+                    >
+                      {/* <div className="gameInfo"> */}
+                      {/* <div className='eventCell'> */}
+                      <div className="gameTime">{time}</div>
+                      <div
+                        className="teamInfo"
+                        onClick={() =>
+                          dispatch(
+                            selectGame({
+                              game: ele,
+                              sport: data.sport,
+                              atl: awayTeamLogo,
+                              htl: homeTeamLogo,
+                            })
+                          )
+                        }
                       >
                         {/* <div className="gameInfo"> */}
                         {/* <div className='eventCell'> */}
@@ -738,6 +768,14 @@ function Sportsbook({ data }) {
               })
             )}
           </Games>
+          {data.data.length < 1 && data.sport !== "index" && (
+            <AvailableLines>
+              <p>Not in Season</p>
+            </AvailableLines>
+          )}
+          {data.data.length < 1 && data.sport == "index" && (
+            <AvailableLines>No Local Games</AvailableLines>
+          )}
         </GamesContainer>
         <Bs className={!betSlip.length ? "hideSlip" : ""}>
           {betSlip.length > 0 && <BetSlip />}
