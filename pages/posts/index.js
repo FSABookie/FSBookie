@@ -15,6 +15,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
 import DropDown from "../../src/components/PostComps/dropDown";
+import { selectId } from "../../src/redux/slices/postSlice";
 
 const ThreadContainer = styled.div`
   color: white;
@@ -48,6 +49,11 @@ const SortBar = styled.div`
 
   div {
     padding-right: 5px;
+  }
+
+  @media (min-width: 850px) {
+    max-width: 600px;
+    margin: 1rem auto;
   }
 `;
 
@@ -140,6 +146,8 @@ export default function ForumThread() {
   const [incrementLike] = useIncrementLikeMutation();
   const { data: session } = useSession();
   const [filteredPosts, setFP] = useState();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     posts && setFP(posts);
