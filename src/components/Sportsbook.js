@@ -10,7 +10,7 @@ import {
   NFLlogos,
   allLogos,
 } from "../../public/teamLogos";
-import convertUTCtoEST from "../functions/TimeCoverter";
+import { convertUTCtoEST } from "../functions/TimeCoverter";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
