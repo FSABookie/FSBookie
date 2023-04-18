@@ -8,7 +8,7 @@ import {
   useGetPostsQuery,
   useIncrementLikeMutation,
 } from "../../src/redux/slices/apiSlice";
-import convertUTCtoEST from "../../src/functions/TimeCoverter";
+import { convertUTCtoTimeAgo } from "../../src/functions/TimeCoverter";
 // Icons
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
@@ -204,7 +204,7 @@ export default function ForumThread() {
                   <CommentHeader>
                     <HeaderElement>{singlePost.username} </HeaderElement>
                     <HeaderElement>
-                      {convertUTCtoEST(singlePost.createdAt)}
+                      {convertUTCtoTimeAgo(singlePost.createdAt)}
                     </HeaderElement>
                   </CommentHeader>
                   <Link
