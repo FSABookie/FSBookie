@@ -10,8 +10,7 @@ import {
 } from "../../src/redux/slices/apiSlice";
 import { convertUTCtoTimeAgo } from "../../src/functions/TimeCoverter";
 // Icons
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import { BiUpvote, BiDownvote } from "react-icons/bi";
 import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
 import DropDown from "../../src/components/PostComps/dropDown";
@@ -218,8 +217,8 @@ export default function ForumThread() {
                   <CommentContent>{singlePost.body}</CommentContent>
                   <CommentFooter>
                     <FooterEleContainer likes={true}>
-                      <ThumbUpIcon
-                        fontSize="small"
+                      <BiUpvote
+                        fontSize="large"
                         onClick={() =>
                           handleLikes({
                             id: singlePost.id,
@@ -228,8 +227,8 @@ export default function ForumThread() {
                         }
                       />
                       <CommentFooterText>{singlePost.likes}</CommentFooterText>
-                      <ThumbDownIcon
-                        fontSize="small"
+                      <BiDownvote
+                        fontSize="large"
                         onClick={() =>
                           handleLikes({
                             id: singlePost.id,
