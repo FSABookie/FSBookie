@@ -2,25 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 // redux
-import { useSelector, useDispatch } from "react-redux";
 import { signOut, useSession } from "next-auth/react";
 // react-icons
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
-import { GiMeatCleaver, GiHamburgerMenu } from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import {
-  useGetUserQuery,
-  useUpdateBetsMutation,
-  useUpdateParlayMutation,
-  useUpdateUserFundsMutation,
-  useGetUsersActiveBetsQuery,
-  useGetActiveParlayQuery,
-} from "../redux/slices/apiSlice";
+import { useGetUserQuery } from "../redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
-import { checkBetsThunk } from "../redux/thunks/checkBets";
-import { determineWinnerThunk } from "../redux/thunks/determineWinner";
 import { useRouter } from "next/router";
 
 const HeaderContainer = styled.div`

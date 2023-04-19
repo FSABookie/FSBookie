@@ -8,33 +8,24 @@ import {
   useGetPostQuery,
   useIncrementLikeMutation,
 } from "../../src/redux/slices/apiSlice";
-import { useSelector } from "react-redux";
 import ArrowCircleUpOutlinedIcon from "@mui/icons-material/ArrowCircleUpOutlined";
 import ArrowCircleDownOutlinedIcon from "@mui/icons-material/ArrowCircleDownOutlined";
-import convertUTCtoEST from "../../src/functions/TimeCoverter";
-import { useDispatch } from "react-redux";
+import { convertUTCtoTimeAgo } from "../../src/functions/TimeCoverter";
 import { wrapper } from "../../src/redux/store/store";
 import { apiSlice } from "../../src/redux/slices/apiSlice";
 import { useRouter } from "next/router";
+import CommentIcon from "@mui/icons-material/Comment";
+import ShareIcon from "@mui/icons-material/Share";
+import { BiUpvote, BiDownvote } from "react-icons/bi";
+import { BsReply } from "react-icons/bs";
 
 const Content = styled.div`
   background-color: #242424;
-  height: 100vh;
   margin: 5%;
   padding-left: 2%;
-
-  .postBody {
-    border-top: 2px solid #d5d3d3;
-    @media only screen and (min-width: 850px) {
-      justify-content: center;
-      margin-right: 0;
-    }
-  }
-
-  .userList {
-    list-style: none;
-    width: max-width;
-  }
+  dislay: flex;
+  flex-direction: column;
+  height: 100%;
 
   .backBtn {
     border: none;
@@ -46,60 +37,12 @@ const Content = styled.div`
     color: white;
   }
 
-  .replyForm {
-    text-align: center;
-    padding-top: 8%;
-    padding-bottom: 5%;
-
+  .postBody {
+    border-top: 2px solid #d5d3d3;
     @media only screen and (min-width: 850px) {
-      padding-right: 8%;
+      justify-content: center;
+      margin-right: 0;
     }
-  }
-
-  .commentInput {
-    border: none;
-    border-radius: 8px 0 0 8px;
-    width: 50%;
-    height: 2em;
-  }
-
-  .replyBtn {
-    border: none;
-    background: white;
-    border-radius: 0 8px 8px 0;
-    border-left: solid 0.8px black;
-    height: 2em;
-  }
-
-  .singleReply {
-    background: white;
-    width: 100%;
-    background-color: #242424;
-    color: black;
-
-    h4 {
-      color: white;
-      ${
-        "" /* margin-top: 0;
-      margin-bottom: 0; */
-      }
-      padding-left: 2%;
-    }
-
-    @media only screen and (min-width: 850px) {
-      padding-left: 15%;
-
-      ${
-        "" /* h4 {
-        margin-top: 0;
-        margin-bottom: 0;
-      } */
-      }
-    }
-  }
-
-  .singleComment {
-    margin-left: 10%;
   }
 
   .postInfo {
@@ -131,17 +74,8 @@ const Content = styled.div`
   }
 
   .commentBody {
-    font-weight: 300;
-    padding: 1.5%;
-    margin-bottom: 0;
-    margin-top: 0;
-    background-color: #d5d3d3;
-    border: none;
-    border-radius: 25px;
-    @media only screen and (min-width: 850px) {
-      width: 70%;
-      border: none;
-    }
+    font-size: 0.85em;
+    padding-left: 2%;
   }
 
   .toggle {
@@ -195,6 +129,133 @@ const ContentBody = styled.div`
   h2 {
     margin-bottom: 3%;
   }
+
+  .body {
+    font-size: 0.85em;
+  }
+`;
+
+const PostFooter = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const FooterEleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-right: 2%;
+  padding-top: 7%;
+  ${"" /* padding-left: 10px; */}
+`;
+
+const ReplySection = styled.div`
+  padding-top: 5%;
+
+  .user {
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8em;
+
+    .name {
+      color: rgb(75, 174, 236);
+    }
+  }
+
+  .replyFormContainer {
+    margin-top: 2%;
+    display: flex;
+    flex-direction: column;
+    border-style: inset;
+    border-width: 0.5px;
+    border-radius: 5px;
+
+    .replyTextArea {
+      background-color: #252525;
+      width: 100%;
+      resize: vertical;
+      color: white;
+      padding: 1.5%;
+      font-size: 1em;
+      font-weight: 1em;
+      border-style: none;
+    }
+
+    .replyFooter {
+      background-color: #27272a;
+      width: 100%;
+      padding: 1%;
+    }
+  }
+`;
+
+const SubmitButton = styled.button`
+  border-style: none;
+  border-radius: 10px;
+  padding: 1.25% 2.25% 1.25% 2.25%;
+  cursor: ${({ allowed }) => (allowed ? "pointer" : "not-allowed")};
+`;
+
+const Comments = styled.ul`
+  padding-bottom: 1%;
+  li {
+    list-style: none;
+    width: max-width;
+  }
+
+  .replyForm {
+    text-align: center;
+    padding-bottom: 5%;
+
+    @media only screen and (min-width: 850px) {
+      padding-right: 8%;
+    }
+  }
+
+  .commentInput {
+    border: none;
+    border-radius: 8px 0 0 8px;
+    width: 50%;
+    height: 2em;
+  }
+
+  .replyFooter {
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .footerEleContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-right: 3.5%;
+
+    p {
+      font-size: 0.85em;
+    }
+  }
+
+  .singleReply {
+    background: white;
+    width: 100%;
+    background-color: #242424;
+    color: white;
+    padding-bottom: 3%;
+
+    .replyHeader {
+      display: flex;
+      flex-direction: row;
+      font-size: 0.8em;
+    }
+
+    .time {
+      color: #008000;
+    }
+  }
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(
@@ -219,22 +280,24 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 function SinglePost(props) {
   const { data: session } = useSession();
+  const [comment, setComment] = useState("");
   //Possible way to use useState to hold bodyRef's states but causing infinite renders right now!
   // const [refs, setRefs] = useState([]);
   // const [bodyRefs, setBodyRefs] = useState([]);
   const [incrementLike] = useIncrementLikeMutation();
   const [CreateComment] = useCreateCommentMutation();
-  const bodyRef = useRef();
-  const refs = [];
-  const bodyRefs = [];
   const { query } = useRouter();
   const { data: post, isSuccess } = useGetPostQuery(
     query.id ? query.id : skipToken
   );
 
   useEffect(() => {
-    console.log(post);
-  }, [post]);
+    console.log(session);
+  }, [session]);
+
+  const bodyRef = useRef();
+  const refs = [];
+  const bodyRefs = [];
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -243,7 +306,7 @@ function SinglePost(props) {
       postId: post.id,
       isParent: true,
       username: session.user.username,
-      body: bodyRef.current.value,
+      body: comment,
     };
     try {
       await CreateComment(payload);
@@ -285,8 +348,8 @@ function SinglePost(props) {
       <Content>
         <PostBodyCntr>
           <Likes>
-            <ArrowCircleUpOutlinedIcon
-              fontSize="small"
+            <BiUpvote
+              fontSize="large"
               onClick={() =>
                 handleLikes({
                   id: post.id,
@@ -295,8 +358,8 @@ function SinglePost(props) {
               }
             />{" "}
             {post.likes} <br></br>
-            <ArrowCircleDownOutlinedIcon
-              fontSize="small"
+            <BiDownvote
+              fontSize="large"
               onClick={() =>
                 handleLikes({
                   id: post.id,
@@ -311,7 +374,8 @@ function SinglePost(props) {
                 {" "}
                 <div className="userAndTitle">
                   <div className="author">
-                    Posted By: {post.username} {convertUTCtoEST(post.createdAt)}
+                    Posted By: {post.username}{" "}
+                    {convertUTCtoTimeAgo(post.createdAt)}
                   </div>
                   <div className="title">{post.title}</div>
                 </div>
@@ -322,38 +386,77 @@ function SinglePost(props) {
                 </Link>
               </div>
             </div>
-            <div>{post.body}</div>
-            <form className="replyForm" onSubmit={handleSubmit}>
-              <label>
-                <input
-                  className="commentInput"
-                  placeholder="Add a Comment..."
-                  type="text"
-                  ref={bodyRef}
-                />
-              </label>
-              <button className="replyBtn" type="submit">
-                Reply
-              </button>
-            </form>
+            <div className="body">{post.body}</div>
+            <PostFooter>
+              <FooterEleContainer>
+                <CommentIcon />
+                &nbsp;
+                {post.comments.length}&nbsp;Comments
+              </FooterEleContainer>
+              <FooterEleContainer>
+                &nbsp;
+                <ShareIcon />
+                &nbsp;Share
+              </FooterEleContainer>
+            </PostFooter>
+            <ReplySection>
+              <div className="user">
+                Comment as&nbsp;
+                <div className="name">{session.user.username}</div>
+              </div>
+              <div className="replyFormContainer">
+                <textarea
+                  className="replyTextArea"
+                  placeholder="What are your thoughts?"
+                  rows="10"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                ></textarea>
+                <div className="replyFooter">
+                  <SubmitButton
+                    onClick={handleSubmit}
+                    allowed={comment.length >= 1}
+                  >
+                    Comment
+                  </SubmitButton>
+                </div>
+              </div>
+            </ReplySection>
           </ContentBody>
         </PostBodyCntr>
-        <ul className="userList">
+        <Comments>
           {post.comments.map((comment, idx) => {
             // console.log(comment)
             //I originally had my ref.push here but I am thinking of creating multiple refs in diff arrays
             return (
               <li key={idx}>
                 <div className="singleReply">
-                  <h4>{comment.username}</h4>
+                  <div className="replyHeader">
+                    <div>{comment.username} - </div>
+                    <div className="time">
+                      &nbsp; {convertUTCtoTimeAgo(comment.createdAt)}
+                    </div>
+                  </div>
                   <p className="commentBody">{comment.body}</p>
                   <div className="toggle">{refs.push(React.createRef())}</div>
-                  <button
-                    className="replyButton"
+                  {/*HEEEEEEEREEEEEEEEEE */}
+                  <div
+                    className="replyFooter"
                     onClick={(e) => replyToggle(e, idx)}
                   >
-                    Reply
-                  </button>
+                    <div className="footerEleContainer">
+                      <BiUpvote />
+                      <p>0</p>
+                      <BiDownvote />
+                    </div>
+                    <div className="footerEleContainer">
+                      {" "}
+                      <BsReply /> <p>Reply</p>
+                    </div>
+                    <div className="footerEleContainer">
+                      <p>Share</p>
+                    </div>
+                  </div>
                   {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
                   <Reply className="toggle" key={idx} ref={refs[idx]}>
                     <div className="toggle">
@@ -372,26 +475,67 @@ function SinglePost(props) {
                       SUBMIT REPLY
                     </button>
                   </Reply>
-                  <ul className="userList">
+                  <Comments>
                     {comment.comments.length
                       ? comment.comments.map((comment, idx) => {
                           //I am thinking of putting another onSubmit handler for Nested comments to make it easier
                           return (
                             <li key={idx}>
-                              <div className="singleComment">
-                                <h4>{comment.username}</h4>
+                              <div className="singleReply">
+                                <div className="replyHeader">
+                                  <div>{comment.username} - </div>
+                                  <div className="time">
+                                    &nbsp;{" "}
+                                    {convertUTCtoTimeAgo(comment.createdAt)}
+                                  </div>
+                                </div>
                                 <p className="commentBody">{comment.body}</p>
+                                <div className="toggle">
+                                  {refs.push(React.createRef())}
+                                </div>
+                                <div
+                                  className="replyFooter"
+                                  // onClick={(e) => replyToggle(e, idx)}
+                                >
+                                  <BiUpvote />
+                                  {0}
+                                  <BiDownvote />
+                                </div>
+                                {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
+                                <Reply
+                                  className="toggle"
+                                  key={idx}
+                                  ref={refs[idx]}
+                                >
+                                  <div className="toggle">
+                                    {bodyRefs.push(React.createRef())}
+                                  </div>
+                                  {/* {setBodyRefs(oldState => [...oldState, React.createRef()])} */}
+                                  <input
+                                    type="text"
+                                    className="hiddenReply"
+                                    ref={bodyRefs[idx]}
+                                  />
+                                  <button
+                                    type="submit"
+                                    onClick={() =>
+                                      handleNestedComment(comment, idx)
+                                    }
+                                  >
+                                    SUBMIT REPLY
+                                  </button>
+                                </Reply>
                               </div>
                             </li>
                           );
                         })
                       : null}
-                  </ul>
+                  </Comments>
                 </div>
               </li>
             );
           })}
-        </ul>{" "}
+        </Comments>{" "}
       </Content>
     )
   );
