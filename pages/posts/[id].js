@@ -136,7 +136,7 @@ const ContentBody = styled.div`
   flex-direction: column;
   color: white;
   padding: 4%;
-
+  width: 90%;
   h2 {
     margin-bottom: 3%;
   }
@@ -422,8 +422,14 @@ function SinglePost(props) {
               </PostFooter>
               <ReplySection>
                 <div className="user">
-                  Comment as&nbsp;
-                  <div className="name">{session.user.username}</div>
+                  {session ? (
+                    <>
+                      <span>Comment as&nbsp;</span>
+                      <div className="name">{session?.user.username}</div>
+                    </>
+                  ) : (
+                    "Sign in To Comment"
+                  )}
                 </div>
                 <div className="replyFormContainer">
                   <textarea
