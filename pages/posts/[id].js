@@ -32,10 +32,10 @@ const Content = styled.div`
   }
   border: 0.5px solid #666;
   background-color: #1a1a1c;
-  padding: 1rem;
+  ${"" /* padding: 1rem; */}
   width: 100%;
   margin: 1.7%;
-  padding-left: 2%;
+  ${"" /* padding-left: 2%; */}
   dislay: flex;
   flex-direction: column;
 
@@ -53,7 +53,7 @@ const Content = styled.div`
     border-top: 2px solid #d5d3d3;
     @media only screen and (min-width: 850px) {
       justify-content: center;
-      margin-right: 0;
+      ${"" /* margin-right: 0; */}
     }
   }
 
