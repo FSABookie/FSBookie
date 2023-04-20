@@ -21,7 +21,7 @@ export const fetchUserThunk = createAsyncThunk(
 const userSlice = createSlice({
   name: "userSlice",
   initialState: {
-    user: undefined,
+    user: "",
     isLoggedIn: false,
   },
   reducers: {
@@ -29,7 +29,7 @@ const userSlice = createSlice({
       state.user = action.payload;
     },
     removeUser: (state) => {
-      state.user = undefined;
+      state.user = "";
       state.isLoggedIn = false;
     },
   },

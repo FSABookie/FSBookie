@@ -10,11 +10,12 @@ import {
   NFLlogos,
   allLogos,
 } from "../../public/teamLogos";
-import convertUTCtoEST from "../functions/TimeCoverter";
+import { convertUTCtoEST } from "../functions/TimeCoverter";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
 import { clearLocalGames } from "../../src/redux/slices/localGames-slice";
+import ImageCarousel from "./sports-components/betslipComponents/ImageCarousel";
 
 const SportsContainer = styled.div`
   @media only screen and (min-width: 360px) {
@@ -305,6 +306,7 @@ function Sportsbook({ data }) {
 
   return (
     <SportsContainer>
+      <ImageCarousel />
       <SportsHeader>
         <Link href="/sportsbook/NFL" className="sport">
           {/* <a className="sport">Football</a> */}
