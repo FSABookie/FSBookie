@@ -18,14 +18,26 @@ import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
 import { BiUpvote, BiDownvote } from "react-icons/bi";
 import { BsReply } from "react-icons/bs";
+import Desktop from "../../src/components/PostComps/Desktop";
 
 const Content = styled.div`
-  background-color: #242424;
+  ${
+    "" /* border: 0.5px solid #666;
+  background-color: #1a1a1c;
   margin: 5%;
   padding-left: 2%;
   dislay: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100%; */
+  }
+  border: 0.5px solid #666;
+  background-color: #1a1a1c;
+  padding: 1rem;
+  width: 100%;
+  margin: 1.7%;
+  padding-left: 2%;
+  dislay: flex;
+  flex-direction: column;
 
   .backBtn {
     border: none;
@@ -48,7 +60,6 @@ const Content = styled.div`
   .postInfo {
     color: #d5d3d3;
 
-    background-color: #242424;
     ${"" /* padding: 4%; */}
 
     .contentHeader {
@@ -172,7 +183,8 @@ const ReplySection = styled.div`
     border-radius: 5px;
 
     .replyTextArea {
-      background-color: #252525;
+      border: 0.5px solid #666;
+      background-color: #1a1a1c;
       width: 100%;
       resize: vertical;
       color: white;
@@ -242,7 +254,7 @@ const Comments = styled.ul`
   .singleReply {
     background: white;
     width: 100%;
-    background-color: #242424;
+    background-color: #1a1a1c;
     color: white;
     padding-bottom: 3%;
 
@@ -256,6 +268,14 @@ const Comments = styled.ul`
       color: #008000;
     }
   }
+`;
+
+const DesktopContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: white;
+  margin: 3%;
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(
@@ -345,198 +365,201 @@ function SinglePost(props) {
 
   return (
     post && (
-      <Content>
-        <PostBodyCntr>
-          <Likes>
-            <BiUpvote
-              fontSize="large"
-              onClick={() =>
-                handleLikes({
-                  id: post.id,
-                  payload: { likes: post.likes + 1 },
-                })
-              }
-            />{" "}
-            {post.likes} <br></br>
-            <BiDownvote
-              fontSize="large"
-              onClick={() =>
-                handleLikes({
-                  id: post.id,
-                  payload: { likes: post.likes - 1 },
-                })
-              }
-            />{" "}
-          </Likes>
-          <ContentBody>
-            <div className="postInfo">
-              <div className="contentHeader">
-                {" "}
-                <div className="userAndTitle">
-                  <div className="author">
-                    Posted By: {post.username}{" "}
-                    {convertUTCtoTimeAgo(post.createdAt)}
+      <DesktopContainer>
+        <Content>
+          <PostBodyCntr>
+            <Likes>
+              <BiUpvote
+                fontSize="large"
+                onClick={() =>
+                  handleLikes({
+                    id: post.id,
+                    payload: { likes: post.likes + 1 },
+                  })
+                }
+              />{" "}
+              {post.likes} <br></br>
+              <BiDownvote
+                fontSize="large"
+                onClick={() =>
+                  handleLikes({
+                    id: post.id,
+                    payload: { likes: post.likes - 1 },
+                  })
+                }
+              />{" "}
+            </Likes>
+            <ContentBody>
+              <div className="postInfo">
+                <div className="contentHeader">
+                  {" "}
+                  <div className="userAndTitle">
+                    <div className="author">
+                      Posted By: {post.username}{" "}
+                      {convertUTCtoTimeAgo(post.createdAt)}
+                    </div>
+                    <div className="title">{post.title}</div>
                   </div>
-                  <div className="title">{post.title}</div>
-                </div>
-                <Link href="/posts">
-                  <div className="backBtnDiv">
-                    <button className="backBtn">BACK</button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-            <div className="body">{post.body}</div>
-            <PostFooter>
-              <FooterEleContainer>
-                <CommentIcon />
-                &nbsp;
-                {post.comments.length}&nbsp;Comments
-              </FooterEleContainer>
-              <FooterEleContainer>
-                &nbsp;
-                <ShareIcon />
-                &nbsp;Share
-              </FooterEleContainer>
-            </PostFooter>
-            <ReplySection>
-              <div className="user">
-                Comment as&nbsp;
-                <div className="name">{session.user.username}</div>
-              </div>
-              <div className="replyFormContainer">
-                <textarea
-                  className="replyTextArea"
-                  placeholder="What are your thoughts?"
-                  rows="10"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                ></textarea>
-                <div className="replyFooter">
-                  <SubmitButton
-                    onClick={handleSubmit}
-                    allowed={comment.length >= 1}
-                  >
-                    Comment
-                  </SubmitButton>
+                  <Link href="/posts">
+                    <div className="backBtnDiv">
+                      <button className="backBtn">BACK</button>
+                    </div>
+                  </Link>
                 </div>
               </div>
-            </ReplySection>
-          </ContentBody>
-        </PostBodyCntr>
-        <Comments>
-          {post.comments.map((comment, idx) => {
-            // console.log(comment)
-            //I originally had my ref.push here but I am thinking of creating multiple refs in diff arrays
-            return (
-              <li key={idx}>
-                <div className="singleReply">
-                  <div className="replyHeader">
-                    <div>{comment.username} - </div>
-                    <div className="time">
-                      &nbsp; {convertUTCtoTimeAgo(comment.createdAt)}
-                    </div>
-                  </div>
-                  <p className="commentBody">{comment.body}</p>
-                  <div className="toggle">{refs.push(React.createRef())}</div>
-                  {/*HEEEEEEEREEEEEEEEEE */}
-                  <div
-                    className="replyFooter"
-                    onClick={(e) => replyToggle(e, idx)}
-                  >
-                    <div className="footerEleContainer">
-                      <BiUpvote />
-                      <p>0</p>
-                      <BiDownvote />
-                    </div>
-                    <div className="footerEleContainer">
-                      {" "}
-                      <BsReply /> <p>Reply</p>
-                    </div>
-                    <div className="footerEleContainer">
-                      <p>Share</p>
-                    </div>
-                  </div>
-                  {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
-                  <Reply className="toggle" key={idx} ref={refs[idx]}>
-                    <div className="toggle">
-                      {bodyRefs.push(React.createRef())}
-                    </div>
-                    {/* {setBodyRefs(oldState => [...oldState, React.createRef()])} */}
-                    <input
-                      type="text"
-                      className="hiddenReply"
-                      ref={bodyRefs[idx]}
-                    />
-                    <button
-                      type="submit"
-                      onClick={() => handleNestedComment(comment, idx)}
+              <div className="body">{post.body}</div>
+              <PostFooter>
+                <FooterEleContainer>
+                  <CommentIcon />
+                  &nbsp;
+                  {post.comments.length}&nbsp;Comments
+                </FooterEleContainer>
+                <FooterEleContainer>
+                  &nbsp;
+                  <ShareIcon />
+                  &nbsp;Share
+                </FooterEleContainer>
+              </PostFooter>
+              <ReplySection>
+                <div className="user">
+                  Comment as&nbsp;
+                  <div className="name">{session.user.username}</div>
+                </div>
+                <div className="replyFormContainer">
+                  <textarea
+                    className="replyTextArea"
+                    placeholder="What are your thoughts?"
+                    rows="10"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  ></textarea>
+                  <div className="replyFooter">
+                    <SubmitButton
+                      onClick={handleSubmit}
+                      allowed={comment.length >= 1}
                     >
-                      SUBMIT REPLY
-                    </button>
-                  </Reply>
-                  <Comments>
-                    {comment.comments.length
-                      ? comment.comments.map((comment, idx) => {
-                          //I am thinking of putting another onSubmit handler for Nested comments to make it easier
-                          return (
-                            <li key={idx}>
-                              <div className="singleReply">
-                                <div className="replyHeader">
-                                  <div>{comment.username} - </div>
-                                  <div className="time">
-                                    &nbsp;{" "}
-                                    {convertUTCtoTimeAgo(comment.createdAt)}
-                                  </div>
-                                </div>
-                                <p className="commentBody">{comment.body}</p>
-                                <div className="toggle">
-                                  {refs.push(React.createRef())}
-                                </div>
-                                <div
-                                  className="replyFooter"
-                                  // onClick={(e) => replyToggle(e, idx)}
-                                >
-                                  <BiUpvote />
-                                  {0}
-                                  <BiDownvote />
-                                </div>
-                                {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
-                                <Reply
-                                  className="toggle"
-                                  key={idx}
-                                  ref={refs[idx]}
-                                >
-                                  <div className="toggle">
-                                    {bodyRefs.push(React.createRef())}
-                                  </div>
-                                  {/* {setBodyRefs(oldState => [...oldState, React.createRef()])} */}
-                                  <input
-                                    type="text"
-                                    className="hiddenReply"
-                                    ref={bodyRefs[idx]}
-                                  />
-                                  <button
-                                    type="submit"
-                                    onClick={() =>
-                                      handleNestedComment(comment, idx)
-                                    }
-                                  >
-                                    SUBMIT REPLY
-                                  </button>
-                                </Reply>
-                              </div>
-                            </li>
-                          );
-                        })
-                      : null}
-                  </Comments>
+                      Comment
+                    </SubmitButton>
+                  </div>
                 </div>
-              </li>
-            );
-          })}
-        </Comments>{" "}
-      </Content>
+              </ReplySection>
+            </ContentBody>
+          </PostBodyCntr>
+          <Comments>
+            {post.comments.map((comment, idx) => {
+              // console.log(comment)
+              //I originally had my ref.push here but I am thinking of creating multiple refs in diff arrays
+              return (
+                <li key={idx}>
+                  <div className="singleReply">
+                    <div className="replyHeader">
+                      <div>{comment.username} - </div>
+                      <div className="time">
+                        &nbsp; {convertUTCtoTimeAgo(comment.createdAt)}
+                      </div>
+                    </div>
+                    <p className="commentBody">{comment.body}</p>
+                    <div className="toggle">{refs.push(React.createRef())}</div>
+                    {/*HEEEEEEEREEEEEEEEEE */}
+                    <div
+                      className="replyFooter"
+                      onClick={(e) => replyToggle(e, idx)}
+                    >
+                      <div className="footerEleContainer">
+                        <BiUpvote />
+                        <p>0</p>
+                        <BiDownvote />
+                      </div>
+                      <div className="footerEleContainer">
+                        {" "}
+                        <BsReply /> <p>Reply</p>
+                      </div>
+                      <div className="footerEleContainer">
+                        <p>Share</p>
+                      </div>
+                    </div>
+                    {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
+                    <Reply className="toggle" key={idx} ref={refs[idx]}>
+                      <div className="toggle">
+                        {bodyRefs.push(React.createRef())}
+                      </div>
+                      {/* {setBodyRefs(oldState => [...oldState, React.createRef()])} */}
+                      <input
+                        type="text"
+                        className="hiddenReply"
+                        ref={bodyRefs[idx]}
+                      />
+                      <button
+                        type="submit"
+                        onClick={() => handleNestedComment(comment, idx)}
+                      >
+                        SUBMIT REPLY
+                      </button>
+                    </Reply>
+                    <Comments>
+                      {comment.comments.length
+                        ? comment.comments.map((comment, idx) => {
+                            //I am thinking of putting another onSubmit handler for Nested comments to make it easier
+                            return (
+                              <li key={idx}>
+                                <div className="singleReply">
+                                  <div className="replyHeader">
+                                    <div>{comment.username} - </div>
+                                    <div className="time">
+                                      &nbsp;{" "}
+                                      {convertUTCtoTimeAgo(comment.createdAt)}
+                                    </div>
+                                  </div>
+                                  <p className="commentBody">{comment.body}</p>
+                                  <div className="toggle">
+                                    {refs.push(React.createRef())}
+                                  </div>
+                                  <div
+                                    className="replyFooter"
+                                    // onClick={(e) => replyToggle(e, idx)}
+                                  >
+                                    <BiUpvote />
+                                    {0}
+                                    <BiDownvote />
+                                  </div>
+                                  {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
+                                  <Reply
+                                    className="toggle"
+                                    key={idx}
+                                    ref={refs[idx]}
+                                  >
+                                    <div className="toggle">
+                                      {bodyRefs.push(React.createRef())}
+                                    </div>
+                                    {/* {setBodyRefs(oldState => [...oldState, React.createRef()])} */}
+                                    <input
+                                      type="text"
+                                      className="hiddenReply"
+                                      ref={bodyRefs[idx]}
+                                    />
+                                    <button
+                                      type="submit"
+                                      onClick={() =>
+                                        handleNestedComment(comment, idx)
+                                      }
+                                    >
+                                      SUBMIT REPLY
+                                    </button>
+                                  </Reply>
+                                </div>
+                              </li>
+                            );
+                          })
+                        : null}
+                    </Comments>
+                  </div>
+                </li>
+              );
+            })}
+          </Comments>{" "}
+        </Content>
+        <Desktop />
+      </DesktopContainer>
     )
   );
 }
