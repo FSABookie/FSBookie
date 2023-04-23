@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { HYDRATE } from "next-redux-wrapper";
 
 // invalidate tags and mutation is only for PUT POST DELETE
 // provide tags and query is only for GET
@@ -9,6 +10,11 @@ export const apiSlice = createApi({
     baseUrl: "https://www.fsabookie.com/api",
     // baseUrl: "http://localhost:3000/api",
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   tagTypes: [
     "MLB",
     "NBA",

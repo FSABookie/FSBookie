@@ -39,6 +39,8 @@ const Input = styled.div`
 
   @media only screen and (min-width: 850px) {
     padding-left: 15%;
+    padding-right: 15%;
+    margin-top: 2%;
   }
 
   input {
