@@ -12,7 +12,6 @@ export const Container = styled.div`
 
 export const LoginFormContainer = styled.div`
   display: flex;
-  height: 75vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -54,7 +53,6 @@ export const LoginFormContainer = styled.div`
 
       .label {
         font-size: 0.75em;
-        margin-bottom: 1.5%;
       }
 
       input {
@@ -115,6 +113,7 @@ export const Required = styled.div`
   flex-direction: row;
   align-items: center;
   font-size: 0.75em;
+  margin-bottom: 3%;
 `;
 
 export const RememberPW = styled.div`
