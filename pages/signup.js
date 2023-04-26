@@ -3,10 +3,27 @@ import Router from "next/router";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import axios from "axios";
+import {
+  Container,
+  InputField,
+  LoginFormContainer,
+  RememberPW,
+  Required,
+  RequiredContainer,
+  SignInButton,
+  PasswordContainer,
+  PasswordInput,
+  EyeHolder,
+  RegisterHere,
+} from "../styles/register.styles";
+import { MdOutlineError } from "react-icons/md";
+import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import Footer from "../src/components/Footer";
+import Link from "next/link";
 
 const SignInFormContainer = styled.div`
   margin: 1em;
-  color:white;
+  color: white;
 
   .mainButton {
     border: none;
@@ -16,7 +33,6 @@ const SignInFormContainer = styled.div`
     font-weight: bold;
   }
 
-  
   form {
     text-align: center;
     display: flex;
@@ -46,7 +62,6 @@ const SignInFormContainer = styled.div`
       width: 60%;
       padding-left: 35%;
     }
-
   }
   p {
     margin: auto;
@@ -59,43 +74,42 @@ const SignInFormContainer = styled.div`
 `;
 
 export default function Signup() {
-
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
-  const usernameRef = useRef();
-  const firstNameRef = useRef();
-  const lastNameRef = useRef();
+  const [pw, setPw] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [type, setType] = useState("password");
   // const addressRef = useRef();
   //   const [error, setError] = useState("");
   //   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
-  async function register({email, password, username, firstName, lastName}) {
-		try {
-			const {data: user} = await axios.post('api/users', {
-				email,
-				password,
+  async function register({ email, password, username, firstName, lastName }) {
+    try {
+      const { data: user } = await axios.post("api/users", {
+        email,
+        password,
         username,
         firstName,
-        lastName
-			});
+        lastName,
+      });
       console.log(user);
-      return user
-		} catch (err) {
-			console.error(err);
-		}
-	}
+      return user;
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
     const credentials = {
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-      username: usernameRef.current.value,
-      firstName: firstNameRef.current.value,
-      lastName: lastNameRef.current.value,
+      email,
+      password: pw,
+      username,
+      firstName: firstName,
+      lastName: lastName,
       // address: addressRef.current.value,
     };
 
@@ -114,39 +128,150 @@ export default function Signup() {
     // setLoading(false);
   }
 
+  const handleShowPw = () => {
+    if (type === "password") {
+      setType("text");
+    } else {
+      setType("password");
+    }
+  };
+
   return (
-      <SignInFormContainer>
-        <form className="signupForm" onSubmit={handleSubmit} autoComplete="off">
-          <label>
-            
-            <input placeholder="First Name" type="text" ref={firstNameRef} />
-          </label>
-          <label>
-           
-            <input placeholder="Last Name" type="text" ref={lastNameRef} />
-          </label>
-          <label>
-            
-            <input placeholder="Username" type="text" ref={usernameRef} />
-          </label>
-          {/* <label>
-            Address:
-            <input type="text" ref={addressRef} />
-          </label> */}
-          <label>
-         
-            <input placeholder="Email Address" type="text" ref={emailRef} />
-          </label>
-          <label>
-            
-            <input placeholder="Password" type="password" ref={passwordRef} />
-          </label>
-          <label>
-            
-            <input placeholder="Confirm Password" type="password" ref={confirmPasswordRef} />
-          </label>
-          <button type="submit" className="mainButton">Sign Up</button>
-        </form>
-      </SignInFormContainer>
+    <>
+      <Container>
+        <LoginFormContainer>
+          <div className="formHeader">
+            {" "}
+            <h2>Create your FSABookie Account</h2>
+            <div>
+              You&apos;ll use this one account to access all DraftKings
+              features.
+            </div>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <label className="input">
+              <div className="label">Email</div>
+              <InputField
+                placeholder="Email"
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                empty={email.length < 1}
+              />
+            </label>
+            <RequiredContainer>
+              {email.length < 1 && (
+                <Required>
+                  <MdOutlineError color="red" />
+                  &nbsp;
+                  <div>Please enter your email address</div>
+                </Required>
+              )}
+            </RequiredContainer>
+
+            <label className="input">
+              <div className="label">Username</div>
+              <InputField
+                placeholder="Username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                empty={username.length < 1}
+              />
+            </label>
+            <RequiredContainer>
+              {email.length < 1 && (
+                <Required>
+                  <MdOutlineError color="red" />
+                  &nbsp;
+                  <div>Please enter your email address</div>
+                </Required>
+              )}
+            </RequiredContainer>
+
+            <label className="input">
+              <div className="label">First Name</div>
+              <InputField
+                placeholder="First Name"
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                empty={firstName.length < 1}
+              />
+            </label>
+            <RequiredContainer>
+              {email.length < 1 && (
+                <Required>
+                  <MdOutlineError color="red" />
+                  &nbsp;
+                  <div>Please enter your email address</div>
+                </Required>
+              )}
+            </RequiredContainer>
+
+            <label className="input">
+              <div className="label">Last Name</div>
+              <InputField
+                placeholder="Last Name"
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                empty={lastName.length < 1}
+              />
+            </label>
+            <RequiredContainer>
+              {email.length < 1 && (
+                <Required>
+                  <MdOutlineError color="red" />
+                  &nbsp;
+                  <div>Please enter your email address</div>
+                </Required>
+              )}
+            </RequiredContainer>
+
+            <label className="input">
+              <div className="label">Password</div>
+              <PasswordContainer empty={pw.length < 1}>
+                <PasswordInput
+                  placeholder="Password"
+                  type={type}
+                  value={pw}
+                  onChange={(e) => setPw(e.target.value)}
+                />
+                <EyeHolder>
+                  {type === "password" ? (
+                    <BsEyeFill onClick={handleShowPw} />
+                  ) : (
+                    <BsEyeSlashFill onClick={handleShowPw} />
+                  )}
+                </EyeHolder>
+              </PasswordContainer>
+            </label>
+            {pw.length < 1 && (
+              <Required>
+                <MdOutlineError color="red" />
+                &nbsp;
+                <div>A password is required</div>
+              </Required>
+            )}
+            <SignInButton type="submit" className="mainButton">
+              Create Account
+            </SignInButton>
+          </form>
+          <RegisterHere>
+            <p>Already have an account? </p>&nbsp;
+            <Link href="/login">
+              <div
+                style={{ textDecorationLine: "underline", fontWeight: "bold" }}
+              >
+                Sign In
+              </div>
+            </Link>
+          </RegisterHere>{" "}
+          <hr />
+        </LoginFormContainer>
+      </Container>
+      <Footer />
+    </>
   );
 }
