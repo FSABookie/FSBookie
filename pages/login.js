@@ -4,138 +4,148 @@ import Link from "next/link";
 import styled from "styled-components";
 // import authService from "../services/auth.service";
 import { useDispatch } from "react-redux";
-import { fetchUserThunk } from "../src/redux/slices/user-slice";
-import { useGetSingleOrderQuery } from "../src/redux/slices/apiSlice";
 import { signIn, getSession } from "next-auth/react";
-import { handleFundsThunk } from "../src/redux/slices/Funds-slice";
-
-const LoginFormContainer = styled.div`
-    margin: 1em;
-
-    .signup {
-        color: white;
-    }
-    form {
-        gap: 1.2em;
-        display: flex;
-        flex-direction: column;
-        label {
-            margin-top: 0.5em;
-            display: flex;
-            justify-content: space-between;
-            input {
-                width: 100%;
-                height: 3em;
-                border: none;
-                border-radius: 8px;
-            }
-        }
-        button {
-            margin: 0.65em auto;
-            border: none;
-            width: 50%;
-            height: 1.8em;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        @media only screen and (min-width: 850px) {
-            width: 60%;
-            padding-left: 35%;
-        }
-    }
-    p {
-        margin: auto;
-        text-align: center;
-        font-style: italic;
-        a {
-            text-decoration: underline;
-        }
-
-        @media only screen and (min-width: 850px) {
-            padding-right: 5%;
-        }
-    }
-`;
+import {
+  Container,
+  InputField,
+  LoginFormContainer,
+  RememberPW,
+  Required,
+  RequiredContainer,
+  SignInButton,
+  PasswordContainer,
+  PasswordInput,
+  EyeHolder,
+  RegisterHere,
+} from "../styles/register.styles";
+import { MdOutlineError } from "react-icons/md";
+import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import Footer from "../src/components/Footer";
 
 const Login = () => {
-    //   const { login } = authService;
+  const [pw, setPw] = useState("");
+  const [email, setEmail] = useState("");
+  const [type, setType] = useState("password");
+  const router = useRouter();
 
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    // const [error, setError] = useState("");
-    // const [loading, setLoading] = useState(false);
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const credentials = {
+      email,
+      password: pw,
+    };
 
-    const dispatch = useDispatch();
-    const router = useRouter();
-
-    // const hanleFundsToThunk = async () => {
-    //   const session = await getSession();
-    //   console.log(session);
-    //   dispatch(
-    //     handleFundsThunk({
-    //       id: session.user.id,
-    //       funds: session.user.balance,
-    //       type: null,
-    //     })
-    //   );
-    // };
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-        const credentials = {
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
-        };
-
-        try {
-            // setError("");
-            // setLoading(true);
-            // await login(credentials);
-            console.log(credentials);
-            signIn("credentials", { ...credentials, redirect: false })
-                .then((response) => {
-                    console.log(response);
-                    if (response.ok) {
-                        router.push("/sportsbook/NFL");
-                    }
-                })
-                // .then(dispatch(handleFundsThunk({ id: user.id, funds: null, type: null })))
-                .catch((err) => {
-                    console.log(err);
-                });
-        } catch (err) {
-            console.log("Failed to sign in");
-            console.error(err);
-        }
+    try {
+      console.log(credentials);
+      signIn("credentials", { ...credentials, redirect: false })
+        .then((response) => {
+          console.log(response);
+          if (response.ok) {
+            router.push("/sportsbook/NFL");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log("Failed to sign in");
+      console.error(err);
     }
+  }
 
-    return (
+  const handleShowPw = () => {
+    if (type === "password") {
+      setType("text");
+    } else {
+      setType("password");
+    }
+  };
+
+  return (
+    <>
+      <Container>
         <LoginFormContainer>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <input placeholder="Email" type="text" ref={emailRef} />
-                </label>
+          <div className="formHeader">
+            {" "}
+            <h2>Log In</h2>
+            <div>to continue to FSABookie Sportsbook</div>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <label className="input">
+              <div className="label">Email</div>
+              <InputField
+                placeholder="Email"
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                empty={email.length < 1}
+              />
+            </label>
+            <RequiredContainer>
+              {email.length < 1 && (
+                <Required>
+                  <MdOutlineError color="red" />
+                  &nbsp;
+                  <div>Please enter your email address</div>
+                </Required>
+              )}
+              <RememberPW>
+                <div className="checkbox">
+                  <input type="checkbox" />
+                </div>
+                Remember my username
+              </RememberPW>
+            </RequiredContainer>
 
-                <label>
-                    <input
-                        placeholder="Password"
-                        type="password"
-                        ref={passwordRef}
-                    />
-                </label>
-
-                <button type="submit" className="mainButton">
-                    Log In
-                </button>
-            </form>
-            <p className="signup">
-                Need an account? <Link href="/signup">Register here</Link>
-            </p>
+            <label className="input">
+              <div className="label">Password</div>
+              <PasswordContainer empty={pw.length < 1}>
+                <PasswordInput
+                  placeholder="Password"
+                  type={type}
+                  value={pw}
+                  onChange={(e) => setPw(e.target.value)}
+                />
+                <EyeHolder>
+                  {type === "password" ? (
+                    <BsEyeFill onClick={handleShowPw} />
+                  ) : (
+                    <BsEyeSlashFill onClick={handleShowPw} />
+                  )}
+                </EyeHolder>
+              </PasswordContainer>
+            </label>
+            {pw.length < 1 && (
+              <Required>
+                <MdOutlineError color="red" />
+                &nbsp;
+                <div>A password is required</div>
+              </Required>
+            )}
+            <SignInButton type="submit" className="mainButton">
+              Log In
+            </SignInButton>
+          </form>
+          <RegisterHere>
+            <p>Need an account? </p>&nbsp;
+            <Link href="/signup">
+              <div
+                style={{ textDecorationLine: "underline", fontWeight: "bold" }}
+              >
+                Register here
+              </div>
+            </Link>
+          </RegisterHere>{" "}
+          <hr />
+          <div className="hotline">
+            If you or someone you know has a gambling problem and wants help,
+            call 1-800-GAMBLER
+          </div>
         </LoginFormContainer>
-    );
+      </Container>
+      <Footer />
+    </>
+  );
 };
 
 export default Login;
