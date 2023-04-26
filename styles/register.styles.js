@@ -138,6 +138,7 @@ export const SignInButton = styled.button`
   border-style: none;
   font-weight: bold;
   border-radius: 4px;
+  cursor: pointer;
 `;
 
 export const RegisterHere = styled.div`
