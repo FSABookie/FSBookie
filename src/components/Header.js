@@ -21,6 +21,7 @@ const HeaderContainer = styled.div`
   p {
     :hover {
       color: lightgray;
+      //test
     }
   }
 
