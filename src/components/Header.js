@@ -20,7 +20,7 @@ const HeaderContainer = styled.div`
   h1,
   p {
     :hover {
-      color: gray;
+      color: lightgray;
       //test
     }
   }
