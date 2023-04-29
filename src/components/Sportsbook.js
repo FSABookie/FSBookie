@@ -589,8 +589,40 @@ function Sportsbook({ data }) {
                     </div>
                   </TableRow>
                   <TableRow>
-                    <div className="game2Info">
-                      {/* <div className='eventCell'> */}
+                    <Link
+                      className="gameInfo"
+                      href={{
+                        pathname: `/sportsbook/games/[id]`,
+                        query: {
+                          sport: data.sport,
+                          id: apiId,
+                        },
+                      }}
+                      as={`/sportsbook/games/${ele.HomeTeam}&${ele.AwayTeam}`}
+                      key={apiId}
+                    >
+                      <div
+                        className="teamInfo"
+                        onClick={() =>
+                          dispatch(
+                            selectGame({
+                              game: ele,
+                              sport: data.sport,
+                              htl: homeTeamLogo,
+                              atl: awayTeamLogo,
+                            })
+                          )
+                        }
+                      >
+                        <div className="imgContainer">
+                          <img src={homeTeamLogo} />
+                        </div>
+                        <div className="team1">{ele.HomeTeam}</div>
+                      </div>
+                    </Link>
+
+                    {/* <div className="game2Info">
+                      <div className='eventCell'>
                       <div className="gameStatus"></div>
                       <div className="teamInfo">
                         <div className="imgContainer">
@@ -598,12 +630,12 @@ function Sportsbook({ data }) {
                         </div>
                         <a className="team1">{ele.HomeTeam}</a>
                       </div>
-                      {/* </div> */}
-                    </div>
+                      </div>
+                    </div> */}
                     {/* HOME TEAM SPREAD!!!!!!!!!!! */}
                     <div className="line2Col">
                       {event.PointSpreadHome == 0 ? (
-                        <div className="lineContainer">NA</div>
+                        <div className="lineContainer">N/A</div>
                       ) : (
                         <div
                           className={`lineContainer ${

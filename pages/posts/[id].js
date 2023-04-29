@@ -48,6 +48,7 @@ const Content = styled.div`
     font-weight: 650;
     background: black;
     color: white;
+    cursor: pointer;
   }
 
   .postBody {
@@ -238,6 +239,7 @@ const Comments = styled.ul`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    cursor: pointer;
   }
 
   .footerEleContainer {
@@ -249,6 +251,7 @@ const Comments = styled.ul`
 
     p {
       font-size: 0.85em;
+      cursor: pointer;
     }
   }
 
@@ -364,6 +367,8 @@ function SinglePost(props) {
     // e.target.classList.toggle('toggle')
   }
 
+  const style = { cursor: "pointer" };
+
   return (
     post && (
       <>
@@ -373,6 +378,7 @@ function SinglePost(props) {
             <PostBodyCntr>
               <Likes>
                 <BiUpvote
+                  style={style}
                   fontSize="large"
                   onClick={() =>
                     handleLikes({
@@ -383,6 +389,7 @@ function SinglePost(props) {
                 />{" "}
                 {post.likes} <br></br>
                 <BiDownvote
+                  style={style}
                   fontSize="large"
                   onClick={() =>
                     handleLikes({
@@ -403,11 +410,11 @@ function SinglePost(props) {
                       </div>
                       <div className="title">{post.title}</div>
                     </div>
-                    <Link href="/posts">
-                      <div className="backBtnDiv">
+                    <div className="backBtnDiv">
+                      <Link href="/posts">
                         <button className="backBtn">BACK</button>
-                      </div>
-                    </Link>
+                      </Link>
+                    </div>
                   </div>
                 </div>
                 <div className="body">{post.body}</div>
@@ -483,11 +490,15 @@ function SinglePost(props) {
                         </div>
                         <div className="footerEleContainer">
                           {" "}
+                          {/* <div
+                          className="replyFooter"
+                          onClick={(e) => replyToggle(e, idx)}
+                        > */}
                           <BsReply /> <p>Reply</p>
                         </div>
-                        <div className="footerEleContainer">
+                        {/* <div className="footerEleContainer">
                           <p>Share</p>
-                        </div>
+                        </div> */}
                       </div>
                       {/* {setRefs(oldState => [...oldState, React.createRef()])} */}
                       <Reply className="toggle" key={idx} ref={refs[idx]}>
