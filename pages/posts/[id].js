@@ -479,21 +479,21 @@ function SinglePost(props) {
                         {refs.push(React.createRef())}
                       </div>
                       {/*HEEEEEEEREEEEEEEEEE */}
-                      <div
+                      {/* <div
                         className="replyFooter"
                         onClick={(e) => replyToggle(e, idx)}
-                      >
-                        <div className="footerEleContainer">
-                          <BiUpvote />
-                          <p>0</p>
-                          <BiDownvote />
-                        </div>
-                        <div className="footerEleContainer">
-                          {" "}
-                          {/* <div
+                      > */}
+                      <div className="footerEleContainer">
+                        <BiUpvote />
+                        <p>0</p>
+                        <BiDownvote />
+                      </div>
+                      <div className="footerEleContainer">
+                        {" "}
+                        <div
                           className="replyFooter"
                           onClick={(e) => replyToggle(e, idx)}
-                        > */}
+                        >
                           <BsReply /> <p>Reply</p>
                         </div>
                         {/* <div className="footerEleContainer">
