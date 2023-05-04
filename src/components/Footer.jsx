@@ -32,7 +32,7 @@ function Footer() {
         Terms of Use ~ Privacy Policy ~ Responsible Gaming
       </div>
       <div className="mobile-row-2">
-        <Image src="/FSbookie.png" width="20" height="20" alt="img" />
+        <Image src="/FSBookie.png" width="30" height="30" alt="Logo" />
         &nbsp; 2022 - 2023 FSABookie All Rights Reserved.
       </div>
     </Container>

@@ -153,7 +153,7 @@ const Banner = styled.img`
 const DesktopContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between; ;
+  justify-content: space-between;
 `;
 
 const options = ["Trending", "Most Popular", "Most Recent"];
@@ -198,6 +198,8 @@ export default function ForumThread() {
     }
   }
 
+  const style = { cursor: "pointer" };
+
   return (
     <>
       {" "}
@@ -238,11 +240,12 @@ export default function ForumThread() {
                       }}
                     >
                       <PostTitle>{singlePost.title}</PostTitle>
+                      <PostBody>{singlePost.body}</PostBody>
                     </Link>
-                    <PostBody>{singlePost.body}</PostBody>
                     <CommentFooter>
                       <FooterEleContainer likes={true}>
                         <BiUpvote
+                          style={style}
                           fontSize="large"
                           onClick={() =>
                             handleLikes({
@@ -253,6 +256,7 @@ export default function ForumThread() {
                         />
                         <PostFooterText>{singlePost.likes}</PostFooterText>
                         <BiDownvote
+                          style={style}
                           fontSize="large"
                           onClick={() =>
                             handleLikes({

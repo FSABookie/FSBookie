@@ -17,6 +17,7 @@ export const LoginFormContainer = styled.div`
   justify-content: center;
   color: black;
   width: 100%;
+  height: calc(80vh - 40px);
 
   .formHeader {
     display: flex;
