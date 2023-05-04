@@ -198,6 +198,10 @@ const TableRow = styled.div`
     /* flex-grow: 2; */
     overflow: hidden;
     width: 100%;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    margin-top: 0;
   }
   .lineCol {
     /* border-top: 0.25em solid #242424; */
