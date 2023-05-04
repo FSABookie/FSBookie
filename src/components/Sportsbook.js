@@ -14,7 +14,6 @@ import { convertUTCtoEST } from "../functions/TimeCoverter";
 import { addToBetSlip } from "../redux/slices/BetSlip-slice";
 import { selectGame } from "../redux/slices/game-slice";
 import BetSlip from "./sports-components/betslipComponents/BetSlip";
-import { clearLocalGames } from "../../src/redux/slices/localGames-slice";
 import ImageCarousel from "./sports-components/betslipComponents/ImageCarousel";
 
 const SportsContainer = styled.div`
@@ -297,7 +296,6 @@ function Sportsbook({ data }) {
   const dispatch = useDispatch();
   const { betSlip } = useSelector((state) => state.betSlip);
   const { localGames } = useSelector((state) => state.localGames);
-  // dispatch(clearLocalGames());
 
   useEffect(() => {
     localGames?.length && console.log(data, localGames);
@@ -414,8 +412,6 @@ function Sportsbook({ data }) {
                       as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
                       key={apiId}
                     >
-                      {/* <div className="gameInfo"> */}
-                      {/* <div className='eventCell'> */}
                       <div className="gameTime">{time}</div>
                       <div
                         className="teamInfo"
@@ -435,8 +431,6 @@ function Sportsbook({ data }) {
                         </div>
                         <div className="team1">{ele.AwayTeam}</div>
                       </div>
-                      {/* </div> */}
-                      {/* </div> */}
                     </Link>
                     {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
                     <div className="lineCol">
@@ -590,7 +584,7 @@ function Sportsbook({ data }) {
                   </TableRow>
                   <TableRow>
                     <Link
-                      className="gameInfo"
+                      className="game2Info"
                       href={{
                         pathname: `/sportsbook/games/[id]`,
                         query: {
@@ -598,9 +592,10 @@ function Sportsbook({ data }) {
                           id: apiId,
                         },
                       }}
-                      as={`/sportsbook/games/${ele.HomeTeam}&${ele.AwayTeam}`}
+                      as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
                       key={apiId}
                     >
+                      <div className="gameStatus"></div>
                       <div
                         className="teamInfo"
                         onClick={() =>
@@ -617,21 +612,9 @@ function Sportsbook({ data }) {
                         <div className="imgContainer">
                           <img src={homeTeamLogo} />
                         </div>
-                        <div className="team1">{ele.HomeTeam}</div>
-                      </div>
-                    </Link>
-
-                    {/* <div className="game2Info">
-                      <div className='eventCell'>
-                      <div className="gameStatus"></div>
-                      <div className="teamInfo">
-                        <div className="imgContainer">
-                          <img src={homeTeamLogo} />
-                        </div>
                         <a className="team1">{ele.HomeTeam}</a>
                       </div>
-                      </div>
-                    </div> */}
+                    </Link>
                     {/* HOME TEAM SPREAD!!!!!!!!!!! */}
                     <div className="line2Col">
                       {event.PointSpreadHome == 0 ? (
