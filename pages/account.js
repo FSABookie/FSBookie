@@ -8,68 +8,58 @@ import { useGetUserQuery } from "../src/redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 2em;
+  align-items: center;
+  padding-top: 4%;
+  width: 100%;
 
-  .body {
+  .Name {
+    font-weight: 500;
+  }
+
+  .setting {
     display: flex;
     flex-direction: column;
-    row-gap: 2em;
     align-items: center;
-    padding-top: 25%;
+    justify-content: space-evenly;
+    background-color: #d3d5d5;
+    height: 10vh;
+    width: 40vw;
+    color: black;
+    font-size: 20px;
+  }
 
-    .setting {
-      background-color: #d3d5d5;
-      padding: 3%;
-      width: 70%;
-      padding-left: 5%;
-      height: 10%;
-      color: black;
-    }
+  .header {
+    color: white;
+    font-family: "Open Sans", sans-serif;
+    font-size: 20px;
+  }
 
-    .header {
-        color: white;
-        padding-left: 6%;
-        padding-right: 6%;
-        margin-bottom: 5%; 
-        font-family: "Open Sans", sans-serif;
-        border: 1px solid white;
-        font-size: 0.7em;
-    }
-
-    .logout {
-      display: flex;
-      flex-direction: row;
-      column-gap: 0.4em;
-      .logoutIcon {
-        padding-top: 10%;
-      }
+  .logout {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.4em;
+    align-items: center;
+    font-weight: 500;
+    .logoutIcon {
+      padding-top: 10%;
     }
   }
 
   @media only screen and (min-width: 850px) {
-    .body {
-        padding-top: 5%;
-        row-gap: 0.3em;
-    
+    /* .body {
+      padding-top: 5%;
+      row-gap: 0.3em; */
 
-    .setting {
-    width: 60%;
-    margin-bottom: 3%;
-    padding: 1%;
-    }
-
-    .header {
-        color: white;
-        padding-left: 3%;
-        padding-right: 3%;
-        margin-bottom: 5%; 
-        font-family: "Open Sans", sans-serif;
-        border: 2px solid white;
-    }
+    /* .setting {
+        width: 60%;
+        margin-bottom: 3%;
+        padding: 1%;
+      } */
   }
-}
 `;
-
-const LinkContainer = styled.div``;
 
 function Account() {
   const [UpdateUser] = useUpdateUserMutation();
@@ -126,62 +116,59 @@ function Account() {
   }
 
   return (
-    <Container>
+    <>
       {isSuccess ? (
-        <div className="body">
-            <div className="header">
-                <h2>Settings</h2>
-            </div>
-          <div className="Name setting">
-            {session.user.name}
+        <Container>
+          <div className="header">
+            <h2>Settings</h2>
           </div>
+          <div className="Name setting">{session.user.name}</div>
           <div className="userEmail setting">
-            <div>
-            {user.email}
-            </div>
-            <input placeholder="Change Email Address" type="text" ref={emailRef} />
-            <div>
+            <div>Current Email: {user.email}</div>
+            <input
+              placeholder="Change Email Address"
+              type="text"
+              ref={emailRef}
+            />
+
             <button type="submit" onClick={handleEmail}>
               Change Email!
             </button>
-            </div>
           </div>
           <div className="userName setting">
-            <div>
-            {user.username}
-            </div>
+            <div>Current Username: {user.username}</div>
             <input placeholder="Change Username" type="text" ref={userRef} />
-            <div>
+
             <button type="submit" onClick={handleUsername}>
               Change Username!
             </button>
-            </div>
           </div>
           <div className="userPass setting">
-            <input placeholder="Change Password" type="password" ref={passRef} />
-            <div>
+            <input
+              placeholder="Change Password"
+              type="password"
+              ref={passRef}
+            />
+
             <button type="submit" onClick={handlePassword}>
               Change Password!
             </button>
-            </div>
           </div>
-          <div className="logout setting">
-            <div>Logout</div>
-            <Link href="/sportsbook">
-              <LinkContainer onClick={handleLogout}>
-                <div className="logoutIcon">
-                  <BiLogOut />
-                </div>
-              </LinkContainer>
+          <div className="logout setting" onClick={handleLogout}>
+            <Link className="logout" href="/sportsbook">
+              <div>Logout</div>
+              <div className="logoutIcon">
+                <BiLogOut />
+              </div>
             </Link>
           </div>
-        </div>
+        </Container>
       ) : (
         <>
           <p>please login or create an account</p>
         </>
       )}
-    </Container>
+    </>
   );
 }
 
