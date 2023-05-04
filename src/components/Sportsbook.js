@@ -149,6 +149,11 @@ const GameCard = styled.div`
     display: flex;
     overflow: hidden;
   }
+  .team2Info {
+    margin-top: 0;
+    display: flex;
+    overflow: hidden;
+  }
   .imgContainer {
     img {
       height: 18px;
@@ -201,7 +206,6 @@ const TableRow = styled.div`
     display: flex;
     /* justify-content: center; */
     align-items: center;
-    margin-top: 0;
   }
   .lineCol {
     /* border-top: 0.25em solid #242424; */
@@ -601,7 +605,7 @@ function Sportsbook({ data }) {
                     >
                       <div className="gameStatus"></div>
                       <div
-                        className="teamInfo"
+                        className="team2Info"
                         onClick={() =>
                           dispatch(
                             selectGame({
