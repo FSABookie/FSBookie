@@ -48,15 +48,13 @@ function Index() {
     // }
 
     const getCity = async () => {
-      console.log('LOOK HERE', city);
+      // console.log('LOOK HERE', city);
       let { data } = await axios.get(
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=&longitude=&localityLanguage=en`
-        );
-        data.city == "New York City"
-        ? setCity("New York")
-        : setCity(data.city);
-        console.log('DATA BEING RETURNED?', data)
-      };
+      );
+      data.city == "New York City" ? setCity("New York") : setCity(data.city);
+      // console.log('DATA BEING RETURNED?', data)
+    };
 
     getCity();
 

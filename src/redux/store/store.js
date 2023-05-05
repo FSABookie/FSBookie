@@ -55,4 +55,4 @@ const store = makeStore();
 
 setupListeners(store.dispatch);
 export const persistor = persistStore(store);
-export const wrapper = createWrapper(makeStore, { debug: true });
+export const wrapper = createWrapper(makeStore);

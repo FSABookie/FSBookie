@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import QRcode from "../public/fsabookieQR.png";
@@ -12,6 +12,12 @@ const Container = styled.div`
   flex-direction: column;
   margin-top: 50px;
   /* } */
+  .warning {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
 `;
 
 const Receipt = styled.div`
@@ -56,12 +62,19 @@ const Orderconfirmed = () => {
   const {
     query: { data },
   } = router;
-  console.log("Before Parse", data);
-  const parsed = JSON.parse(data);
-  // console.log('PARSED', JSON.parse(data))
-  console.log(parsed);
+  // console.log("Before Parse", data);
+  const [parsed, setParsed] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setParsed(JSON.parse(data));
+    }
+  }, [data]);
+  // const parsed = JSON.parse(data);
+
   return (
     <Container>
+      <p className="warning">Please do not refresh!</p>
       <Receipt>
         <h1>FSA Bookie</h1>
         <h2>Betting Slip</h2>
@@ -86,7 +99,7 @@ const Orderconfirmed = () => {
             );
           })}
         </div>
-        <Image src={QRcode} />
+        <Image src={QRcode} alt="Order Receipt" />
       </Receipt>
     </Container>
   );
