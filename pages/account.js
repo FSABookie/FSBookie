@@ -61,6 +61,12 @@ const Container = styled.div`
   }
 `;
 
+const ErrorMsg = styled.h2`
+  color: white;
+  font-size: 40px;
+  text-align: center;
+`;
+
 function Account() {
   const [UpdateUser] = useUpdateUserMutation();
   const handleLogout = async () => {
@@ -165,7 +171,7 @@ function Account() {
         </Container>
       ) : (
         <>
-          <p>please login or create an account</p>
+          <ErrorMsg>please login or create an account</ErrorMsg>
         </>
       )}
     </>
