@@ -277,10 +277,10 @@ const Projections = ({ games, sport }) => {
           Baseball
         </Link>
       </SportsHeader>
-      {/* {activeGames.sport === "NBA" && <Header>NBA</Header>}
-      {activeGames.sport === "NFL" && <Header>NFL</Header>}
-      {activeGames.sport === "NHL" && <Header>NHL</Header>}
-      {activeGames.sport === "MLB" && <Header>MLB</Header>} */}
+      {sport === "NBA" && <Header>NBA</Header>}
+      {sport === "NFL" && <Header>NFL</Header>}
+      {sport === "NHL" && <Header>NHL</Header>}
+      {sport === "MLB" && <Header>MLB</Header>}
       <Attempt>
         <GamesContainer>
           <Games>
@@ -615,12 +615,15 @@ const Projections = ({ games, sport }) => {
                     </GameCard>
                   );
                 })
-            ) : (
+            ) : games?.filter((game) => Object.keys(bets).includes(game.ID))
+                .length ? (
               <>
                 {!activeGames?.length && (
                   <p className="noBets">No Bets For This Sport.</p>
                 )}
               </>
+            ) : (
+              <p className="noGames">No Games For This Sport.</p>
             )}
           </Games>
         </GamesContainer>
