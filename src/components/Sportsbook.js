@@ -37,8 +37,6 @@ const SportsHeader = styled.div`
     }
   }
   @media only screen and (max-width: 850px) {
-    /* overflow: scroll;
-    justify-content: flex-start; */
     gap: 1%;
   }
   margin-bottom: 5%;
@@ -154,12 +152,12 @@ const GameCard = styled.div`
     display: flex;
     overflow: hidden;
   }
-  .imgContainer {
+  /* .imgContainer {
     img {
       height: 18px;
       width: 18px;
     }
-  }
+  } */
 
   .line {
     color: white;
@@ -305,29 +303,25 @@ function Sportsbook({ data }) {
   const { betSlip } = useSelector((state) => state.betSlip);
   const { localGames } = useSelector((state) => state.localGames);
 
-  useEffect(() => {
-    localGames?.length && console.log(data, localGames);
-    console.log("DATA", data.data, "SPORT", data.sport);
-  }, []);
+  // useEffect(() => {
+  //   localGames?.length && console.log(data, localGames);
+  //   console.log("DATA", data.data, "SPORT", data.sport);
+  // }, []);
 
   return (
     <SportsContainer>
       <ImageCarousel />
       <SportsHeader>
         <Link href="/sportsbook/NFL" className="sport">
-          {/* <a className="sport">Football</a> */}
           Football
         </Link>
         <Link href="/sportsbook/NBA" className="sport">
-          {/* <a className="sport">Football</a> */}
           Basketball
         </Link>
         <Link href="/sportsbook/NHL" className="sport">
-          {/* <a className="sport">Football</a> */}
           Hockey
         </Link>
         <Link href="/sportsbook/MLB" className="sport">
-          {/* <a className="sport">Football</a> */}
           Baseball
         </Link>
       </SportsHeader>
@@ -435,7 +429,7 @@ function Sportsbook({ data }) {
                         }
                       >
                         <div className="imgContainer">
-                          <img src={awayTeamLogo} />
+                          <Image src={awayTeamLogo} width={18} height={18} />
                         </div>
                         <div className="team1">{ele.AwayTeam}</div>
                       </div>
@@ -506,7 +500,7 @@ function Sportsbook({ data }) {
                             betSlip.find(
                               (bet) =>
                                 bet.betId === ele.ID &&
-                                bet.teamToWin === "AwayTeam" &&
+                                bet.gameLine.includes("Over") &&
                                 bet.betType === "total"
                             ) !== undefined
                               ? "selected"
@@ -618,7 +612,7 @@ function Sportsbook({ data }) {
                         }
                       >
                         <div className="imgContainer">
-                          <img src={homeTeamLogo} />
+                          <Image src={homeTeamLogo} width={18} height={18} />
                         </div>
                         <a className="team1">{ele.HomeTeam}</a>
                       </div>
@@ -689,7 +683,7 @@ function Sportsbook({ data }) {
                             betSlip.find(
                               (bet) =>
                                 bet.betId === ele.ID &&
-                                bet.teamToWin === "HomeTeam" &&
+                                bet.gameLine.includes("Under") &&
                                 bet.betType === "total"
                             ) !== undefined
                               ? "selected"

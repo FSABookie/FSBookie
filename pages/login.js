@@ -36,16 +36,17 @@ const Login = () => {
     };
 
     try {
-      console.log(credentials);
       signIn("credentials", { ...credentials, redirect: false })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.ok) {
-            router.push("/sportsbook/NFL");
+            router.push("/sportsbook/");
+          } else if (response.error === "CredentialsSignin") {
+            window.alert("Bad Credentials");
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.log("look here", err);
         });
     } catch (err) {
       console.log("Failed to sign in");
