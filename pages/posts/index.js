@@ -16,6 +16,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import DropDown from "../../src/components/PostComps/dropDown";
 import Desktop from "../../src/components/PostComps/Desktop";
 import ImageCarousel from "../../src/components/sports-components/betslipComponents/ImageCarousel";
+import Head from "next/head";
 
 const ThreadContainer = styled.div`
   color: white;
@@ -202,7 +203,9 @@ export default function ForumThread() {
 
   return (
     <>
-      {" "}
+      <Head>
+        <title>Forums</title>
+      </Head>{" "}
       <ThreadContainer>
         <ImageCarousel />
         <BannerHolder>

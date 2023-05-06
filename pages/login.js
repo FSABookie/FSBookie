@@ -21,6 +21,7 @@ import {
 import { MdOutlineError } from "react-icons/md";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import Footer from "../src/components/Footer";
+import Head from "next/head";
 
 const Login = () => {
   const [pw, setPw] = useState("");
@@ -65,6 +66,9 @@ const Login = () => {
   return (
     <>
       <Container>
+        <Head>
+          <title>Login</title>
+        </Head>
         <LoginFormContainer>
           <div className="formHeader">
             {" "}

@@ -14,6 +14,7 @@ import {
   clearLocalGames,
   setLocalGames,
 } from "../../src/redux/slices/localGames-slice";
+import Head from "next/head";
 
 function Index() {
   const { data: mlb, isSuccess: gotMLB } = useGetMLBQuery();
@@ -94,12 +95,22 @@ function Index() {
   }, [gotMLB, gotNBA, gotNFL, gotNHL, city]);
 
   return isLoading ? (
-    <Loader />
+    <>
+      <Head>
+        <title>Sportsbook</title>
+      </Head>
+      <Loader />
+    </>
   ) : (
     localGames.length > 0 && (
-      <Sportsbook
-        data={{ data: localGames.flat(), sport: "index" }}
-      ></Sportsbook>
+      <>
+        <Head>
+          <title>Sportsbook Local Games</title>
+        </Head>
+        <Sportsbook
+          data={{ data: localGames.flat(), sport: "index" }}
+        ></Sportsbook>
+      </>
     )
   );
 }
