@@ -285,7 +285,7 @@ const Projections = ({ games, sport }) => {
               <p className="gamelines">TOTAL</p>
               <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
-            {games ? (
+            {games.length ? (
               games
                 .filter((game) => Object.keys(bets).includes(game.ID))
                 .map((game, idx) => {
