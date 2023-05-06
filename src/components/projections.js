@@ -273,10 +273,10 @@ const Projections = ({ games, sport }) => {
           Baseball
         </Link>
       </SportsHeader>
-      {activeGames?.sport === "NBA" && <Header>NBA</Header>}
-      {activeGames?.sport === "NFL" && <Header>NFL</Header>}
-      {activeGames?.sport === "NHL" && <Header>NHL</Header>}
-      {activeGames?.sport === "MLB" && <Header>MLB</Header>}
+      {sport === "NBA" && <Header>NBA</Header>}
+      {sport === "NFL" && <Header>NFL</Header>}
+      {sport === "NHL" && <Header>NHL</Header>}
+      {sport === "MLB" && <Header>MLB</Header>}
       <Attempt>
         <GamesContainer>
           <Games>
