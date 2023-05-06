@@ -24,6 +24,11 @@ import {
   getOpenBets,
   getWonBets,
 } from "../src/redux/slices/usersBets-slice";
+import Head from "next/head";
+import {
+  convertUTCtoEST,
+  convertUTCtoTimeAgo,
+} from "../src/functions/TimeCoverter";
 
 const Container = styled.div`
   padding: 5%;
@@ -299,6 +304,9 @@ function MyBets() {
 
   return (
     <Container>
+      <Head>
+        <title>Bet History</title>
+      </Head>
       <div className="title">MY BETS</div>
       <SportsHeader>
         <div className="filtered" onClick={() => dispatch(getAllBets())}>
@@ -353,7 +361,7 @@ function MyBets() {
                 </div>
                 {bet.time}
               </TeamContainer>
-              {bet.createdAt}
+              Created: {convertUTCtoTimeAgo(bet.createdAt)}
             </BetsContainer>
           ) : (
             bet.betType === "parlay" && (
@@ -379,7 +387,7 @@ function MyBets() {
                     </div>
                   ))}
                 </TeamContainer>
-                {bet.createdAt}
+                Created: {convertUTCtoTimeAgo(bet.createdAt)}
               </BetsContainer>
             )
           );

@@ -21,6 +21,7 @@ import { BiUpvote, BiDownvote } from "react-icons/bi";
 import { BsReply } from "react-icons/bs";
 import Desktop from "../../src/components/PostComps/Desktop";
 import ImageCarousel from "../../src/components/sports-components/betslipComponents/ImageCarousel";
+import Head from "next/head";
 
 const Content = styled.div`
   ${
@@ -384,6 +385,9 @@ function SinglePost(props) {
   return (
     post && (
       <>
+        <Head>
+          <title>Post #{post.id}</title>
+        </Head>
         <ImageCarousel />
         <DesktopContainer>
           <Content>

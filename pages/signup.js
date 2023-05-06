@@ -6,7 +6,7 @@ import axios from "axios";
 import {
   Container,
   InputField,
-  LoginFormContainer,
+  SignUpFormContainer,
   RememberPW,
   Required,
   RequiredContainer,
@@ -20,6 +20,7 @@ import { MdOutlineError } from "react-icons/md";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import Footer from "../src/components/Footer";
 import Link from "next/link";
+import Head from "next/head";
 
 const SignInFormContainer = styled.div`
   margin: 1em;
@@ -139,7 +140,10 @@ export default function Signup() {
   return (
     <>
       <Container>
-        <LoginFormContainer>
+        <Head>
+          <title>Account Signup</title>
+        </Head>
+        <SignUpFormContainer>
           <div className="formHeader">
             {" "}
             <h2>Create your FSABookie Account</h2>
@@ -269,7 +273,7 @@ export default function Signup() {
             </Link>
           </RegisterHere>{" "}
           <hr />
-        </LoginFormContainer>
+        </SignUpFormContainer>
       </Container>
       <Footer />
     </>

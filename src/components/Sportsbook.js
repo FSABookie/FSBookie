@@ -23,7 +23,7 @@ const SportsContainer = styled.div`
     height: 100%;
     background-color: black;
     padding-top: 3%;
-    padding-left: 0.5%;
+    padding-left: 1%;
     padding-right: 1%;
   }
 `;
@@ -522,6 +522,7 @@ function Sportsbook({ data }) {
                                 awayTeamLogo: awayTeamLogo,
                                 homeTeamLogo: homeTeamLogo,
                                 oddType: ele.OddType,
+                                teamToWin: "AwayTeam",
                                 oddType: "Game",
                                 time,
                                 toWin: 0,
@@ -709,6 +710,7 @@ function Sportsbook({ data }) {
                                 homeTeam: ele.HomeTeam,
                                 awayTeamLogo: awayTeamLogo,
                                 homeTeamLogo: homeTeamLogo,
+                                teamToWin: "HomeTeam",
                                 oddType: "Game",
                                 time,
                                 toWin: 0,

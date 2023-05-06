@@ -260,6 +260,7 @@ const Projections = ({ games, sport }) => {
     });
   console.log(bets);
   console.log("GAMES", games);
+  console.log("active", activeGames);
 
   return (
     <SportsContainer>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useSession } from "next-auth/react";
 import styled from "styled-components";
+import Head from "next/head";
 
 const Container = styled.div``;
 
@@ -119,6 +120,9 @@ const Deposit = () => {
 
   return (
     <Container>
+      <Head>
+        <title>Deposit Page</title>
+      </Head>
       <Header>
         <p className="Deposit">Deposit</p>
       </Header>
