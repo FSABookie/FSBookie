@@ -285,7 +285,7 @@ const Projections = ({ games, sport }) => {
               <p className="gamelines">TOTAL</p>
               <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
-            {games &&
+            {games ? (
               games
                 .filter((game) => Object.keys(bets).includes(game.ID))
                 .map((game, idx) => {
@@ -609,7 +609,10 @@ const Projections = ({ games, sport }) => {
                       </TableRow>
                     </GameCard>
                   );
-                })}
+                })
+            ) : (
+              <p>No Bets For This Sport.</p>
+            )}
           </Games>
         </GamesContainer>
       </Attempt>
