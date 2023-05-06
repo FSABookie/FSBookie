@@ -164,6 +164,10 @@ const GameCard = styled.div`
     height: 48px;
     color: white;
   }
+
+  .noBets {
+    text-align: center;
+  }
 `;
 
 const TableRow = styled.div`
@@ -285,7 +289,7 @@ const Projections = ({ games, sport }) => {
               <p className="gamelines">TOTAL</p>
               <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
-            {games.length ? (
+            {games?.length ? (
               games
                 .filter((game) => Object.keys(bets).includes(game.ID))
                 .map((game, idx) => {
@@ -611,7 +615,7 @@ const Projections = ({ games, sport }) => {
                   );
                 })
             ) : (
-              <p>No Bets For This Sport.</p>
+              <p className="noBets">No Bets For This Sport.</p>
             )}
           </Games>
         </GamesContainer>
