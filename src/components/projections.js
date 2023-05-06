@@ -617,7 +617,7 @@ const Projections = ({ games, sport }) => {
                 })
             ) : (
               <>
-                {!activeGames && (
+                {!activeGames?.length && (
                   <p className="noBets">No Bets For This Sport.</p>
                 )}
               </>
