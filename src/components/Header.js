@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import styled from "styled-components";
-// redux
 import { signOut, useSession } from "next-auth/react";
-// react-icons
-import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
@@ -15,8 +13,6 @@ import { useRouter } from "next/router";
 const HeaderContainer = styled.div`
   display: hidden;
   color: white;
-  /* width: 100%; */
-  /* height: 100%; */
   h1,
   p {
     :hover {
@@ -98,7 +94,6 @@ const HeaderTop = styled.div`
   }
 
   .logo {
-    /* width: 10%; */
     height: 2.5em;
     .imglogo {
       height: 100%;
@@ -107,7 +102,6 @@ const HeaderTop = styled.div`
   }
 
   .loginLogo {
-    /* width: 10%; */
     height: 2.5em;
     .imglogoLogin {
       height: 100%;
@@ -174,9 +168,7 @@ const Page = styled.div`
     width: 20%;
   }
   width: 70%;
-  /* .animation { */
   transition: 0.5s;
-  /* } */
   position: absolute;
   left: 0;
   height: 530vh;
@@ -215,7 +207,6 @@ const Menu = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* position: absolute; */
   color: white;
   width: 100%;
   a {
@@ -330,7 +321,6 @@ function Header() {
               ${singleuser.balance && singleuser.balance.toFixed(2)}
             </div>
             <Link href="/deposit" className="depositFunds">
-              {/* <DepositButton>Deposit</DepositButton> */}
               <FiPlusCircle size={21} />
             </Link>
           </div>

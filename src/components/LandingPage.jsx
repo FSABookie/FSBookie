@@ -108,7 +108,6 @@ const Welcomemsgbtn = styled.div`
 `;
 
 const Projectionsinfo = styled.div`
-  /* height: 200vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -214,7 +213,6 @@ function LandingPage() {
         <img src="https://s3.amazonaws.com/cdn.fanduel.com/images/2019/Homepage/Home/phones-sm.png" />
         <Welcomemsgbtn>
           <Link href="/sportsbook" className="a">
-            {/* <div className="a">Sport Betting {">"}</div> */}
             Sport Betting {">"}
           </Link>
         </Welcomemsgbtn>

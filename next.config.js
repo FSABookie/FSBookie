@@ -3,8 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   compiler: {
-    styledComponents: true
-  }
-}
+    styledComponents: true,
+  },
+  images: {
+    domains: ["assets.sportsbook.fanduel.com"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
