@@ -80,6 +80,11 @@ const Games = styled.div`
   border-spacing: 0;
   padding: 8px;
   background-color: #121212;
+  .noBets {
+    text-align: center;
+    color: white;
+    font-size: 1.5em;
+  }
 `;
 const GameCard = styled.div`
   color: white;
@@ -163,10 +168,6 @@ const GameCard = styled.div`
     background-color: #242424;
     height: 48px;
     color: white;
-  }
-
-  .noBets {
-    text-align: center;
   }
 `;
 
