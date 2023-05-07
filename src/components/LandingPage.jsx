@@ -147,6 +147,7 @@ const Projectionsinfo = styled.div`
     background: #3dd883;
     font-weight: bold;
     padding: 1.5%;
+    cursor: pointer;
   }
 `;
 
