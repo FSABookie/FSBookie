@@ -38,7 +38,7 @@ const Content = styled.div`
   width: 100%;
   margin: 1.7%;
   padding-left: 2%;
-  dislay: flex;
+  display: flex;
   flex-direction: column;
 
   .backBtn {
