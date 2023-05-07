@@ -8,7 +8,7 @@ const usersBetSlice = createSlice({
   },
   reducers: {
     getBets: (state, action) => {
-      console.log(action.payload.flat());
+      // console.log(action.payload.flat());
       state.usersBets = action.payload.flat();
       state.filteredBets = state.usersBets;
     },
