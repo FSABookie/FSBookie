@@ -6,6 +6,7 @@ import { skipToken } from "@reduxjs/toolkit/dist/query";
 import {
   useCreateCommentMutation,
   useGetPostQuery,
+  useIncrementCommentLikeMutation,
   useIncrementLikeMutation,
 } from "../../src/redux/slices/apiSlice";
 import ArrowCircleUpOutlinedIcon from "@mui/icons-material/ArrowCircleUpOutlined";
@@ -37,7 +38,7 @@ const Content = styled.div`
   width: 100%;
   margin: 1.7%;
   padding-left: 2%;
-  dislay: flex;
+  display: flex;
   flex-direction: column;
 
   .backBtn {
@@ -238,7 +239,7 @@ const Comments = styled.ul`
     border: none;
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     cursor: pointer;
   }
 
@@ -246,13 +247,21 @@ const Comments = styled.ul`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding-right: 3.5%;
 
     p {
       font-size: 0.85em;
-      cursor: pointer;
     }
+  }
+
+  .likesContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 3.5%;
+    gap: 2px;
   }
 
   .singleReply {
@@ -286,10 +295,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     let postId = context.params?.id;
 
-    console.log(context);
-
     if (typeof postId === "string") {
-      console.log("DISPATCH");
+      // console.log("DISPATCH");
       store.dispatch(apiSlice.endpoints.getPost.initiate(postId));
     }
 
@@ -309,6 +316,7 @@ function SinglePost(props) {
   // const [refs, setRefs] = useState([]);
   // const [bodyRefs, setBodyRefs] = useState([]);
   const [incrementLike] = useIncrementLikeMutation();
+  const [incrementCommentLike] = useIncrementCommentLikeMutation();
   const [CreateComment] = useCreateCommentMutation();
   const { query } = useRouter();
   const { data: post, isSuccess } = useGetPostQuery(
@@ -316,7 +324,7 @@ function SinglePost(props) {
   );
 
   useEffect(() => {
-    console.log(session);
+    // console.log(session);
   }, [session]);
 
   const bodyRef = useRef();
@@ -359,6 +367,10 @@ function SinglePost(props) {
 
   async function handleLikes(payload) {
     await incrementLike(payload);
+  }
+
+  async function handleCommentLikes(payload) {
+    await incrementCommentLike(payload);
   }
 
   function replyToggle(e, idx) {
@@ -483,10 +495,26 @@ function SinglePost(props) {
                         className="replyFooter"
                         onClick={(e) => replyToggle(e, idx)}
                       > */}
-                      <div className="footerEleContainer">
-                        <BiUpvote />
-                        <p>0</p>
-                        <BiDownvote />
+                      <div className="likesContainer">
+                        <BiUpvote
+                          style={style}
+                          onClick={() =>
+                            handleCommentLikes({
+                              id: comment.id,
+                              payload: { likes: comment.likes + 1 },
+                            })
+                          }
+                        />
+                        <p>{comment.likes}</p>
+                        <BiDownvote
+                          style={style}
+                          onClick={() =>
+                            handleCommentLikes({
+                              id: comment.id,
+                              payload: { likes: comment.likes - 1 },
+                            })
+                          }
+                        />
                       </div>
                       <div className="footerEleContainer">
                         {" "}

@@ -344,7 +344,7 @@ function Sportsbook({ data }) {
               : data.data.length > 0
               ? localGames.flat()
               : []
-            ).map((ele) => {
+            ).map((ele, idx) => {
               {
                 /* let d = new Date(ele.MatchTime).toDateString();
                 let t = new Date(ele.MatchTime).toLocaleTimeString([], {
@@ -400,7 +400,7 @@ function Sportsbook({ data }) {
                 )[0]?.logo;
               }
               return (
-                <GameCard key={apiId}>
+                <GameCard key={idx}>
                   <TableRow>
                     <Link
                       className="gameInfo"
@@ -412,7 +412,7 @@ function Sportsbook({ data }) {
                         },
                       }}
                       as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
-                      key={apiId}
+                      // key={apiId}
                     >
                       <div className="gameTime">{time}</div>
                       <div
@@ -429,7 +429,12 @@ function Sportsbook({ data }) {
                         }
                       >
                         <div className="imgContainer">
-                          <Image src={awayTeamLogo} width={18} height={18} />
+                          <Image
+                            src={awayTeamLogo}
+                            width={18}
+                            height={18}
+                            alt="AwayTeam Icon"
+                          />
                         </div>
                         <div className="team1">{ele.AwayTeam}</div>
                       </div>
@@ -595,7 +600,7 @@ function Sportsbook({ data }) {
                         },
                       }}
                       as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
-                      key={apiId}
+                      // key={apiId}
                     >
                       <div className="gameStatus"></div>
                       <div
@@ -612,9 +617,14 @@ function Sportsbook({ data }) {
                         }
                       >
                         <div className="imgContainer">
-                          <Image src={homeTeamLogo} width={18} height={18} />
+                          <Image
+                            src={homeTeamLogo}
+                            width={18}
+                            height={18}
+                            alt="HomeTeam Icon"
+                          />
                         </div>
-                        <a className="team1">{ele.HomeTeam}</a>
+                        <div className="team1">{ele.HomeTeam}</div>
                       </div>
                     </Link>
                     {/* HOME TEAM SPREAD!!!!!!!!!!! */}

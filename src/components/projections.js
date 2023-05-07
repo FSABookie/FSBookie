@@ -3,25 +3,45 @@ import React, { useEffect, useState } from "react";
 import { useGetActiveBetsQuery } from "../../src/redux/slices/apiSlice";
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 import ProgressBar from "../../src/components/ProgressBar";
 import { NBAlogos, NHLlogos, MLBlogos, NFLlogos } from "../../public/teamLogos";
 
 const SportsContainer = styled.div`
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-  background-color: black;
-  padding: 3%;
+  @media only screen and (min-width: 360px) {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    background-color: black;
+    padding-top: 3%;
+    padding-left: 0.5%;
+    padding-right: 1%;
+  }
 `;
 const SportsHeader = styled.div`
-  margin-bottom: 15%;
+  @media only screen and (min-width: 850px) {
+    margin-bottom: 2%;
+    height: 40%;
+
+    .sport {
+      padding: 1% 2%;
+    }
+  }
+  @media only screen and (max-width: 850px) {
+    gap: 1%;
+  }
+  margin-bottom: 5%;
   height: 100%;
   color: white;
   background: black;
   position: relative;
   display: flex;
-  gap: 1%;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
   a {
+    display: flex;
+    justify-content: center;
     position: relative;
     text-decoration: none;
     box-sizing: border-box;
@@ -38,9 +58,19 @@ const SportsHeader = styled.div`
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.16s ease;
+    width: 10em;
+    @media only screen and (max-width: 850px) {
+      width: 24vw;
+    }
   }
 `;
-const GamesContainer = styled.div``;
+const GamesContainer = styled.div`
+  height: 100%;
+  @media only screen and (min-width: 850px) {
+    width: 100%;
+    padding-top: 10px;
+  }
+`;
 const Games = styled.div`
   display: flex;
   flex-direction: column;
@@ -50,16 +80,12 @@ const Games = styled.div`
   border-spacing: 0;
   padding: 8px;
   background-color: #121212;
-
-  .alwaysleft {
-    width: 40%;
-    font-weight: 600;
-    text-align: left;
-  }
 `;
 const GameCard = styled.div`
   color: white;
-  border-top: 0.25em solid #242424;
+  border-top: 0.1em solid #242424;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
 
   .eventCellLink {
     width: 100%;
@@ -88,22 +114,17 @@ const GameCard = styled.div`
   }
 
   .team1 {
-    font-size: 1.2em;
+    font-size: 0.9em;
     color: white;
     margin-left: 10px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    max-width: 100px;
-  }
-  @media only screen and (min-width: 850px) {
-    .team1 {
-      text-overflow: none;
-      max-width: 100%;
-    }
+    max-width: 100%;
+    min-width: 100px;
   }
   .gameTime {
-    font-size: 0.25em;
+    font-size: 0.1em;
   }
 
   .teamInfo {
@@ -111,11 +132,16 @@ const GameCard = styled.div`
     display: flex;
     overflow: hidden;
   }
-  .imgContainer {
+  .team2Info {
+    margin-top: 0;
+    display: flex;
+    overflow: hidden;
+  }
+  /* .imgContainer {
     img {
       height: 18px;
     }
-  }
+  } */
 
   .line {
     color: white;
@@ -143,27 +169,22 @@ const GameCard = styled.div`
 const TableRow = styled.div`
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between; */
   .gameInfo {
-    /* border-top: 0.25em solid #242424; */
-    /* padding-top: 4%; */
-    /* flex-grow: 2; */
-    width: 150%;
+    overflow: hidden;
+    width: 100%;
   }
   .game2Info {
-    /* padding-top: 4%; */
-    /* flex-grow: 2; */
-    width: 150%;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    align-items: center;
   }
   .lineCol {
-    /* border-top: 0.25em solid #242424; */
-    /* padding-top: 6%; */
     font-size: 0.7em;
     box-sizing: border-box;
     height: 100%;
     width: 100%;
     position: relative;
-    /* flex-grow: 1; */
   }
 
   .line2Col {
@@ -181,12 +202,34 @@ const GamesHeader = styled.div`
   cursor: default;
   color: #c5c5c5;
   font-size: 0.7em;
-  border-bottom: 0.25em solid #242424;
+  font-weight: 600;
+  text-align: center;
+  .gamelines {
+    width: 100%;
+  }
 `;
 
-const Space = styled.div`
-  height: 25%;
+const Header = styled.div`
   color: white;
+  text-align: center;
+  font-size: 1.25em;
+  border-bottom: 1.5px solid #d3d5d5;
+  padding-bottom: 1em;
+  margin-left: 10%;
+  margin-right: 10%;
+`;
+
+const Attempt = styled.div`
+  .hideSlip {
+    width: 0%;
+    padding-left: 0;
+  }
+  @media only screen and (min-width: 850px) {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    /* padding-top: 10px; */
+  }
 `;
 
 const Projections = ({ games, sport }) => {
@@ -213,34 +256,27 @@ const Projections = ({ games, sport }) => {
   console.log(bets);
   console.log("GAMES", games);
 
-  // 	let newGames = [];
-
-  // 	if (games) {
-  // 		// games.forEach(game => newGames.push(game));
-  // 		newGames = games.map((game, idx) => ({
-  // 			...game,
-  // 			betType: activeGames.filter(gamee => gamee.betId == game.ID)[0]?.betType
-  // 	})
-  // 	);
-  // }
-  // 	console.log(newGames);
-
   return (
-    <div>
-      {/* <Space>
-				<p>fgsdagasdgds</p>
-				<p>fgsdagasdgds</p>
-				<p>fgsdagasdgds</p>
-				<p>fgsdagasdgds</p>
-				<p>fgsdagasdgds</p>
-			</Space> */}
-      <SportsContainer>
-        <SportsHeader>
-          <Link href="/projections/NFL">Football</Link>
-          <Link href="/projections/NBA">Basketball</Link>
-          <Link href="/projections/NHL">Hockey</Link>
-          <Link href="/projections/MLB">Baseball</Link>
-        </SportsHeader>
+    <SportsContainer>
+      <SportsHeader>
+        <Link href="/projections/NFL" className="sport">
+          Football
+        </Link>
+        <Link href="/projections/NBA" className="sport">
+          Basketball
+        </Link>
+        <Link href="/projections/NHL" className="sport">
+          Hockey
+        </Link>
+        <Link href="/projections/MLB" className="sport">
+          Baseball
+        </Link>
+      </SportsHeader>
+      {data.sport === "NBA" && <Header>NBA</Header>}
+      {data.sport === "NFL" && <Header>NFL</Header>}
+      {data.sport === "NHL" && <Header>NHL</Header>}
+      {data.sport === "MLB" && <Header>MLB</Header>}
+      <Attempt>
         <GamesContainer>
           <Games>
             <GamesHeader>
@@ -294,20 +330,21 @@ const Projections = ({ games, sport }) => {
                     )[0]?.logo;
                   }
 
-                  // console.log(apiId);
                   return (
                     <GameCard key={idx}>
                       <TableRow>
                         <div className="gameInfo">
-                          {/* <div className='eventCell'> */}
                           <span className="gameTime">{time}</span>
                           <div className="teamInfo">
                             <div className="imgContainer">
-                              <img src={awayTeamLogo} />
+                              <Image
+                                src={awayTeamLogo}
+                                width={18}
+                                height={18}
+                              />
                             </div>
                             <div className="team1">{game.AwayTeam}</div>
                           </div>
-                          {/* </div> */}
                         </div>
                         {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
                         <div className="lineCol">
@@ -316,33 +353,6 @@ const Projections = ({ games, sport }) => {
                             <div className="lineContainer">N/A</div>
                           ) : (
                             <div className="lineContainer">
-                              {/* <div className='line'>
-													{game.Odds[0]
-														.PointSpreadAway[0] ===
-													'-'
-														? game.Odds[0]
-																.PointSpreadAway
-														: '+' +
-														  game.Odds[0]
-																.PointSpreadAway}
-												</div>
-												<div className='lineodds'>
-													{game.Odds[0]
-														.PointSpreadAwayLine[0] ===
-													'-'
-														? game.Odds[0]
-																.PointSpreadAwayLine
-														: '+' +
-														  game.Odds[0]
-																.PointSpreadAwayLine}
-												</div> */}
-                              {/* <div className='lineTrend'>
-													{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " " + game.Odds[0].PointSpreadHome]) !== 'undefined' ? `${(bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway] / (bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway] + bets[apiId][game.HomeTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)}
-												</div> */}
-                              {/* {typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " " + game.Odds[0].PointSpreadHome]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway] / (bets[apiId][game.AwayTeam + " " + game.Odds[0].PointSpreadAway] + bets[apiId][game.HomeTeam + " " + game.Odds[0].PointSpreadHome]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)} */}
-                              {/* {console.log(game, bets[apiId]['AwayTeam ' + game.betType])} */}
-                              {/* {console.log(game)} */}
-                              {console.log(bets)}
                               {typeof bets[apiId] !== "undefined" &&
                                 (typeof bets[apiId]["AwayTeam spread"] !==
                                 "undefined" ? (
@@ -454,7 +464,11 @@ const Projections = ({ games, sport }) => {
                           <div className="gameStatus"></div>
                           <div className="teamInfo">
                             <div className="imgContainer">
-                              <img src={homeTeamLogo} />
+                              <Image
+                                src={homeTeamLogo}
+                                width={18}
+                                height={18}
+                              />
                             </div>
                             <a className="team1">{game.HomeTeam}</a>
                           </div>
@@ -598,8 +612,8 @@ const Projections = ({ games, sport }) => {
                 })}
           </Games>
         </GamesContainer>
-      </SportsContainer>
-    </div>
+      </Attempt>
+    </SportsContainer>
   );
 };
 

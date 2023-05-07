@@ -11,7 +11,7 @@ const localGamesSlice = createSlice({
       state.localGames = [];
     },
     setLocalGames: (state, { payload }) => {
-      console.log(payload);
+      // console.log(payload);
       state.localGames.push(payload);
       state.localGames.flat();
     },
