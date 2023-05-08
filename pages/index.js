@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useGetMLBQuery } from "../src/redux/slices/apiSlice";
 import LandingPage from "../src/components/LandingPage";
-import { useSession } from "next-auth/react";
+import Head from "next/head";
 
 const Container = styled.div``;
 const BetsContainer = styled.div`
@@ -18,5 +17,16 @@ const BetContainer = styled.div`
   align-items: center;
 `;
 export default function Home() {
-  return <LandingPage />;
+  return (
+    <>
+      <Head>
+        <title>FSABookie</title>
+        <meta
+          name="Bookie application created By Dan, Daniel, and Brandon"
+          content="Web App that showcases Sports betting to new and experienced users with unique features"
+        />
+      </Head>
+      <LandingPage />
+    </>
+  );
 }

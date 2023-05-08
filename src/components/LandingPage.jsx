@@ -3,7 +3,6 @@ import React from "react";
 import styled from "styled-components";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
 
 const LandingpageContainer = styled.div`
   background: #36454f;
@@ -17,7 +16,7 @@ const Header = styled.div`
   width: 100%;
   img {
     height: 100%;
-    padding-left: 0.5%;
+    padding-left: 0.6%;
   }
   display: flex;
   flex-direction: row;
@@ -25,10 +24,13 @@ const Header = styled.div`
   justify-content: space-between;
   @media only screen and (min-width: 850px) {
   }
+  .login {
+    padding-right: 0.6%;
+  }
 `;
+
 const Loginbtn = styled.div`
   margin-top: 1em;
-  margin-right: 10px;
 `;
 const Headerfoot = styled.div`
   display: flex;
@@ -169,13 +171,6 @@ function LandingPage() {
 
   return (
     <LandingpageContainer>
-      <Head>
-        <title>FSABookie</title>
-        <meta
-          name="Bookie application created By Dan, Daniel, and Brandon"
-          content="Web App that showcases Sports betting to new and experienced users with unique features"
-        />
-      </Head>
       <Headercontainer>
         <Header>
           <img src="/FSBookie.png" />
@@ -186,7 +181,7 @@ function LandingPage() {
               </Link>
             </ProfileContainer>
           ) : (
-            <Link href="/login">
+            <Link className="login" href="/login">
               <Loginbtn>
                 <button>Login</button>
               </Loginbtn>

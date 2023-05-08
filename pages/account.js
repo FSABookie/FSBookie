@@ -6,6 +6,7 @@ import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { useUpdateUserMutation } from "../src/redux/slices/apiSlice";
 import { useGetUserQuery } from "../src/redux/slices/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
+import Head from "next/head";
 
 const Container = styled.div`
   display: flex;
@@ -14,8 +15,7 @@ const Container = styled.div`
   align-items: center;
   padding-top: 4%;
   width: 100%;
-
-  .Name {
+  margin .Name {
     font-weight: 500;
   }
 
@@ -24,17 +24,23 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    padding: 5px;
     background-color: #d3d5d5;
-    height: 10vh;
-    width: 40vw;
+    width: 65vw;
+    max-width: 400px;
     color: black;
     font-size: 20px;
+    font-weight: 500;
+    gap: 5px;
   }
 
   .header {
     color: white;
     font-family: "Open Sans", sans-serif;
     font-size: 20px;
+    h2 {
+      margin: 10% 0 0 0;
+    }
   }
 
   .logout {
@@ -48,7 +54,12 @@ const Container = styled.div`
     }
   }
 
-  @media only screen and (min-width: 850px) {
+  .info {
+    text-align: center;
+  }
+
+  @media only screen and (max-width: 850px) {
+    padding-bottom: 6%;
     /* .body {
       padding-top: 5%;
       row-gap: 0.3em; */
@@ -123,6 +134,9 @@ function Account() {
 
   return (
     <>
+      <Head>
+        <title>Account</title>
+      </Head>
       {isSuccess ? (
         <Container>
           <div className="header">
@@ -130,7 +144,7 @@ function Account() {
           </div>
           <div className="Name setting">{session.user.name}</div>
           <div className="userEmail setting">
-            <div>Current Email: {user.email}</div>
+            <div className="info">Current Email: {user.email}</div>
             <input
               placeholder="Change Email Address"
               type="text"
@@ -142,7 +156,7 @@ function Account() {
             </button>
           </div>
           <div className="userName setting">
-            <div>Current Username: {user.username}</div>
+            <div className="info">Current Username: {user.username}</div>
             <input placeholder="Change Username" type="text" ref={userRef} />
 
             <button type="submit" onClick={handleUsername}>
