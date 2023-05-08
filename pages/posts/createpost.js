@@ -4,6 +4,7 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useCreatePostMutation } from "../../src/redux/slices/apiSlice";
+import Head from "next/head";
 
 const Content = styled.div`
   height: 100vh;
@@ -112,6 +113,9 @@ function CreatePost() {
 
   return (
     <Content>
+      <Head>
+        <title>Create Post</title>
+      </Head>
       {session ? (
         <div className="topbar">
           <h1>Create a Post</h1>

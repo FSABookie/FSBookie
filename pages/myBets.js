@@ -24,6 +24,7 @@ import {
   getOpenBets,
   getWonBets,
 } from "../src/redux/slices/usersBets-slice";
+import Head from "next/head";
 
 const Container = styled.div`
   padding: 5%;
@@ -299,6 +300,9 @@ function MyBets() {
 
   return (
     <Container>
+      <Head>
+        <title>Bet History</title>
+      </Head>
       <div className="title">MY BETS</div>
       <SportsHeader>
         <div className="filtered" onClick={() => dispatch(getAllBets())}>

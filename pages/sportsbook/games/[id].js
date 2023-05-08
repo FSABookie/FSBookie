@@ -12,6 +12,7 @@ import {
 } from "../../../src/redux/slices/game-slice";
 import Link from "next/link";
 import { useGetActiveBetsQuery } from "../../../src/redux/slices/apiSlice";
+import Head from "next/head";
 
 const SingleGameContainer = styled.div`
   color: white;
@@ -353,6 +354,11 @@ function GamePage() {
 
   return game && odd ? (
     <>
+      <Head>
+        <title>
+          {game.AwayTeam} at {game.HomeTeam}
+        </title>
+      </Head>
       <SingleGameContainer>
         <Link href={`/sportsbook/NBA`}>
           <div>BASKETBALL / NBA</div>

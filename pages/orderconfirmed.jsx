@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import QRcode from "../public/fsabookieQR.png";
 import Image from "next/image";
+import Head from "next/head";
 const Container = styled.div`
   /* @media (min-width: 850px) { */
   display: flex;
@@ -74,6 +75,9 @@ const Orderconfirmed = () => {
 
   return (
     <Container>
+      <Head>
+        <title>Order Receipt</title>
+      </Head>
       <p className="warning">Please do not refresh!</p>
       <Receipt>
         <h1>FSA Bookie</h1>

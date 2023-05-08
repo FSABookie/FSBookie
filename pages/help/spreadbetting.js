@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import Head from "next/head";
 
 const Container = styled.div`
   background-color: rgb(16, 16, 16);
@@ -206,6 +207,9 @@ const Odds = styled.div`
 function spreadbetting() {
   return (
     <Container>
+      <Head>
+        <title>Betting on Spread</title>
+      </Head>
       <Odds>
         <img src="https://media.istockphoto.com/photos/male-hand-holding-smartphone-in-black-background-picture-id1302676710?k=20&m=1302676710&s=612x612&w=0&h=UZYqF5VmYFN6KgqhT8LqMZQfJ6hQI69vcXx3QlD3t-I=" />
         <h1>SPREAD BETTING</h1>
