@@ -268,6 +268,9 @@ function Header() {
     status === "authenticated" ? session.user.id : skipToken
   );
 
+  useEffect(() => {
+    console.log(singleuser?.balance);
+  }, [isSuccess, singleuser]);
   // if we want to hide search when user switch pages, maybe should add 'isSearching' to redux store
   // also need to allow user to exit out by clicking elsewhere
   const isMounted = useIsMounted();
