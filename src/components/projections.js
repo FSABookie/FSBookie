@@ -240,7 +240,6 @@ const Attempt = styled.div`
 const Projections = ({ games, sport }) => {
   // const { data: NFLGames, error, isLoading, isSuccess, isFetching } = useGetNFLQuery();
   const { data: activeGames, isLoading: betsLoading } = useGetActiveBetsQuery();
-  console.log(activeGames);
   let bets = {};
   activeGames?.length &&
     activeGames.forEach((bet) => {
@@ -258,9 +257,6 @@ const Projections = ({ games, sport }) => {
         bets[bet.betId] = { [bet.teamToWin + " " + bet.betType]: 1 };
       }
     });
-  console.log(bets);
-  console.log("GAMES", games);
-  console.log("active", activeGames);
 
   return (
     <SportsContainer>
@@ -621,14 +617,7 @@ const Projections = ({ games, sport }) => {
                     );
                   })
               ) : (
-                <>
-                  <p className="noBets">No Bets For This Sport.</p>
-                  {console.log(
-                    "HI",
-                    games?.filter((game) => Object.keys(bets).includes(game.ID))
-                      .length
-                  )}
-                </>
+                <p className="noBets">No Bets For This Sport.</p>
               )
             ) : (
               <p className="noBets">No Games For This Sport.</p>
