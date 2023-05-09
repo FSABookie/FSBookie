@@ -292,103 +292,107 @@ const Projections = ({ games, sport }) => {
               <p className="gamelines">MONEYLINE</p>
             </GamesHeader>
             {games?.length ? (
-              games
-                .filter((game) => Object.keys(bets).includes(game.ID))
-                .map((game, idx) => {
-                  let d = new Date(game.MatchTime).toDateString();
-                  let t = new Date(game.MatchTime).toLocaleTimeString("en-US");
-                  // MUST FIX THE TIME
-                  let time = d + " " + t;
-                  let apiId = game.ID;
+              games.filter((game) => Object.keys(bets).includes(game.ID))
+                .length ? (
+                games
+                  .filter((game) => Object.keys(bets).includes(game.ID))
+                  .map((game, idx) => {
+                    let d = new Date(game.MatchTime).toDateString();
+                    let t = new Date(game.MatchTime).toLocaleTimeString(
+                      "en-US"
+                    );
+                    // MUST FIX THE TIME
+                    let time = d + " " + t;
+                    let apiId = game.ID;
 
-                  let homeTeamLogo;
-                  let awayTeamLogo;
-                  if (sport === "NBA") {
-                    awayTeamLogo = NBAlogos.filter(
-                      (name) => name.team === game.AwayTeam
-                    )[0]?.logo;
-                    homeTeamLogo = NBAlogos.filter(
-                      (name) => name.team === game.HomeTeam
-                    )[0]?.logo;
-                  }
-                  if (sport === "NFL") {
-                    awayTeamLogo = NFLlogos.filter(
-                      (name) => name.team === game.AwayTeam
-                    )[0]?.logo;
-                    homeTeamLogo = NFLlogos.filter(
-                      (name) => name.team === game.HomeTeam
-                    )[0]?.logo;
-                  }
-                  if (sport === "MLB") {
-                    awayTeamLogo = MLBlogos.filter(
-                      (name) => name.team === game.AwayTeam
-                    )[0]?.logo;
-                    homeTeamLogo = MLBlogos.filter(
-                      (name) => name.team === game.HomeTeam
-                    )[0]?.logo;
-                  }
-                  if (sport === "NHL") {
-                    awayTeamLogo = NHLlogos.filter(
-                      (name) => name.team === game.AwayTeam
-                    )[0]?.logo;
-                    homeTeamLogo = NHLlogos.filter(
-                      (name) => name.team === game.HomeTeam
-                    )[0]?.logo;
-                  }
+                    let homeTeamLogo;
+                    let awayTeamLogo;
+                    if (sport === "NBA") {
+                      awayTeamLogo = NBAlogos.filter(
+                        (name) => name.team === game.AwayTeam
+                      )[0]?.logo;
+                      homeTeamLogo = NBAlogos.filter(
+                        (name) => name.team === game.HomeTeam
+                      )[0]?.logo;
+                    }
+                    if (sport === "NFL") {
+                      awayTeamLogo = NFLlogos.filter(
+                        (name) => name.team === game.AwayTeam
+                      )[0]?.logo;
+                      homeTeamLogo = NFLlogos.filter(
+                        (name) => name.team === game.HomeTeam
+                      )[0]?.logo;
+                    }
+                    if (sport === "MLB") {
+                      awayTeamLogo = MLBlogos.filter(
+                        (name) => name.team === game.AwayTeam
+                      )[0]?.logo;
+                      homeTeamLogo = MLBlogos.filter(
+                        (name) => name.team === game.HomeTeam
+                      )[0]?.logo;
+                    }
+                    if (sport === "NHL") {
+                      awayTeamLogo = NHLlogos.filter(
+                        (name) => name.team === game.AwayTeam
+                      )[0]?.logo;
+                      homeTeamLogo = NHLlogos.filter(
+                        (name) => name.team === game.HomeTeam
+                      )[0]?.logo;
+                    }
 
-                  return (
-                    <GameCard key={idx}>
-                      <TableRow>
-                        <div className="gameInfo">
-                          <span className="gameTime">{time}</span>
-                          <div className="teamInfo">
-                            <div className="imgContainer">
-                              <Image
-                                src={awayTeamLogo}
-                                width={18}
-                                height={18}
-                              />
+                    return (
+                      <GameCard key={idx}>
+                        <TableRow>
+                          <div className="gameInfo">
+                            <span className="gameTime">{time}</span>
+                            <div className="teamInfo">
+                              <div className="imgContainer">
+                                <Image
+                                  src={awayTeamLogo}
+                                  width={18}
+                                  height={18}
+                                />
+                              </div>
+                              <div className="team1">{game.AwayTeam}</div>
                             </div>
-                            <div className="team1">{game.AwayTeam}</div>
                           </div>
-                        </div>
-                        {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
-                        <div className="lineCol">
-                          {game.Odds[0].PointSpreadAway == 0 ||
-                          game.Odds[0].PointSpreadAway == 0.0 ? (
-                            <div className="lineContainer">N/A</div>
-                          ) : (
-                            <div className="lineContainer">
-                              {typeof bets[apiId] !== "undefined" &&
-                                (typeof bets[apiId]["AwayTeam spread"] !==
-                                "undefined" ? (
-                                  typeof bets[apiId]["HomeTeam spread"] !==
+                          {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
+                          <div className="lineCol">
+                            {game.Odds[0].PointSpreadAway == 0 ||
+                            game.Odds[0].PointSpreadAway == 0.0 ? (
+                              <div className="lineContainer">N/A</div>
+                            ) : (
+                              <div className="lineContainer">
+                                {typeof bets[apiId] !== "undefined" &&
+                                  (typeof bets[apiId]["AwayTeam spread"] !==
                                   "undefined" ? (
-                                    <ProgressBar
-                                      completed={(
-                                        (bets[apiId]["AwayTeam spread"] /
-                                          (bets[apiId]["AwayTeam spread"] +
-                                            bets[apiId]["HomeTeam spread"])) *
-                                        100
-                                      ).toFixed(2)}
-                                    />
+                                    typeof bets[apiId]["HomeTeam spread"] !==
+                                    "undefined" ? (
+                                      <ProgressBar
+                                        completed={(
+                                          (bets[apiId]["AwayTeam spread"] /
+                                            (bets[apiId]["AwayTeam spread"] +
+                                              bets[apiId]["HomeTeam spread"])) *
+                                          100
+                                        ).toFixed(2)}
+                                      />
+                                    ) : (
+                                      <ProgressBar completed={100} />
+                                    )
                                   ) : (
-                                    <ProgressBar completed={100} />
-                                  )
-                                ) : (
-                                  <ProgressBar completed={`${0}`} />
-                                ))}
-                            </div>
-                          )}
-                        </div>
-                        {/* OVER!!!!!!!!!!! */}
-                        <div className="lineCol">
-                          {game.Odds[0].PointSpreadAway == 0 ||
-                          game.Odds[0].PointSpreadAway == 0.0 ? (
-                            <div className="lineContainer">N/A</div>
-                          ) : (
-                            <div className="lineContainer">
-                              {/* <div className='line'>
+                                    <ProgressBar completed={`${0}`} />
+                                  ))}
+                              </div>
+                            )}
+                          </div>
+                          {/* OVER!!!!!!!!!!! */}
+                          <div className="lineCol">
+                            {game.Odds[0].PointSpreadAway == 0 ||
+                            game.Odds[0].PointSpreadAway == 0.0 ? (
+                              <div className="lineContainer">N/A</div>
+                            ) : (
+                              <div className="lineContainer">
+                                {/* <div className='line'>
 													O {game.Odds[0].TotalNumber}
 												</div>
 												<div className='lineodds'>
@@ -398,36 +402,36 @@ const Projections = ({ games, sport }) => {
 														: '+' +
 														  game.Odds[0].OverLine}
 												</div> */}
-                              {typeof bets[apiId] !== "undefined" &&
-                                (typeof bets[apiId]["AwayTeam total"] !==
-                                "undefined" ? (
-                                  typeof bets[apiId]["HomeTeam total"] !==
+                                {typeof bets[apiId] !== "undefined" &&
+                                  (typeof bets[apiId]["AwayTeam total"] !==
                                   "undefined" ? (
-                                    <ProgressBar
-                                      completed={`${(
-                                        (bets[apiId]["AwayTeam total"] /
-                                          (bets[apiId]["AwayTeam total"] +
-                                            bets[apiId]["HomeTeam total"])) *
-                                        100
-                                      ).toFixed(2)}`}
-                                    />
+                                    typeof bets[apiId]["HomeTeam total"] !==
+                                    "undefined" ? (
+                                      <ProgressBar
+                                        completed={`${(
+                                          (bets[apiId]["AwayTeam total"] /
+                                            (bets[apiId]["AwayTeam total"] +
+                                              bets[apiId]["HomeTeam total"])) *
+                                          100
+                                        ).toFixed(2)}`}
+                                      />
+                                    ) : (
+                                      <ProgressBar completed={100} />
+                                    )
                                   ) : (
-                                    <ProgressBar completed={100} />
-                                  )
-                                ) : (
-                                  <ProgressBar completed={0} />
-                                ))}
-                            </div>
-                          )}
-                        </div>
-                        {/* AWAY TEAM!!!!!!!!!!! */}
-                        <div className="lineCol">
-                          {game.Odds[0].PointSpreadAway == 0 ||
-                          game.Odds[0].PointSpreadAway == 0.0 ? (
-                            <div className="lineContainer">N/A</div>
-                          ) : (
-                            <div className="lineContainer">
-                              {/* <div className='lineodds'>
+                                    <ProgressBar completed={0} />
+                                  ))}
+                              </div>
+                            )}
+                          </div>
+                          {/* AWAY TEAM!!!!!!!!!!! */}
+                          <div className="lineCol">
+                            {game.Odds[0].PointSpreadAway == 0 ||
+                            game.Odds[0].PointSpreadAway == 0.0 ? (
+                              <div className="lineContainer">N/A</div>
+                            ) : (
+                              <div className="lineContainer">
+                                {/* <div className='lineodds'>
 													{' '}
 													{game.Odds[0]
 														.MoneyLineAway[0] ===
@@ -438,56 +442,56 @@ const Projections = ({ games, sport }) => {
 														  game.Odds[0]
 																.MoneyLineAway}
 												</div> */}
-                              {/* <div className='lineTrend'>
+                                {/* <div className='lineTrend'>
 													{typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.AwayTeam + " ML"] / (bets[apiId][game.AwayTeam + " ML"] + bets[apiId][game.HomeTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)}
 												</div> */}
-                              {typeof bets[apiId] !== "undefined" &&
-                                (typeof bets[apiId]["AwayTeam ML"] !==
-                                "undefined" ? (
-                                  typeof bets[apiId]["HomeTeam ML"] !==
+                                {typeof bets[apiId] !== "undefined" &&
+                                  (typeof bets[apiId]["AwayTeam ML"] !==
                                   "undefined" ? (
-                                    <ProgressBar
-                                      completed={`${(
-                                        (bets[apiId]["AwayTeam ML"] /
-                                          (bets[apiId]["AwayTeam ML"] +
-                                            bets[apiId]["HomeTeam ML"])) *
-                                        100
-                                      ).toFixed(2)}`}
-                                    />
+                                    typeof bets[apiId]["HomeTeam ML"] !==
+                                    "undefined" ? (
+                                      <ProgressBar
+                                        completed={`${(
+                                          (bets[apiId]["AwayTeam ML"] /
+                                            (bets[apiId]["AwayTeam ML"] +
+                                              bets[apiId]["HomeTeam ML"])) *
+                                          100
+                                        ).toFixed(2)}`}
+                                      />
+                                    ) : (
+                                      <ProgressBar completed={`${100}`} />
+                                    )
                                   ) : (
-                                    <ProgressBar completed={`${100}`} />
-                                  )
-                                ) : (
-                                  <ProgressBar completed={`${0}`} />
-                                ))}
-                            </div>
-                          )}
-                        </div>
-                      </TableRow>
-                      <TableRow>
-                        <div className="game2Info">
-                          {/* <div className='eventCell'> */}
-                          <div className="gameStatus"></div>
-                          <div className="teamInfo">
-                            <div className="imgContainer">
-                              <Image
-                                src={homeTeamLogo}
-                                width={18}
-                                height={18}
-                              />
-                            </div>
-                            <a className="team1">{game.HomeTeam}</a>
+                                    <ProgressBar completed={`${0}`} />
+                                  ))}
+                              </div>
+                            )}
                           </div>
-                          {/* </div> */}
-                        </div>
-                        {/* HOME TEAM SPREAD!!!!!!!!!!! */}
-                        <div className="line2Col">
-                          {game.Odds[0].PointSpreadAway == 0 ||
-                          game.Odds[0].PointSpreadAway == 0.0 ? (
-                            <div className="lineContainer">NA</div>
-                          ) : (
-                            <div className="lineContainer">
-                              {/* <div className='line'>
+                        </TableRow>
+                        <TableRow>
+                          <div className="game2Info">
+                            {/* <div className='eventCell'> */}
+                            <div className="gameStatus"></div>
+                            <div className="teamInfo">
+                              <div className="imgContainer">
+                                <Image
+                                  src={homeTeamLogo}
+                                  width={18}
+                                  height={18}
+                                />
+                              </div>
+                              <a className="team1">{game.HomeTeam}</a>
+                            </div>
+                            {/* </div> */}
+                          </div>
+                          {/* HOME TEAM SPREAD!!!!!!!!!!! */}
+                          <div className="line2Col">
+                            {game.Odds[0].PointSpreadAway == 0 ||
+                            game.Odds[0].PointSpreadAway == 0.0 ? (
+                              <div className="lineContainer">NA</div>
+                            ) : (
+                              <div className="lineContainer">
+                                {/* <div className='line'>
 													{game.Odds[0]
 														.PointSpreadHome[0] ===
 													'-'
@@ -507,98 +511,17 @@ const Projections = ({ games, sport }) => {
 														  game.Odds[0]
 																.PointSpreadHomeLine}
 												</div> */}
-                              {/* {typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadAway]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome] / (bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome] + bets[apiId][game.AwayTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadAway]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)} */}
-                              {typeof bets[apiId] !== "undefined" &&
-                                (typeof bets[apiId]["HomeTeam spread"] !==
-                                "undefined" ? (
-                                  typeof bets[apiId]["AwayTeam spread"] !==
-                                  "undefined" ? (
-                                    <ProgressBar
-                                      completed={`${(
-                                        (bets[apiId]["HomeTeam spread"] /
-                                          (bets[apiId]["HomeTeam spread"] +
-                                            bets[apiId]["AwayTeam spread"])) *
-                                        100
-                                      ).toFixed(2)}`}
-                                    />
-                                  ) : (
-                                    <ProgressBar completed={`${100}`} />
-                                  )
-                                ) : (
-                                  <ProgressBar completed={`${0}`} />
-                                ))}
-                            </div>
-                          )}
-                        </div>
-                        {/* UNDER!!!!!!!!!!! */}
-                        <div className="line2Col">
-                          {game.Odds[0].PointSpreadAway == 0 ||
-                          game.Odds[0].PointSpreadAway == 0.0 ? (
-                            <div className="lineContainer">N/A</div>
-                          ) : (
-                            <div className="lineContainer">
-                              {/* <div className='line'>
-													U {game.Odds[0].TotalNumber}
-												</div>
-												<div className='lineodds'>
-													{game.Odds[0]
-														.UnderLine[0] === '-'
-														? game.Odds[0].UnderLine
-														: '+' +
-														  game.Odds[0]
-																.UnderLine}
-												</div> */}
-                              {typeof bets[apiId] !== "undefined" &&
-                                (typeof bets[apiId]["HomeTeam total"] !==
-                                "undefined" ? (
-                                  typeof bets[apiId]["AwayTeam total"] !==
-                                  "undefined" ? (
-                                    <ProgressBar
-                                      completed={`${(
-                                        (bets[apiId]["HomeTeam total"] /
-                                          (bets[apiId]["HomeTeam total"] +
-                                            bets[apiId]["AwayTeam total"])) *
-                                        100
-                                      ).toFixed(2)}`}
-                                    />
-                                  ) : (
-                                    <ProgressBar completed={`${100}`} />
-                                  )
-                                ) : (
-                                  <ProgressBar completed={`${0}`} />
-                                ))}
-                            </div>
-                          )}
-                        </div>
-                        {/* HOME TEAM ML!!!!!!!!!!! */}
-                        <div className="line2Col">
-                          {game.Odds[0].PointSpreadAway == 0 ||
-                          game.Odds[0].PointSpreadAway == 0.0 ? (
-                            <div className="lineContainer">N/A</div>
-                          ) : (
-                            <div className="lineContainer">
-                              {/* <div className='lineodds'>
-													{game.Odds[0]
-														.MoneyLineHome[0] ===
-													'-'
-														? game.Odds[0]
-																.MoneyLineHome
-														: '+' +
-														  game.Odds[0]
-																.MoneyLineHome}
-												</div> */}
-                              <div className="lineTrend">
-                                {/* {typeof bets[apiId] !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.HomeTeam + " ML"] / (bets[apiId][game.HomeTeam + " ML"] + bets[apiId][game.AwayTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)} */}
+                                {/* {typeof (bets[apiId]) !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadAway]) !== 'undefined' ? <ProgressBar completed={`${(bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome] / (bets[apiId][game.HomeTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadHome] + bets[apiId][game.AwayTeam + " " + game.Odds.filter(odd => odd.OddType === 'Game')[0].PointSpreadAway]) * 100)}`} /> : <ProgressBar completed={`${100}`} /> : <ProgressBar completed={`${0}`} />)} */}
                                 {typeof bets[apiId] !== "undefined" &&
-                                  (typeof bets[apiId]["HomeTeam ML"] !==
+                                  (typeof bets[apiId]["HomeTeam spread"] !==
                                   "undefined" ? (
-                                    typeof bets[apiId]["AwayTeam ML"] !==
+                                    typeof bets[apiId]["AwayTeam spread"] !==
                                     "undefined" ? (
                                       <ProgressBar
                                         completed={`${(
-                                          (bets[apiId]["HomeTeam ML"] /
-                                            (bets[apiId]["HomeTeam ML"] +
-                                              bets[apiId]["AwayTeam ML"])) *
+                                          (bets[apiId]["HomeTeam spread"] /
+                                            (bets[apiId]["HomeTeam spread"] +
+                                              bets[apiId]["AwayTeam spread"])) *
                                           100
                                         ).toFixed(2)}`}
                                       />
@@ -609,22 +532,106 @@ const Projections = ({ games, sport }) => {
                                     <ProgressBar completed={`${0}`} />
                                   ))}
                               </div>
-                            </div>
-                          )}
-                        </div>
-                      </TableRow>
-                    </GameCard>
-                  );
-                })
-            ) : games?.filter((game) => Object.keys(bets).includes(game.ID))
-                .length ? (
-              <>
-                {!activeGames?.length && (
+                            )}
+                          </div>
+                          {/* UNDER!!!!!!!!!!! */}
+                          <div className="line2Col">
+                            {game.Odds[0].PointSpreadAway == 0 ||
+                            game.Odds[0].PointSpreadAway == 0.0 ? (
+                              <div className="lineContainer">N/A</div>
+                            ) : (
+                              <div className="lineContainer">
+                                {/* <div className='line'>
+													U {game.Odds[0].TotalNumber}
+												</div>
+												<div className='lineodds'>
+													{game.Odds[0]
+														.UnderLine[0] === '-'
+														? game.Odds[0].UnderLine
+														: '+' +
+														  game.Odds[0]
+																.UnderLine}
+												</div> */}
+                                {typeof bets[apiId] !== "undefined" &&
+                                  (typeof bets[apiId]["HomeTeam total"] !==
+                                  "undefined" ? (
+                                    typeof bets[apiId]["AwayTeam total"] !==
+                                    "undefined" ? (
+                                      <ProgressBar
+                                        completed={`${(
+                                          (bets[apiId]["HomeTeam total"] /
+                                            (bets[apiId]["HomeTeam total"] +
+                                              bets[apiId]["AwayTeam total"])) *
+                                          100
+                                        ).toFixed(2)}`}
+                                      />
+                                    ) : (
+                                      <ProgressBar completed={`${100}`} />
+                                    )
+                                  ) : (
+                                    <ProgressBar completed={`${0}`} />
+                                  ))}
+                              </div>
+                            )}
+                          </div>
+                          {/* HOME TEAM ML!!!!!!!!!!! */}
+                          <div className="line2Col">
+                            {game.Odds[0].PointSpreadAway == 0 ||
+                            game.Odds[0].PointSpreadAway == 0.0 ? (
+                              <div className="lineContainer">N/A</div>
+                            ) : (
+                              <div className="lineContainer">
+                                {/* <div className='lineodds'>
+													{game.Odds[0]
+														.MoneyLineHome[0] ===
+													'-'
+														? game.Odds[0]
+																.MoneyLineHome
+														: '+' +
+														  game.Odds[0]
+																.MoneyLineHome}
+												</div> */}
+                                <div className="lineTrend">
+                                  {/* {typeof bets[apiId] !== 'undefined' && (typeof (bets[apiId][game.HomeTeam + " ML"]) !== 'undefined' ? typeof (bets[apiId][game.AwayTeam + " ML"]) !== 'undefined' ? `${(bets[apiId][game.HomeTeam + " ML"] / (bets[apiId][game.HomeTeam + " ML"] + bets[apiId][game.AwayTeam + " ML"]) * 100)}%` : `${100}%` : `${0}%`)} */}
+                                  {typeof bets[apiId] !== "undefined" &&
+                                    (typeof bets[apiId]["HomeTeam ML"] !==
+                                    "undefined" ? (
+                                      typeof bets[apiId]["AwayTeam ML"] !==
+                                      "undefined" ? (
+                                        <ProgressBar
+                                          completed={`${(
+                                            (bets[apiId]["HomeTeam ML"] /
+                                              (bets[apiId]["HomeTeam ML"] +
+                                                bets[apiId]["AwayTeam ML"])) *
+                                            100
+                                          ).toFixed(2)}`}
+                                        />
+                                      ) : (
+                                        <ProgressBar completed={`${100}`} />
+                                      )
+                                    ) : (
+                                      <ProgressBar completed={`${0}`} />
+                                    ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </TableRow>
+                      </GameCard>
+                    );
+                  })
+              ) : (
+                <>
                   <p className="noBets">No Bets For This Sport.</p>
-                )}
-              </>
+                  {console.log(
+                    "HI",
+                    games?.filter((game) => Object.keys(bets).includes(game.ID))
+                      .length
+                  )}
+                </>
+              )
             ) : (
-              <p className="noGames">No Games For This Sport.</p>
+              <p className="noBets">No Games For This Sport.</p>
             )}
           </Games>
         </GamesContainer>
