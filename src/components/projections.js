@@ -255,6 +255,7 @@ const Projections = ({ games, sport }) => {
     });
   console.log(bets);
   console.log("GAMES", games);
+  console.log("active", activeGames);
 
   return (
     <SportsContainer>
@@ -272,10 +273,10 @@ const Projections = ({ games, sport }) => {
           Baseball
         </Link>
       </SportsHeader>
-      {data.sport === "NBA" && <Header>NBA</Header>}
-      {data.sport === "NFL" && <Header>NFL</Header>}
-      {data.sport === "NHL" && <Header>NHL</Header>}
-      {data.sport === "MLB" && <Header>MLB</Header>}
+      {sport === "NBA" && <Header>NBA</Header>}
+      {sport === "NFL" && <Header>NFL</Header>}
+      {sport === "NHL" && <Header>NHL</Header>}
+      {sport === "MLB" && <Header>MLB</Header>}
       <Attempt>
         <GamesContainer>
           <Games>
