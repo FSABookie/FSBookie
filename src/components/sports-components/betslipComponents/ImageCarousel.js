@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+const carouselGap = 20;
+const imageWidth = 315;
+
 const ImageCarouselContainer = styled.div`
   display: flex;
   align-items: center;
@@ -8,18 +11,22 @@ const ImageCarouselContainer = styled.div`
   overflow: hidden;
   position: relative;
   margin-bottom: 2%;
+  max-width: 100%;
 `;
 
 const ImageCarouselWrapper = styled.div`
   display: flex;
   transition: transform 0.3s ease-in-out;
   transform: translateX(${(props) => props.translateValue}px);
+  gap: ${carouselGap}px;
 `;
 
 const Image = styled.img`
-  width: 315px;
-  margin-right: 20px;
-  object-fit: contain;
+  width: ${imageWidth}px;
+  height: 132px;
+
+  /* margin-right: 20px; */
+  object-fit: fill;
 `;
 
 const ArrowButton = styled.button`
@@ -38,11 +45,29 @@ const ArrowButton = styled.button`
 const ImageCarousel = () => {
   const images = ["/promo2.webp", "/promo4.png", "/promo5.webp"];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [translateValue, setTranslateValue] = useState(0);
+  const carouselSlideWidth = () => {
+    return imageWidth + carouselGap;
+  };
+
+  const [currentIndex, setCurrentIndex] = useState(
+    Math.floor(images.length / 2)
+  );
+  const [translateValue, setTranslateValue] = useState(
+    images.length % 2 === 0 ? 0 - carouselSlideWidth() / 2 : 0
+  );
+
+  console.log(currentIndex, translateValue);
 
   const goToPrevSlide = () => {
     if (currentIndex === 0) {
+      setCurrentIndex(images.length - 1);
+      setTranslateValue(
+        images.length % 2 === 0
+          ? 0 -
+              (carouselSlideWidth() * Math.floor(images.length / 2) -
+                carouselSlideWidth() / 2)
+          : 0 - carouselSlideWidth() * Math.floor(images.length / 2)
+      );
       return;
     }
 
@@ -51,23 +76,21 @@ const ImageCarousel = () => {
   };
 
   const goToNextSlide = () => {
-    if (currentIndex === images.length - 3) {
+    console.log(currentIndex, translateValue);
+
+    if (currentIndex === images.length - 1) {
+      setCurrentIndex(0);
+      setTranslateValue(
+        images.length % 2 === 0
+          ? carouselSlideWidth() * Math.floor(images.length / 2) -
+              carouselSlideWidth() / 2
+          : carouselSlideWidth() * Math.floor(images.length / 2)
+      );
       return;
     }
 
     setCurrentIndex(currentIndex + 1);
     setTranslateValue(translateValue - carouselSlideWidth());
-  };
-
-  const carouselSlideWidth = () => {
-    const slideWidth = document.querySelector(
-      ".image-carousel__slide"
-    ).clientWidth;
-    const slideMarginRight = parseInt(
-      window.getComputedStyle(document.querySelector(".image-carousel__slide"))
-        .marginRight
-    );
-    return slideWidth + slideMarginRight;
   };
 
   return (

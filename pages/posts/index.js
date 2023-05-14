@@ -140,7 +140,7 @@ const BannerHolder = styled.div`
   justify-content: center;
   align-items: center;
   height: 5em;
-  width: 100vw;
+  width: 100%;
   margin-bottom: 3%;
 `;
 
