@@ -8,7 +8,7 @@ if (process.env.QUIET) {
 }
 
 const db = new Sequelize(
-  process.env.DATABASE_URL || "postgres://localhost:5432/bookie",
+  process.env.DATABASE_URL || "postgres://danny:123@localhost:5432/bookie",
   {
     dialect: "postgres",
     dialectOptions: {

@@ -27,6 +27,12 @@ const SportsContainer = styled.div`
     padding-right: 1%;
   }
 `;
+
+const CarouselCont = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const SportsHeader = styled.div`
   @media only screen and (min-width: 850px) {
     margin-bottom: 2%;
@@ -310,7 +316,9 @@ function Sportsbook({ data }) {
 
   return (
     <SportsContainer>
-      <ImageCarousel />
+      <CarouselCont>
+        <ImageCarousel />
+      </CarouselCont>
       <SportsHeader>
         <Link href="/sportsbook/NFL" className="sport">
           Football

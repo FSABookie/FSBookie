@@ -56,8 +56,6 @@ const ImageCarousel = () => {
     images.length % 2 === 0 ? 0 - carouselSlideWidth() / 2 : 0
   );
 
-  console.log(currentIndex, translateValue);
-
   const goToPrevSlide = () => {
     if (currentIndex === 0) {
       setCurrentIndex(images.length - 1);
@@ -76,8 +74,6 @@ const ImageCarousel = () => {
   };
 
   const goToNextSlide = () => {
-    console.log(currentIndex, translateValue);
-
     if (currentIndex === images.length - 1) {
       setCurrentIndex(0);
       setTranslateValue(
