@@ -1,11 +1,12 @@
 import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
+import { useSession } from "next-auth/react";
 
 const DesktopContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between; ;
+  justify-content: space-between;
 `;
 
 const DesktopViewColumn = styled.div`
@@ -66,6 +67,8 @@ const DesktopViewColumn = styled.div`
 `;
 
 function Desktop() {
+  const { data: session } = useSession();
+
   return (
     <>
       <DesktopViewColumn>
@@ -77,9 +80,18 @@ function Desktop() {
             feedback is welcome as long as its within our rules.
           </p>
         </div>
-        <Link href="/posts/createpost">
-          <button className="createPost">Create a Post</button>
-        </Link>
+        {session ? (
+          <Link href="/posts/createpost">
+            <button className="createPost">Create a Post</button>
+          </Link>
+        ) : (
+          <Link href="/login">
+            <button className="createPost">
+              Sign In To Share Your Thoughts Here
+            </button>
+          </Link>
+        )}
+
         <div className="rules">
           Forum Rules
           <p>No touting/selling picks.</p>

@@ -9,7 +9,7 @@ import Head from "next/head";
 const Content = styled.div`
   height: 100vh;
   background-color: white;
-  background: url("/basketball.png"), #242424;
+  background: url("/basketball.png"), #000000;
 
   .postForm {
     display: flex;
@@ -116,42 +116,36 @@ function CreatePost() {
       <Head>
         <title>Create Post</title>
       </Head>
-      {session ? (
-        <div className="topbar">
-          <h1>Create a Post</h1>
-          <form className="postForm">
-            <label>
-              <input
-                className="addTitle"
-                placeholder="Add a title"
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </label>
-            <label>
-              <textarea
-                className="bodyText"
-                placeholder="Add optional body text"
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-              />
-            </label>
-            <PostButton
-              type="submit"
-              className="postButton"
-              onClick={handleSubmit}
-              allowed={title.length > 10 && body.length > 15}
-            >
-              <p>Create Post!</p>
-            </PostButton>
-          </form>
-        </div>
-      ) : (
-        <>
-          <h1>PLEASE LOGIN or CREATE an ACCOUNT before CREATING a NEW POST</h1>
-        </>
-      )}
+      <div className="topbar">
+        <h1>Create a Post</h1>
+        <form className="postForm">
+          <label>
+            <input
+              className="addTitle"
+              placeholder="Title (minimum 15 characters)"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
+          <label>
+            <textarea
+              className="bodyText"
+              placeholder="Add some form of description to go with your title"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+            />
+          </label>
+          <PostButton
+            type="submit"
+            className="postButton"
+            onClick={handleSubmit}
+            allowed={title.length > 10 && body.length > 15}
+          >
+            <p>Create Post!</p>
+          </PostButton>
+        </form>
+      </div>
     </Content>
   );
 }

@@ -162,6 +162,7 @@ const FooterEleContainer = styled.div`
   justify-content: center;
   padding-right: 2%;
   padding-top: 7%;
+  cursor: pointer;
   ${"" /* padding-left: 10px; */}
 `;
 
@@ -380,6 +381,11 @@ function SinglePost(props) {
     // e.target.classList.toggle('toggle')
   }
 
+  async function copyToClip() {
+    await navigator.clipboard.writeText(location.href);
+    window.alert("Link copied to clipboard");
+  }
+
   const style = { cursor: "pointer" };
 
   return (
@@ -440,7 +446,7 @@ function SinglePost(props) {
                     &nbsp;
                     {post.comments.length}&nbsp;Comments
                   </FooterEleContainer>
-                  <FooterEleContainer>
+                  <FooterEleContainer onClick={copyToClip}>
                     &nbsp;
                     <ShareIcon />
                     &nbsp;Share

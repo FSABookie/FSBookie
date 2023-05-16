@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 //Functions
@@ -105,6 +105,7 @@ const FooterEleContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   @media (min-width: 850px) {
     padding-left: 3%;
@@ -161,10 +162,10 @@ const options = ["Trending", "Most Popular", "Most Recent"];
 
 export default function ForumThread() {
   const [filter, setFilter] = useState(null);
+  const [filteredPosts, setFP] = useState();
   const { data: posts } = useGetPostsQuery();
   const [incrementLike] = useIncrementLikeMutation();
   const { data: session } = useSession();
-  const [filteredPosts, setFP] = useState();
 
   useEffect(() => {
     posts && setFP(posts);
@@ -197,6 +198,11 @@ export default function ForumThread() {
     } else {
       alert("Please Login To Like Posts!");
     }
+  }
+
+  async function copyToClip() {
+    await navigator.clipboard.writeText(location.href);
+    window.alert("Link copied to clipboard");
   }
 
   const style = { cursor: "pointer" };
@@ -275,7 +281,7 @@ export default function ForumThread() {
                           {singlePost.comments.length}
                         </PostFooterText>
                       </FooterEleContainer>
-                      <FooterEleContainer>
+                      <FooterEleContainer onClick={copyToClip}>
                         <ShareIcon />
                         <PostFooterText>Share</PostFooterText>
                       </FooterEleContainer>
