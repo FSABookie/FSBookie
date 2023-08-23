@@ -20,10 +20,14 @@ export const LoginFormContainer = styled.div`
   height: calc(80vh - 40px);
 
   .formHeader {
+    margin-bottom: 2%;
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin-bottom: 4%;
+
+    @media (max-width: 850px) {
+      margin-bottom: 4%;
+    }
 
     div {
       font-size: 1em;
@@ -35,24 +39,15 @@ export const LoginFormContainer = styled.div`
   }
 
   form {
-    margin-top: 1%;
+    ${"" /* margin-top: 1%; */}
     padding: 1%;
     display: flex;
     flex-direction: column;
-    top: 0;
+    ${"" /* top: 0; */}
     width: 90%;
     max-width: 350px;
 
     .input {
-      ${
-        "" /* display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 3.5%;
-      border-style: none;
-      border-color: ${({ empty }) => (empty ? "red" : "black")}; */
-      }
-
       .label {
         font-size: 0.75em;
       }
@@ -82,10 +77,10 @@ export const InputField = styled.input`
 `;
 
 export const PasswordContainer = styled.div`
-  border: solid 1px;
+  margin-bottom: 1.5%;
+  border-width: 1px;
   border-color: ${({ empty }) => (empty ? "red" : "black")};
-  width: 100%;
-  margin-bottom: 10px;
+  width: 100% !important;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -115,7 +110,7 @@ export const Required = styled.div`
   flex-direction: row;
   align-items: center;
   font-size: 0.75em;
-  margin-bottom: 3%;
+  margin-bottom: 1%;
 `;
 
 export const RememberPW = styled.div`
@@ -158,12 +153,16 @@ export const SignUpFormContainer = styled.div`
   width: 100%;
 
   .formHeader {
+    margin-bottom: 2%;
     display: flex;
     flex-direction: column;
     /* align-items: center;
     justify-content: center; */
     text-align: center;
-    margin-bottom: 4%;
+
+    @media (max-width: 850px) {
+      margin-bottom: 4%;
+    }
 
     div {
       font-size: 1em;

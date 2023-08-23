@@ -104,21 +104,13 @@ const Login = () => {
 
             <label className="input">
               <div className="label">Password</div>
-              <PasswordContainer empty={pw.length < 1}>
-                <PasswordInput
-                  placeholder="Password"
-                  type={type}
-                  value={pw}
-                  onChange={(e) => setPw(e.target.value)}
-                />
-                <EyeHolder>
-                  {type === "password" ? (
-                    <BsEyeFill onClick={handleShowPw} />
-                  ) : (
-                    <BsEyeSlashFill onClick={handleShowPw} />
-                  )}
-                </EyeHolder>
-              </PasswordContainer>
+              <InputField
+                placeholder="Password"
+                type={type}
+                value={pw}
+                onChange={(e) => setPw(e.target.value)}
+                empty={pw.length < 1}
+              />
             </label>
             {pw.length < 1 && (
               <Required>
