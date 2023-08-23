@@ -25,12 +25,19 @@ const Header = styled.div`
   @media only screen and (min-width: 850px) {
   }
   .login {
-    padding-right: 0.6%;
+    padding-right: 1%;
   }
 `;
 
 const Loginbtn = styled.div`
   margin-top: 1em;
+  color: white;
+  background-color: #36454f;
+  border: solid 1px white;
+  /* border-color: #5cdb95; */
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 5px 18px;
 `;
 const Headerfoot = styled.div`
   display: flex;
@@ -182,9 +189,7 @@ function LandingPage() {
             </ProfileContainer>
           ) : (
             <Link className="login" href="/login">
-              <Loginbtn>
-                <button>Login</button>
-              </Loginbtn>
+              <Loginbtn>Login</Loginbtn>
             </Link>
           )}
         </Header>
