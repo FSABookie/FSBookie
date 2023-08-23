@@ -158,12 +158,11 @@ const GameCard = styled.div`
     display: flex;
     overflow: hidden;
   }
-  /* .imgContainer {
-    img {
-      height: 18px;
-      width: 18px;
+  .imgContainer {
+    @media (max-width: 500px) {
+      display: none;
     }
-  } */
+  }
 
   .line {
     color: white;
@@ -201,6 +200,7 @@ const TableRow = styled.div`
     /* flex-grow: 2; */
     overflow: hidden;
     width: 100%;
+    min-width: 100px;
   }
   .game2Info {
     /* padding-top: 4%; */
@@ -210,6 +210,7 @@ const TableRow = styled.div`
     display: flex;
     /* justify-content: center; */
     align-items: center;
+    min-width: 100px;
   }
   .lineCol {
     /* border-top: 0.25em solid #242424; */
