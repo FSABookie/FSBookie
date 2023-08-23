@@ -140,9 +140,9 @@ const GameCard = styled.div`
     margin-left: 10px;
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     max-width: 100%;
-    min-width: 100px;
+    /* min-width: 100px; */
   }
   .gameTime {
     font-size: 0.1em;
