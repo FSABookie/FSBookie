@@ -422,21 +422,19 @@ function Sportsbook({ data }) {
                       }}
                       as={`/sportsbook/games/${ele.AwayTeam}&${ele.HomeTeam}`}
                       // key={apiId}
+                      onClick={() =>
+                        dispatch(
+                          selectGame({
+                            game: ele,
+                            sport: data.sport,
+                            atl: awayTeamLogo,
+                            htl: homeTeamLogo,
+                          })
+                        )
+                      }
                     >
                       <div className="gameTime">{time}</div>
-                      <div
-                        className="teamInfo"
-                        onClick={() =>
-                          dispatch(
-                            selectGame({
-                              game: ele,
-                              sport: data.sport,
-                              atl: awayTeamLogo,
-                              htl: homeTeamLogo,
-                            })
-                          )
-                        }
-                      >
+                      <div className="teamInfo">
                         <div className="imgContainer">
                           <Image
                             src={awayTeamLogo}
