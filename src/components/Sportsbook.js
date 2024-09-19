@@ -445,7 +445,9 @@ function Sportsbook({ data }) {
                             alt="AwayTeam Icon"
                           />
                         </div>
-                        <div className="team1">{ele.AwayTeam}</div>
+                        <div className="team1">
+                          {ele.AwayTeam.split(" ")[ele.AwayTeam.length - 1]}
+                        </div>
                       </div>
                     </Link>
                     {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
@@ -634,7 +636,9 @@ function Sportsbook({ data }) {
                             alt="HomeTeam Icon"
                           />
                         </div>
-                        <div className="team1">{ele.HomeTeam}</div>
+                        <div className="team1">
+                          {ele.HomeTeam.split(" ")[ele.HomeTeam.length - 1]}
+                        </div>
                       </div>
                     </Link>
                     {/* HOME TEAM SPREAD!!!!!!!!!!! */}
